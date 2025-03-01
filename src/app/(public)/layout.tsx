@@ -18,7 +18,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
     <div className="flex flex-col min-h-screen w-full relative">
       <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-blue-800 px-4 md:pl-52 md:pr-6">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-          <Link href="#" className="flex items-center gap-2 text-lg font-semibold md:text-base">
+          <Link href="/" className="flex items-center gap-2 text-lg font-semibold md:text-base">
             <Image src="/logo/hoteluxury-logo.png" alt="HoteLuxury" width={140} height={140} />
             <span className="sr-only">HoteLuxury</span>
           </Link>
@@ -48,10 +48,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
           <DarkModeToggle />
         </div>
       </header>
-
-      {/* CHỈNH SỬA Ở ĐÂY */}
       <main className="flex-1 flex items-center justify-center p-4">{children}</main>
     </div>
   )
 }
-

@@ -1,16 +1,36 @@
-import { Role } from "@/constants/type";
-import z from "zod";
+import { Role } from '@/constants/type'
+import z from 'zod'
 
-export const LoginBody = z
+export const RegisterBodySchema = z
+  .object({
+    email: z.string().email({ message: 'Email không hợp lệ' }),
+    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
+    password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+  })
+  .strict()
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Mật khẩu không khớp',
+        path: ['confirmPassword'],
+      })
+    }
+  })
+
+export type RegisterBodyType = z.infer<typeof RegisterBodySchema>
+
+export const LoginBodySchema = z
   .object({
     email: z.string().email(),
     password: z.string().min(6).max(100),
   })
-  .strict();
+  .strict()
 
-export type LoginBodyType = z.infer<typeof LoginBody>;
+export type LoginBodyType = z.infer<typeof LoginBodySchema>
 
-export const LoginRes = z.object({
+export const LoginResSchema = z.object({
   data: z.object({
     accessToken: z.string(),
     refreshToken: z.string(),
@@ -23,17 +43,17 @@ export const LoginRes = z.object({
     }),
   }),
   message: z.string(),
-});
+})
 
-export type LoginResType = z.infer<typeof LoginRes>;
+export type LoginResType = z.infer<typeof LoginResSchema>
 
-export const RefreshTokenBody = z
+export const RefreshTokenBodySchema = z
   .object({
     refreshToken: z.string(),
   })
-  .strict();
+  .strict()
 
-export type RefreshTokenBodyType = z.infer<typeof RefreshTokenBody>;
+export type RefreshTokenBodyType = z.infer<typeof RefreshTokenBodySchema>
 
 export const RefreshTokenRes = z.object({
   data: z.object({
@@ -41,20 +61,20 @@ export const RefreshTokenRes = z.object({
     refreshToken: z.string(),
   }),
   message: z.string(),
-});
+})
 
-export type RefreshTokenResType = z.infer<typeof RefreshTokenRes>;
+export type RefreshTokenResType = z.infer<typeof RefreshTokenRes>
 
-export const LogoutBody = z
+export const LogoutBodySchema = z
   .object({
     refreshToken: z.string(),
   })
-  .strict();
+  .strict()
 
-export type LogoutBodyType = z.infer<typeof LogoutBody>;
+export type LogoutBodyType = z.infer<typeof RefreshTokenBodySchema>
 
-export const LoginGoogleQuery = z.object({
+export const LoginGoogleQuerySchema = z.object({
   code: z.string(),
-});
+})
 
-export type LoginGoogleQueryType = z.infer<typeof LoginGoogleQuery>;
+export type LoginGoogleQueryType = z.infer<typeof LoginGoogleQuerySchema>

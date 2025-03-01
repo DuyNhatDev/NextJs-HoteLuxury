@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { LoginBody, LoginBodyType } from '@/schemaValidations/auth.schema'
+import { LoginBodySchema, LoginBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from '@/components/ui/use-toast'
 import { handleErrorApi } from '@/lib/utils'
@@ -21,7 +21,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
   const form = useForm<LoginBodyType>({
-    resolver: zodResolver(LoginBody),
+    resolver: zodResolver(LoginBodySchema),
     defaultValues: {
       email: '',
       password: '',
@@ -84,9 +84,9 @@ export default function LoginForm() {
                           onClick={togglePasswordVisibility}
                         >
                           {showPassword ? (
-                            <EyeOffIcon className="w-5 h-5" />
+                            <EyeOffIcon className="w-5 h-5 cursor-pointer" />
                           ) : (
-                            <EyeIcon className="w-5 h-5" />
+                            <EyeIcon className="w-5 h-5 cursor-pointer" />
                           )}
                         </button>
                       </div>
@@ -96,10 +96,16 @@ export default function LoginForm() {
                 )}
               />
               <div className="flex justify-between items-center">
-                <Link href="/register" className="text-sm text-blue-700 hover:underline cursor-pointer">
+                <Link
+                  href="/forget-password"
+                  className="text-sm text-blue-700 hover:underline cursor-pointer"
+                >
                   Quên mật khẩu?
                 </Link>
-                <Link href="forget-password" className="text-sm text-blue-700 hover:underline cursor-pointer">
+                <Link
+                  href="/register"
+                  className="text-sm text-blue-700 hover:underline cursor-pointer"
+                >
                   Đăng ký tài khoản
                 </Link>
               </div>

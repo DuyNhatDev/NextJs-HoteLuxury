@@ -1,5 +1,5 @@
 import { Role } from '@/constants/type'
-import { LoginRes } from '@/schemaValidations/auth.schema'
+import { LoginResSchema } from '@/schemaValidations/auth.schema'
 
 import z from 'zod'
 
@@ -13,25 +13,25 @@ export const AccountSchema = z.object({
 
 export type AccountType = z.infer<typeof AccountSchema>
 
-export const AccountListRes = z.object({
+export const AccountListResSchema = z.object({
   data: z.array(AccountSchema),
   message: z.string()
 })
 
-export type AccountListResType = z.infer<typeof AccountListRes>
+export type AccountListResType = z.infer<typeof AccountListResSchema>
 
-export const AccountRes = z
+export const AccountResSchema = z
   .object({
     data: AccountSchema,
     message: z.string()
   })
   .strict()
 
-export type AccountResType = z.infer<typeof AccountRes>
+export type AccountResType = z.infer<typeof AccountResSchema>
 
-export const CreateManagerAccountBody = z
+export const CreateManagerAccountBodySchema = z
   .object({
-    name: z.string().trim().min(2).max(256),
+    name: z.string().trim().max(256),
     email: z.string().email(),
     avatar: z.string().url().optional(),
     password: z.string().min(6).max(100),
@@ -48,9 +48,9 @@ export const CreateManagerAccountBody = z
     }
   })
 
-export type CreateManagerAccountBodyType = z.infer<typeof CreateManagerAccountBody>
+export type CreateManagerAccountBodyType = z.infer<typeof CreateManagerAccountBodySchema>
 
-export const UpdateManagerAccountBody = z
+export const UpdateManagerAccountBodySchema = z
   .object({
     name: z.string().trim().min(2).max(256),
     email: z.string().email(),
@@ -79,7 +79,7 @@ export const UpdateManagerAccountBody = z
     }
   })
 
-export type UpdateManagerAccountBodyType = z.infer<typeof UpdateManagerAccountBody>
+export type UpdateManagerAccountBodyType = z.infer<typeof UpdateManagerAccountBodySchema>
 
 export const UpdateMeBody = z
   .object({
@@ -113,6 +113,6 @@ export const ChangePasswordV2Body = ChangePasswordBody
 
 export type ChangePasswordV2BodyType = z.infer<typeof ChangePasswordV2Body>
 
-export const ChangePasswordV2Res = LoginRes
+export const ChangePasswordV2Res = LoginResSchema
 
 export type ChangePasswordV2ResType = z.infer<typeof ChangePasswordV2Res>
