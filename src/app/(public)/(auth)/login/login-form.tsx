@@ -8,18 +8,19 @@ import { useForm } from 'react-hook-form'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { LoginBodySchema, LoginBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from '@/components/ui/use-toast'
 import { handleErrorApi } from '@/lib/utils'
 import Image from 'next/image'
 import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import Link from 'next/link'
+import { useLoginMutation } from '@/queries/useAuth'
+import { toast } from 'sonner'
 
 export default function LoginForm() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
+  const loginMutation = useLoginMutation()
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBodySchema),
     defaultValues: {
@@ -28,7 +29,19 @@ export default function LoginForm() {
     },
   })
 
-  const onSubmit = async (data: LoginBodyType) => {}
+  const onSubmit = async (data: LoginBodyType) => {
+    if (loginMutation.isPending) return
+    try {
+      const result = await loginMutation.mutateAsync(data)
+      toast.success(result.payload.message)
+      router.push('/')
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
+    }
+  }
 
   return (
     <Card className="mx-auto max-w-sm min-w-96">
@@ -81,7 +94,9 @@ export default function LoginForm() {
                         <button
                           type="button"
                           className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                          onClick={togglePasswordVisibility}
+                          onClick={() => {
+                            setShowPassword((prev) => !prev)
+                          }}
                         >
                           {showPassword ? (
                             <EyeOffIcon className="w-5 h-5 cursor-pointer" />

@@ -1,5 +1,5 @@
-import { toast } from '@/components/ui/use-toast'
-import { EntityError } from '@/lib/http'
+import { toast } from 'sonner'
+import { EntityError, HttpError } from '@/lib/http'
 import { clsx, type ClassValue } from 'clsx'
 import { UseFormSetError } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
@@ -24,12 +24,17 @@ export const handleErrorApi = ({
         message: item.message,
       })
     })
-  } else {
-    toast({
-      title: 'Lỗi',
-      description: error?.payload?.message ?? 'Lỗi không xác định',
-      variant: 'destructive',
+  } else if (error instanceof HttpError) {
+    toast.error('Lỗi HTTP', {
+      description: error.payload.message || 'Có lỗi xảy ra khi gửi yêu cầu.',
       duration: duration ?? 5000,
+      style: { backgroundColor: '#F87171', color: '#fff' },
+    })
+  } else {
+    toast.error('Lỗi', {
+      description: error?.payload?.message ?? 'Lỗi không xác định',
+      duration: duration ?? 5000,
+      style: { backgroundColor: '#F87171', color: '#fff' },
     })
   }
 }
@@ -96,4 +101,3 @@ export const formatDateTimeToLocaleString = (date: string | Date) => {
 export const formatDateTimeToTimeString = (date: string | Date) => {
   return format(date instanceof Date ? date : new Date(date), 'HH:mm:ss')
 }
-

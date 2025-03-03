@@ -23,25 +23,26 @@ export type RegisterBodyType = z.infer<typeof RegisterBodySchema>
 
 export const LoginBodySchema = z
   .object({
-    email: z.string().email(),
-    password: z.string().min(6).max(100),
+    email: z.string().email({ message: 'Email không hợp lệ' }),
+    password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
   })
   .strict()
 
 export type LoginBodyType = z.infer<typeof LoginBodySchema>
 
 export const LoginResSchema = z.object({
-  data: z.object({
-    accessToken: z.string(),
-    refreshToken: z.string(),
-    account: z.object({
-      id: z.number(),
-      name: z.string(),
-      email: z.string(),
-      role: z.enum([Role.Admin, Role.Manager, Role.Client]),
-      avatar: z.string().nullable(),
-    }),
-  }),
+  status: z.string(),
+  access_token: z.string(),
+  refresh_token: z.string(),
+  // account: z.object({
+  //   id: z.number(),
+  //   name: z.string(),
+  //   email: z.string(),
+  //   roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
+  //   avatar: z.string().nullable(),
+  // }),
+  roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
+  userId: z.number(),
   message: z.string(),
 })
 
