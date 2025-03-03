@@ -21,6 +21,32 @@ export const RegisterBodySchema = z
 
 export type RegisterBodyType = z.infer<typeof RegisterBodySchema>
 
+export const RegisterResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  otp_token: z.string(),
+})
+
+export type RegisterResType = z.infer<typeof RegisterResSchema>
+
+export const VerifyAccountBodySchema = z.object({
+  otpCode: z
+    .string()
+    .min(6, {
+      message: 'Mã OTP phải có đủ 6 số',
+    })
+    .regex(/^\d+$/, { message: 'Mã OTP chỉ được chứa số' }),
+})
+
+export type VerifyAccountBodyType = z.infer<typeof VerifyAccountBodySchema>
+
+export const VerifyAccountResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+})
+
+export type VerifyAccountResType = z.infer<typeof VerifyAccountResSchema>
+
 export const LoginBodySchema = z
   .object({
     email: z.string().email({ message: 'Email không hợp lệ' }),

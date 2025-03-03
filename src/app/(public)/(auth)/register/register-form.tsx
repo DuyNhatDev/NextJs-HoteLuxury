@@ -8,18 +8,23 @@ import { useForm } from 'react-hook-form'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { RegisterBodySchema, RegisterBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from '@/components/ui/use-toast'
 import { handleErrorApi } from '@/lib/utils'
-import Image from 'next/image'
 import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useRegisterMutation } from '@/queries/useAuth'
+import InputOtpFormDialog from '@/app/(public)/(auth)/register/input-otp-form-dialog'
 
 export default function RegisterForm() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [otpToken, setOtpToken] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+
+  const registerMutation = useRegisterMutation()
+
   const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
     if (key === 'password') {
       setShowPassword((prev) => !prev)
@@ -27,6 +32,7 @@ export default function RegisterForm() {
       setShowConfirmPassword((prev) => !prev)
     }
   }
+
   const form = useForm<RegisterBodyType>({
     resolver: zodResolver(RegisterBodySchema),
     defaultValues: {
@@ -38,154 +44,167 @@ export default function RegisterForm() {
   })
 
   const onSubmit = async (data: RegisterBodyType) => {
-    console.log('Register')
+    if (registerMutation.isPending) return
+    try {
+      const result = await registerMutation.mutateAsync(data)
+      setOtpToken(result.payload.otp_token)
+      setEmail(data.email)
+      setDialogOpen(true)
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
+    }
   }
 
   return (
-    <Card className="mx-auto max-w-sm min-w-96">
-      <CardHeader className="relative flex items-center w-full px-4">
-        <ArrowLeft
-          className="absolute left-5 cursor-pointer"
-          onClick={() => {
-            router.back()
-          }}
-        />
-        <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">Đăng Ký</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            className="space-y-2 max-w-[600px] flex-shrink-0 w-full"
-            noValidate
-            onSubmit={form.handleSubmit(onSubmit, (err) => {
-              console.log(err)
-            })}
-          >
-            <div className="grid gap-4">
-              <FormField
-                control={form.control}
-                name="fullname"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="grid gap-2">
-                      <Label htmlFor="fullname">
-                        Họ và tên <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="fullname"
-                        placeholder="Ví dụ: Nguyen Van A"
-                        type="text"
-                        required
-                        {...field}
-                      />
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="grid gap-2">
-                      <Label htmlFor="email">
-                        Email <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        placeholder="Ví dụ: email@gmail.com"
-                        type="email"
-                        required
-                        {...field}
-                      />
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="grid gap-2 relative">
-                      <Label htmlFor="password">
-                        Mật khẩu <span className="text-red-500">*</span>
-                      </Label>
-                      <div className="relative">
+    <>
+      <Card className="mx-auto max-w-sm min-w-96">
+        <CardHeader className="relative flex items-center w-full px-4">
+          <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} />
+          <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">Đăng Ký</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              className="space-y-2 max-w-[600px] flex-shrink-0 w-full"
+              noValidate
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              <div className="grid gap-4">
+                <FormField
+                  control={form.control}
+                  name="fullname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="grid gap-2">
+                        <Label htmlFor="fullname">
+                          Họ và tên <span className="text-red-500">*</span>
+                        </Label>
                         <Input
-                          id="password"
-                          type={showPassword ? 'text' : 'password'}
+                          id="fullname"
+                          placeholder="Ví dụ: Nguyen Van A"
+                          type="text"
                           required
                           {...field}
                         />
-                        <button
-                          type="button"
-                          className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                          onClick={() => togglePasswordVisibility('password')}
-                        >
-                          {showPassword ? (
-                            <EyeOffIcon className="w-5 h-5" />
-                          ) : (
-                            <EyeIcon className="w-5 h-5" />
-                          )}
-                        </button>
+                        <FormMessage />
                       </div>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="grid gap-2 relative">
-                      <Label htmlFor="confirmPassword">
-                        Nhập lại mật khẩu <span className="text-red-500">*</span>
-                      </Label>
-                      <div className="relative">
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="grid gap-2">
+                        <Label htmlFor="email">
+                          Email <span className="text-red-500">*</span>
+                        </Label>
                         <Input
-                          id="confirmPassword"
-                          type={showConfirmPassword ? 'text' : 'password'}
+                          id="email"
+                          placeholder="Ví dụ: email@gmail.com"
+                          type="email"
                           required
                           {...field}
                         />
-                        <button
-                          type="button"
-                          className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                          onClick={() => togglePasswordVisibility('confirmPassword')}
-                        >
-                          {showConfirmPassword ? (
-                            <EyeOffIcon className="w-5 h-5" />
-                          ) : (
-                            <EyeIcon className="w-5 h-5" />
-                          )}
-                        </button>
+                        <FormMessage />
                       </div>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full mt-2 bg-orange-500 hover:bg-orange-600">
-                Đăng ký
-              </Button>
-              <div className="flex items-center justify-center">
-                <span className="text-sm text-gray-500 px-2">Bạn đã có tài khoản?</span>
-                <Link
-                  href="/login"
-                  className="text-sm text-blue-700 hover:underline cursor-pointer"
-                >
-                  Đăng nhập
-                </Link>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="grid gap-2 relative">
+                        <Label htmlFor="password">
+                          Mật khẩu <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="relative">
+                          <Input
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            required
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                            onClick={() => togglePasswordVisibility('password')}
+                          >
+                            {showPassword ? (
+                              <EyeOffIcon className="w-5 h-5" />
+                            ) : (
+                              <EyeIcon className="w-5 h-5" />
+                            )}
+                          </button>
+                        </div>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="grid gap-2 relative">
+                        <Label htmlFor="confirmPassword">
+                          Nhập lại mật khẩu <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="relative">
+                          <Input
+                            id="confirmPassword"
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            required
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                            onClick={() => togglePasswordVisibility('confirmPassword')}
+                          >
+                            {showConfirmPassword ? (
+                              <EyeOffIcon className="w-5 h-5" />
+                            ) : (
+                              <EyeIcon className="w-5 h-5" />
+                            )}
+                          </button>
+                        </div>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+
+                <Button type="submit" className="w-full mt-2 bg-orange-500 hover:bg-orange-600">
+                  Đăng ký
+                </Button>
+                <div className="flex items-center justify-center">
+                  <span className="text-sm text-gray-500 px-2">Bạn đã có tài khoản?</span>
+                  <Link
+                    href="/login"
+                    className="text-sm text-blue-700 hover:underline cursor-pointer"
+                  >
+                    Đăng nhập
+                  </Link>
+                </div>
               </div>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+      <InputOtpFormDialog
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+        email={email}
+        otp_token={otpToken}
+      />
+    </>
   )
 }

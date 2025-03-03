@@ -22,7 +22,6 @@ export default function DropdownAvatar() {
     if (logoutMutation.isPending) return
     try {
       await logoutMutation.mutateAsync()
-      console.log('ok')
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
@@ -32,7 +31,6 @@ export default function DropdownAvatar() {
   }
   useEffect(() => {
     setIsAuth(Boolean(getAccessTokenFromLocalStorage()))
-    console.log(isAuth)
   }, [])
   return (
     <DropdownMenu>
