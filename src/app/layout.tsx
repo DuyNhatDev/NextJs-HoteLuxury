@@ -31,7 +31,14 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-            <Toaster />
+            <Toaster
+              richColors
+              expand
+              closeButton
+              duration={3000}
+              swipeDirections={['left', 'right']}
+              visibleToasts={3}
+            />
           </ThemeProvider>
         </AppProvider>
       </body>

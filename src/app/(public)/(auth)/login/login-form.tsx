@@ -19,7 +19,7 @@ import { toast } from 'sonner'
 
 export default function LoginForm() {
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const loginMutation = useLoginMutation()
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBodySchema),

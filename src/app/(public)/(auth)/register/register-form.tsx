@@ -13,13 +13,13 @@ import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useRegisterMutation } from '@/queries/useAuth'
-import InputOtpFormDialog from '@/app/(public)/(auth)/register/input-otp-form-dialog'
+import InputOtpFormDialog from '@/app/(public)/(auth)/register/otp-form-dialog'
 
 export default function RegisterForm() {
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [otpToken, setOtpToken] = useState<string>('')
   const [email, setEmail] = useState<string>('')
 

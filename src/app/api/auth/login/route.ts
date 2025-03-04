@@ -9,7 +9,6 @@ export async function POST(request: Request) {
   const cookieStore = await cookies()
   try {
     const { payload } = await authApiRequest.sLogin(body)
-    console.log(payload)
     const { access_token } = payload
     const decodedAccessToken = jwt.decode(access_token) as { exp: number }
     // const decodedRefreshToken = jwt.decode(refreshToken) as { exp: number }

@@ -28,13 +28,11 @@ export const handleErrorApi = ({
     toast.error('Lỗi HTTP', {
       description: error.payload.message || 'Có lỗi xảy ra khi gửi yêu cầu.',
       duration: duration ?? 5000,
-      style: { backgroundColor: '#F87171', color: '#fff' },
     })
   } else {
     toast.error('Lỗi', {
       description: error?.payload?.message ?? 'Lỗi không xác định',
       duration: duration ?? 5000,
-      style: { backgroundColor: '#F87171', color: '#fff' },
     })
   }
 }
