@@ -84,8 +84,11 @@ export const checkAndRefreshToken = async (param?: {
     exp: number
     iat: number
   }
-  const now = Math.round(new Date().getTime() / 1000)
-  if (decodedRefreshToken.exp <= now) return
+  const now = new Date().getTime() / 1000 - 1
+  if (decodedRefreshToken.exp <= now) {
+    removeTokensFromLocalStorage()
+    return param?.onError && param.onError()
+  }
   if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
     // Gọi API refresh token
     try {
