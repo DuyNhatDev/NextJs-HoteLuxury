@@ -13,15 +13,17 @@ import { getAccessTokenFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useLogoutMutation } from '@/queries/useAuth'
+import { useAppContext } from '@/components/app-provider'
 
 export default function DropdownAvatar() {
-  const [isAuth, setIsAuth] = useState<boolean>(false)
+  const { isAuth, setIsAuth } = useAppContext()
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
   const logout = async () => {
     if (logoutMutation.isPending) return
     try {
       await logoutMutation.mutateAsync()
+      setIsAuth(false)
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
@@ -29,9 +31,7 @@ export default function DropdownAvatar() {
       })
     }
   }
-  useEffect(() => {
-    setIsAuth(Boolean(getAccessTokenFromLocalStorage()))
-  }, [])
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

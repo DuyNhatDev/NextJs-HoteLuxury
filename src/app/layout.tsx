@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import AppProvider from '@/components/app-provider'
+import NextTopLoader from 'nextjs-toploader'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+        <NextTopLoader showSpinner={false} color="oklch(0.869 0.022 252.894)" />
         <AppProvider>
           <ThemeProvider
             attribute="class"

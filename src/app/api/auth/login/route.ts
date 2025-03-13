@@ -9,9 +9,9 @@ export async function POST(request: Request) {
   const cookieStore = await cookies()
   try {
     const { payload } = await authApiRequest.sLogin(body)
-    const { access_token } = payload
+    const { access_token, refresh_token } = payload
     const decodedAccessToken = jwt.decode(access_token) as { exp: number }
-    // const decodedRefreshToken = jwt.decode(refreshToken) as { exp: number }
+    const decodedRefreshToken = jwt.decode(refresh_token) as { exp: number }
     cookieStore.set('accessToken', access_token, {
       path: '/',
       httpOnly: true,
@@ -19,13 +19,13 @@ export async function POST(request: Request) {
       secure: true,
       expires: decodedAccessToken.exp * 1000,
     })
-    // cookieStore.set('refreshToken', refreshToken, {
-    //   path: '/',
-    //   httpOnly: true,
-    //   sameSite: 'lax',
-    //   secure: true,
-    //   expires: decodedRefreshToken.exp * 1000,
-    // })
+    cookieStore.set('refreshToken', refresh_token, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: true,
+      expires: decodedRefreshToken.exp * 1000,
+    })
     return Response.json(payload)
   } catch (error) {
     if (error instanceof HttpError) {

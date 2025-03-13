@@ -16,10 +16,10 @@ const authApiRequest = {
     status: number
     payload: RefreshTokenResType
   }> | null,
-  register: (body: RegisterBodyType) => http.post<RegisterResType>('/user/sign-up', body),
+  register: (body: RegisterBodyType) => http.post<RegisterResType>('/auth/sign-up', body),
   verifyAccount: (body: VerifyAccountBodyType, otp_token: string) =>
-    http.post<VerifyAccountResType>(`/user/verify-account/${otp_token}`, body),
-  sLogin: (body: LoginBodyType) => http.post<LoginResType>('/user/sign-in', body),
+    http.post<VerifyAccountResType>(`/auth/verify-account/${otp_token}`, body),
+  sLogin: (body: LoginBodyType) => http.post<LoginResType>('/auth/sign-in', body),
   login: (body: LoginBodyType) =>
     http.post<LoginResType>('/api/auth/login', body, {
       baseUrl: '',

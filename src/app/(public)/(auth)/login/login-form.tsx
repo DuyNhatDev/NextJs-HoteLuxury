@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -11,13 +11,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
 import Image from 'next/image'
 import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLoginMutation } from '@/queries/useAuth'
 import { toast } from 'sonner'
+import { useAppContext } from '@/components/app-provider'
 
 export default function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const clearTokens = searchParams.get('clearTokens')
+  const { setIsAuth } = useAppContext()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const loginMutation = useLoginMutation()
   const form = useForm<LoginBodyType>({
@@ -28,11 +32,18 @@ export default function LoginForm() {
     },
   })
 
+  useEffect(() => {
+    if (clearTokens) {
+      setIsAuth(false)
+    }
+  }, [clearTokens, setIsAuth])
+
   const onSubmit = async (data: LoginBodyType) => {
     if (loginMutation.isPending) return
     try {
       const result = await loginMutation.mutateAsync(data)
       toast.success(result.payload.message)
+       setIsAuth(true)
       router.push('/')
     } catch (error: any) {
       handleErrorApi({

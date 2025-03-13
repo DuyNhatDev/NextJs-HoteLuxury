@@ -1,5 +1,11 @@
 import envConfig from '@/config'
-import { normalizePath } from '@/lib/utils'
+import {
+  getAccessTokenFromLocalStorage,
+  normalizePath,
+  removeTokensFromLocalStorage,
+  setAccessTokenToLocalStorage,
+  setRefreshTokenToLocalStorage,
+} from '@/lib/utils'
 import { LoginResType } from '@/schemaValidations/auth.schema'
 import { redirect } from 'next/navigation'
 
@@ -77,7 +83,7 @@ const request = async <Response>(
           'Content-Type': 'application/json',
         }
   if (isClient) {
-    const accessToken = localStorage.getItem('accessToken')
+    const accessToken = getAccessTokenFromLocalStorage()
     if (accessToken) {
       baseHeaders.Authorization = `Bearer ${accessToken}`
     }
@@ -122,8 +128,7 @@ const request = async <Response>(
             await clientLogoutRequest
           } catch (error) {
           } finally {
-            localStorage.removeItem('accessToken')
-            localStorage.removeItem('refreshToken')
+            removeTokensFromLocalStorage()
             clientLogoutRequest = null
             location.href = '/login'
           }
@@ -140,11 +145,10 @@ const request = async <Response>(
     const normalizeUrl = normalizePath(url)
     if (normalizeUrl === 'api/auth/login') {
       const { access_token, refresh_token } = payload as LoginResType
-      localStorage.setItem('accessToken', access_token)
-      localStorage.setItem('refreshToken', refresh_token)
+      setAccessTokenToLocalStorage(access_token)
+      setRefreshTokenToLocalStorage(refresh_token)
     } else if (normalizeUrl === 'api/auth/logout') {
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
+      removeTokensFromLocalStorage()
     }
   }
   return data
