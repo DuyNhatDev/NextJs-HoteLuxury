@@ -62,10 +62,19 @@ export const setRefreshTokenToLocalStorage = (value: string) => {
   return isBrowser && localStorage.setItem('refreshToken', value)
 }
 
+export const setUserIdToLocalStorage = (value: string) => {
+  return isBrowser && localStorage.setItem('userId', value)
+}
+
+export const getUserIdFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem('userId') : null
+}
+
 export const removeTokensFromLocalStorage = () => {
   if (isBrowser) {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
+    localStorage.removeItem('userId')
   }
 }
 

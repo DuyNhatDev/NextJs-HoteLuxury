@@ -4,11 +4,11 @@ import { LoginResSchema } from '@/schemaValidations/auth.schema'
 import z from 'zod'
 
 export const AccountSchema = z.object({
-  id: z.number(),
-  name: z.string(),
+  userId: z.number(),
+  fullname: z.string(),
   email: z.string(),
   roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
-  avatar: z.string().nullable()
+  image: z.string().nullable(),
 })
 
 export type AccountType = z.infer<typeof AccountSchema>
@@ -22,8 +22,9 @@ export type AccountListResType = z.infer<typeof AccountListResSchema>
 
 export const AccountResSchema = z
   .object({
+    status: z.string(),
+    message: z.string(),
     data: AccountSchema,
-    message: z.string()
   })
   .strict()
 

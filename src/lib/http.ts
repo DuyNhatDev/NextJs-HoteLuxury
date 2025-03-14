@@ -5,6 +5,7 @@ import {
   removeTokensFromLocalStorage,
   setAccessTokenToLocalStorage,
   setRefreshTokenToLocalStorage,
+  setUserIdToLocalStorage,
 } from '@/lib/utils'
 import { LoginResType } from '@/schemaValidations/auth.schema'
 import { redirect } from 'next/navigation'
@@ -144,9 +145,10 @@ const request = async <Response>(
   if (isClient) {
     const normalizeUrl = normalizePath(url)
     if (normalizeUrl === 'api/auth/login' || normalizeUrl === 'api/auth/login-by-google') {
-      const { access_token, refresh_token } = payload as LoginResType
+      const { access_token, refresh_token, userId } = payload as LoginResType
       setAccessTokenToLocalStorage(access_token)
       setRefreshTokenToLocalStorage(refresh_token)
+      setUserIdToLocalStorage(String(userId))
     } else if (normalizeUrl === 'api/auth/logout') {
       removeTokensFromLocalStorage()
     }
