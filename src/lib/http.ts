@@ -143,7 +143,7 @@ const request = async <Response>(
   }
   if (isClient) {
     const normalizeUrl = normalizePath(url)
-    if (normalizeUrl === 'api/auth/login') {
+    if (normalizeUrl === 'api/auth/login' || normalizeUrl === 'api/auth/login-by-google') {
       const { access_token, refresh_token } = payload as LoginResType
       setAccessTokenToLocalStorage(access_token)
       setRefreshTokenToLocalStorage(refresh_token)

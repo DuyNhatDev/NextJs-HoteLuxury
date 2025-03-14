@@ -20,6 +20,12 @@ export const useLoginMutation = () => {
   })
 }
 
+export const useLoginByGoogleMutation = () => {
+  return useMutation({
+    mutationFn: authApiRequest.loginByGoogle,
+  })
+}
+
 export const useLogoutMutation = () => {
   return useMutation({
     mutationFn: authApiRequest.logout,

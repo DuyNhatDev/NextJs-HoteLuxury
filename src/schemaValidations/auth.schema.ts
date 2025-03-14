@@ -81,6 +81,7 @@ export const LoginResSchema = z.object({
   // }),
   roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
   userId: z.number(),
+  fullname: z.string(),
   message: z.string(),
 })
 

@@ -13,7 +13,6 @@ import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLoginMutation } from '@/queries/useAuth'
-import { toast } from 'sonner'
 import { useAppContext } from '@/components/app-provider'
 import LoginByGoogle from '@/app/(public)/(auth)/login/login-by-google'
 
@@ -22,7 +21,7 @@ export default function LoginForm() {
   const searchParams = useSearchParams()
   const clearTokens = searchParams.get('clearTokens')
   const { setIsAuth } = useAppContext()
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState(false)
   const loginMutation = useLoginMutation()
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBodySchema),
@@ -42,7 +41,6 @@ export default function LoginForm() {
     if (loginMutation.isPending) return
     try {
       await loginMutation.mutateAsync(data)
-      //toast.success('Đăng nhập thành công')
       setIsAuth(true)
       router.push('/')
     } catch (error: any) {
