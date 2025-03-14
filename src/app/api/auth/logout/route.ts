@@ -27,8 +27,8 @@ export async function POST(request: Request) {
     }
     try {
       const result = await authApiRequest.sLogout({
-        accessToken,
-        refreshToken,
+        access_token: accessToken,
+        refresh_token: refreshToken,
       })
       return Response.json(result.payload)
     } catch (error) {

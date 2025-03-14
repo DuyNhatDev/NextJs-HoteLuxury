@@ -17,23 +17,22 @@ export async function POST(request: Request) {
   }
   try {
     const { payload } = await authApiRequest.sRefreshToken({
-      refreshToken,
+      refresh_token: refreshToken,
     })
-
-    const decodedAccessToken = jwt.decode(payload.data.accessToken) as {
+    const decodedAccessToken = jwt.decode(payload.data.access_token) as {
       exp: number
     }
-    const decodedRefreshToken = jwt.decode(payload.data.refreshToken) as {
+    const decodedRefreshToken = jwt.decode(payload.data.refresh_token) as {
       exp: number
     }
-    cookieStore.set('accessToken', payload.data.accessToken, {
+    cookieStore.set('accessToken', payload.data.access_token, {
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
       secure: true,
       expires: decodedAccessToken.exp * 1000,
     })
-    cookieStore.set('refreshToken', payload.data.refreshToken, {
+    cookieStore.set('refreshToken', payload.data.refresh_token, {
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
@@ -42,6 +41,7 @@ export async function POST(request: Request) {
     })
     return Response.json(payload)
   } catch (error: any) {
+    console.log('2')
     return Response.json(
       {
         message: error.message ?? 'Có lỗi xảy ra',

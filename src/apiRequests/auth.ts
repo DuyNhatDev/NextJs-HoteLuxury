@@ -26,17 +26,17 @@ const authApiRequest = {
     }),
   sLogout: (
     body: LogoutBodyType & {
-      accessToken: string
+      access_token: string
     }
   ) =>
     http.post(
       '/auth/logout',
       {
-        refreshToken: body.refreshToken,
+        refresh_token: body.refresh_token,
       },
       {
         headers: {
-          Authorization: `Bearer ${body.accessToken}`,
+          Authorization: `Bearer ${body.access_token}`,
         },
       }
     ),

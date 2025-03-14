@@ -76,7 +76,7 @@ export type LoginResType = z.infer<typeof LoginResSchema>
 
 export const RefreshTokenBodySchema = z
   .object({
-    refreshToken: z.string(),
+    refresh_token: z.string(),
   })
   .strict()
 
@@ -84,8 +84,8 @@ export type RefreshTokenBodyType = z.infer<typeof RefreshTokenBodySchema>
 
 export const RefreshTokenRes = z.object({
   data: z.object({
-    accessToken: z.string(),
-    refreshToken: z.string(),
+    access_token: z.string(),
+    refresh_token: z.string(),
   }),
   message: z.string(),
 })
@@ -94,7 +94,7 @@ export type RefreshTokenResType = z.infer<typeof RefreshTokenRes>
 
 export const LogoutBodySchema = z
   .object({
-    refreshToken: z.string(),
+    refresh_token: z.string(),
   })
   .strict()
 

@@ -89,12 +89,13 @@ export const checkAndRefreshToken = async (param?: {
     removeTokensFromLocalStorage()
     return param?.onError && param.onError()
   }
+
   if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
     // Gọi API refresh token
     try {
       const res = await authApiRequest.refreshToken()
-      setAccessTokenToLocalStorage(res.payload.data.accessToken)
-      setRefreshTokenToLocalStorage(res.payload.data.refreshToken)
+      setAccessTokenToLocalStorage(res.payload.data.access_token)
+      setRefreshTokenToLocalStorage(res.payload.data.refresh_token)
       param?.onSuccess && param.onSuccess()
     } catch (error) {
       param?.onError && param.onError()
