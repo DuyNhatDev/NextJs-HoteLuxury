@@ -94,8 +94,8 @@ export const checkAndRefreshToken = async (param?: {
     // Gọi API refresh token
     try {
       const res = await authApiRequest.refreshToken()
-      setAccessTokenToLocalStorage(res.payload.data.access_token)
-      setRefreshTokenToLocalStorage(res.payload.data.refresh_token)
+      setAccessTokenToLocalStorage(res.payload.access_token)
+      setRefreshTokenToLocalStorage(res.payload.refresh_token)
       param?.onSuccess && param.onSuccess()
     } catch (error) {
       param?.onError && param.onError()

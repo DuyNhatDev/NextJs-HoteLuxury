@@ -9,13 +9,13 @@ import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { LoginBodySchema, LoginBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import Image from 'next/image'
 import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLoginMutation } from '@/queries/useAuth'
 import { toast } from 'sonner'
 import { useAppContext } from '@/components/app-provider'
+import LoginByGoogle from '@/app/(public)/(auth)/login/login-by-google'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -41,9 +41,9 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginBodyType) => {
     if (loginMutation.isPending) return
     try {
-      const result = await loginMutation.mutateAsync(data)
-      toast.success(result.payload.message)
-       setIsAuth(true)
+      await loginMutation.mutateAsync(data)
+      //toast.success('Đăng nhập thành công')
+      setIsAuth(true)
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
@@ -142,12 +142,7 @@ export default function LoginForm() {
                 <span className="px-3 text-gray-500">Hoặc</span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
-              <Link href="">
-                <Button variant="outline" className="w-full" type="button">
-                  <Image src="/logo/google-logo.png" alt="Google Logo" width={20} height={20} />
-                  Đăng nhập bằng Google
-                </Button>
-              </Link>
+              <LoginByGoogle />
             </div>
           </form>
         </Form>

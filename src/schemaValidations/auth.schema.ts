@@ -56,6 +56,18 @@ export const LoginBodySchema = z
 
 export type LoginBodyType = z.infer<typeof LoginBodySchema>
 
+export const LoginByGoogleBodySchema = z.object({
+  email: z.string(),
+  email_verified: z.boolean(),
+  family_name: z.string(),
+  given_name: z.string(),
+  name: z.string(),
+  picture: z.string(),
+  sub: z.string(),
+})
+
+export type LoginByGoogleBodyType = z.infer<typeof LoginByGoogleBodySchema>
+
 export const LoginResSchema = z.object({
   status: z.string(),
   access_token: z.string(),
@@ -82,11 +94,21 @@ export const RefreshTokenBodySchema = z
 
 export type RefreshTokenBodyType = z.infer<typeof RefreshTokenBodySchema>
 
+export const CredentialResSchema = z.object({
+  access_token: z.string(),
+  authuser: z.string(),
+  expires_in: z.number(),
+  prompt: z.string(),
+  scope: z.string(),
+  token_type: z.string(),
+})
+
+export type CredentialResType = z.infer<typeof CredentialResSchema>
+
 export const RefreshTokenRes = z.object({
-  data: z.object({
-    access_token: z.string(),
-    refresh_token: z.string(),
-  }),
+  status: z.string(),
+  access_token: z.string(),
+  refresh_token: z.string(),
   message: z.string(),
 })
 
