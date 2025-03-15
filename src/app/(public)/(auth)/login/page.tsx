@@ -1,5 +1,4 @@
 import LoginForm from '@/app/(public)/(auth)/login/login-form'
-import Logout from '@/app/(public)/(auth)/logout/page'
 import { Suspense } from 'react'
 
 export default function LoginPage() {

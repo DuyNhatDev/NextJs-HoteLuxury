@@ -6,15 +6,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { LoginBodySchema, LoginBodyType } from '@/schemaValidations/auth.schema'
+import {
+  CredentialResType,
+  LoginBodySchema,
+  LoginBodyType,
+  LoginByGoogleBodyType,
+} from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
 import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { useLoginMutation } from '@/queries/useAuth'
+import { useLoginByGoogleMutation, useLoginMutation } from '@/queries/useAuth'
 import { useAppContext } from '@/components/app-provider'
-import LoginByGoogle from '@/app/(public)/(auth)/login/login-by-google'
+import { toast } from 'sonner'
+import { useGoogleLogin } from '@react-oauth/google'
+import Image from 'next/image'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -23,6 +30,7 @@ export default function LoginForm() {
   const { setIsAuth } = useAppContext()
   const [showPassword, setShowPassword] = useState(false)
   const loginMutation = useLoginMutation()
+  const loginByGoogleMutation = useLoginByGoogleMutation()
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBodySchema),
     defaultValues: {
@@ -50,7 +58,38 @@ export default function LoginForm() {
       })
     }
   }
-
+  const handleSuccess = async (credentialResponse: CredentialResType) => {
+    const gg_resp = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${credentialResponse.access_token}`,
+      },
+    })
+    const data: LoginByGoogleBodyType = await gg_resp.json()
+    if (loginByGoogleMutation.isPending) return
+    try {
+      const result = await loginByGoogleMutation.mutateAsync(data)
+      console.log(result.payload)
+      setIsAuth(true)
+      router.push('/')
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+      })
+    }
+  }
+  const handleLoginByGoogle = useGoogleLogin({
+    onSuccess: (credentialResponse: any) => {
+      if (credentialResponse) {
+        handleSuccess(credentialResponse)
+      } else {
+        console.log('Không nhận được token!')
+      }
+    },
+    onError: () => {
+      toast('Đăng nhập thất bại')
+    },
+  })
   return (
     <Card className="mx-auto max-w-sm min-w-96">
       <CardHeader className="relative flex items-center w-full px-4">
@@ -120,7 +159,7 @@ export default function LoginForm() {
               />
               <div className="flex justify-between items-center">
                 <Link
-                  href="/forget-password"
+                  href="/forgot-password"
                   className="text-sm text-blue-700 hover:underline cursor-pointer"
                 >
                   Quên mật khẩu?
@@ -140,7 +179,15 @@ export default function LoginForm() {
                 <span className="px-3 text-gray-500">Hoặc</span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
-              <LoginByGoogle />
+              <Button
+                variant="outline"
+                className="w-full"
+                type="button"
+                onClick={() => handleLoginByGoogle()}
+              >
+                <Image src="/logo/google-logo.png" alt="Google Logo" width={20} height={20} />
+                Đăng nhập bằng Google
+              </Button>
             </div>
           </form>
         </Form>

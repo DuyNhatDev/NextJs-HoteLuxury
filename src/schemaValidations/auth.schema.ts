@@ -72,13 +72,6 @@ export const LoginResSchema = z.object({
   status: z.string(),
   access_token: z.string(),
   refresh_token: z.string(),
-  // account: z.object({
-  //   id: z.number(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
-  //   avatar: z.string().nullable(),
-  // }),
   roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
   userId: z.number(),
   fullname: z.string(),
@@ -128,3 +121,9 @@ export const LoginGoogleQuerySchema = z.object({
 })
 
 export type LoginGoogleQueryType = z.infer<typeof LoginGoogleQuerySchema>
+
+export const ForgotPasswordBodySchema = z.object({
+  email: z.string().email({ message: 'Email không đúng định dạng' }),
+})
+
+export type ForgotPasswordBodyType = z.infer<typeof ForgotPasswordBodySchema>

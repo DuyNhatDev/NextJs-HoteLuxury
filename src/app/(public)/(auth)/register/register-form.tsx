@@ -22,17 +22,7 @@ export default function RegisterForm() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [otpToken, setOtpToken] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-
   const registerMutation = useRegisterMutation()
-
-  const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
-    if (key === 'password') {
-      setShowPassword((prev) => !prev)
-    } else {
-      setShowConfirmPassword((prev) => !prev)
-    }
-  }
-
   const form = useForm<RegisterBodyType>({
     resolver: zodResolver(RegisterBodySchema),
     defaultValues: {
@@ -42,7 +32,13 @@ export default function RegisterForm() {
       confirmPassword: '',
     },
   })
-
+  const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
+    if (key === 'password') {
+      setShowPassword((prev) => !prev)
+    } else {
+      setShowConfirmPassword((prev) => !prev)
+    }
+  }
   const onSubmit = async (data: RegisterBodyType) => {
     if (registerMutation.isPending) return
     try {
@@ -57,7 +53,6 @@ export default function RegisterForm() {
       })
     }
   }
-
   return (
     <>
       <Card className="mx-auto max-w-sm min-w-96">
@@ -105,7 +100,7 @@ export default function RegisterForm() {
                         </Label>
                         <Input
                           id="email"
-                          placeholder="Ví dụ: email@gmail.com"
+                          placeholder="Ví dụ: example@gmail.com"
                           type="email"
                           required
                           {...field}
@@ -181,7 +176,6 @@ export default function RegisterForm() {
                     </FormItem>
                   )}
                 />
-
                 <Button type="submit" className="w-full mt-2 bg-orange-500 hover:bg-orange-600">
                   Đăng ký
                 </Button>
