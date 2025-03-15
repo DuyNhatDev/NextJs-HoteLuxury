@@ -68,7 +68,7 @@ const authApiRequest = {
   },
   forgotPassword: (body: ForgotPasswordBodyType) =>
     http.post<ForgotPasswordResType>('/auth/forgot-password', body),
-  verifyForgetPassword: (body: VerifyForgotPasswordBodyType, token: string) =>
+  verifyForgotPassword: (body: VerifyForgotPasswordBodyType, token: string) =>
     http.post<VerifyForgotPasswordResType>(`/auth/forgot-password/${token}`, body),
   resetPassword: (body: ResetPasswordBodyType, token: string) =>
     http.post(`/auth/reset-password/${token}`, body),

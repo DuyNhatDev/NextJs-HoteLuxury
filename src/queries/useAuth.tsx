@@ -41,10 +41,10 @@ export const useForgotPasswordMutation = () => {
     mutationFn: authApiRequest.forgotPassword,
   })
 }
-export const useForgetPasswordMutation = () => {
+export const useVerifyForgetPasswordMutation = () => {
   return useMutation({
     mutationFn: ({ body, token }: { body: VerifyForgotPasswordBodyType; token: string }) =>
-      authApiRequest.verifyForgetPassword(body, token),
+      authApiRequest.verifyForgotPassword(body, token),
   })
 }
 export const useResetPasswordMutation = () => {

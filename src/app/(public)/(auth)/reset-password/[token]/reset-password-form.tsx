@@ -16,8 +16,15 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PasswordInput } from '@/components/ui/password-input'
 import { ResetPasswordBodySchema, ResetPasswordBodyType } from '@/schemaValidations/auth.schema'
-
-export default function ResetPasswordForm() {
+import { useResetPasswordMutation } from '@/queries/useAuth'
+import { useRouter } from 'next/navigation'
+import { handleErrorApi } from '@/lib/utils'
+interface ResetPasswordFormProps {
+  token: string
+}
+export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+  const router = useRouter()
+  const resetPasswordMutation = useResetPasswordMutation()
   const form = useForm<ResetPasswordBodyType>({
     resolver: zodResolver(ResetPasswordBodySchema),
     defaultValues: {
@@ -26,14 +33,17 @@ export default function ResetPasswordForm() {
     },
   })
 
-  async function onSubmit(values: ResetPasswordBodyType) {
+  const onSubmit = async (data: ResetPasswordBodyType) => {
+    if (resetPasswordMutation.isPending) return
     try {
-      // Assuming an async reset password function
-      console.log(values)
-      toast.success('Password reset successful. You can now log in with your new password.')
-    } catch (error) {
-      console.error('Error resetting password', error)
-      toast.error('Failed to reset the password. Please try again.')
+      await resetPasswordMutation.mutateAsync({ body: data, token })
+      toast.success('Đặt lại mật khẩu thành công')
+      router.push('/login')
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
     }
   }
 

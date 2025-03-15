@@ -10,13 +10,16 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
-import { VerifyAccountBodySchema, VerifyAccountBodyType } from '@/schemaValidations/auth.schema'
+import {
+  VerifyForgotPasswordBodySchema,
+  VerifyForgotPasswordBodyType,
+} from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useVerifyAccountMutation } from '@/queries/useAuth'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { useVerifyForgetPasswordMutation } from '@/queries/useAuth'
 
 interface InputOtpFormDialogProps {
   open: boolean
@@ -32,26 +35,25 @@ export default function InputOtpFormDialog({
   token,
 }: InputOtpFormDialogProps) {
   const router = useRouter()
-  const verifyAccountMutation = useVerifyAccountMutation()
-  const form = useForm<VerifyAccountBodyType>({
-    resolver: zodResolver(VerifyAccountBodySchema),
+  const verifyForgotPasswordMutation = useVerifyForgetPasswordMutation()
+  const form = useForm<VerifyForgotPasswordBodyType>({
+    resolver: zodResolver(VerifyForgotPasswordBodySchema),
     defaultValues: {
       otpCode: '',
     },
   })
 
-  const onSubmit = async (data: VerifyAccountBodyType) => {
-    // if (verifyAccountMutation.isPending) return
-    // try {
-    //   const result = await verifyAccountMutation.mutateAsync({ body: data, otp_token })
-    //   toast.success(result.payload.message)
-    //   router.push('/login')
-    // } catch (error: any) {
-    //   handleErrorApi({
-    //     error,
-    //     setError: form.setError,
-    //   })
-    // }
+  const onSubmit = async (data: VerifyForgotPasswordBodyType) => {
+    if (verifyForgotPasswordMutation.isPending) return
+    try {
+      await verifyForgotPasswordMutation.mutateAsync({ body: data, token })
+      router.push(`/reset-password/${token}`)
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
+    }
   }
 
   useEffect(() => {

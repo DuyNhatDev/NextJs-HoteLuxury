@@ -40,6 +40,7 @@ export default function ForgetPasswordForm() {
     if (forgotPasswordMutation.isPending) return
     try {
       const result = await forgotPasswordMutation.mutateAsync(data)
+      console.log(result.payload)
       setToken(result.payload.data)
       setEmail(data.email)
       setDialogOpen(true)
@@ -64,7 +65,7 @@ export default function ForgetPasswordForm() {
           <CardTitle className="text-2xl text-center font-bold text-blue-900 mx-auto">
             Quên mật khẩu
           </CardTitle>
-          <CardDescription>Nhập email của bạn để nhận link đặt lại mật khẩu.</CardDescription>
+          <CardDescription>Nhập email của bạn để gửi yêu cầu đặt lại mật khẩu.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -98,12 +99,7 @@ export default function ForgetPasswordForm() {
           </Form>
         </CardContent>
       </Card>
-      <InputOtpFormDialog
-        open={dialogOpen}
-        setOpen={setDialogOpen}
-        email={email}
-        token={token}
-      />
+      <InputOtpFormDialog open={dialogOpen} setOpen={setDialogOpen} email={email} token={token} />
     </div>
   )
 }

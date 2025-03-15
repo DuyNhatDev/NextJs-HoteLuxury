@@ -1,9 +1,14 @@
-import ResetPasswordForm from '@/app/(public)/(auth)/reset-password/reset-password-form'
+import ResetPasswordForm from '@/app/(public)/(auth)/reset-password/[token]/reset-password-form'
 
-export default function ResetPasswordPage() {
+export default async function ResetPasswordPage({
+  params,
+}: {
+  params: Promise<{ token: string }>
+}) {
+  const { token } = await params
   return (
     <div className="flex flex-1 items-center justify-center">
-      <ResetPasswordForm />
+      <ResetPasswordForm token={token} />
     </div>
   )
 }
