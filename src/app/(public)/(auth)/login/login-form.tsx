@@ -29,6 +29,7 @@ import { toast } from 'sonner'
 import { useGoogleLogin } from '@react-oauth/google'
 import Image from 'next/image'
 import { PasswordInput } from '@/components/ui/password-input'
+import authApiRequest from '@/apiRequests/auth'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -66,17 +67,11 @@ export default function LoginForm() {
     }
   }
   const handleSuccess = async (credentialResponse: CredentialResType) => {
-    const gg_resp = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${credentialResponse.access_token}`,
-      },
-    })
+    const gg_resp = await authApiRequest.getUserInfoFromGoogle(credentialResponse.access_token)
     const data: LoginByGoogleBodyType = await gg_resp.json()
     if (loginByGoogleMutation.isPending) return
     try {
-      const result = await loginByGoogleMutation.mutateAsync(data)
-      console.log(result.payload)
+      await loginByGoogleMutation.mutateAsync(data)
       setIsAuth(true)
       router.push('/')
     } catch (error: any) {

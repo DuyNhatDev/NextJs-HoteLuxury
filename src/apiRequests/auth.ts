@@ -16,6 +16,7 @@ import {
   VerifyForgotPasswordBodyType,
   VerifyForgotPasswordResType,
 } from '@/schemaValidations/auth.schema'
+import { access } from 'fs'
 
 const authApiRequest = {
   refreshTokenRequest: null as Promise<{
@@ -35,6 +36,13 @@ const authApiRequest = {
   loginByGoogle: (body: LoginByGoogleBodyType) =>
     http.post<LoginResType>('/api/auth/login-by-google', body, {
       baseUrl: '',
+    }),
+  getUserInfoFromGoogle: (accessToken: string) =>
+    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     }),
   sLogout: (
     body: LogoutBodyType & {
