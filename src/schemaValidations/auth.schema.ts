@@ -128,14 +128,22 @@ export const ForgotPasswordBodySchema = z.object({
 
 export type ForgotPasswordBodyType = z.infer<typeof ForgotPasswordBodySchema>
 
+export const ForgotPasswordResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: z.string(),
+})
+
+export type ForgotPasswordResType = z.infer<typeof ForgotPasswordResSchema>
+
 export const ResetPasswordBodySchema = z
   .object({
-    newPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
     confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
   })
   .strict()
-  .superRefine(({ confirmPassword, newPassword }, ctx) => {
-    if (confirmPassword !== newPassword) {
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
       ctx.addIssue({
         code: 'custom',
         message: 'Mật khẩu không khớp',
@@ -145,3 +153,21 @@ export const ResetPasswordBodySchema = z
   })
 
 export type ResetPasswordBodyType = z.infer<typeof ResetPasswordBodySchema>
+
+export const VerifyForgotPasswordBodySchema = z.object({
+  otpCode: z
+    .string()
+    .min(6, {
+      message: 'Mã OTP phải có đủ 6 số',
+    })
+    .regex(/^\d+$/, { message: 'Mã OTP chỉ được chứa số' }),
+})
+
+export type VerifyForgotPasswordBodyType = z.infer<typeof VerifyForgotPasswordBodySchema>
+
+export const VerifyForgotPasswordResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+})
+
+export type VerifyForgotPasswordResType = z.infer<typeof VerifyForgotPasswordResSchema>

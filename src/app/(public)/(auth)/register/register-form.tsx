@@ -24,10 +24,8 @@ import { PasswordInput } from '@/components/ui/password-input'
 
 export default function RegisterForm() {
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const [otpToken, setOtpToken] = useState<string>('')
+  const [token, setToken] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const registerMutation = useRegisterMutation()
   const form = useForm<RegisterBodyType>({
@@ -43,7 +41,7 @@ export default function RegisterForm() {
     if (registerMutation.isPending) return
     try {
       const result = await registerMutation.mutateAsync(data)
-      setOtpToken(result.payload.otp_token)
+      setToken(result.payload.otp_token)
       setEmail(data.email)
       setDialogOpen(true)
     } catch (error: any) {
@@ -160,12 +158,7 @@ export default function RegisterForm() {
           </Form>
         </CardContent>
       </Card>
-      <InputOtpFormDialog
-        open={dialogOpen}
-        setOpen={setDialogOpen}
-        email={email}
-        otp_token={otpToken}
-      />
+      <InputOtpFormDialog open={dialogOpen} setOpen={setDialogOpen} email={email} token={token} />
     </>
   )
 }

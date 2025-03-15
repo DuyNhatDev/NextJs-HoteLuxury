@@ -18,9 +18,17 @@ import { Input } from '@/components/ui/input'
 import { ForgotPasswordBodySchema, ForgotPasswordBodyType } from '@/schemaValidations/auth.schema'
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForgotPasswordMutation } from '@/queries/useAuth'
+import { handleErrorApi } from '@/lib/utils'
+import InputOtpFormDialog from '@/app/(public)/(auth)/forgot-password/verify-otp-form-dialog'
 
 export default function ForgetPasswordForm() {
   const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const [token, setToken] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const forgotPasswordMutation = useForgotPasswordMutation()
   const form = useForm<ForgotPasswordBodyType>({
     resolver: zodResolver(ForgotPasswordBodySchema),
     defaultValues: {
@@ -28,14 +36,18 @@ export default function ForgetPasswordForm() {
     },
   })
 
-  async function onSubmit(values: ForgotPasswordBodyType) {
+  const onSubmit = async (data: ForgotPasswordBodyType) => {
+    if (forgotPasswordMutation.isPending) return
     try {
-      // Assuming a function to send reset email
-      console.log(values)
-      toast.success('Password reset email sent. Please check your inbox.')
-    } catch (error) {
-      console.error('Error sending password reset email', error)
-      toast.error('Failed to send password reset email. Please try again.')
+      const result = await forgotPasswordMutation.mutateAsync(data)
+      setToken(result.payload.data)
+      setEmail(data.email)
+      setDialogOpen(true)
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
     }
   }
 
@@ -86,6 +98,12 @@ export default function ForgetPasswordForm() {
           </Form>
         </CardContent>
       </Card>
+      <InputOtpFormDialog
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+        email={email}
+        token={token}
+      />
     </div>
   )
 }

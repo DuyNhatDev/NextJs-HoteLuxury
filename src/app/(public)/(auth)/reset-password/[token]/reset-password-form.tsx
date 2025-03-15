@@ -21,7 +21,7 @@ export default function ResetPasswordForm() {
   const form = useForm<ResetPasswordBodyType>({
     resolver: zodResolver(ResetPasswordBodySchema),
     defaultValues: {
-      newPassword: '',
+      password: '',
       confirmPassword: '',
     },
   })
@@ -51,7 +51,7 @@ export default function ResetPasswordForm() {
               <div className="grid gap-4">
                 <FormField
                   control={form.control}
-                  name="newPassword"
+                  name="password"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
                       <FormLabel htmlFor="password">Mật khẩu mới</FormLabel>

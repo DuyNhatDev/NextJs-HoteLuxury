@@ -41,17 +41,17 @@ export default function InputOtpFormDialog({
   })
 
   const onSubmit = async (data: VerifyAccountBodyType) => {
-    if (verifyAccountMutation.isPending) return
-    try {
-      const result = await verifyAccountMutation.mutateAsync({ body: data, token })
-      toast.success(result.payload.message)
-      router.push('/login')
-    } catch (error: any) {
-      handleErrorApi({
-        error,
-        setError: form.setError,
-      })
-    }
+    // if (verifyAccountMutation.isPending) return
+    // try {
+    //   const result = await verifyAccountMutation.mutateAsync({ body: data, otp_token })
+    //   toast.success(result.payload.message)
+    //   router.push('/login')
+    // } catch (error: any) {
+    //   handleErrorApi({
+    //     error,
+    //     setError: form.setError,
+    //   })
+    // }
   }
 
   useEffect(() => {

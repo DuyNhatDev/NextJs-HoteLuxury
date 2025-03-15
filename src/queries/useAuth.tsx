@@ -1,5 +1,9 @@
 import authApiRequest from '@/apiRequests/auth'
-import { VerifyAccountBodyType } from '@/schemaValidations/auth.schema'
+import {
+  ResetPasswordBodyType,
+  VerifyAccountBodyType,
+  VerifyForgotPasswordBodyType,
+} from '@/schemaValidations/auth.schema'
 import { useMutation } from '@tanstack/react-query'
 
 export const useRegisterMutation = () => {
@@ -10,8 +14,8 @@ export const useRegisterMutation = () => {
 
 export const useVerifyAccountMutation = () => {
   return useMutation({
-    mutationFn: ({ body, otp_token }: { body: VerifyAccountBodyType; otp_token: string }) =>
-      authApiRequest.verifyAccount(body, otp_token),
+    mutationFn: ({ body, token }: { body: VerifyAccountBodyType; token: string }) =>
+      authApiRequest.verifyAccount(body, token),
   })
 }
 export const useLoginMutation = () => {
@@ -29,5 +33,23 @@ export const useLoginByGoogleMutation = () => {
 export const useLogoutMutation = () => {
   return useMutation({
     mutationFn: authApiRequest.logout,
+  })
+}
+
+export const useForgotPasswordMutation = () => {
+  return useMutation({
+    mutationFn: authApiRequest.forgotPassword,
+  })
+}
+export const useForgetPasswordMutation = () => {
+  return useMutation({
+    mutationFn: ({ body, token }: { body: VerifyForgotPasswordBodyType; token: string }) =>
+      authApiRequest.verifyForgetPassword(body, token),
+  })
+}
+export const useResetPasswordMutation = () => {
+  return useMutation({
+    mutationFn: ({ body, token }: { body: ResetPasswordBodyType; token: string }) =>
+      authApiRequest.resetPassword(body, token),
   })
 }

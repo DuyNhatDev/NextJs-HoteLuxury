@@ -1,5 +1,7 @@
 import http from '@/lib/http'
 import {
+  ForgotPasswordBodyType,
+  ForgotPasswordResType,
   LoginBodyType,
   LoginByGoogleBodyType,
   LoginResType,
@@ -8,8 +10,11 @@ import {
   RefreshTokenResType,
   RegisterBodyType,
   RegisterResType,
+  ResetPasswordBodyType,
   VerifyAccountBodyType,
   VerifyAccountResType,
+  VerifyForgotPasswordBodyType,
+  VerifyForgotPasswordResType,
 } from '@/schemaValidations/auth.schema'
 
 const authApiRequest = {
@@ -18,8 +23,8 @@ const authApiRequest = {
     payload: RefreshTokenResType
   }> | null,
   register: (body: RegisterBodyType) => http.post<RegisterResType>('/auth/sign-up', body),
-  verifyAccount: (body: VerifyAccountBodyType, otp_token: string) =>
-    http.post<VerifyAccountResType>(`/auth/verify-account/${otp_token}`, body),
+  verifyAccount: (body: VerifyAccountBodyType, token: string) =>
+    http.post<VerifyAccountResType>(`/auth/verify-account/${token}`, body),
   sLogin: (body: LoginBodyType) => http.post<LoginResType>('/auth/sign-in', body),
   login: (body: LoginBodyType) =>
     http.post<LoginResType>('/api/auth/login', body, {
@@ -61,5 +66,11 @@ const authApiRequest = {
     this.refreshTokenRequest = null
     return result
   },
+  forgotPassword: (body: ForgotPasswordBodyType) =>
+    http.post<ForgotPasswordResType>('/auth/forgot-password', body),
+  verifyForgetPassword: (body: VerifyForgotPasswordBodyType, token: string) =>
+    http.post<VerifyForgotPasswordResType>(`/auth/forgot-password/${token}`, body),
+  resetPassword: (body: ResetPasswordBodyType, token: string) =>
+    http.post(`/auth/reset-password/${token}`, body),
 }
 export default authApiRequest
