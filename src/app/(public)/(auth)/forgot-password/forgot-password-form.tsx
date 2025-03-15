@@ -2,8 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-
 import {
   Form,
   FormControl,
@@ -35,7 +33,6 @@ export default function ForgetPasswordForm() {
       email: '',
     },
   })
-
   const onSubmit = async (data: ForgotPasswordBodyType) => {
     if (forgotPasswordMutation.isPending) return
     try {
@@ -51,7 +48,6 @@ export default function ForgetPasswordForm() {
       })
     }
   }
-
   return (
     <div className="flex min-h-[40vh] h-full w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
@@ -71,7 +67,6 @@ export default function ForgetPasswordForm() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" noValidate>
               <div className="grid gap-4">
-                {/* Email Field */}
                 <FormField
                   control={form.control}
                   name="email"

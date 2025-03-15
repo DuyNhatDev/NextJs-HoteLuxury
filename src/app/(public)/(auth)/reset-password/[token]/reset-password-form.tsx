@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-
 import {
   Form,
   FormControl,
@@ -19,6 +18,7 @@ import { ResetPasswordBodySchema, ResetPasswordBodyType } from '@/schemaValidati
 import { useResetPasswordMutation } from '@/queries/useAuth'
 import { useRouter } from 'next/navigation'
 import { handleErrorApi } from '@/lib/utils'
+import { ArrowLeft } from 'lucide-react'
 interface ResetPasswordFormProps {
   token: string
 }
@@ -50,7 +50,13 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   return (
     <div className="flex min-h-[50vh] h-full w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
-        <CardHeader>
+        <CardHeader className="relative flex items-center w-full px-4">
+          <ArrowLeft
+            className="absolute left-5 cursor-pointer"
+            onClick={() => {
+              router.back()
+            }}
+          />
           <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">
             Đặt lại mật khẩu
           </CardTitle>
