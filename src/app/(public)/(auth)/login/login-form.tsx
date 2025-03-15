@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -21,7 +20,7 @@ import {
 } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLoginByGoogleMutation, useLoginMutation } from '@/queries/useAuth'

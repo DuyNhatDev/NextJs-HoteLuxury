@@ -3,9 +3,10 @@ import { EntityError, HttpError } from '@/lib/http'
 import { clsx, type ClassValue } from 'clsx'
 import { UseFormSetError } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
-import jwt from 'jsonwebtoken'
+import { jwtDecode } from 'jwt-decode'
 import { format } from 'date-fns'
 import authApiRequest from '@/apiRequests/auth'
+import { TokenPayload } from '@/types/jwt.types'
 
 export const handleErrorApi = ({
   error,
@@ -41,35 +42,27 @@ const isBrowser = typeof window !== 'undefined'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-
 export const normalizePath = (path: string) => {
   return path.startsWith('/') ? path.slice(1) : path
 }
-
 export const getAccessTokenFromLocalStorage = () => {
   return isBrowser ? localStorage.getItem('accessToken') : null
 }
-
 export const getRefreshTokenFromLocalStorage = () => {
   return isBrowser ? localStorage.getItem('refreshToken') : null
 }
-
 export const setAccessTokenToLocalStorage = (value: string) => {
   return isBrowser && localStorage.setItem('accessToken', value)
 }
-
 export const setRefreshTokenToLocalStorage = (value: string) => {
   return isBrowser && localStorage.setItem('refreshToken', value)
 }
-
 export const setUserIdToLocalStorage = (value: string) => {
   return isBrowser && localStorage.setItem('userId', value)
 }
-
 export const getUserIdFromLocalStorage = () => {
   return isBrowser ? localStorage.getItem('userId') : null
 }
-
 export const removeTokensFromLocalStorage = () => {
   if (isBrowser) {
     localStorage.removeItem('accessToken')
@@ -77,7 +70,9 @@ export const removeTokensFromLocalStorage = () => {
     localStorage.removeItem('userId')
   }
 }
-
+export const decodeToken = (token: string) => {
+  return jwtDecode<TokenPayload>(token)
+}
 export const checkAndRefreshToken = async (param?: {
   onError?: () => void
   onSuccess?: () => void
@@ -85,11 +80,11 @@ export const checkAndRefreshToken = async (param?: {
   const accessToken = getAccessTokenFromLocalStorage()
   const refreshToken = getRefreshTokenFromLocalStorage()
   if (!accessToken || !refreshToken) return
-  const decodedAccessToken = jwt.decode(accessToken) as {
+  const decodedAccessToken = decodeToken(accessToken) as {
     exp: number
     iat: number
   }
-  const decodedRefreshToken = jwt.decode(refreshToken) as {
+  const decodedRefreshToken = decodeToken(refreshToken) as {
     exp: number
     iat: number
   }
@@ -98,9 +93,7 @@ export const checkAndRefreshToken = async (param?: {
     removeTokensFromLocalStorage()
     return param?.onError && param.onError()
   }
-
   if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
-    // Gọi API refresh token
     try {
       const res = await authApiRequest.refreshToken()
       setAccessTokenToLocalStorage(res.payload.access_token)
@@ -111,7 +104,6 @@ export const checkAndRefreshToken = async (param?: {
     }
   }
 }
-
 export const formatCurrency = (number: number) => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -119,9 +111,6 @@ export const formatCurrency = (number: number) => {
   }).format(number)
 }
 
-// export const decodeToken = (token: string) => {
-//   return jwt.decode(token) as TokenPayload
-// }
 export function removeAccents(str: string) {
   return str
     .normalize('NFD')
@@ -137,7 +126,6 @@ export const simpleMatchText = (fullText: string, matchText: string) => {
 export const formatDateTimeToLocaleString = (date: string | Date) => {
   return format(date instanceof Date ? date : new Date(date), 'HH:mm:ss dd/MM/yyyy')
 }
-
 export const formatDateTimeToTimeString = (date: string | Date) => {
   return format(date instanceof Date ? date : new Date(date), 'HH:mm:ss')
 }

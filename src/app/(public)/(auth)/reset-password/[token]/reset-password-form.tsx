@@ -1,5 +1,4 @@
 'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -46,7 +45,6 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       })
     }
   }
-
   return (
     <div className="flex min-h-[50vh] h-full w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
@@ -91,7 +89,6 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     </FormItem>
                   )}
                 />
-
                 <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
                   Xác nhận
                 </Button>
