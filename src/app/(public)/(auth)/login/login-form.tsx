@@ -5,7 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import {
   CredentialResType,
   LoginBodySchema,
@@ -22,6 +29,7 @@ import { useAppContext } from '@/components/app-provider'
 import { toast } from 'sonner'
 import { useGoogleLogin } from '@react-oauth/google'
 import Image from 'next/image'
+import { PasswordInput } from '@/components/ui/password-input'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -117,8 +125,10 @@ export default function LoginForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="grid gap-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" required {...field} />
+                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormControl>
+                        <Input id="email" type="email" required {...field} />
+                      </FormControl>
                       <FormMessage />
                     </div>
                   </FormItem>
@@ -130,7 +140,7 @@ export default function LoginForm() {
                 render={({ field }) => (
                   <FormItem className="grid gap-2">
                     <div className="flex justify-between items-center">
-                      <Label htmlFor="password">Mật khẩu</Label>
+                      <FormLabel htmlFor="password">Mật khẩu</FormLabel>
                       <Link
                         href="/forgot-password"
                         className="text-sm text-blue-700 underline cursor-pointer"
@@ -138,27 +148,14 @@ export default function LoginForm() {
                         Quên mật khẩu?
                       </Link>
                     </div>
-                    <div className="relative">
-                      <Input
+                    <FormControl>
+                      <PasswordInput
                         id="password"
                         type={showPassword ? 'text' : 'password'}
                         required
                         {...field}
                       />
-                      <button
-                        type="button"
-                        className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                        onClick={() => {
-                          setShowPassword((prev) => !prev)
-                        }}
-                      >
-                        {showPassword ? (
-                          <EyeOffIcon className="w-5 h-5 cursor-pointer" />
-                        ) : (
-                          <EyeIcon className="w-5 h-5 cursor-pointer" />
-                        )}
-                      </button>
-                    </div>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

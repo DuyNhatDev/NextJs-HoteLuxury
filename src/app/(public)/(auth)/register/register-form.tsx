@@ -3,17 +3,24 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { RegisterBodySchema, RegisterBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import { EyeIcon, EyeOffIcon, ArrowLeft } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useRegisterMutation } from '@/queries/useAuth'
 import InputOtpFormDialog from '@/app/(public)/(auth)/register/otp-form-dialog'
+import { PasswordInput } from '@/components/ui/password-input'
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -32,13 +39,6 @@ export default function RegisterForm() {
       confirmPassword: '',
     },
   })
-  const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
-    if (key === 'password') {
-      setShowPassword((prev) => !prev)
-    } else {
-      setShowConfirmPassword((prev) => !prev)
-    }
-  }
   const onSubmit = async (data: RegisterBodyType) => {
     if (registerMutation.isPending) return
     try {
@@ -74,16 +74,18 @@ export default function RegisterForm() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="grid gap-2">
-                        <Label htmlFor="fullname">
+                        <FormLabel htmlFor="fullname">
                           Họ và tên <span className="text-red-500">*</span>
-                        </Label>
-                        <Input
-                          id="fullname"
-                          placeholder="Ví dụ: Nguyen Van A"
-                          type="text"
-                          required
-                          {...field}
-                        />
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            id="fullname"
+                            placeholder="Ví dụ: Nguyen Van A"
+                            type="text"
+                            required
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -95,16 +97,18 @@ export default function RegisterForm() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="grid gap-2">
-                        <Label htmlFor="email">
+                        <FormLabel htmlFor="email">
                           Email <span className="text-red-500">*</span>
-                        </Label>
-                        <Input
-                          id="email"
-                          placeholder="Ví dụ: example@gmail.com"
-                          type="email"
-                          required
-                          {...field}
-                        />
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            id="email"
+                            placeholder="Ví dụ: example@gmail.com"
+                            type="email"
+                            required
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -116,28 +120,10 @@ export default function RegisterForm() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="grid gap-2 relative">
-                        <Label htmlFor="password">
+                        <FormLabel htmlFor="password">
                           Mật khẩu <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative">
-                          <Input
-                            id="password"
-                            type={showPassword ? 'text' : 'password'}
-                            required
-                            {...field}
-                          />
-                          <button
-                            type="button"
-                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                            onClick={() => togglePasswordVisibility('password')}
-                          >
-                            {showPassword ? (
-                              <EyeOffIcon className="w-5 h-5" />
-                            ) : (
-                              <EyeIcon className="w-5 h-5" />
-                            )}
-                          </button>
-                        </div>
+                        </FormLabel>
+                        <PasswordInput id="password" required {...field} />
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -149,28 +135,12 @@ export default function RegisterForm() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="grid gap-2 relative">
-                        <Label htmlFor="confirmPassword">
+                        <FormLabel htmlFor="confirmPassword">
                           Nhập lại mật khẩu <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative">
-                          <Input
-                            id="confirmPassword"
-                            type={showConfirmPassword ? 'text' : 'password'}
-                            required
-                            {...field}
-                          />
-                          <button
-                            type="button"
-                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                            onClick={() => togglePasswordVisibility('confirmPassword')}
-                          >
-                            {showConfirmPassword ? (
-                              <EyeOffIcon className="w-5 h-5" />
-                            ) : (
-                              <EyeIcon className="w-5 h-5" />
-                            )}
-                          </button>
-                        </div>
+                        </FormLabel>
+                        <FormControl>
+                          <PasswordInput id="confirmPassword" required {...field} />
+                        </FormControl>
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -181,10 +151,7 @@ export default function RegisterForm() {
                 </Button>
                 <div className="flex items-center justify-center">
                   <span className="text-sm text-gray-500 px-2">Bạn đã có tài khoản?</span>
-                  <Link
-                    href="/login"
-                    className="text-sm text-blue-700 underline cursor-pointer"
-                  >
+                  <Link href="/login" className="text-sm text-blue-700 underline cursor-pointer">
                     Đăng nhập
                   </Link>
                 </div>

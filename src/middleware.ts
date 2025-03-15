@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const privatePaths = ['admin, /manage']
-const unAuthPaths = ['/login', '/register', '/forgot-password']
+const unAuthPaths = ['/login', '/register', '/forgot-password', '/reset-password']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl

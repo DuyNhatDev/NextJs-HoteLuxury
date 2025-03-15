@@ -127,3 +127,21 @@ export const ForgotPasswordBodySchema = z.object({
 })
 
 export type ForgotPasswordBodyType = z.infer<typeof ForgotPasswordBodySchema>
+
+export const ResetPasswordBodySchema = z
+  .object({
+    newPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+  })
+  .strict()
+  .superRefine(({ confirmPassword, newPassword }, ctx) => {
+    if (confirmPassword !== newPassword) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Mật khẩu không khớp',
+        path: ['confirmPassword'],
+      })
+    }
+  })
+
+export type ResetPasswordBodyType = z.infer<typeof ResetPasswordBodySchema>

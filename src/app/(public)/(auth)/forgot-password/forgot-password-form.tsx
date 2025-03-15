@@ -49,7 +49,9 @@ export default function ForgetPasswordForm() {
               router.back()
             }}
           />
-          <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">Quên mật khẩu</CardTitle>
+          <CardTitle className="text-2xl text-center font-bold text-blue-900 mx-auto">
+            Quên mật khẩu
+          </CardTitle>
           <CardDescription>Nhập email của bạn để nhận link đặt lại mật khẩu.</CardDescription>
         </CardHeader>
         <CardContent>
