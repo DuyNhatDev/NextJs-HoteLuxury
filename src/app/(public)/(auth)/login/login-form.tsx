@@ -128,49 +128,41 @@ export default function LoginForm() {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <div className="grid gap-2 relative">
+                  <FormItem className="grid gap-2">
+                    <div className="flex justify-between items-center">
                       <Label htmlFor="password">Mật khẩu</Label>
-                      <div className="relative">
-                        <Input
-                          id="password"
-                          type={showPassword ? 'text' : 'password'}
-                          required
-                          {...field}
-                        />
-                        <button
-                          type="button"
-                          className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                          onClick={() => {
-                            setShowPassword((prev) => !prev)
-                          }}
-                        >
-                          {showPassword ? (
-                            <EyeOffIcon className="w-5 h-5 cursor-pointer" />
-                          ) : (
-                            <EyeIcon className="w-5 h-5 cursor-pointer" />
-                          )}
-                        </button>
-                      </div>
-                      <FormMessage />
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm text-blue-700 underline cursor-pointer"
+                      >
+                        Quên mật khẩu?
+                      </Link>
                     </div>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        required
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                        onClick={() => {
+                          setShowPassword((prev) => !prev)
+                        }}
+                      >
+                        {showPassword ? (
+                          <EyeOffIcon className="w-5 h-5 cursor-pointer" />
+                        ) : (
+                          <EyeIcon className="w-5 h-5 cursor-pointer" />
+                        )}
+                      </button>
+                    </div>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="flex justify-between items-center">
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-blue-700 hover:underline cursor-pointer"
-                >
-                  Quên mật khẩu?
-                </Link>
-                <Link
-                  href="/register"
-                  className="text-sm text-blue-700 hover:underline cursor-pointer"
-                >
-                  Đăng ký tài khoản
-                </Link>
-              </div>
               <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
                 Đăng nhập
               </Button>
@@ -191,6 +183,12 @@ export default function LoginForm() {
             </div>
           </form>
         </Form>
+        <div className="mt-4 text-center text-sm text-gray-500 px-2">
+          Bạn chưa có tài khoản?{' '}
+          <Link href="register" className="text-sm text-blue-700 underline cursor-pointer">
+            Đăng ký
+          </Link>
+        </div>
       </CardContent>
     </Card>
   )

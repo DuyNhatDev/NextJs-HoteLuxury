@@ -183,7 +183,7 @@ export default function RegisterForm() {
                   <span className="text-sm text-gray-500 px-2">Bạn đã có tài khoản?</span>
                   <Link
                     href="/login"
-                    className="text-sm text-blue-700 hover:underline cursor-pointer"
+                    className="text-sm text-blue-700 underline cursor-pointer"
                   >
                     Đăng nhập
                   </Link>
