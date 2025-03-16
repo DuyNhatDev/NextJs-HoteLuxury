@@ -80,14 +80,8 @@ export const checkAndRefreshToken = async (param?: {
   const accessToken = getAccessTokenFromLocalStorage()
   const refreshToken = getRefreshTokenFromLocalStorage()
   if (!accessToken || !refreshToken) return
-  const decodedAccessToken = decodeToken(accessToken) as {
-    exp: number
-    iat: number
-  }
-  const decodedRefreshToken = decodeToken(refreshToken) as {
-    exp: number
-    iat: number
-  }
+  const decodedAccessToken = decodeToken(accessToken)
+  const decodedRefreshToken = decodeToken(refreshToken)
   const now = new Date().getTime() / 1000 - 1
   if (decodedRefreshToken.exp <= now) {
     removeTokensFromLocalStorage()

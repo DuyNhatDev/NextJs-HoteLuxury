@@ -36,7 +36,6 @@ export default function LoginForm() {
   const searchParams = useSearchParams()
   const clearTokens = searchParams.get('clearTokens')
   const { setIsAuth } = useAppContext()
-  const [showPassword, setShowPassword] = useState(false)
   const loginMutation = useLoginMutation()
   const loginByGoogleMutation = useLoginByGoogleMutation()
   const form = useForm<LoginBodyType>({
@@ -145,7 +144,6 @@ export default function LoginForm() {
                     <FormControl>
                       <PasswordInput
                         id="password"
-                        type={showPassword ? 'text' : 'password'}
                         required
                         {...field}
                       />

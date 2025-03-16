@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const privatePaths = ['/admin, /manage']
+const privatePaths = ['/admin', '/manage']
 const unAuthPaths = ['/login', '/register', '/forgot-password', '/reset-password']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const accessToken = request.cookies.get('accessToken')?.value
   const refreshToken = request.cookies.get('refreshToken')?.value
-  // Chưa đăng nhập thì không cho vào private paths
   if (privatePaths.some((path) => pathname.startsWith(path)) && !refreshToken) {
     const url = new URL('/login', request.url)
     url.searchParams.set('clearTokens', 'true')
@@ -29,5 +28,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/manage/:path*', ...unAuthPaths],
+  matcher: ['/manage', '/manage/:path*', '/admin', '/admin/:path*', ...unAuthPaths],
 }

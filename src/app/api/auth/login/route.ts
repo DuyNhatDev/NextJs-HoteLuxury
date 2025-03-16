@@ -10,8 +10,8 @@ export async function POST(request: Request) {
   try {
     const { payload } = await authApiRequest.sLogin(body)
     const { access_token, refresh_token } = payload
-    const decodedAccessToken = decodeToken(access_token) as { exp: number }
-    const decodedRefreshToken = decodeToken(refresh_token) as { exp: number }
+    const decodedAccessToken = decodeToken(access_token)
+    const decodedRefreshToken = decodeToken(refresh_token)
     cookieStore.set('accessToken', access_token, {
       path: '/',
       httpOnly: true,

@@ -19,12 +19,8 @@ export async function POST(request: Request) {
     const { payload } = await authApiRequest.sRefreshToken({
       refresh_token: refreshToken,
     })
-    const decodedAccessToken = decodeToken(payload.access_token) as {
-      exp: number
-    }
-    const decodedRefreshToken = decodeToken(payload.refresh_token) as {
-      exp: number
-    }
+    const decodedAccessToken = decodeToken(payload.access_token)
+    const decodedRefreshToken = decodeToken(payload.refresh_token)
     cookieStore.set('accessToken', payload.access_token, {
       path: '/',
       httpOnly: true,
@@ -41,7 +37,6 @@ export async function POST(request: Request) {
     })
     return Response.json(payload)
   } catch (error: any) {
-    console.log('lỗi')
     return Response.json(
       {
         message: error.message ?? 'Có lỗi xảy ra',
