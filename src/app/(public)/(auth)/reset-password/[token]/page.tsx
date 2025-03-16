@@ -1,5 +1,10 @@
 import ResetPasswordForm from '@/app/(public)/(auth)/reset-password/[token]/reset-password-form'
+import { Metadata } from 'next'
 
+export const metadata: Metadata = {
+  title: 'Đặt lại mật khẩu',
+  description: 'The booking hotel app',
+}
 export default async function ResetPasswordPage({
   params,
 }: {

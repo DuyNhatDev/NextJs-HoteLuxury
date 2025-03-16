@@ -14,7 +14,7 @@ const fontSans = FontSans({
   variable: '--font-sans',
 })
 export const metadata: Metadata = {
-  title: 'HoteLuxury',
+  title: 'Đặt phòng khách sạn trực tuyến',
   description: 'The booking hotel app',
 }
 const clientId = envConfig.NEXT_PUBLIC_GG_CLIENT_ID
