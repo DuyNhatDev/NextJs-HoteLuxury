@@ -20,3 +20,8 @@ export interface Location {
   district: District[]
   ward: Ward[]
 }
+
+export interface LocationInit {
+  id: string
+  name: string
+}

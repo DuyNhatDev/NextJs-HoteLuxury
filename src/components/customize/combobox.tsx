@@ -1,8 +1,6 @@
 'use client'
-
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,51 +15,69 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 interface ComboboxProps {
   items: { value: string; label: string }[]
-  defaultValue?: string
+  value?: string
   placeholder?: string
   onChange?: (value: string) => void
+  disabled?: boolean
+  className?: string
 }
 
 export default function Combobox({
   items,
-  defaultValue = '',
+  value = '',
   placeholder = 'Select an option...',
   onChange,
+  disabled = false,
+  className = '',
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState(defaultValue)
+  const [selectedValue, setSelectedValue] = useState(value)
+
+  useEffect(() => {
+    setSelectedValue(value)
+  }, [value])
 
   const handleSelect = (currentValue: string) => {
-    const newValue = currentValue === value ? '' : currentValue
-    setValue(newValue)
+    if (disabled) return
+    const newValue = currentValue === selectedValue ? '' : currentValue
+    setSelectedValue(newValue)
     setOpen(false)
     onChange?.(newValue)
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={(state) => !disabled && setOpen(state)}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn('w-[200px] justify-between', className)}
+          disabled={disabled}
         >
-          {value ? items.find((item) => item.value === value)?.label : placeholder}
+          {selectedValue ? items.find((item) => item.value === selectedValue)?.label : placeholder}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={cn('w-[200px] p-0', className)}>
         <Command>
-          <CommandInput placeholder="Search..." className="h-9" />
+          <CommandInput placeholder="Search..." className="h-9" disabled={disabled} />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {items.map((item) => (
-                <CommandItem key={item.value} value={item.value} onSelect={handleSelect}>
+                <CommandItem
+                  key={item.value}
+                  onSelect={() => handleSelect(item.value)}
+                  data-value={item.value}
+                  className={cn(disabled && 'opacity-50 pointer-events-none')}
+                >
                   {item.label}
                   <Check
-                    className={cn('ml-auto', value === item.value ? 'opacity-100' : 'opacity-0')}
+                    className={cn(
+                      'ml-auto',
+                      selectedValue === item.value ? 'opacity-100' : 'opacity-0'
+                    )}
                   />
                 </CommandItem>
               ))}

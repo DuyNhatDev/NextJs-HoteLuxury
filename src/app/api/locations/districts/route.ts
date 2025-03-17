@@ -3,7 +3,7 @@ import { Location } from '@/types/location.types'
 import fs from 'fs'
 import path from 'path'
 
-const filePath = path.join(process.cwd(), 'src', 'data', 'db.json')
+const filePath = path.join(process.cwd(), 'src', 'data', 'location.json')
 
 export async function GET(req: Request) {
   try {

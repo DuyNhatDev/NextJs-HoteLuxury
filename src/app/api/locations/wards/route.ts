@@ -3,7 +3,7 @@ import path from 'path'
 import { Location } from '@/types/location.types'
 import { HttpError } from '@/lib/http'
 
-const filePath = path.join(process.cwd(), 'src', 'data', 'db.json')
+const filePath = path.join(process.cwd(), 'src', 'data', 'location.json')
 
 export async function GET(req: Request) {
   try {
