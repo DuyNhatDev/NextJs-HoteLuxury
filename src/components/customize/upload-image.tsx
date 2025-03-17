@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form'
 
 // ** Import Custom Components
-import { MultiImageUpload } from '@/components/upload/multi-image-upload'
+import { MultiImageUpload } from '@/components/customize/multi-image-upload'
 
 // Define the form schema
 const schema = z.object({
