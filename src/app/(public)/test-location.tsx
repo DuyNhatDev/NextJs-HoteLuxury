@@ -2,13 +2,13 @@
 
 import Combobox from '@/components/customize/combobox'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLocation'
-import { LocationInit } from '@/types/location.types'
+import { SelectLocation } from '@/types/location.types'
 import { useEffect, useState } from 'react'
 
 export default function LocationSelector() {
-  const [selectedProvince, setSelectedProvince] = useState<LocationInit>({ id: '', name: '' })
-  const [selectedDistrict, setSelectedDistrict] = useState<LocationInit>({ id: '', name: '' })
-  const [selectedWard, setSelectedWard] = useState<LocationInit>({ id: '', name: '' })
+  const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
+  const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
+  const [selectedWard, setSelectedWard] = useState<SelectLocation>({ id: '', name: '' })
 
   const provincesQueries = useGetProvinces()
   const districtsQueries = useGetDistricts(selectedProvince.id)

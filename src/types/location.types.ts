@@ -21,7 +21,7 @@ export interface Location {
   ward: Ward[]
 }
 
-export interface LocationInit {
+export interface SelectLocation {
   id: string
   name: string
 }

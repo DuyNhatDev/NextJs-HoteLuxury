@@ -47,7 +47,7 @@ export default function InputOtpFormDialog({
     if (verifyForgotPasswordMutation.isPending) return
     try {
       await verifyForgotPasswordMutation.mutateAsync({ body: data, token })
-      router.push(`/reset-password/${token}`)
+      router.push(`/reset-password?token=${encodeURIComponent(token!)}`)
     } catch (error: any) {
       handleErrorApi({
         error,

@@ -15,14 +15,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PasswordInput } from '@/components/ui/password-input'
 import { ResetPasswordBodySchema, ResetPasswordBodyType } from '@/schemaValidations/auth.schema'
 import { useResetPasswordMutation } from '@/queries/useAuth'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { handleErrorApi } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
-interface ResetPasswordFormProps {
-  token: string
-}
-export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+export default function ResetPasswordForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token')
   const resetPasswordMutation = useResetPasswordMutation()
   const form = useForm<ResetPasswordBodyType>({
     resolver: zodResolver(ResetPasswordBodySchema),
@@ -35,7 +34,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const onSubmit = async (data: ResetPasswordBodyType) => {
     if (resetPasswordMutation.isPending) return
     try {
-      await resetPasswordMutation.mutateAsync({ body: data, token })
+      await resetPasswordMutation.mutateAsync({ body: data, token: token! })
       toast.success('Đặt lại mật khẩu thành công')
       router.push('/login')
     } catch (error: any) {
