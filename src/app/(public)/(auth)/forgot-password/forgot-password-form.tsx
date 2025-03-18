@@ -37,7 +37,6 @@ export default function ForgetPasswordForm() {
     if (forgotPasswordMutation.isPending) return
     try {
       const result = await forgotPasswordMutation.mutateAsync(data)
-      console.log(result.payload)
       setToken(result.payload.data)
       setEmail(data.email)
       setDialogOpen(true)

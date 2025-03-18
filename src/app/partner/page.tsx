@@ -1,7 +1,7 @@
 export default function ManagePage() {
   return (
     <div>
-      <h1>Manage Page</h1>
+      <h1>Partner Page</h1>
     </div>
   )
 }

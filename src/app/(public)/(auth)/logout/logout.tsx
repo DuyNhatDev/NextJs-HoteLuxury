@@ -1,5 +1,5 @@
 'use client'
-import { useAppContext } from '@/components/app-provider'
+import { useAppStore } from '@/components/app-provider'
 import { getAccessTokenFromLocalStorage, getRefreshTokenFromLocalStorage } from '@/lib/utils'
 import { useLogoutMutation } from '@/queries/useAuth'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -8,7 +8,7 @@ import { useEffect, useRef } from 'react'
 export default function Logout() {
   const { mutateAsync } = useLogoutMutation()
   const router = useRouter()
-  const { setIsAuth } = useAppContext()
+  const setRole = useAppStore((state) => state.setRole)
   const searchParams = useSearchParams()
   const accessTokenFromUrl = searchParams.get('accessToken')
   const refreshTokenFromUrl = searchParams.get('refreshToken')
@@ -24,12 +24,12 @@ export default function Logout() {
         setTimeout(() => {
           ref.current = null
         }, 1000)
-        setIsAuth(false)
+        setRole()
         router.push('/login')
       })
     } else {
       router.push('/')
     }
-  }, [mutateAsync, router, accessTokenFromUrl, refreshTokenFromUrl, setIsAuth])
+  }, [mutateAsync, router, accessTokenFromUrl, refreshTokenFromUrl, setRole])
   return null
 }

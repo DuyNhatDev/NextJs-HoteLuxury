@@ -72,7 +72,7 @@ export const LoginResSchema = z.object({
   status: z.string(),
   access_token: z.string(),
   refresh_token: z.string(),
-  roleId: z.enum([Role.Admin, Role.Manager, Role.Client]),
+  roleId: z.enum([Role.Admin, Role.Partner, Role.Client]),
   userId: z.number(),
   fullname: z.string(),
   message: z.string(),

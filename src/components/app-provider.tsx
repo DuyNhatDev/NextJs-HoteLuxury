@@ -2,8 +2,14 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import RefreshToken from '@/components/refresh-token'
-import { createContext, useContext, useEffect, useState } from 'react'
-import { getAccessTokenFromLocalStorage, removeTokensFromLocalStorage } from '@/lib/utils'
+import { useEffect, useRef } from 'react'
+import {
+  decodeToken,
+  getAccessTokenFromLocalStorage,
+  removeTokensFromLocalStorage,
+} from '@/lib/utils'
+import { create } from 'zustand'
+import { RoleType } from '@/types/jwt.types'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,39 +18,41 @@ const queryClient = new QueryClient({
     },
   },
 })
-
-const AppContext = createContext({
-  isAuth: false,
-  setIsAuth: (isAuth: boolean) => {},
-})
-export const useAppContext = () => {
-  return useContext(AppContext)
+interface AppStoreType {
+  isAuth: boolean
+  role: RoleType | undefined
+  setRole: (role?: RoleType | undefined) => void
 }
 
-export default function AppProvider({ children }: { children: React.ReactNode }) {
-  const [isAuth, setIsAuthState] = useState(false)
-  useEffect(() => {
-    const accessToken = getAccessTokenFromLocalStorage()
-    if (accessToken) {
-      setIsAuthState(true)
-    }
-  }, [])
-
-  const setIsAuth = (isAuth: boolean) => {
-    if (isAuth) {
-      setIsAuthState(true)
-    } else {
-      setIsAuthState(false)
+export const useAppStore = create<AppStoreType>((set) => ({
+  isAuth: false,
+  role: undefined as RoleType | undefined,
+  setRole: (role?: RoleType | undefined) => {
+    set({ role, isAuth: Boolean(role) })
+    if (!role) {
       removeTokensFromLocalStorage()
     }
-  }
+  },
+}))
+export default function AppProvider({ children }: { children: React.ReactNode }) {
+  const setRole = useAppStore((state) => state.setRole)
+  const count = useRef(0)
+
+  useEffect(() => {
+    if (count.current === 0) {
+      const accessToken = getAccessTokenFromLocalStorage()
+      if (accessToken) {
+        const role = decodeToken(accessToken).roleId
+        setRole(role)
+      }
+      count.current++
+    }
+  }, [setRole])
   return (
-    <AppContext value={{ isAuth, setIsAuth }}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <RefreshToken />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </AppContext>
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <RefreshToken />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }

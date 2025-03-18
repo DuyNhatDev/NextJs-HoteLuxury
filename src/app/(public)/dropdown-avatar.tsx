@@ -12,11 +12,12 @@ import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useLogoutMutation } from '@/queries/useAuth'
-import { useAppContext } from '@/components/app-provider'
 import { useGetAccount } from '@/queries/useAccount'
+import { useAppStore } from '@/components/app-provider'
 
 export default function DropdownAvatar() {
-  const { isAuth, setIsAuth } = useAppContext()
+  const role = useAppStore((state) => state.role)
+  const setRole = useAppStore((state) => state.setRole)
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
   const userId = getUserIdFromLocalStorage()
@@ -27,7 +28,7 @@ export default function DropdownAvatar() {
     if (logoutMutation.isPending) return
     try {
       await logoutMutation.mutateAsync()
-      setIsAuth(false)
+      setRole()
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
@@ -44,11 +45,11 @@ export default function DropdownAvatar() {
             <Avatar>
               <AvatarImage src={image || '/image/no-avatar.png'} />
             </Avatar>
-            <ChevronDown className='text-white'/>
+            <ChevronDown className="text-white" />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center">
-          {isAuth ? (
+          {role ? (
             <>
               <DropdownMenuItem>
                 <CircleUser className="mr-2 h-4 w-4" />

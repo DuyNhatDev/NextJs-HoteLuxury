@@ -6,11 +6,11 @@ export const TokenType = {
 
 export const Role = {
   Admin: 'R1',
-  Manager: 'R2',
+  Partner: 'R2',
   Client: 'R3',
 } as const
 
-export const RoleValues = [Role.Admin, Role.Manager, Role.Client] as const
+export const RoleValues = [Role.Admin, Role.Partner, Role.Client] as const
 
 export const OrderStatus = {
   Pending: 'Pending',

@@ -24,18 +24,18 @@ import { ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLoginByGoogleMutation, useLoginMutation } from '@/queries/useAuth'
-import { useAppContext } from '@/components/app-provider'
 import { toast } from 'sonner'
 import { useGoogleLogin } from '@react-oauth/google'
 import Image from 'next/image'
 import { PasswordInput } from '@/components/ui/password-input'
 import authApiRequest from '@/apiRequests/auth'
+import { useAppStore } from '@/components/app-provider'
 
 export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const clearTokens = searchParams.get('clearTokens')
-  const { setIsAuth } = useAppContext()
+  const setRole = useAppStore((state) => state.setRole)
   const loginMutation = useLoginMutation()
   const loginByGoogleMutation = useLoginByGoogleMutation()
   const form = useForm<LoginBodyType>({
@@ -48,15 +48,15 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (clearTokens) {
-      setIsAuth(false)
+      setRole()
     }
-  }, [clearTokens, setIsAuth])
+  }, [clearTokens, setRole])
 
   const onSubmit = async (data: LoginBodyType) => {
     if (loginMutation.isPending) return
     try {
-      await loginMutation.mutateAsync(data)
-      setIsAuth(true)
+      const result = await loginMutation.mutateAsync(data)
+      setRole(result.payload.roleId)
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
@@ -70,8 +70,8 @@ export default function LoginForm() {
     const data: LoginByGoogleBodyType = await gg_resp.json()
     if (loginByGoogleMutation.isPending) return
     try {
-      await loginByGoogleMutation.mutateAsync(data)
-      setIsAuth(true)
+      const result = await loginByGoogleMutation.mutateAsync(data)
+      setRole(result.payload.roleId)
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
