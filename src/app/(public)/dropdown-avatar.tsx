@@ -1,5 +1,5 @@
 'use client'
-import { CircleUser, FileText, LogOut } from 'lucide-react'
+import { CircleUser, FileText, LogOut, ChevronDown } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -40,10 +40,12 @@ export default function DropdownAvatar() {
     <div className="flex items-center gap-2 relative">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar>
-            <AvatarImage src={image || '/image/no-avatar.png'} />
-            {/* <AvatarFallback>CN</AvatarFallback> */}
-          </Avatar>
+          <div className="flex items-center cursor-pointer">
+            <Avatar>
+              <AvatarImage src={image || '/image/no-avatar.png'} />
+            </Avatar>
+            <ChevronDown className='text-white'/>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center">
           {isAuth ? (
@@ -86,7 +88,7 @@ export default function DropdownAvatar() {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className="text-sm font-medium text-white">{ fullname || ''}</span>
+      <span className="text-sm font-medium text-white">{fullname || ''}</span>
     </div>
   )
 }
