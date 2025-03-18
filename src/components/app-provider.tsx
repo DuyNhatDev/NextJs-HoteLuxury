@@ -3,13 +3,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import RefreshToken from '@/components/refresh-token'
 import { useEffect, useRef } from 'react'
-import {
-  decodeToken,
-  getAccessTokenFromLocalStorage,
-  removeTokensFromLocalStorage,
-} from '@/lib/utils'
-import { create } from 'zustand'
-import { RoleType } from '@/types/jwt.types'
+import { decodeToken, getAccessTokenFromLocalStorage } from '@/lib/utils'
+import { useAppStore } from '@/store/app-store'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,22 +13,7 @@ const queryClient = new QueryClient({
     },
   },
 })
-interface AppStoreType {
-  isAuth: boolean
-  role: RoleType | undefined
-  setRole: (role?: RoleType | undefined) => void
-}
 
-export const useAppStore = create<AppStoreType>((set) => ({
-  isAuth: false,
-  role: undefined as RoleType | undefined,
-  setRole: (role?: RoleType | undefined) => {
-    set({ role, isAuth: Boolean(role) })
-    if (!role) {
-      removeTokensFromLocalStorage()
-    }
-  },
-}))
 export default function AppProvider({ children }: { children: React.ReactNode }) {
   const setRole = useAppStore((state) => state.setRole)
   const count = useRef(0)

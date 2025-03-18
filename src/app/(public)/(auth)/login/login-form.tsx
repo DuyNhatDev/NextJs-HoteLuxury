@@ -29,7 +29,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 import Image from 'next/image'
 import { PasswordInput } from '@/components/ui/password-input'
 import authApiRequest from '@/apiRequests/auth'
-import { useAppStore } from '@/components/app-provider'
+import { useAppStore } from '@/store/app-store'
 
 export default function LoginForm() {
   const router = useRouter()

@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useLogoutMutation } from '@/queries/useAuth'
 import { useGetAccount } from '@/queries/useAccount'
-import { useAppStore } from '@/components/app-provider'
+import { useAppStore } from '@/store/app-store'
 
 export default function DropdownAvatar() {
   const role = useAppStore((state) => state.role)
