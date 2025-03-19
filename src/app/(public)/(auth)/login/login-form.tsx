@@ -56,8 +56,13 @@ export default function LoginForm() {
     if (loginMutation.isPending) return
     try {
       const result = await loginMutation.mutateAsync(data)
-      setRole(result.payload.roleId)
-      router.push('/')
+      const role = result.payload.roleId
+      setRole(role)
+      if (role === 'R1') {
+        router.push('/admin/dashboard')
+      } else {
+        router.push('/')
+      }
     } catch (error: any) {
       handleErrorApi({
         error,

@@ -1,0 +1,114 @@
+import {
+  Users,
+  Hotel,
+  Frame,
+  Handshake,
+  PieChart,
+  MapPinned,
+  Settings,
+  BadgeDollarSign,
+} from 'lucide-react'
+
+export const data = {
+  user: {
+    name: 'Admin',
+    email: 'admin@gmail.com',
+    avatar: '/avatars/shadcn.jpg',
+  },
+  navManage: [
+    {
+      title: 'Đối tác',
+      url: '#',
+      icon: Handshake,
+      items: [
+        {
+          title: 'Danh sách đối tác',
+          url: '/admin/manage/partner/list',
+        },
+        {
+          title: 'Chờ duyệt',
+          url: '/admin/manage/partner/pending',
+        },
+      ],
+    },
+    {
+      title: 'Khách sạn',
+      url: '#',
+      icon: Hotel,
+      items: [
+        {
+          title: 'Danh sách khách sạn',
+          url: '/admin/manage/hotel/list',
+        },
+        {
+          title: 'Chờ duyệt',
+          url: '/admin/manage/hotel/pending',
+        },
+      ],
+    },
+    {
+      title: 'Người dùng',
+      url: '#',
+      icon: Users,
+      items: [
+        {
+          title: 'Danh sách người dùng',
+          url: '/admin/manage/user/list',
+        },
+      ],
+    },
+    {
+      title: 'Địa điểm',
+      url: '#',
+      icon: MapPinned,
+      items: [
+        {
+          title: 'Danh sách địa điểm',
+          url: '/admin/manage/location/list',
+        },
+      ],
+    },
+    {
+      title: 'Doanh thu',
+      url: '#',
+      icon: BadgeDollarSign,
+      items: [
+        {
+          title: 'Doanh thu theo khách sạn',
+          url: '#',
+        },
+        {
+          title: 'Thống kê hoa hồng',
+          url: '#',
+        },
+      ],
+    },
+    {
+      title: 'Cài đặt',
+      url: '#',
+      icon: Settings,
+      items: [
+        {
+          title: 'Tài khoản',
+          url: '/admin/manage/setting/account',
+        },
+        {
+          title: 'Đổi mật khẩu',
+          url: '/admin/manage/setting/change-password',
+        },
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: 'Design Engineering',
+      url: '#',
+      icon: Frame,
+    },
+    {
+      name: 'Sales & Marketing',
+      url: '#',
+      icon: PieChart,
+    },
+  ],
+}
