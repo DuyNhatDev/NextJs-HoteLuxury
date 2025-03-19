@@ -60,6 +60,8 @@ export default function LoginForm() {
       setRole(role)
       if (role === 'R1') {
         router.push('/admin/dashboard')
+      } else if (role === 'R2') {
+        router.push('/partner/dashboard')
       } else {
         router.push('/')
       }
@@ -76,8 +78,15 @@ export default function LoginForm() {
     if (loginByGoogleMutation.isPending) return
     try {
       const result = await loginByGoogleMutation.mutateAsync(data)
-      setRole(result.payload.roleId)
-      router.push('/')
+      const role = result.payload.roleId
+      setRole(role)
+      if (role === 'R1') {
+        router.push('/admin/dashboard')
+      } else if (role === 'R2') {
+        router.push('/partner/dashboard')
+      } else {
+        router.push('/')
+      }
     } catch (error: any) {
       handleErrorApi({
         error,

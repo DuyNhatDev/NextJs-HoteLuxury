@@ -1,20 +1,6 @@
-import {
-  Users,
-  Hotel,
-  Frame,
-  Handshake,
-  PieChart,
-  MapPinned,
-  Settings,
-  BadgeDollarSign,
-} from 'lucide-react'
+import { Users, Hotel, Handshake, MapPinned, Settings, BadgeDollarSign } from 'lucide-react'
 
 export const data = {
-  user: {
-    name: 'Admin',
-    email: 'admin@gmail.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   navManage: [
     {
       title: 'Đối tác',
@@ -64,7 +50,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách địa điểm',
-          url: '/admin/manage/location/list',
+          url: '/admin/manage/location',
         },
       ],
     },
@@ -99,16 +85,16 @@ export const data = {
       ],
     },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-  ],
+  // projects: [
+  //   {
+  //     name: 'Design Engineering',
+  //     url: '#',
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: 'Sales & Marketing',
+  //     url: '#',
+  //     icon: PieChart,
+  //   },
+  // ],
 }

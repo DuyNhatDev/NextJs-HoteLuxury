@@ -12,10 +12,10 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
-import { NavManage } from '@/app/admin/components/nav-manage'
-import { NavUser } from '@/app/admin/components/nav-user'
+import { NavManage } from '@/app/partner/components/nav-manage'
+import { NavUser } from '@/app/partner/components/nav-user'
 import Link from 'next/link'
-import { data } from '@/app/admin/components/nav-items'
+import { data } from '@/app/partner/components/nav-items'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -29,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <ShieldUser className="size-4" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">Admin</span>
+            <span className="truncate font-semibold">Partner</span>
             {/* <span className="truncate text-xs">{activeTeam.plan}</span> */}
           </div>
         </SidebarMenuButton>
@@ -38,7 +38,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem key="dashboard" className="px-2  ">
             <SidebarMenuButton asChild>
-              <Link href="/admin/dashboard">
+              <Link href="/partner/dashboard">
                 <LayoutDashboard />
                 <span>Dashboard</span>
               </Link>

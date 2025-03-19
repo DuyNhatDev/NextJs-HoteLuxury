@@ -1,7 +1,7 @@
-export default function AdminDashboardPage() {
+export default function ChangePasswordPage() {
   return (
     <div className="flex items-center justify-center">
-      <h1>Dashboard</h1>
+      <h1>ChangePasswordPage</h1>
     </div>
   )
 }

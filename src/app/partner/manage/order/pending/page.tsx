@@ -1,7 +1,7 @@
-export default function AdminDashboardPage() {
+export default function OrderPendingPage() {
   return (
     <div className="flex items-center justify-center">
-      <h1>Dashboard</h1>
+      <h1>OrderPendingPage</h1>
     </div>
   )
 }
