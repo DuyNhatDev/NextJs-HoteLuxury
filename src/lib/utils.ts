@@ -123,3 +123,12 @@ export const formatDateTimeToLocaleString = (date: string | Date) => {
 export const formatDateTimeToTimeString = (date: string | Date) => {
   return format(date instanceof Date ? date : new Date(date), 'HH:mm:ss')
 }
+
+export const getLastTwoInitials = (fullName: string) => {
+  const words = fullName.trim().split(/\s+/)
+  if (words.length === 1) {
+    return words[0].substring(0, 2).toUpperCase()
+  }
+  const lastTwo = words.slice(-2)
+  return lastTwo.map((word) => word[0].toUpperCase()).join('')
+}

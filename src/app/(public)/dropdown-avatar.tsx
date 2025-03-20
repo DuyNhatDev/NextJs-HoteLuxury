@@ -7,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useLogoutMutation } from '@/queries/useAuth'
@@ -22,8 +22,8 @@ export default function DropdownAvatar() {
   const logoutMutation = useLogoutMutation()
   const userId = getUserIdFromLocalStorage()
   const { data } = useGetAccount(userId!)
-  const image = data?.payload?.data?.image ?? ''
-  const fullname = data?.payload?.data?.fullname ?? ''
+  const avatar = data?.payload?.data?.image ?? ''
+  const name = data?.payload?.data?.fullname ?? ''
   const logout = async () => {
     if (logoutMutation.isPending) return
     try {
@@ -43,7 +43,8 @@ export default function DropdownAvatar() {
         <DropdownMenuTrigger asChild>
           <div className="flex items-center cursor-pointer">
             <Avatar>
-              <AvatarImage src={image || '/image/no-avatar.png'} />
+              <AvatarImage src={avatar || '/image/no-avatar.png'} />
+              <AvatarFallback>{getLastTwoInitials(name)}</AvatarFallback>
             </Avatar>
             <ChevronDown className="text-white" />
           </div>
@@ -89,7 +90,7 @@ export default function DropdownAvatar() {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className="text-sm font-medium text-white">{fullname || ''}</span>
+      <span className="text-sm font-medium text-white">{name || ''}</span>
     </div>
   )
 }
