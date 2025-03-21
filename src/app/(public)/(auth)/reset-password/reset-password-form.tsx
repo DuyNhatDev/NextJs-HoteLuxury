@@ -17,7 +17,8 @@ import { ResetPasswordBodySchema, ResetPasswordBodyType } from '@/schemaValidati
 import { useResetPasswordMutation } from '@/queries/useAuth'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { handleErrorApi } from '@/lib/utils'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
+
 export default function ResetPasswordForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -89,6 +90,9 @@ export default function ResetPasswordForm() {
                   )}
                 />
                 <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
+                  {resetPasswordMutation.isPending && (
+                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                  )}
                   Xác nhận
                 </Button>
               </div>

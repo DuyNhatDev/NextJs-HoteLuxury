@@ -25,8 +25,8 @@ import Combobox from '@/components/customize/combobox'
 import InputOtpFormDialog from '@/app/(public)/(auth)/register/partner/otp-form-dialog'
 import Link from 'next/link'
 import 'react-day-picker/dist/style.css'
-import DatePicker from '@/components/customize/date-picker'
 import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaValidations/auth.schema'
+import { LoaderCircle } from 'lucide-react'
 
 export default function PartnerRegisterForm() {
   const router = useRouter()
@@ -326,6 +326,9 @@ export default function PartnerRegisterForm() {
                   />
                 </div>
                 <Button type="submit" className="w-full mt-2 bg-orange-500 hover:bg-orange-600">
+                  {partnerRegisterMutation.isPending && (
+                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                  )}
                   Đăng ký
                 </Button>
                 <div className="flex items-center justify-center">

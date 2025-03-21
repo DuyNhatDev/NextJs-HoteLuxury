@@ -15,7 +15,7 @@ import {
 import { RegisterBodySchema, RegisterBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useRegisterMutation } from '@/queries/useAuth'
@@ -144,7 +144,13 @@ export default function RegisterForm() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full mt-2 bg-orange-500 hover:bg-orange-600">
+                <Button
+                  type="submit"
+                  className="w-full mt-2 bg-orange-500 hover:bg-orange-600"
+                >
+                  {registerMutation.isPending && (
+                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                  )}
                   Đăng ký
                 </Button>
                 <div className="flex items-center justify-center">

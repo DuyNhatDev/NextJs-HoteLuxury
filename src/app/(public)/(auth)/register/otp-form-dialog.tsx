@@ -17,6 +17,7 @@ import { useVerifyAccountMutation } from '@/queries/useAuth'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { LoaderCircle } from 'lucide-react'
 
 interface InputOtpFormDialogProps {
   open: boolean
@@ -108,6 +109,9 @@ export default function InputOtpFormDialog({
                   )}
                 />
                 <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
+                  {verifyAccountMutation.isPending && (
+                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                  )}
                   Xác nhận
                 </Button>
               </form>

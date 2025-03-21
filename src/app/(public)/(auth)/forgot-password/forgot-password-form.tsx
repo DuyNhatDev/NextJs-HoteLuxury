@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { ForgotPasswordBodySchema, ForgotPasswordBodyType } from '@/schemaValidations/auth.schema'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForgotPasswordMutation } from '@/queries/useAuth'
@@ -86,6 +86,9 @@ export default function ForgetPasswordForm() {
                   )}
                 />
                 <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
+                  {forgotPasswordMutation.isPending && (
+                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                  )}
                   Gửi yêu cầu
                 </Button>
               </div>

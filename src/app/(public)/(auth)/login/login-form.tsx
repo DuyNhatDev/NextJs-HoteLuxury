@@ -20,7 +20,7 @@ import {
 } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLoginByGoogleMutation, useLoginMutation } from '@/queries/useAuth'
@@ -163,6 +163,7 @@ export default function LoginForm() {
                 )}
               />
               <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
+                {loginMutation.isPending && <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />}
                 Đăng nhập
               </Button>
               <div className="my-0 flex items-center justify-center">
