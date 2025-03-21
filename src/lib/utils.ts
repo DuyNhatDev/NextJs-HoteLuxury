@@ -25,7 +25,7 @@ export const handleErrorApi = ({
       })
     })
   } else if (error instanceof HttpError) {
-    toast.error('Lỗi HTTP', {
+    toast.error('Lỗi', {
       description: error.payload.message || 'Có lỗi xảy ra khi gửi yêu cầu.',
       duration: duration ?? 5000,
     })
