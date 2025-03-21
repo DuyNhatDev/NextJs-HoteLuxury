@@ -186,7 +186,6 @@ export const PartnerRegisterBodySchema = z
       .max(15, 'Số điện thoại không quá 15 số')
       .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
     birthDate: z.string(),
-    //birthDay: z.string().min(1, 'Ngày sinh không được để trống'),
     address: z.string().min(1, 'Địa chỉ không được để trống'),
     roleId: z.string(),
   })
@@ -202,36 +201,6 @@ export const PartnerRegisterBodySchema = z
   })
 
 export type PartnerRegisterBodyType = z.infer<typeof PartnerRegisterBodySchema>
-
-export const PartnerRegisterFormSchema = z
-  .object({
-    email: z.string().email({ message: 'Email không hợp lệ' }),
-    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
-    password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
-    confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
-    gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }),
-    phoneNumber: z
-      .string()
-      .min(9, 'Số điện thoại phải có ít nhất 9 số')
-      .max(15, 'Số điện thoại không quá 15 số')
-      .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
-    birthDate: z.date(),
-    //birthDay: z.string().min(1, 'Ngày sinh không được để trống'),
-    address: z.string().min(1, 'Địa chỉ không được để trống'),
-    roleId: z.string(),
-  })
-  .strict()
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Mật khẩu không khớp',
-        path: ['confirmPassword'],
-      })
-    }
-  })
-
-export type PartnerRegisterFormType = z.infer<typeof PartnerRegisterFormSchema>
 
 export const PartnerRegisterResSchema = RegisterResSchema
 

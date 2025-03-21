@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { PartnerRegisterFormSchema, PartnerRegisterFormType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
@@ -27,6 +26,7 @@ import InputOtpFormDialog from '@/app/(public)/(auth)/register/partner/otp-form-
 import Link from 'next/link'
 import 'react-day-picker/dist/style.css'
 import DatePicker from '@/components/customize/date-picker'
+import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaValidations/auth.schema'
 
 export default function PartnerRegisterForm() {
   const router = useRouter()
@@ -45,8 +45,8 @@ export default function PartnerRegisterForm() {
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []
-  const form = useForm<PartnerRegisterFormType>({
-    resolver: zodResolver(PartnerRegisterFormSchema),
+  const form = useForm<PartnerRegisterBodyType>({
+    resolver: zodResolver(PartnerRegisterBodySchema),
     defaultValues: {
       fullname: '',
       email: '',
@@ -54,20 +54,17 @@ export default function PartnerRegisterForm() {
       confirmPassword: '',
       //gender: '',
       phoneNumber: '',
-      birthDate: undefined,
-      //birthDate: '',
+      birthDate: '',
       address: '',
       roleId: 'R2',
     },
   })
-  const onSubmit = async (data: PartnerRegisterFormType) => {
+  const onSubmit = async (data: PartnerRegisterBodyType) => {
     const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
     const body = {
       ...data,
-      birthDate: data.birthDate ? data.birthDate.toISOString().split('T')[0] : '',
       address: fullAddress,
     }
-    console.log(body)
     if (partnerRegisterMutation.isPending) return
     try {
       const result = await partnerRegisterMutation.mutateAsync(body)
@@ -186,13 +183,7 @@ export default function PartnerRegisterForm() {
                             Ngày sinh <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
-                            {/* <Input id="birthDate" type="date" required {...field} /> */}
-                            <DatePicker
-                              onChange={field.onChange}
-                              value={field.value}
-                              placeholder="Chọn ngày sinh"
-                              className="w-full"
-                            />
+                            <Input id="birthDate" type="date" required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
