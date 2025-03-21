@@ -15,24 +15,23 @@ import {
 import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import { ArrowLeft, CalendarIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useRegisterMutation } from '@/queries/useAuth'
-import InputOtpFormDialog from '@/app/(public)/(auth)/register/otp-form-dialog'
+import { usePartnerRegisterMutation } from '@/queries/useAuth'
 import { PasswordInput } from '@/components/ui/password-input'
 import CustomSelect from '@/components/customize/select'
 import { Label } from '@/components/ui/label'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLocation'
 import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
+import InputOtpFormDialog from '@/app/(public)/(auth)/register/partner/otp-form-dialog'
+import Link from 'next/link'
 
 export default function PartnerRegisterForm() {
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [token, setToken] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const registerMutation = useRegisterMutation()
+  const partnerRegisterMutation = usePartnerRegisterMutation()
   const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedWard, setSelectedWard] = useState<SelectLocation>({ id: '', name: '' })
@@ -59,32 +58,29 @@ export default function PartnerRegisterForm() {
     },
   })
   const onSubmit = async (data: PartnerRegisterBodyType) => {
-    // if (registerMutation.isPending) return
-    // try {
-    //   const result = await registerMutation.mutateAsync(data)
-    //   setToken(result.payload.otp_token)
-    //   setEmail(data.email)
-    //   setDialogOpen(true)
-    // } catch (error: any) {
-    //   handleErrorApi({
-    //     error,
-    //     setError: form.setError,
-    //   })
-    // }
     const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
-    console.log(data)
-    const payload = {
+    const body = {
       ...data,
       address: fullAddress,
     }
-
-    console.log(payload)
+    if (partnerRegisterMutation.isPending) return
+    try {
+      const result = await partnerRegisterMutation.mutateAsync(body)
+      setToken(result.payload.otp_token)
+      setEmail(data.email)
+      setDialogOpen(true)
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
+    }
   }
   return (
     <>
       <Card className="mx-auto max-w-xl min-w-96">
         <CardHeader className="relative flex items-center w-full px-4">
-          <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} />
+          {/* <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} /> */}
           <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">
             Đăng Ký Đối Tác
           </CardTitle>
@@ -330,6 +326,12 @@ export default function PartnerRegisterForm() {
                 <Button type="submit" className="w-full mt-2 bg-orange-500 hover:bg-orange-600">
                   Đăng ký
                 </Button>
+                <div className="flex items-center justify-center">
+                  <span className="text-sm text-gray-500 px-2">Bạn đã có tài khoản?</span>
+                  <Link href="/login" className="text-sm text-blue-700 underline cursor-pointer">
+                    Đăng nhập
+                  </Link>
+                </div>
               </div>
             </form>
           </Form>
