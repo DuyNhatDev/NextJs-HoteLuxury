@@ -1,76 +1,63 @@
 'use client'
 
-import * as React from 'react'
-import { format as formatDateFn } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
+import { useState } from 'react'
+import { DayPicker } from 'react-day-picker'
+import 'react-day-picker/dist/style.css'
+import { format as formatDate } from 'date-fns'
+import { vi } from 'date-fns/locale'
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { CalendarIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
-interface DatePickerProps {
+interface DatePickerButtonProps {
   value?: Date
   onChange?: (date: Date | undefined) => void
   placeholder?: string
   className?: string
   disabled?: boolean
-  minDate?: Date
-  maxDate?: Date
-  formatStr?: string
+  format?: string // Format ngày hiển thị
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
+export default function DatePickerButton({
   value,
   onChange,
-  placeholder = 'Pick a date',
+  placeholder = 'Chọn ngày',
   className,
   disabled = false,
-  minDate,
-  maxDate,
-  formatStr = 'dd/MM/yyyy', // Default: 'PPP' = May 21st, 2025
-}) => {
-  const [internalDate, setInternalDate] = React.useState<Date | undefined>(value)
-
-  React.useEffect(() => {
-    setInternalDate(value)
-  }, [value])
-
-  const handleSelect = (selectedDate: Date | undefined) => {
-    if (disabled) return
-    setInternalDate(selectedDate)
-    onChange?.(selectedDate)
-  }
+  format = 'dd/MM/yyyy',
+}: DatePickerButtonProps) {
+  const [open, setOpen] = useState(false)
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn(
-            'w-[240px] justify-start text-left font-normal',
-            !internalDate && 'text-muted-foreground',
-            className
-          )}
           disabled={disabled}
+          className={cn('w-[200px] justify-between', className)}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {internalDate ? formatDateFn(internalDate, formatStr) : <span>{placeholder}</span>}
+          <span className={cn(!value && 'text-gray-400')}>
+            {value ? formatDate(value, format) : placeholder}
+          </span>
+          <CalendarIcon className="ml-2 h-4 w-4 text-gray-500" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
+
+      <PopoverContent className="w-auto p-4 rounded-lg shadow-md" align="center">
+        <DayPicker
           mode="single"
-          selected={internalDate}
-          onSelect={handleSelect}
-          initialFocus
-          disabled={disabled}
-          fromDate={minDate}
-          toDate={maxDate}
+          selected={value}
+          onSelect={(date) => {
+            onChange?.(date)
+            setOpen(false)
+          }}
+          locale={vi}
+          captionLayout="dropdown"
+          defaultMonth={value || new Date()}
         />
       </PopoverContent>
     </Popover>
   )
 }
-
-export default DatePicker
