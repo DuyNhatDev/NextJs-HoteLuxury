@@ -6,6 +6,7 @@ import {
   LoginByGoogleBodyType,
   LoginResType,
   LogoutBodyType,
+  PartnerRegisterBodyType,
   RefreshTokenBodyType,
   RefreshTokenResType,
   RegisterBodyType,
@@ -16,7 +17,6 @@ import {
   VerifyForgotPasswordBodyType,
   VerifyForgotPasswordResType,
 } from '@/schemaValidations/auth.schema'
-import { access } from 'fs'
 
 const authApiRequest = {
   refreshTokenRequest: null as Promise<{
@@ -24,6 +24,8 @@ const authApiRequest = {
     payload: RefreshTokenResType
   }> | null,
   register: (body: RegisterBodyType) => http.post<RegisterResType>('/auth/sign-up', body),
+  partnerRegister: (body: PartnerRegisterBodyType) =>
+    http.post<RegisterResType>('/auth/sign-up', body),
   verifyAccount: (body: VerifyAccountBodyType, token: string) =>
     http.post<VerifyAccountResType>(`/auth/verify-account/${token}`, body),
   sLogin: (body: LoginBodyType) => http.post<LoginResType>('/auth/sign-in', body),

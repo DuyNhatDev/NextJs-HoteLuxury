@@ -12,6 +12,12 @@ export const useRegisterMutation = () => {
   })
 }
 
+export const usePartnerRegisterMutation = () => {
+  return useMutation({
+    mutationFn: authApiRequest.partnerRegister,
+  })
+}
+
 export const useVerifyAccountMutation = () => {
   return useMutation({
     mutationFn: ({ body, token }: { body: VerifyAccountBodyType; token: string }) =>
