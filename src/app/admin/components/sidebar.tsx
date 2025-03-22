@@ -1,15 +1,13 @@
 'use client'
 import * as React from 'react'
-import { ShieldUser, LayoutDashboard } from 'lucide-react'
+import { ShieldUser } from 'lucide-react'
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { NavManage } from '@/app/admin/components/nav-manage'
@@ -25,7 +23,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
             <ShieldUser className="size-4" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
@@ -35,16 +33,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          <SidebarMenuItem key="dashboard" className="px-2  ">
-            <SidebarMenuButton asChild>
-              <Link href="/admin/dashboard">
-                <LayoutDashboard />
-                <span>Dashboard</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
         <NavManage items={data.navManage} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>

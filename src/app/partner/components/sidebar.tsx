@@ -35,16 +35,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          <SidebarMenuItem key="dashboard" className="px-2  ">
-            <SidebarMenuButton asChild>
-              <Link href="/partner/dashboard">
-                <LayoutDashboard />
-                <span>Dashboard</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
         <NavManage items={data.navManage} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
