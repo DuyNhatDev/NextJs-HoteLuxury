@@ -1,4 +1,5 @@
 import http from '@/lib/http'
+import { objectToFormData } from '@/lib/utils'
 import {
   AccountListResType,
   AccountResType,
@@ -12,10 +13,10 @@ const accountApiRequest = {
   getAccount: (id: string) => http.get<AccountResType>(`${prefix}/${id}`),
   getPartnerList: () => http.get<AccountListResType>(`${prefix}/partner`),
   getPendingPartnerList: () => http.get<AccountListResType>(`${prefix}/pending-partner`),
-  addPartner: (body: CreatePartnerAccountBodyType) =>
-    http.post<AccountResType>(`${prefix}`, body, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+  addPartner: (body: CreatePartnerAccountBodyType) => {
+    const formData = objectToFormData(body)
+    return http.post<AccountResType>(`${prefix}`, formData)
+  },
   updatePartner: (id: number, body: UpdatePartnerAccountBodyType) =>
     http.put<AccountResType>(`${prefix}/${id}`, body, {
       headers: { 'Content-Type': 'multipart/form-data' },

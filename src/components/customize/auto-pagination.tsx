@@ -118,7 +118,7 @@ export default function AutoPagination({
                   onClick(pageNumber)
                 }}
                 variant={pageNumber === page ? 'outline' : 'ghost'}
-                className="w-9 h-9 p-0"
+                className="h-9 w-9 p-0"
               >
                 {pageNumber}
               </Button>
@@ -133,6 +133,7 @@ export default function AutoPagination({
         <PaginationItem>
           {isLink && (
             <PaginationPrevious
+              disabled={page === 1}
               href={{
                 pathname,
                 query: {
@@ -158,7 +159,7 @@ export default function AutoPagination({
                 onClick(page - 1)
               }}
             >
-              <ChevronLeft className="w-5 h-5" /> Previous
+              <ChevronLeft className="h-5 w-5" /> Previous
             </Button>
           )}
         </PaginationItem>
@@ -167,6 +168,7 @@ export default function AutoPagination({
         <PaginationItem>
           {isLink && (
             <PaginationNext
+              disabled={page === pageSize}
               href={{
                 pathname,
                 query: {
@@ -192,7 +194,7 @@ export default function AutoPagination({
                 onClick(page + 1)
               }}
             >
-              Next <ChevronRight className="w-5 h-5" />
+              Next <ChevronRight className="h-5 w-5" />
             </Button>
           )}
         </PaginationItem>

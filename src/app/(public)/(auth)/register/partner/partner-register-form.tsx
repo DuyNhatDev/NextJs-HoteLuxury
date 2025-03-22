@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
 import { usePartnerRegisterMutation } from '@/queries/useAuth'
 import { PasswordInput } from '@/components/ui/password-input'
 import CustomSelect from '@/components/customize/select'
@@ -29,7 +28,6 @@ import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaVali
 import { LoaderCircle } from 'lucide-react'
 
 export default function PartnerRegisterForm() {
-  const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const [token, setToken] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -37,11 +35,9 @@ export default function PartnerRegisterForm() {
   const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedWard, setSelectedWard] = useState<SelectLocation>({ id: '', name: '' })
-
   const provincesQueries = useGetProvinces()
   const districtsQueries = useGetDistricts(selectedProvince.id)
   const wardsQueries = useGetWards(selectedDistrict.id)
-
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []

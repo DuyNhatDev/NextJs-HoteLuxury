@@ -132,3 +132,25 @@ export const getLastTwoInitials = (fullName: string) => {
   const lastTwo = words.slice(-2)
   return lastTwo.map((word) => word[0].toUpperCase()).join('')
 }
+
+export const objectToFormData = (obj: Record<string, any>): FormData => {
+  const formData = new FormData()
+  for (const key in obj) {
+    const value = obj[key]
+    if (value === undefined || value === null) continue
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        if (item instanceof File || item instanceof Blob) {
+          formData.append(`${key}[]`, item)
+        } else {
+          formData.append(`${key}[]`, String(item))
+        }
+      })
+    } else if (value instanceof File || value instanceof Blob) {
+      formData.append(key, value)
+    } else {
+      formData.append(key, String(value))
+    }
+  }
+  return formData
+}

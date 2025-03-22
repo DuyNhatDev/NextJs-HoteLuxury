@@ -54,7 +54,26 @@ function PaginationLink({ className, isActive, size = 'icon', ...props }: Pagina
   )
 }
 
-function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+type PaginationNavProps = React.ComponentProps<typeof PaginationLink> & {
+  disabled?: boolean
+}
+
+function PaginationPrevious({ className, disabled, ...props }: PaginationNavProps) {
+  if (disabled) {
+    return (
+      <span
+        aria-disabled="true"
+        className={cn(
+          buttonVariants({ variant: 'ghost', size: 'default' }),
+          'cursor-not-allowed gap-1 px-2.5 opacity-50 sm:pl-2.5'
+        )}
+      >
+        <ChevronLeftIcon />
+        <span className="hidden sm:block">Previous</span>
+      </span>
+    )
+  }
+
   return (
     <PaginationLink
       aria-label="Go to previous page"
@@ -68,7 +87,22 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
   )
 }
 
-function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+function PaginationNext({ className, disabled, ...props }: PaginationNavProps) {
+  if (disabled) {
+    return (
+      <span
+        aria-disabled="true"
+        className={cn(
+          buttonVariants({ variant: 'ghost', size: 'default' }),
+          'cursor-not-allowed gap-1 px-2.5 opacity-50 sm:pr-2.5'
+        )}
+      >
+        <span className="hidden sm:block">Next</span>
+        <ChevronRightIcon />
+      </span>
+    )
+  }
+
   return (
     <PaginationLink
       aria-label="Go to next page"

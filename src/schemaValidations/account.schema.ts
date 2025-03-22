@@ -45,14 +45,28 @@ export const CreatePartnerAccountBodySchema = z
     password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
     gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
     phoneNumber: z
-      .string()
-      .min(9, 'Số điện thoại phải có ít nhất 9 số')
-      .max(15, 'Số điện thoại không quá 15 số')
-      .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số')
+      .union([
+        z
+          .string()
+          .min(9, 'Số điện thoại phải có ít nhất 9 số')
+          .max(15, 'Số điện thoại không quá 15 số')
+          .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
+        z.literal(''),
+        z.undefined(),
+      ])
+      .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z.string().optional(),
-    address: z.string().min(1, 'Địa chỉ không được để trống').optional(),
-    image: z.string().optional(),
+
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+
+    address: z
+      .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    image: z.union([z.string(), z.instanceof(File)]).optional(),
     roleId: z.enum([Role.Partner]),
   })
   .strict()
@@ -76,7 +90,7 @@ export const UpdatePartnerAccountBodySchema = z
       .optional(),
     birthDate: z.string().optional(),
     address: z.string().min(1, 'Địa chỉ không được để trống').optional(),
-    image: z.string().optional(),
+    image: z.union([z.string(), z.instanceof(File)]).optional(),
     isConfirmed: z.boolean().optional(),
     active: z.boolean().optional(),
   })

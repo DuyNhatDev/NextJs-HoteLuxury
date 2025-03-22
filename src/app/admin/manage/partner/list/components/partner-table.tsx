@@ -51,6 +51,9 @@ import AutoPagination from '@/components/customize/auto-pagination'
 import { getLastTwoInitials, handleErrorApi } from '@/lib/utils'
 import { useGetPartnerList } from '@/queries/useAccount'
 import { PenLine, Trash2 } from 'lucide-react'
+import AddPartner from '@/app/admin/manage/partner/list/components/add-partner'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import CustomTooltip from '@/components/customize/tooltip'
 
 type AccountItem = AccountListResType['data'][0]
 
@@ -72,7 +75,7 @@ export const columns: ColumnDef<AccountType>[] = [
     header: 'Ảnh',
     cell: ({ row }) => (
       <div>
-        <Avatar className="aspect-square h-[60px] w-[60px] rounded-md object-cover">
+        <Avatar className="aspect-square h-[50px] w-[50px] rounded-md object-cover">
           <AvatarImage src={row.getValue('image')} />
           <AvatarFallback className="rounded-none">
             {getLastTwoInitials(row.original.fullname)}
@@ -99,12 +102,12 @@ export const columns: ColumnDef<AccountType>[] = [
         </Button>
       )
     },
-    //cell: ({ row }) => <div>{row.getValue('email')}</div>,
+    cell: ({ row }) => <div>{row.getValue('email')}</div>,
   },
   {
     accessorKey: 'phoneNumber',
     header: 'Số điện thoại',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('phoneNumber')}</div>,
+    cell: ({ row }) => <div className="capitalize">{row.getValue('phoneNumber') || '-'}</div>,
   },
   {
     id: 'actions',
@@ -121,35 +124,23 @@ export const columns: ColumnDef<AccountType>[] = [
       }
       return (
         <div className="flex gap-3">
-          <PenLine className="h-6 w-6 text-blue-600 hover:cursor-pointer" />
-          <Trash2 className="h-6 w-6 text-red-600 hover:cursor-pointer" />
+          <CustomTooltip content="Sửa">
+            <PenLine className="h-5 w-5 text-blue-600 hover:cursor-pointer" />
+          </CustomTooltip>
+          <CustomTooltip content="Xóa">
+            <Trash2 className="h-5 w-5 text-red-600 hover:cursor-pointer" />
+          </CustomTooltip>
         </div>
-        // <DropdownMenu modal={false}>
-        //   <DropdownMenuTrigger asChild>
-        //     <Button variant="ghost" className="h-8 w-8 p-0">
-        //       <span className="sr-only">Open menu</span>
-        //       <DotsHorizontalIcon className="h-4 w-4" />
-        //     </Button>
-        //   </DropdownMenuTrigger>
-        //   <DropdownMenuContent align="center">
-        //     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        //     <DropdownMenuSeparator />
-        //     <DropdownMenuItem onClick={openEditEmployee}>Sửa</DropdownMenuItem>
-        //     <DropdownMenuItem onClick={openDeleteEmployee}>Xóa</DropdownMenuItem>
-        //   </DropdownMenuContent>
-        // </DropdownMenu>
       )
     },
   },
 ]
 
-// Số lượng item trên 1 trang
-const PAGE_SIZE = 10
+const PAGE_SIZE = 5
 export default function PartnerTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  // const params = Object.fromEntries(searchParam.entries())
   const [employeeIdEdit, setEmployeeIdEdit] = useState<number | undefined>()
   const [employeeDelete, setEmployeeDelete] = useState<AccountItem | null>(null)
   const partnerListQuery = useGetPartnerList()
@@ -159,8 +150,8 @@ export default function PartnerTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
   const [pagination, setPagination] = useState({
-    pageIndex, // Gía trị mặc định ban đầu, không có ý nghĩa khi data được fetch bất đồng bộ
-    pageSize: PAGE_SIZE, //default page size
+    pageIndex,
+    pageSize: PAGE_SIZE,
   })
 
   const table = useReactTable({
@@ -207,7 +198,7 @@ export default function PartnerTable() {
             placeholder="Lọc theo tên"
             value={(table.getColumn('fullname')?.getFilterValue() as string) ?? ''}
             onChange={(event) => table.getColumn('fullname')?.setFilterValue(event.target.value)}
-            className="mr-3 max-w-sm flex-1"
+            className="max-w-sm flex-1"
           />
           <Input
             placeholder="Lọc theo email"
@@ -221,7 +212,9 @@ export default function PartnerTable() {
             onChange={(event) => table.getColumn('phoneNumber')?.setFilterValue(event.target.value)}
             className="max-w-sm flex-1"
           />
-          <div className="ml-auto flex items-center gap-2">{/* <AddEmployee /> */}</div>
+          <div className="ml-auto flex items-center gap-2">
+            <AddPartner />
+          </div>
         </div>
         <div className="rounded-md border">
           <Table>
@@ -261,7 +254,7 @@ export default function PartnerTable() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex items-center justify-end space-x-2 pt-4">
           <div className="text-muted-foreground flex-1 py-4 text-xs">
             Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{' '}
             <strong>{data.length}</strong> kết quả
@@ -270,7 +263,7 @@ export default function PartnerTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/admin/partner/list"
+              pathname="/admin/manage/partner/list"
             />
           </div>
         </div>
