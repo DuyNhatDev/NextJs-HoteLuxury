@@ -8,3 +8,17 @@ export const useGetAccount = (id: string) => {
     enabled: !!id,
   })
 }
+
+export const useGetPartnerList = () => {
+  return useQuery({
+    queryKey: ['partners'],
+    queryFn: accountApiRequest.getPartnerList,
+  })
+}
+
+export const useGetPartnerPendingList = () => {
+  return useQuery({
+    queryKey: ['pending-partners'],
+    queryFn: accountApiRequest.getPendingPartnerList,
+  })
+}

@@ -38,10 +38,10 @@ export default function DropdownAvatar() {
   }
 
   return (
-    <div className="flex items-center gap-2 relative">
+    <div className="relative flex items-center gap-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="flex items-center cursor-pointer">
+          <div className="flex cursor-pointer items-center">
             <Avatar>
               <AvatarImage src={avatar || '/image/no-avatar.png'} />
               <AvatarFallback>{getLastTwoInitials(name)}</AvatarFallback>
@@ -70,14 +70,14 @@ export default function DropdownAvatar() {
               <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent">
                 <div className="flex flex-col items-center">
                   <Button
-                    className="bg-blue-500 text-white w-full px-4 py-2 rounded hover:bg-blue-600 mb-2"
+                    className="mb-2 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                     onClick={() => router.push('/register')}
                   >
                     Đăng ký
                   </Button>
-                  <p className="text-sm text-center">Quý khách đã có tài khoản?</p>
+                  <p className="text-center text-sm">Quý khách đã có tài khoản?</p>
                   <span
-                    className="text-blue-500 cursor-pointer hover:underline block"
+                    className="block cursor-pointer text-blue-500 hover:underline"
                     onClick={() => {
                       router.push('/login')
                     }}

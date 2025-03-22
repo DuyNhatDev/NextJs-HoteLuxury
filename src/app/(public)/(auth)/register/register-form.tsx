@@ -54,14 +54,14 @@ export default function RegisterForm() {
   return (
     <>
       <Card className="mx-auto max-w-sm min-w-96">
-        <CardHeader className="relative flex items-center w-full px-4">
+        <CardHeader className="relative flex w-full items-center px-4">
           <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} />
-          <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">Đăng Ký</CardTitle>
+          <CardTitle className="mx-auto text-2xl font-bold text-blue-900">Đăng Ký</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form
-              className="space-y-2 max-w-[600px] flex-shrink-0 w-full"
+              className="w-full max-w-[600px] flex-shrink-0 space-y-2"
               noValidate
               onSubmit={form.handleSubmit(onSubmit)}
             >
@@ -117,7 +117,7 @@ export default function RegisterForm() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="grid gap-2 relative">
+                      <div className="relative grid gap-2">
                         <FormLabel htmlFor="password">
                           Mật khẩu <span className="text-red-500">*</span>
                         </FormLabel>
@@ -132,7 +132,7 @@ export default function RegisterForm() {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="grid gap-2 relative">
+                      <div className="relative grid gap-2">
                         <FormLabel htmlFor="confirmPassword">
                           Nhập lại mật khẩu <span className="text-red-500">*</span>
                         </FormLabel>
@@ -144,18 +144,15 @@ export default function RegisterForm() {
                     </FormItem>
                   )}
                 />
-                <Button
-                  type="submit"
-                  className="w-full mt-2 bg-orange-500 hover:bg-orange-600"
-                >
+                <Button type="submit" className="mt-2 w-full bg-orange-500 hover:bg-orange-600">
                   {registerMutation.isPending && (
-                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                    <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
                   )}
                   Đăng ký
                 </Button>
                 <div className="flex items-center justify-center">
-                  <span className="text-sm text-gray-500 px-2">Bạn đã có tài khoản?</span>
-                  <Link href="/login" className="text-sm text-blue-700 underline cursor-pointer">
+                  <span className="px-2 text-sm text-gray-500">Bạn đã có tài khoản?</span>
+                  <Link href="/login" className="cursor-pointer text-sm text-blue-700 underline">
                     Đăng nhập
                   </Link>
                 </div>

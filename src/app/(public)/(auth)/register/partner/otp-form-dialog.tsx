@@ -63,7 +63,7 @@ export default function InputOtpFormDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md" onInteractOutside={(event) => event.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="text-2xl text-center text-black font-bold flex-grow">
+          <DialogTitle className="flex-grow text-center text-2xl font-bold text-black">
             Nhập mã OTP
           </DialogTitle>
           <DialogDescription className="text-center">
@@ -92,10 +92,7 @@ export default function InputOtpFormDialog({
                                 <InputOTPSlot
                                   key={index}
                                   index={index}
-                                  className="
-                                    bg-gray-200 text-center rounded-md border-none text-3xl
-                                    focus:outline-none focus:ring-2 focus:ring-blue-500 w-13 h-13
-                                  "
+                                  className="h-13 w-13 rounded-md border-none bg-gray-200 text-center text-3xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                 />
                               ))}
                             </InputOTPGroup>
@@ -108,7 +105,7 @@ export default function InputOtpFormDialog({
                 />
                 <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
                   {verifyAccountMutation.isPending && (
-                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                    <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
                   )}
                   Xác nhận
                 </Button>

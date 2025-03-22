@@ -48,16 +48,16 @@ export default function ForgetPasswordForm() {
     }
   }
   return (
-    <div className="flex min-h-[40vh] h-full w-full items-center justify-center px-4">
+    <div className="flex h-full min-h-[40vh] w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
-        <CardHeader className="relative flex items-center w-full px-4">
+        <CardHeader className="relative flex w-full items-center px-4">
           <ArrowLeft
             className="absolute left-5 cursor-pointer"
             onClick={() => {
               router.back()
             }}
           />
-          <CardTitle className="text-2xl text-center font-bold text-blue-900 mx-auto">
+          <CardTitle className="mx-auto text-center text-2xl font-bold text-blue-900">
             Quên mật khẩu
           </CardTitle>
           <CardDescription>Nhập email của bạn để gửi yêu cầu đặt lại mật khẩu.</CardDescription>
@@ -87,7 +87,7 @@ export default function ForgetPasswordForm() {
                 />
                 <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
                   {forgotPasswordMutation.isPending && (
-                    <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+                    <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
                   )}
                   Gửi yêu cầu
                 </Button>

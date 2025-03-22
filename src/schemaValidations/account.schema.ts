@@ -9,13 +9,18 @@ export const AccountSchema = z.object({
   email: z.string(),
   roleId: z.enum([Role.Admin, Role.Partner, Role.Client]),
   image: z.string().nullable(),
+  birthDate: z.date(),
+  address: z.string(),
+  phoneNumber: z.string(),
+  gender: z.enum(['Nam', 'Nữ']),
 })
 
 export type AccountType = z.infer<typeof AccountSchema>
 
 export const AccountListResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
   data: z.array(AccountSchema),
-  message: z.string()
 })
 
 export type AccountListResType = z.infer<typeof AccountListResSchema>
@@ -36,7 +41,7 @@ export const CreateManagerAccountBodySchema = z
     email: z.string().email(),
     avatar: z.string().url().optional(),
     password: z.string().min(6).max(100),
-    confirmPassword: z.string().min(6).max(100)
+    confirmPassword: z.string().min(6).max(100),
   })
   .strict()
   .superRefine(({ confirmPassword, password }, ctx) => {
@@ -44,7 +49,7 @@ export const CreateManagerAccountBodySchema = z
       ctx.addIssue({
         code: 'custom',
         message: 'Mật khẩu không khớp',
-        path: ['confirmPassword']
+        path: ['confirmPassword'],
       })
     }
   })
@@ -59,7 +64,7 @@ export const UpdateManagerAccountBodySchema = z
     changePassword: z.boolean().optional(),
     password: z.string().min(6).max(100).optional(),
     confirmPassword: z.string().min(6).max(100).optional(),
-    role: z.enum([Role.Admin, Role.Partner, Role.Client]).optional().default(Role.Partner)
+    role: z.enum([Role.Admin, Role.Partner, Role.Client]).optional().default(Role.Partner),
   })
   .strict()
   .superRefine(({ confirmPassword, password, changePassword }, ctx) => {
@@ -68,13 +73,13 @@ export const UpdateManagerAccountBodySchema = z
         ctx.addIssue({
           code: 'custom',
           message: 'Hãy nhập mật khẩu mới và xác nhận mật khẩu mới',
-          path: ['changePassword']
+          path: ['changePassword'],
         })
       } else if (confirmPassword !== password) {
         ctx.addIssue({
           code: 'custom',
           message: 'Mật khẩu không khớp',
-          path: ['confirmPassword']
+          path: ['confirmPassword'],
         })
       }
     }
@@ -85,7 +90,7 @@ export type UpdateManagerAccountBodyType = z.infer<typeof UpdateManagerAccountBo
 export const UpdateMeBody = z
   .object({
     name: z.string().trim().min(2).max(256),
-    avatar: z.string().url().optional()
+    avatar: z.string().url().optional(),
   })
   .strict()
 
@@ -95,7 +100,7 @@ export const ChangePasswordBody = z
   .object({
     oldPassword: z.string().min(6).max(100),
     password: z.string().min(6).max(100),
-    confirmPassword: z.string().min(6).max(100)
+    confirmPassword: z.string().min(6).max(100),
   })
   .strict()
   .superRefine(({ confirmPassword, password }, ctx) => {
@@ -103,7 +108,7 @@ export const ChangePasswordBody = z
       ctx.addIssue({
         code: 'custom',
         message: 'Mật khẩu mới không khớp',
-        path: ['confirmPassword']
+        path: ['confirmPassword'],
       })
     }
   })

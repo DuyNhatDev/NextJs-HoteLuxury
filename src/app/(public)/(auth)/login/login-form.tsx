@@ -107,19 +107,19 @@ export default function LoginForm() {
   })
   return (
     <Card className="mx-auto max-w-sm min-w-96">
-      <CardHeader className="relative flex items-center w-full px-4">
+      <CardHeader className="relative flex w-full items-center px-4">
         <ArrowLeft
           className="absolute left-5 cursor-pointer"
           onClick={() => {
             router.back()
           }}
         />
-        <CardTitle className="text-2xl font-bold text-blue-900 mx-auto">Đăng nhập</CardTitle>
+        <CardTitle className="mx-auto text-2xl font-bold text-blue-900">Đăng nhập</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form
-            className="space-y-2 max-w-[600px] flex-shrink-0 w-full"
+            className="w-full max-w-[600px] flex-shrink-0 space-y-2"
             noValidate
             onSubmit={form.handleSubmit(onSubmit, (err) => {
               console.log(err)
@@ -146,11 +146,11 @@ export default function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="grid gap-2">
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <FormLabel htmlFor="password">Mật khẩu</FormLabel>
                       <Link
                         href="/forgot-password"
-                        className="text-sm text-blue-700 underline cursor-pointer"
+                        className="cursor-pointer text-sm text-blue-700 underline"
                       >
                         Quên mật khẩu?
                       </Link>
@@ -163,7 +163,7 @@ export default function LoginForm() {
                 )}
               />
               <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
-                {loginMutation.isPending && <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />}
+                {loginMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
                 Đăng nhập
               </Button>
               <div className="my-0 flex items-center justify-center">
@@ -183,9 +183,9 @@ export default function LoginForm() {
             </div>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm text-gray-500 px-2">
+        <div className="mt-4 px-2 text-center text-sm text-gray-500">
           Bạn chưa có tài khoản?{' '}
-          <Link href="register" className="text-sm text-blue-700 underline cursor-pointer">
+          <Link href="register" className="cursor-pointer text-sm text-blue-700 underline">
             Đăng ký
           </Link>
         </div>
