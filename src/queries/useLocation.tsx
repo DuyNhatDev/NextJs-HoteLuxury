@@ -1,10 +1,11 @@
 import locationApiRequest from '@/apiRequests/location'
 import { useQuery } from '@tanstack/react-query'
 
-export const useGetProvinces = () => {
+export const useGetProvinces = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ['provinces'],
     queryFn: () => locationApiRequest.getProvinces(),
+    enabled,
   })
 }
 

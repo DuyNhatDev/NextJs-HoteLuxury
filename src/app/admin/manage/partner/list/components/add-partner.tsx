@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PlusCircle, Upload } from 'lucide-react'
+import { LoaderCircle, PlusCircle, Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
@@ -44,7 +44,7 @@ export default function AddPartner() {
   const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedWard, setSelectedWard] = useState<SelectLocation>({ id: '', name: '' })
-  const provincesQueries = useGetProvinces()
+  const provincesQueries = useGetProvinces(open)
   const districtsQueries = useGetDistricts(selectedProvince.id)
   const wardsQueries = useGetWards(selectedDistrict.id)
   const provinces = provincesQueries.data?.payload || []
@@ -122,7 +122,7 @@ export default function AddPartner() {
           <form
             noValidate
             className="w-full max-w-[600px] flex-shrink-0 space-y-2"
-            id="add-employee-form"
+            id="add-partner-form"
             onSubmit={form.handleSubmit(onSubmit, (e) => {
               console.log(e)
             })}
@@ -360,7 +360,8 @@ export default function AddPartner() {
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="add-employee-form" className="bg-blue-500 hover:bg-blue-600">
+          <Button type="submit" form="add-partner-form" className="bg-blue-500 hover:bg-blue-600">
+            {addPartnerMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
             Thêm
           </Button>
         </DialogFooter>
