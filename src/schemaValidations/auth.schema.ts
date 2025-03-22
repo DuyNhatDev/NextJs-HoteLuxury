@@ -187,7 +187,7 @@ export const PartnerRegisterBodySchema = z
       .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
     birthDate: z.string(),
     address: z.string().min(1, 'Địa chỉ không được để trống'),
-    roleId: z.string(),
+    roleId: z.enum([Role.Partner]),
   })
   .strict()
   .superRefine(({ confirmPassword, password }, ctx) => {

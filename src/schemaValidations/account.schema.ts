@@ -13,6 +13,9 @@ export const AccountSchema = z.object({
   address: z.string(),
   phoneNumber: z.string(),
   gender: z.enum(['Nam', 'Nữ']),
+  password: z.string().optional(),
+  isConfirmed: z.boolean(),
+  active: z.boolean(),
 })
 
 export type AccountType = z.infer<typeof AccountSchema>
@@ -35,66 +38,51 @@ export const AccountResSchema = z
 
 export type AccountResType = z.infer<typeof AccountResSchema>
 
-export const CreateManagerAccountBodySchema = z
+export const CreatePartnerAccountBodySchema = z
   .object({
-    name: z.string().trim().max(256),
-    email: z.string().email(),
-    avatar: z.string().url().optional(),
-    password: z.string().min(6).max(100),
-    confirmPassword: z.string().min(6).max(100),
-  })
-  .strict()
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Mật khẩu không khớp',
-        path: ['confirmPassword'],
-      })
-    }
-  })
-
-export type CreateManagerAccountBodyType = z.infer<typeof CreateManagerAccountBodySchema>
-
-export const UpdateManagerAccountBodySchema = z
-  .object({
-    name: z.string().trim().min(2).max(256),
-    email: z.string().email(),
-    avatar: z.string().url().optional(),
-    changePassword: z.boolean().optional(),
-    password: z.string().min(6).max(100).optional(),
-    confirmPassword: z.string().min(6).max(100).optional(),
-    role: z.enum([Role.Admin, Role.Partner, Role.Client]).optional().default(Role.Partner),
-  })
-  .strict()
-  .superRefine(({ confirmPassword, password, changePassword }, ctx) => {
-    if (changePassword) {
-      if (!password || !confirmPassword) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Hãy nhập mật khẩu mới và xác nhận mật khẩu mới',
-          path: ['changePassword'],
-        })
-      } else if (confirmPassword !== password) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Mật khẩu không khớp',
-          path: ['confirmPassword'],
-        })
-      }
-    }
-  })
-
-export type UpdateManagerAccountBodyType = z.infer<typeof UpdateManagerAccountBodySchema>
-
-export const UpdateMeBody = z
-  .object({
-    name: z.string().trim().min(2).max(256),
-    avatar: z.string().url().optional(),
+    email: z.string().email({ message: 'Email không hợp lệ' }),
+    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
+    password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
+    phoneNumber: z
+      .string()
+      .min(9, 'Số điện thoại phải có ít nhất 9 số')
+      .max(15, 'Số điện thoại không quá 15 số')
+      .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số')
+      .optional(),
+    birthDate: z.string().optional(),
+    address: z.string().min(1, 'Địa chỉ không được để trống').optional(),
+    image: z.string().optional(),
+    roleId: z.enum([Role.Partner]),
   })
   .strict()
 
-export type UpdateMeBodyType = z.infer<typeof UpdateMeBody>
+export type CreatePartnerAccountBodyType = z.infer<typeof CreatePartnerAccountBodySchema>
+
+export const UpdatePartnerAccountBodySchema = z
+  .object({
+    fullname: z
+      .string()
+      .trim()
+      .min(1, { message: 'Họ và tên không được để trống' })
+      .max(256)
+      .optional(),
+    gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
+    phoneNumber: z
+      .string()
+      .min(9, 'Số điện thoại phải có ít nhất 9 số')
+      .max(15, 'Số điện thoại không quá 15 số')
+      .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số')
+      .optional(),
+    birthDate: z.string().optional(),
+    address: z.string().min(1, 'Địa chỉ không được để trống').optional(),
+    image: z.string().optional(),
+    isConfirmed: z.boolean().optional(),
+    active: z.boolean().optional(),
+  })
+  .strict()
+
+export type UpdatePartnerAccountBodyType = z.infer<typeof UpdatePartnerAccountBodySchema>
 
 export const ChangePasswordBody = z
   .object({

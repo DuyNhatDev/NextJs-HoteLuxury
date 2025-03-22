@@ -1,0 +1,24 @@
+import PartnerTable from '@/app/admin/manage/partner/list/components/partner-table'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { Suspense } from 'react'
+
+export default function Dashboard() {
+  return (
+    <main className="grid flex-1 items-start gap-4 !p-0 sm:px-6 sm:py-0 md:gap-8">
+      <div className="space-y-2">
+        <Card x-chunk="dashboard-06-chunk-0" className="bg-muted-50">
+          <CardHeader>
+            <CardTitle>Tài khoản đối tác</CardTitle>
+            {/* <CardDescription>Quản lý tài khoản đối tác</CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            <Suspense>
+              <PartnerTable />
+            </Suspense>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  )
+}

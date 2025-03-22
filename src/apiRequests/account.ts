@@ -1,9 +1,25 @@
 import http from '@/lib/http'
-import { AccountListResType, AccountResType } from '@/schemaValidations/account.schema'
+import {
+  AccountListResType,
+  AccountResType,
+  CreatePartnerAccountBodyType,
+  UpdatePartnerAccountBodyType,
+} from '@/schemaValidations/account.schema'
+
+const prefix = '/user'
 
 const accountApiRequest = {
-  getAccount: (userId: string) => http.get<AccountResType>(`/user/${userId}`),
-  getPartnerList: () => http.get<AccountListResType>(`/user/partner`),
-  getPendingPartnerList: () => http.get<AccountListResType>(`/user/pending-partner`),
+  getAccount: (id: string) => http.get<AccountResType>(`${prefix}/${id}`),
+  getPartnerList: () => http.get<AccountListResType>(`${prefix}/partner`),
+  getPendingPartnerList: () => http.get<AccountListResType>(`${prefix}/pending-partner`),
+  addPartner: (body: CreatePartnerAccountBodyType) =>
+    http.post<AccountResType>(`${prefix}`, body, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  updatePartner: (id: number, body: UpdatePartnerAccountBodyType) =>
+    http.put<AccountResType>(`${prefix}/${id}`, body, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  deletePartner: (id: number) => http.delete(`${prefix}/${id}`),
 }
 export default accountApiRequest
