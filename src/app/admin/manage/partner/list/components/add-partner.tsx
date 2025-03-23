@@ -35,6 +35,7 @@ import { PasswordInput } from '@/components/ui/password-input'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLocation'
 import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
+import { Role } from '@/constants/type'
 
 export default function AddPartner() {
   const [file, setFile] = useState<File | null>(null)
@@ -60,7 +61,7 @@ export default function AddPartner() {
       phoneNumber: '',
       birthDate: '',
       address: '',
-      roleId: 'R2',
+      roleId: Role.Partner,
     },
   })
   const avatar = form.watch('image')
@@ -90,7 +91,7 @@ export default function AddPartner() {
     try {
       if (file) {
         body = {
-          ...data,
+          ...body,
           image: file,
         }
       }

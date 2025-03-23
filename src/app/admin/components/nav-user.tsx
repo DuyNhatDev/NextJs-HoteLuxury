@@ -28,7 +28,7 @@ export function NavUser() {
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
   const userId = getUserIdFromLocalStorage()
-  const { data } = useGetAccount(userId!)
+  const { data } = useGetAccount(userId!, true)
   const avatar = data?.payload?.data?.image ?? ''
   const email = data?.payload?.data?.email ?? ''
   const name = data?.payload?.data?.fullname ?? ''

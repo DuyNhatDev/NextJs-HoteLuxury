@@ -9,7 +9,7 @@ export const AccountSchema = z.object({
   email: z.string(),
   roleId: z.enum([Role.Admin, Role.Partner, Role.Client]),
   image: z.string().nullable(),
-  birthDate: z.date(),
+  birthDate: z.string(),
   address: z.string(),
   phoneNumber: z.string(),
   gender: z.enum(['Nam', 'Nữ']),
@@ -81,6 +81,7 @@ export const UpdatePartnerAccountBodySchema = z
       .min(1, { message: 'Họ và tên không được để trống' })
       .max(256)
       .optional(),
+    email: z.string().optional(),
     gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
     phoneNumber: z
       .string()
@@ -93,6 +94,7 @@ export const UpdatePartnerAccountBodySchema = z
     image: z.union([z.string(), z.instanceof(File)]).optional(),
     isConfirmed: z.boolean().optional(),
     active: z.boolean().optional(),
+    roleId: z.enum([Role.Partner, Role.Admin, Role.Client]).optional(),
   })
   .strict()
 

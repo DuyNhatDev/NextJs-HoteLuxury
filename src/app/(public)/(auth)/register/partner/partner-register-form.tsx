@@ -26,6 +26,7 @@ import Link from 'next/link'
 import 'react-day-picker/dist/style.css'
 import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaValidations/auth.schema'
 import { LoaderCircle } from 'lucide-react'
+import { Role } from '@/constants/type'
 
 export default function PartnerRegisterForm() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
@@ -52,7 +53,7 @@ export default function PartnerRegisterForm() {
       phoneNumber: '',
       birthDate: '',
       address: '',
-      roleId: 'R2',
+      roleId: Role.Partner,
     },
   })
   const onSubmit = async (data: PartnerRegisterBodyType) => {

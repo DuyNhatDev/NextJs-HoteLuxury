@@ -17,10 +17,10 @@ const accountApiRequest = {
     const formData = objectToFormData(body)
     return http.post<AccountResType>(`${prefix}`, formData)
   },
-  updatePartner: (id: number, body: UpdatePartnerAccountBodyType) =>
-    http.put<AccountResType>(`${prefix}/${id}`, body, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+  updatePartner: (id: number, body: UpdatePartnerAccountBodyType) => {
+    const formData = objectToFormData(body)
+    return http.put<AccountResType>(`${prefix}/${id}`, formData)
+  },
   deletePartner: (id: number) => http.delete(`${prefix}/${id}`),
 }
 export default accountApiRequest

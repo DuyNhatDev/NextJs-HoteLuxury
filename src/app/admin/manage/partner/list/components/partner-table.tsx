@@ -1,6 +1,5 @@
 'use client'
-
-import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,17 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-
 import { Button } from '@/components/ui/button'
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -36,37 +25,28 @@ import {
 import { AccountListResType, AccountType } from '@/schemaValidations/account.schema'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/customize/auto-pagination'
-import { getLastTwoInitials, handleErrorApi } from '@/lib/utils'
+import { getLastTwoInitials } from '@/lib/utils'
 import { useGetPartnerList } from '@/queries/useAccount'
 import { PenLine, Trash2 } from 'lucide-react'
 import AddPartner from '@/app/admin/manage/partner/list/components/add-partner'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import CustomTooltip from '@/components/customize/tooltip'
+import EditPartner from '@/app/admin/manage/partner/list/components/edit-partner'
+import AlertDialogDeletePartner from '@/app/admin/manage/partner/list/components/delete-partner'
 
-type AccountItem = AccountListResType['data'][0]
+export type PartnerItem = AccountListResType['data'][0]
 
-const AccountTableContext = createContext<{
-  setEmployeeIdEdit: (value: number) => void
-  employeeIdEdit: number | undefined
-  employeeDelete: AccountItem | null
-  setEmployeeDelete: (value: AccountItem | null) => void
+const PartnerTableContext = createContext<{
+  partnerIdEdit: number | undefined
+  setPartnerIdEdit: (value: number) => void
+  partnerDelete: PartnerItem | null
+  setPartnerDelete: (value: PartnerItem | null) => void
 }>({
-  setEmployeeIdEdit: (value: number | undefined) => {},
-  employeeIdEdit: undefined,
-  employeeDelete: null,
-  setEmployeeDelete: (value: AccountItem | null) => {},
+  partnerIdEdit: undefined,
+  setPartnerIdEdit: (value: number | undefined) => {},
+  partnerDelete: null,
+  setPartnerDelete: (value: PartnerItem | null) => {},
 })
 
 export const columns: ColumnDef<AccountType>[] = [
@@ -114,21 +94,27 @@ export const columns: ColumnDef<AccountType>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setEmployeeIdEdit, setEmployeeDelete } = useContext(AccountTableContext)
-      const openEditEmployee = () => {
-        setEmployeeIdEdit(row.original.userId)
+      const { setPartnerIdEdit, setPartnerDelete } = useContext(PartnerTableContext)
+      const openEditPartner = () => {
+        setPartnerIdEdit(row.original.userId)
       }
 
-      const openDeleteEmployee = () => {
-        setEmployeeDelete(row.original)
+      const openDeletePartner = () => {
+        setPartnerDelete(row.original)
       }
       return (
         <div className="flex gap-3">
           <CustomTooltip content="Sửa">
-            <PenLine className="h-5 w-5 text-blue-600 hover:cursor-pointer" />
+            <PenLine
+              className="h-5 w-5 text-blue-600 hover:cursor-pointer"
+              onClick={openEditPartner}
+            />
           </CustomTooltip>
           <CustomTooltip content="Xóa">
-            <Trash2 className="h-5 w-5 text-red-600 hover:cursor-pointer" />
+            <Trash2
+              className="h-5 w-5 text-red-600 hover:cursor-pointer"
+              onClick={openDeletePartner}
+            />
           </CustomTooltip>
         </div>
       )
@@ -141,8 +127,8 @@ export default function PartnerTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [employeeIdEdit, setEmployeeIdEdit] = useState<number | undefined>()
-  const [employeeDelete, setEmployeeDelete] = useState<AccountItem | null>(null)
+  const [partnerIdEdit, setPartnerIdEdit] = useState<number | undefined>()
+  const [partnerDelete, setPartnerDelete] = useState<PartnerItem | null>(null)
   const partnerListQuery = useGetPartnerList()
   const data = partnerListQuery.data?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
@@ -184,15 +170,15 @@ export default function PartnerTable() {
   }, [table, pageIndex])
 
   return (
-    <AccountTableContext.Provider
-      value={{ employeeIdEdit, setEmployeeIdEdit, employeeDelete, setEmployeeDelete }}
+    <PartnerTableContext.Provider
+      value={{ partnerIdEdit, setPartnerIdEdit, partnerDelete, setPartnerDelete }}
     >
       <div className="w-full">
-        {/* <EditEmployee id={employeeIdEdit} setId={setEmployeeIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeleteAccount
-          employeeDelete={employeeDelete}
-          setEmployeeDelete={setEmployeeDelete}
-        /> */}
+        <EditPartner id={partnerIdEdit} setId={setPartnerIdEdit} onSubmitSuccess={() => {}} />
+        <AlertDialogDeletePartner
+          partnerDelete={partnerDelete}
+          setPartnerDelete={setPartnerDelete}
+        />
         <div className="flex items-center gap-2 py-4">
           <Input
             placeholder="Lọc theo tên"
@@ -268,6 +254,6 @@ export default function PartnerTable() {
           </div>
         </div>
       </div>
-    </AccountTableContext.Provider>
+    </PartnerTableContext.Provider>
   )
 }
