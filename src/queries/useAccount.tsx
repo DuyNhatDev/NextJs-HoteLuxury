@@ -60,3 +60,27 @@ export const useDeletePartnerMutation = () => {
     },
   })
 }
+export const useRejectPartnerMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: accountApiRequest.deletePartner,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['pending-partners'],
+      })
+    },
+  })
+}
+
+export const useConfirmPartnerMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, isConfirmed }: { id: number; isConfirmed: boolean }) =>
+      accountApiRequest.confirmPartner(id, isConfirmed),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['pending-partners'],
+      })
+    },
+  })
+}

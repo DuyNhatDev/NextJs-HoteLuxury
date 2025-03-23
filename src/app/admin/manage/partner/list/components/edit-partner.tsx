@@ -53,6 +53,7 @@ export default function EditPartner({
       email: '',
       image: undefined,
       phoneNumber: '',
+      gender: 'Nam',
       birthDate: '',
       address: '',
       roleId: Role.Partner,
@@ -71,15 +72,15 @@ export default function EditPartner({
       const { fullname, image, email, phoneNumber, birthDate, gender, address, active, roleId } =
         data.payload.data
       form.reset({
-        fullname,
-        email,
+        fullname: fullname ?? '',
+        email: email ?? '',
         image: image ?? undefined,
-        phoneNumber,
-        birthDate,
-        gender,
-        address,
-        active,
-        roleId,
+        phoneNumber: phoneNumber ?? '',
+        birthDate: birthDate ?? '',
+        gender: gender ?? 'Nam',
+        address: address ?? '',
+        active: active ?? false,
+        roleId: roleId ?? Role.Partner,
       })
     }
   }, [data, form])

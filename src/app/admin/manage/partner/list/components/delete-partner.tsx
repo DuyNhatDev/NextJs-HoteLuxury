@@ -12,7 +12,7 @@ export default function AlertDialogDeletePartner({
   setPartnerDelete: (value: PartnerItem | null) => void
 }) {
   const { mutateAsync } = useDeletePartnerMutation()
-  const deleteAccount = async () => {
+  const deletePartner = async () => {
     if (partnerDelete) {
       try {
         await mutateAsync(partnerDelete.userId)
@@ -44,7 +44,7 @@ export default function AlertDialogDeletePartner({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-600" onClick={deleteAccount}>
+          <AlertDialogAction className="bg-red-500 hover:bg-red-600" onClick={deletePartner}>
             Xóa
           </AlertDialogAction>
         </AlertDialogFooter>

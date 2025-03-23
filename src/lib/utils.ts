@@ -4,9 +4,9 @@ import { clsx, type ClassValue } from 'clsx'
 import { UseFormSetError } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 import { jwtDecode } from 'jwt-decode'
-import { format } from 'date-fns'
 import authApiRequest from '@/apiRequests/auth'
 import { TokenPayload } from '@/types/jwt.types'
+import { format, parseISO } from 'date-fns'
 
 export const handleErrorApi = ({
   error,
@@ -153,4 +153,8 @@ export const objectToFormData = (obj: Record<string, any>): FormData => {
     }
   }
   return formData
+}
+
+export const formatDate = (dateString?: string): string => {
+  return dateString ? format(parseISO(dateString), 'dd-MM-yyyy') : ''
 }

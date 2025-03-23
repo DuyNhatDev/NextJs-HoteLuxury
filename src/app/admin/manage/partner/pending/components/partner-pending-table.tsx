@@ -23,47 +23,35 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { AccountListResType, AccountType } from '@/schemaValidations/account.schema'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/customize/auto-pagination'
-import { getLastTwoInitials } from '@/lib/utils'
-import { useGetPartnerList } from '@/queries/useAccount'
-import { PenLine, Trash2 } from 'lucide-react'
-import AddPartner from '@/app/admin/manage/partner/list/components/add-partner'
+import { useGetPartnerPendingList } from '@/queries/useAccount'
+import { Check, View, X } from 'lucide-react'
 import CustomTooltip from '@/components/customize/tooltip'
-import EditPartner from '@/app/admin/manage/partner/list/components/edit-partner'
-import AlertDialogDeletePartner from '@/app/admin/manage/partner/list/components/delete-partner'
+import DetailPartner from '@/app/admin/manage/partner/pending/components/detail-partner'
+import AlertDialogRejectPartner from '@/app/admin/manage/partner/pending/components/reject-partner'
+import AlertDialogConfirmPartner from '@/app/admin/manage/partner/pending/components/confirm-partner'
 
-export type PartnerItem = AccountListResType['data'][0]
+export type PartnerPendingItem = AccountListResType['data'][0]
 
-const PartnerTableContext = createContext<{
-  partnerIdEdit: number | undefined
-  setPartnerIdEdit: (value: number) => void
-  partnerDelete: PartnerItem | null
-  setPartnerDelete: (value: PartnerItem | null) => void
+const PartnerPendingTableContext = createContext<{
+  partnerId: number | undefined
+  setPartnerId: (value: number) => void
+  partnerReject: PartnerPendingItem | null
+  setPartnerReject: (value: PartnerPendingItem | null) => void
+  partnerConfirm: PartnerPendingItem | null
+  setPartnerConfirm: (value: PartnerPendingItem | null) => void
 }>({
-  partnerIdEdit: undefined,
-  setPartnerIdEdit: (value: number | undefined) => {},
-  partnerDelete: null,
-  setPartnerDelete: (value: PartnerItem | null) => {},
+  partnerId: undefined,
+  setPartnerId: (value: number | undefined) => {},
+  partnerReject: null,
+  setPartnerReject: (value: PartnerPendingItem | null) => {},
+  partnerConfirm: null,
+  setPartnerConfirm: (value: PartnerPendingItem | null) => {},
 })
 
 export const columns: ColumnDef<AccountType>[] = [
-  {
-    accessorKey: 'image',
-    header: 'Ảnh',
-    cell: ({ row }) => (
-      <div>
-        <Avatar className="aspect-square h-[50px] w-[50px] rounded-md object-cover">
-          <AvatarImage src={row.getValue('image')} />
-          <AvatarFallback className="rounded-none">
-            {getLastTwoInitials(row.original.fullname)}
-          </AvatarFallback>
-        </Avatar>
-      </div>
-    ),
-  },
   {
     accessorKey: 'fullname',
     header: 'Tên',
@@ -95,26 +83,34 @@ export const columns: ColumnDef<AccountType>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setPartnerIdEdit, setPartnerDelete } = useContext(PartnerTableContext)
-      const openEditPartner = () => {
-        setPartnerIdEdit(row.original.userId)
+      const { setPartnerId, setPartnerReject, setPartnerConfirm } = useContext(
+        PartnerPendingTableContext
+      )
+      const openDetailPartner = () => {
+        setPartnerId(row.original.userId)
+      }
+      const openRejectPartner = () => {
+        setPartnerReject(row.original)
+      }
+      const openConfirmPartner = () => {
+        setPartnerConfirm(row.original)
       }
 
-      const openDeletePartner = () => {
-        setPartnerDelete(row.original)
-      }
       return (
         <div className="flex gap-3">
-          <CustomTooltip content="Sửa">
-            <PenLine
+          <CustomTooltip content="Xem">
+            <View
               className="h-5 w-5 text-blue-600 hover:cursor-pointer"
-              onClick={openEditPartner}
+              onClick={openDetailPartner}
             />
           </CustomTooltip>
-          <CustomTooltip content="Xóa">
-            <Trash2
-              className="h-5 w-5 text-red-600 hover:cursor-pointer"
-              onClick={openDeletePartner}
+          <CustomTooltip content="Từ chối">
+            <X className="h-5 w-5 text-red-600 hover:cursor-pointer" onClick={openRejectPartner} />
+          </CustomTooltip>
+          <CustomTooltip content="Duyệt">
+            <Check
+              className="h-5 w-5 text-green-600 hover:cursor-pointer"
+              onClick={openConfirmPartner}
             />
           </CustomTooltip>
         </div>
@@ -123,15 +119,16 @@ export const columns: ColumnDef<AccountType>[] = [
   },
 ]
 
-const PAGE_SIZE = 5
-export default function PartnerTable() {
+const PAGE_SIZE = 10
+export default function PartnerPendingTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [partnerIdEdit, setPartnerIdEdit] = useState<number | undefined>()
-  const [partnerDelete, setPartnerDelete] = useState<PartnerItem | null>(null)
-  const partnerListQuery = useGetPartnerList()
-  const data = partnerListQuery.data?.payload.data ?? []
+  const [partnerId, setPartnerId] = useState<number | undefined>()
+  const [partnerReject, setPartnerReject] = useState<PartnerPendingItem | null>(null)
+  const [partnerConfirm, setPartnerConfirm] = useState<PartnerPendingItem | null>(null)
+  const partnerPendingListQuery = useGetPartnerPendingList()
+  const data = partnerPendingListQuery.data?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -171,14 +168,25 @@ export default function PartnerTable() {
   }, [table, pageIndex])
 
   return (
-    <PartnerTableContext.Provider
-      value={{ partnerIdEdit, setPartnerIdEdit, partnerDelete, setPartnerDelete }}
+    <PartnerPendingTableContext.Provider
+      value={{
+        partnerId,
+        setPartnerId,
+        partnerReject,
+        setPartnerReject,
+        partnerConfirm,
+        setPartnerConfirm,
+      }}
     >
       <div className="w-full">
-        <EditPartner id={partnerIdEdit} setId={setPartnerIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeletePartner
-          partnerDelete={partnerDelete}
-          setPartnerDelete={setPartnerDelete}
+        <DetailPartner id={partnerId} setId={setPartnerId} />
+        <AlertDialogRejectPartner
+          partnerReject={partnerReject}
+          setPartnerReject={setPartnerReject}
+        />
+        <AlertDialogConfirmPartner
+          partnerConfirm={partnerConfirm}
+          setPartnerConfirm={setPartnerConfirm}
         />
         <div className="flex items-center gap-2 py-4">
           <Input
@@ -199,9 +207,7 @@ export default function PartnerTable() {
             onChange={(event) => table.getColumn('phoneNumber')?.setFilterValue(event.target.value)}
             className="max-w-sm flex-1"
           />
-          <div className="ml-auto flex items-center gap-2">
-            <AddPartner />
-          </div>
+          <div className="ml-auto flex items-center gap-2"></div>
         </div>
         <div className="rounded-md border">
           <Table>
@@ -250,11 +256,11 @@ export default function PartnerTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/admin/manage/partner/list"
+              pathname="/admin/manage/partner/pending"
             />
           </div>
         </div>
       </div>
-    </PartnerTableContext.Provider>
+    </PartnerPendingTableContext.Provider>
   )
 }

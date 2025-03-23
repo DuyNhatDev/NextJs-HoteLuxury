@@ -22,5 +22,7 @@ const accountApiRequest = {
     return http.put<AccountResType>(`${prefix}/${id}`, formData)
   },
   deletePartner: (id: number) => http.delete(`${prefix}/${id}`),
+  confirmPartner: (id: number, isConfirmed: boolean) =>
+    http.put<AccountResType>(`${prefix}/${id}`, { isConfirmed }),
 }
 export default accountApiRequest
