@@ -28,7 +28,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Switch } from '@/components/ui/switch'
 import { useGetAccount, useUpdatePartnerMutation } from '@/queries/useAccount'
 import { handleErrorApi } from '@/lib/utils'
-import { Role, RoleValues } from '@/constants/type'
+import { Role } from '@/constants/type'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
 

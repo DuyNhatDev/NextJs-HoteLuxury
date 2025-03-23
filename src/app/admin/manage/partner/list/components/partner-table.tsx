@@ -88,6 +88,7 @@ export const columns: ColumnDef<AccountType>[] = [
     accessorKey: 'phoneNumber',
     header: 'Số điện thoại',
     cell: ({ row }) => <div className="capitalize">{row.getValue('phoneNumber') || '-'}</div>,
+    accessorFn: (row) => row.phoneNumber || '',
   },
   {
     id: 'actions',
