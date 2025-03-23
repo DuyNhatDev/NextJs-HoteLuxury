@@ -37,7 +37,7 @@ export default function DetailPartner({
         <DialogHeader>
           <DialogTitle>Chi tiết tài khoản</DialogTitle>
         </DialogHeader>
-        <div className="grid auto-rows-max items-start gap-6 rounded-xl bg-white p-6 shadow-md md:gap-8">
+        <div className="grid auto-rows-max items-start gap-6 rounded-xl p-6 shadow-md md:gap-8">
           <div className="grid gap-6">
             {[
               { label: 'Họ và tên', value: fullname },
@@ -48,8 +48,8 @@ export default function DetailPartner({
               { label: 'Địa chỉ', value: address },
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-4">
-                <Label className="w-1/4 font-medium text-gray-700">{item.label}:</Label>
-                <div className="flex-1 rounded-lg border border-gray-200 bg-gray-50 p-3 text-gray-800 shadow-sm">
+                <Label className="w-1/4 font-medium">{item.label}:</Label>
+                <div className="flex-1 rounded-lg border border-gray-200 p-3 shadow-sm">
                   {item.value || '—'}
                 </div>
               </div>

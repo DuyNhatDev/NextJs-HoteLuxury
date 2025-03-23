@@ -65,11 +65,11 @@ export default function InputOtpFormDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md" onInteractOutside={(event) => event.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="flex-grow text-center text-2xl font-bold text-black">
+          <DialogTitle className="flex-grow text-center text-2xl font-bold">
             Nhập mã OTP
           </DialogTitle>
           <DialogDescription className="text-center">
-            Mã OTP đã được gửi đến email: <span className="font-bold text-black"> {email}</span>
+            Mã OTP đã được gửi đến email: <span className="font-bold"> {email}</span>
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
