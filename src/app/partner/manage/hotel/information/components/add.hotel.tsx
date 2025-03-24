@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle, PlusCircle, Upload } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -35,10 +35,12 @@ import { PasswordInput } from '@/components/ui/password-input'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLocation'
 import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
-import { Role } from '@/constants/type'
+import { CreateHotelBodySchema, CreateHotelBodyType } from '@/schemaValidations/hotel.schema'
+import { MultiImageUpload } from '@/components/customize/multi-image-upload'
 
-export default function AddPartner() {
+export default function AddHotel() {
   const [file, setFile] = useState<File | null>(null)
+  const [files, setFiles] = useState<File[]>([])
   const [open, setOpen] = useState(false)
   const avatarInputRef = useRef<HTMLInputElement | null>(null)
   const addPartnerMutation = useAddPartnerMutation()
@@ -51,21 +53,14 @@ export default function AddPartner() {
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []
-  const form = useForm<CreatePartnerAccountBodyType>({
-    resolver: zodResolver(CreatePartnerAccountBodySchema),
+  const form = useForm<CreateHotelBodyType>({
+    resolver: zodResolver(CreateHotelBodySchema),
     defaultValues: {
-      fullname: '',
-      email: '',
-      image: undefined,
-      password: '',
-      phoneNumber: '',
-      birthDate: '',
-      address: '',
-      roleId: Role.Partner,
+      hotelImage: undefined,
+      hotelImages: undefined,
     },
   })
-  const avatar = form.watch('image')
-
+  const avatar = form.watch('hotelImage')
   const previewAvatarFromFile = (): string | undefined => {
     if (file) {
       return URL.createObjectURL(file)
@@ -78,33 +73,46 @@ export default function AddPartner() {
     setFile(null)
   }
 
-  const onSubmit = async (data: CreatePartnerAccountBodyType) => {
+  const onSubmit = async (data: CreateHotelBodyType) => {
     let body = data
-    if (data.address) {
-      const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
+    if (file) {
       body = {
-        ...data,
-        address: fullAddress,
+        ...body,
+        hotelImage: file,
       }
     }
-    if (addPartnerMutation.isPending) return
-    try {
-      if (file) {
-        body = {
-          ...body,
-          image: file,
-        }
+    if (files) {
+      body = {
+        ...body,
+        hotelImages: files,
       }
-      await addPartnerMutation.mutateAsync(body)
-      toast.success('Thêm thành công')
-      reset()
-      setOpen(false)
-    } catch (error) {
-      handleErrorApi({
-        error,
-        setError: form.setError,
-      })
     }
+    console.log(body)
+    // if (data.address) {
+    //   const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
+    //   body = {
+    //     ...data,
+    //     address: fullAddress,
+    //   }
+    // }
+    // if (addPartnerMutation.isPending) return
+    // try {
+    //   if (file) {
+    //     body = {
+    //       ...body,
+    //       image: file,
+    //     }
+    //   }
+    //   await addPartnerMutation.mutateAsync(body)
+    //   toast.success('Thêm thành công')
+    //   reset()
+    //   setOpen(false)
+    // } catch (error) {
+    //   handleErrorApi({
+    //     error,
+    //     setError: form.setError,
+    //   })
+    // }
   }
 
   return (
@@ -112,18 +120,18 @@ export default function AddPartner() {
       <DialogTrigger asChild>
         <Button size="sm" className="h-7 gap-1 bg-green-500 hover:bg-green-600">
           <PlusCircle className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Tạo tài khoản</span>
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Thêm khách sạn</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Tạo tài khoản tối tác</DialogTitle>
+          <DialogTitle>Thêm khách sạn</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
             noValidate
             className="w-full max-w-[600px] flex-shrink-0 space-y-2"
-            id="add-partner-form"
+            id="add-hotel-form"
             onSubmit={form.handleSubmit(onSubmit, (e) => {
               console.log(e)
             })}
@@ -132,10 +140,10 @@ export default function AddPartner() {
             <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}
-                name="image"
+                name="hotelImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="image">Ảnh đại diện</FormLabel>
+                    <FormLabel>Ảnh thumbnail</FormLabel>
                     <div className="flex items-start justify-start gap-2">
                       <input
                         type="file"
@@ -151,7 +159,7 @@ export default function AddPartner() {
                         className="hidden"
                       />
                       <button
-                        className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed"
+                        className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed hover:cursor-pointer"
                         type="button"
                         onClick={() => avatarInputRef.current?.click()}
                       >
@@ -170,8 +178,33 @@ export default function AddPartner() {
                   </FormItem>
                 )}
               />
-
-              <div className="grid gap-7">
+              <FormField
+                control={form.control}
+                name="hotelImages"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ảnh slider</FormLabel>
+                    <FormControl>
+                      <MultiImageUpload
+                        value={(field.value || []).map((item) =>
+                          typeof item === 'string'
+                            ? item
+                            : item instanceof File
+                              ? URL.createObjectURL(item)
+                              : ''
+                        )}
+                        maxImages={10}
+                        onChange={(urls, files) => {
+                          field.onChange(urls)
+                          setFiles(files)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* <div className="grid gap-7">
                 <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
@@ -361,12 +394,12 @@ export default function AddPartner() {
                     )}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="add-partner-form" className="bg-blue-500 hover:bg-blue-600">
+          <Button type="submit" form="add-hotel-form" className="bg-blue-500 hover:bg-blue-600">
             {addPartnerMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
             Thêm
           </Button>

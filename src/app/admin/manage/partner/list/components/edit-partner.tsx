@@ -139,11 +139,8 @@ export default function EditPartner({
                 name="image"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel htmlFor="image">Ảnh đại diện</FormLabel>
                     <div className="flex items-start justify-start gap-2">
-                      <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
-                        <AvatarImage src={previewAvatarFromFile()} />
-                        <AvatarFallback className="rounded-none">Avatar</AvatarFallback>
-                      </Avatar>
                       <input
                         type="file"
                         accept="image/*"
@@ -165,6 +162,14 @@ export default function EditPartner({
                         <Upload className="text-muted-foreground h-4 w-4" />
                         <span className="sr-only">Upload</span>
                       </button>
+                      {field.value && (
+                        <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
+                          <AvatarImage src={previewAvatarFromFile()} />
+                          <AvatarFallback className="rounded-none text-center">
+                            Avatar
+                          </AvatarFallback>
+                        </Avatar>
+                      )}
                     </div>
                   </FormItem>
                 )}

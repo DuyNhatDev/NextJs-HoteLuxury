@@ -26,10 +26,6 @@ export const data = {
           title: 'Danh sách khách sạn',
           url: '/admin/manage/hotel/list',
         },
-        {
-          title: 'Chờ duyệt',
-          url: '/admin/manage/hotel/pending',
-        },
       ],
     },
     {
@@ -50,7 +46,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách địa điểm',
-          url: '/admin/manage/location',
+          url: '/admin/manage/destination',
         },
       ],
     },

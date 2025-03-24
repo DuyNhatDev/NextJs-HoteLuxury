@@ -1,14 +1,13 @@
 'use client'
-
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { X, File } from 'lucide-react'
+import { X, File, Upload } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 interface MultiImageUploadProps {
   value?: string[]
-  onChange?: (images: string[]) => void
+  onChange?: (images: string[], files: File[]) => void
   maxImages?: number
   className?: string
   name?: string
@@ -17,9 +16,11 @@ interface MultiImageUploadProps {
 
 interface UploadedFile {
   id: string
-  url: string
+  preview: string
   fileType: string
   isDeleting: boolean
+  originFile?: File
+  isFromAPI?: boolean
 }
 
 interface ImagePreviewProps {
@@ -29,7 +30,6 @@ interface ImagePreviewProps {
   isDeleting?: boolean
 }
 
-// --- Image Preview Component ---
 export const ImagePreview: React.FC<ImagePreviewProps> = ({
   src,
   fileType,
@@ -37,40 +37,33 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
   isDeleting = false,
 }) => {
   const isImage = fileType.startsWith('image/')
-
   return (
     <div
-      className={cn('relative w-20 h-20 sm:w-24 sm:h-24 rounded-md', isDeleting && 'opacity-50')}
+      className={cn('relative h-20 w-20 rounded-md sm:h-24 sm:w-24', isDeleting && 'opacity-50')}
     >
       {isImage ? (
-        <Image
-          src={src}
-          alt="Preview"
-          width={50}
-          height={50}
-          className="w-full h-full object-cover rounded-md"
-          loading="lazy"
-        />
+        <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
+          <AvatarImage src={src} />
+          <AvatarFallback>Ảnh</AvatarFallback>
+        </Avatar>
       ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-md">
+        <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-100">
           <File className="h-8 w-8 text-gray-500 sm:h-10 sm:w-10" />
         </div>
       )}
       {!isDeleting && onDelete && (
         <button
           onClick={onDelete}
-          className="absolute right-1 top-1 rounded-full bg-gray-200 p-1 text-gray-600 hover:bg-gray-300"
-          aria-label="Remove file"
+          className="absolute top-1 right-1 rounded-full bg-red-200 p-1 text-red-600 hover:bg-red-300"
           type="button"
         >
-          <X className="h-3 w-3 sm:h-4 sm:w-4" />
+          <X className="h-2 w-2 sm:h-3 sm:w-3" />
         </button>
       )}
     </div>
   )
 }
 
-// --- MultiImageUpload Component ---
 export const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
   value = [],
   onChange,
@@ -81,71 +74,89 @@ export const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
 }) => {
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [inputKey, setInputKey] = useState(Date.now())
-  const isControlled = !!onChange
   const prevValueRef = useRef<string[]>(value)
 
-  // Đồng bộ với props value nếu có sự thay đổi
   useEffect(() => {
-    if (isControlled && JSON.stringify(value) !== JSON.stringify(prevValueRef.current)) {
-      setFiles(
-        value.map((url, index) => ({
-          id: `${index}-${Date.now()}`,
-          url,
-          fileType: `image/${url.split('.').pop()?.toLowerCase() || 'jpeg'}`,
-          isDeleting: false,
-        }))
-      )
+    if (JSON.stringify(value) !== JSON.stringify(prevValueRef.current)) {
+      const apiFiles: UploadedFile[] = value.map((url, index) => ({
+        id: `api-${index}`,
+        preview: url,
+        fileType: `image/${url.split('.').pop() || 'jpeg'}`,
+        isDeleting: false,
+        isFromAPI: true,
+      }))
+      setFiles(apiFiles)
       prevValueRef.current = value
     }
-  }, [value, isControlled])
+  }, [value])
 
-  // Xử lý khi người dùng chọn file mới
   const handleUpload = (filesList: FileList) => {
     const fileArray = Array.from(filesList)
 
-    // Kiểm tra nếu số lượng file sau khi thêm vào vượt quá maxImages
     if (maxImages && files.length + fileArray.length > maxImages) {
       alert(`Bạn chỉ được upload tối đa ${maxImages} ảnh.`)
       return
     }
 
     const newFiles: UploadedFile[] = fileArray.map((file) => ({
-      id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-      url: URL.createObjectURL(file),
-      fileType: file.type || 'application/octet-stream',
+      id: `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      preview: URL.createObjectURL(file),
+      fileType: file.type,
       isDeleting: false,
+      originFile: file,
+      isFromAPI: false,
     }))
 
-    setFiles((prev) => [...prev, ...newFiles])
-    if (onChange) onChange([...value, ...newFiles.map((f) => f.url)])
-    setInputKey(Date.now()) // Reset input để có thể chọn lại cùng file
+    const updatedFiles = [...files, ...newFiles]
+    setFiles(updatedFiles)
+
+    if (onChange) {
+      onChange(
+        updatedFiles.filter((f) => f.isFromAPI).map((f) => f.preview),
+        updatedFiles.map((f) => f.originFile!).filter(Boolean)
+      )
+    }
+
+    setInputKey(Date.now())
   }
 
-  // Xử lý xoá ảnh
   const handleDeleteImage = useCallback(
     (id: string) => {
-      setFiles((prev) => prev.filter((f) => f.id !== id))
-      if (onChange) onChange(files.filter((f) => f.id !== id).map((f) => f.url))
+      const updatedFiles = files.filter((f) => f.id !== id)
+      setFiles(updatedFiles)
+
+      if (onChange) {
+        onChange(
+          updatedFiles.filter((f) => f.isFromAPI).map((f) => f.preview),
+          updatedFiles.map((f) => f.originFile!).filter(Boolean)
+        )
+      }
     },
-    [onChange, files]
+    [files, onChange]
   )
 
-  // Cleanup blob URLs khi unmount
+  const handleDeleteAll = () => {
+    setFiles([])
+    onChange?.([], [])
+  }
+
   useEffect(() => {
     return () => {
-      files.forEach((file) => {
-        if (file.url.startsWith('blob:')) URL.revokeObjectURL(file.url)
+      files.forEach((f) => {
+        if (f.preview.startsWith('blob:')) URL.revokeObjectURL(f.preview)
       })
     }
-  }, [])
+  }, [files])
 
   return (
-    <div className={cn('flex flex-col w-full', className)}>
+    <div className={cn('flex w-full flex-col', className)}>
       <div className="flex flex-wrap gap-4">
         {(maxImages === undefined || files.length < maxImages) && (
-          <Button variant="outline" className="h-20 w-20 sm:h-24 sm:w-24" asChild>
+          <button
+            type="button"
+            className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed hover:cursor-pointer"
+          >
             <label className="flex h-full w-full cursor-pointer items-center justify-center text-sm sm:text-base">
-              Thêm ảnh
               <input
                 key={inputKey}
                 type="file"
@@ -155,18 +166,26 @@ export const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
                 name={name}
                 onChange={(e) => e.target.files?.length && handleUpload(e.target.files)}
               />
+              <Upload className="text-muted-foreground h-4 w-4" />
             </label>
-          </Button>
+          </button>
         )}
+
         {files.map((file) => (
           <ImagePreview
             key={file.id}
-            src={file.url}
+            src={file.preview}
             fileType={file.fileType}
             onDelete={() => handleDeleteImage(file.id)}
           />
         ))}
       </div>
+
+      {files.length > 0 && (
+        <Button variant="destructive" className="mt-4 w-fit" onClick={handleDeleteAll}>
+          Xóa tất cả
+        </Button>
+      )}
     </div>
   )
 }
