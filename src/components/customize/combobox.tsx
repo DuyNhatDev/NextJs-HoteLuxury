@@ -14,10 +14,10 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 interface ComboboxProps {
-  items: { value: string; label: string }[]
-  value?: string
+  items: { value: string | number; label: string }[]
+  value?: string | number,
   placeholder?: string
-  onChange?: (value: string) => void
+  onChange?: (value: string | number) => void
   disabled?: boolean
   className?: string
 }
@@ -37,7 +37,7 @@ export default function Combobox({
     setSelectedValue(value)
   }, [value])
 
-  const handleSelect = (currentValue: string) => {
+  const handleSelect = (currentValue: string | number) => {
     if (disabled) return
     const newValue = currentValue === selectedValue ? '' : currentValue
     setSelectedValue(newValue)
@@ -70,7 +70,7 @@ export default function Combobox({
                   key={item.value}
                   onSelect={() => handleSelect(item.value)}
                   data-value={item.value}
-                  className={cn(disabled && 'opacity-50 pointer-events-none')}
+                  className={cn(disabled && 'pointer-events-none opacity-50')}
                 >
                   {item.label}
                   <Check

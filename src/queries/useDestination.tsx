@@ -10,10 +10,11 @@ export const useGetDestination = (id?: number, enabled: boolean = false) => {
   })
 }
 
-export const useGetDestinationList = () => {
+export const useGetDestinationList = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ['destinations'],
     queryFn: destinationApiRequest.getDestinationList,
+    enabled,
   })
 }
 

@@ -83,7 +83,7 @@ export default function AddPartner() {
     if (data.address) {
       const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
       body = {
-        ...data,
+        ...body,
         address: fullAddress,
       }
     }
@@ -303,7 +303,7 @@ export default function AddPartner() {
                         placeholder="Chọn tỉnh/thành phố"
                         onChange={(id) => {
                           const selected = provinces.find((p) => p.idProvince === id)
-                          setSelectedProvince({ id, name: selected?.name || '' })
+                          setSelectedProvince({ id: String(id), name: selected?.name || '' })
                           setSelectedDistrict({ id: '', name: '' })
                           setSelectedWard({ id: '', name: '' })
                         }}
@@ -320,7 +320,7 @@ export default function AddPartner() {
                         placeholder="Chọn quận/huyện"
                         onChange={(id) => {
                           const selected = districts.find((d) => d.idDistrict === id)
-                          setSelectedDistrict({ id, name: selected?.name || '' })
+                          setSelectedDistrict({ id: String(id), name: selected?.name || '' })
                           setSelectedWard({ id: '', name: '' })
                         }}
                         disabled={!selectedProvince.id}
@@ -339,7 +339,7 @@ export default function AddPartner() {
                         placeholder="Chọn phường/xã"
                         onChange={(id) => {
                           const selected = wards.find((w) => w.idWard === id)
-                          setSelectedWard({ id, name: selected?.name || '' })
+                          setSelectedWard({ id: String(id), name: selected?.name || '' })
                         }}
                         disabled={!selectedDistrict.id}
                         value={selectedWard.id}

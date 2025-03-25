@@ -11,13 +11,13 @@ import {
 
 interface Option {
   label: string
-  value: string
+  value: string | number
 }
 
 interface CustomSelectProps {
   options: Option[]
-  value?: string
-  onChange?: (value: string) => void
+  value?: string | number
+  onChange?: (value: string | number) => void
   placeholder?: string
   className?: string
   disabled?: boolean
@@ -31,14 +31,23 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   className,
   disabled = false,
 }) => {
+  const handleChange = (val: string) => {
+    const selectedOption = options.find((option) => String(option.value) === val)
+    onChange?.(selectedOption?.value ?? val)
+  }
+
   return (
-    <Select value={value} onValueChange={onChange} disabled={disabled}>
+    <Select
+      value={value !== undefined ? String(value) : undefined}
+      onValueChange={handleChange}
+      disabled={disabled}
+    >
       <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
+          <SelectItem key={option.value} value={String(option.value)}>
             {option.label}
           </SelectItem>
         ))}

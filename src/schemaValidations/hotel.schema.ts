@@ -31,8 +31,6 @@ export const HotelListResSchema = HotelSchema.omit({ minPrice: true })
 export type HotelListResType = z.infer<typeof HotelListResSchema>
 
 export const CreateHotelBodySchema = z.object({
-  hotelId: z.number(),
-  userId: z.number(),
   hotelName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
   hotelType: z.string().min(1, { message: 'Vui lòng chọn loại khách sạn' }),
   hotelPhoneNumber: z
@@ -44,8 +42,9 @@ export const CreateHotelBodySchema = z.object({
   hotelDescription: z.string(),
   hotelAddress: z.string().min(1, { message: 'Địa chỉ không được để trống' }),
   hotelImage: z.union([z.string(), z.instanceof(File)]).optional(),
-  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
+  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()).optional(),
   locationId: z.number().optional(),
+  userId: z.number().optional(),
 })
 
 export type CreateHotelBodyType = z.infer<typeof CreateHotelBodySchema>

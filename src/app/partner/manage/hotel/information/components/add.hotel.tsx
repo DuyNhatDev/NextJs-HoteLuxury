@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle, PlusCircle, Upload } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -23,20 +23,18 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { handleErrorApi } from '@/lib/utils'
+import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { useAddPartnerMutation } from '@/queries/useAccount'
-import {
-  CreatePartnerAccountBodySchema,
-  CreatePartnerAccountBodyType,
-} from '@/schemaValidations/account.schema'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
-import { PasswordInput } from '@/components/ui/password-input'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLocation'
 import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
 import { CreateHotelBodySchema, CreateHotelBodyType } from '@/schemaValidations/hotel.schema'
 import { MultiImageUpload } from '@/components/customize/multi-image-upload'
+import { useGetDestinationList } from '@/queries/useDestination'
+import RichTextEditor from '@/components/customize/rich-text-editor'
+import { useAddHotelMutation } from '@/queries/useHotel'
 
 export default function AddHotel() {
   const [file, setFile] = useState<File | null>(null)
@@ -50,12 +48,23 @@ export default function AddHotel() {
   const provincesQueries = useGetProvinces(open)
   const districtsQueries = useGetDistricts(selectedProvince.id)
   const wardsQueries = useGetWards(selectedDistrict.id)
+  const destinationsQueries = useGetDestinationList(open)
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []
+  const destinations = destinationsQueries.data?.payload?.data || []
+  const addHotelMutation = useAddHotelMutation()
   const form = useForm<CreateHotelBodyType>({
     resolver: zodResolver(CreateHotelBodySchema),
     defaultValues: {
+      userId: Number(getUserIdFromLocalStorage()),
+      hotelName: '',
+      hotelType: '',
+      hotelPhoneNumber: '',
+      hotelStar: 5,
+      hotelDescription: '',
+      hotelAddress: '',
+      locationId: undefined,
       hotelImage: undefined,
       hotelImages: undefined,
     },
@@ -71,48 +80,44 @@ export default function AddHotel() {
   const reset = () => {
     form.reset()
     setFile(null)
+    setFiles([])
   }
 
   const onSubmit = async (data: CreateHotelBodyType) => {
-    let body = data
-    if (file) {
-      body = {
-        ...body,
-        hotelImage: file,
+    if (addHotelMutation.isPending) return
+    try {
+      let body = data
+      if (data.hotelAddress) {
+        const fullAddress = `${data.hotelAddress}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
+        body = {
+          ...data,
+          hotelAddress: fullAddress,
+        }
       }
-    }
-    if (files) {
-      body = {
-        ...body,
-        hotelImages: files,
+      if (file) {
+        body = {
+          ...body,
+          hotelImage: file,
+        }
       }
+      if (files) {
+        body = {
+          ...body,
+          hotelImages: files,
+        }
+      }
+      console.log('body', body)
+      await addHotelMutation.mutateAsync(body)
+      toast.success('Thêm thành công')
+      reset()
+      setOpen(false)
+      console.log(body)
+    } catch (error) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      })
     }
-    console.log(body)
-    // if (data.address) {
-    //   const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
-    //   body = {
-    //     ...data,
-    //     address: fullAddress,
-    //   }
-    // }
-    // if (addPartnerMutation.isPending) return
-    // try {
-    //   if (file) {
-    //     body = {
-    //       ...body,
-    //       image: file,
-    //     }
-    //   }
-    //   await addPartnerMutation.mutateAsync(body)
-    //   toast.success('Thêm thành công')
-    //   reset()
-    //   setOpen(false)
-    // } catch (error) {
-    //   handleErrorApi({
-    //     error,
-    //     setError: form.setError,
-    //   })
-    // }
   }
 
   return (
@@ -204,20 +209,45 @@ export default function AddHotel() {
                   </FormItem>
                 )}
               />
-              {/* <div className="grid gap-7">
+              <div className="grid gap-7">
                 <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
-                    name="fullname"
+                    name="hotelName"
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <div className="grid gap-2">
-                          <FormLabel htmlFor="fullname">
-                            Họ và tên <span className="text-red-500">*</span>
+                          <FormLabel htmlFor="hotelName">
+                            Tên khách sạn <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
-                              id="fullname"
+                              id="hotelName"
+                              type="text"
+                              className="w-full"
+                              required
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelPhoneNumber"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="hotelPhoneNumber">
+                            Số điện thoại <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="hotelPhoneNumber"
                               type="text"
                               className="w-full"
                               required
@@ -231,53 +261,26 @@ export default function AddHotel() {
                   />
                   <FormField
                     control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="email">
-                            Email <span className="text-red-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input id="email" type="email" className="w-full" required {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex w-full gap-4">
-                  <FormField
-                    control={form.control}
-                    name="password"
+                    name="hotelType"
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <div className="relative grid gap-2">
                           <FormLabel htmlFor="password">
-                            Mật khẩu <span className="text-red-500">*</span>
+                            Loại <span className="text-red-500">*</span>
                           </FormLabel>
-                          <PasswordInput id="password" required {...field} />
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="phoneNumber">Số điện thoại</FormLabel>
                           <FormControl>
-                            <Input
-                              id="phoneNumber"
-                              type="phone"
+                            <CustomSelect
+                              options={[
+                                { label: 'Khách sạn', value: 'Khách sạn' },
+                                { label: 'Khu nghỉ dưỡng', value: 'Nữ' },
+                                { label: 'Biệt thự', value: 'Biệt thự' },
+                                { label: 'Căn hộ', value: 'Căn hộ' },
+                                { label: 'Nhà nghỉ', value: 'Nhà nghỉ' },
+                              ]}
+                              value={field.value}
+                              onChange={field.onChange}
+                              placeholder="Chọn loại"
                               className="w-full"
-                              required
-                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
@@ -289,31 +292,21 @@ export default function AddHotel() {
                 <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
-                    name="birthDate"
+                    name="hotelStar"
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <div className="grid gap-2">
-                          <FormLabel htmlFor="birthDate">Ngày sinh</FormLabel>
-                          <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="gender"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="gender">Giới tính</FormLabel>
+                          <FormLabel htmlFor="hotelStar">
+                            Số sao <span className="text-red-500">*</span>
+                          </FormLabel>
                           <FormControl>
                             <CustomSelect
                               options={[
-                                { label: 'Nam', value: 'Nam' },
-                                { label: 'Nữ', value: 'Nữ' },
+                                { label: '⭐⭐⭐⭐⭐', value: 5 },
+                                { label: '⭐⭐⭐⭐', value: 4 },
+                                { label: '⭐⭐⭐', value: 3 },
+                                { label: '⭐⭐', value: 2 },
+                                { label: '⭐', value: 1 },
                               ]}
                               value={field.value}
                               onChange={field.onChange}
@@ -321,6 +314,28 @@ export default function AddHotel() {
                               className="w-full"
                             />
                           </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="locationId"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="locationId">Địa điểm</FormLabel>
+                          <Combobox
+                            items={destinations.map((d) => ({
+                              value: d.locationId,
+                              label: d.locationName,
+                            }))}
+                            placeholder="Chọn địa điểm"
+                            onChange={field.onChange}
+                            value={selectedProvince.id}
+                            className="w-full"
+                          />
                           <FormMessage />
                         </div>
                       </FormItem>
@@ -336,7 +351,7 @@ export default function AddHotel() {
                         placeholder="Chọn tỉnh/thành phố"
                         onChange={(id) => {
                           const selected = provinces.find((p) => p.idProvince === id)
-                          setSelectedProvince({ id, name: selected?.name || '' })
+                          setSelectedProvince({ id: String(id), name: selected?.name || '' })
                           setSelectedDistrict({ id: '', name: '' })
                           setSelectedWard({ id: '', name: '' })
                         }}
@@ -353,7 +368,7 @@ export default function AddHotel() {
                         placeholder="Chọn quận/huyện"
                         onChange={(id) => {
                           const selected = districts.find((d) => d.idDistrict === id)
-                          setSelectedDistrict({ id, name: selected?.name || '' })
+                          setSelectedDistrict({ id: String(id), name: selected?.name || '' })
                           setSelectedWard({ id: '', name: '' })
                         }}
                         disabled={!selectedProvince.id}
@@ -372,7 +387,7 @@ export default function AddHotel() {
                         placeholder="Chọn phường/xã"
                         onChange={(id) => {
                           const selected = wards.find((w) => w.idWard === id)
-                          setSelectedWard({ id, name: selected?.name || '' })
+                          setSelectedWard({ id: String(id), name: selected?.name || '' })
                         }}
                         disabled={!selectedDistrict.id}
                         value={selectedWard.id}
@@ -382,10 +397,10 @@ export default function AddHotel() {
                   </div>
                   <FormField
                     control={form.control}
-                    name="address"
+                    name="hotelAddress"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel htmlFor="address">Số nhà, tên đường</FormLabel>
+                        <FormLabel htmlFor="hotelAddress">Số nhà, tên đường</FormLabel>
                         <FormControl>
                           <Input id="address" type="text" required {...field} />
                         </FormControl>
@@ -394,7 +409,26 @@ export default function AddHotel() {
                     )}
                   />
                 </div>
-              </div> */}
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelDescription"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="hotelDescription">Mô tả</FormLabel>
+                          <RichTextEditor
+                            value={field.value}
+                            onChange={field.onChange}
+                            title="Nhập mô tả cho khách sạn"
+                          />
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
             </div>
           </form>
         </Form>
