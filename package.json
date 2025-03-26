@@ -37,6 +37,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "dompurify": "^3.2.4",
+    "embla-carousel": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "input-otp": "^1.4.2",
     "jsonwebtoken": "^9.0.2",

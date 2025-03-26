@@ -26,7 +26,11 @@ export const HotelResSchema = z.object({
 
 export type HotelResType = z.infer<typeof HotelResSchema>
 
-export const HotelListResSchema = HotelSchema.omit({ minPrice: true })
+export const HotelListResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: z.array(HotelSchema),
+})
 
 export type HotelListResType = z.infer<typeof HotelListResSchema>
 
