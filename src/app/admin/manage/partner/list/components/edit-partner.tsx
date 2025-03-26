@@ -13,8 +13,8 @@ import {
   UpdatePartnerAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoaderCircle, Upload } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { LoaderCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -24,13 +24,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Switch } from '@/components/ui/switch'
 import { useGetAccount, useUpdatePartnerMutation } from '@/queries/useAccount'
 import { handleErrorApi } from '@/lib/utils'
 import { Role } from '@/constants/type'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
+import UploadImage from '@/components/customize/upload-image'
 
 export default function EditPartner({
   id,
@@ -42,7 +42,6 @@ export default function EditPartner({
   onSubmitSuccess?: () => void
 }) {
   const [file, setFile] = useState<File | null>(null)
-  const avatarInputRef = useRef<HTMLInputElement | null>(null)
   const { data } = useGetAccount(String(id), Boolean(id))
   const updatePartnerMutation = useUpdatePartnerMutation()
 
@@ -59,14 +58,6 @@ export default function EditPartner({
       roleId: Role.Partner,
     },
   })
-  const avatar = form.watch('image')
-  const previewAvatarFromFile = (): string | undefined => {
-    if (file) {
-      return URL.createObjectURL(file)
-    }
-    return typeof avatar === 'string' ? avatar : undefined
-  }
-
   useEffect(() => {
     if (data) {
       const { fullname, image, email, phoneNumber, birthDate, gender, address, active, roleId } =
@@ -140,37 +131,19 @@ export default function EditPartner({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel htmlFor="image">Ảnh đại diện</FormLabel>
-                    <div className="flex items-start justify-start gap-2">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={avatarInputRef}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0]
-                          if (file) {
-                            setFile(file)
-                            field.onChange('http://localhost:9000/uploads' + file.name)
-                          }
-                        }}
-                        className="hidden"
-                      />
-                      <button
-                        className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed"
-                        type="button"
-                        onClick={() => avatarInputRef.current?.click()}
-                      >
-                        <Upload className="text-muted-foreground h-4 w-4" />
-                        <span className="sr-only">Upload</span>
-                      </button>
-                      {field.value && (
-                        <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
-                          <AvatarImage src={previewAvatarFromFile()} />
-                          <AvatarFallback className="rounded-none text-center">
-                            Avatar
-                          </AvatarFallback>
-                        </Avatar>
-                      )}
-                    </div>
+                    <UploadImage
+                      value={
+                        typeof field.value === 'string'
+                          ? field.value
+                          : field.value instanceof File
+                            ? URL.createObjectURL(field.value)
+                            : undefined
+                      }
+                      onChange={(selectedFile, previewUrl) => {
+                        setFile(selectedFile)
+                        field.onChange(previewUrl)
+                      }}
+                    />
                   </FormItem>
                 )}
               />

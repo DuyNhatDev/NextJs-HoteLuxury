@@ -11,8 +11,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoaderCircle, PlusCircle, Upload } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { LoaderCircle, PlusCircle } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -22,7 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { handleErrorApi } from '@/lib/utils'
 import { useAddPartnerMutation } from '@/queries/useAccount'
 import {
@@ -36,11 +35,11 @@ import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLoca
 import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
 import { Role } from '@/constants/type'
+import UploadImage from '@/components/customize/upload-image'
 
 export default function AddPartner() {
   const [file, setFile] = useState<File | null>(null)
   const [open, setOpen] = useState(false)
-  const avatarInputRef = useRef<HTMLInputElement | null>(null)
   const addPartnerMutation = useAddPartnerMutation()
   const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
@@ -64,20 +63,10 @@ export default function AddPartner() {
       roleId: Role.Partner,
     },
   })
-  const avatar = form.watch('image')
-
-  const previewAvatarFromFile = (): string | undefined => {
-    if (file) {
-      return URL.createObjectURL(file)
-    }
-    return typeof avatar === 'string' ? avatar : undefined
-  }
-
   const reset = () => {
     form.reset()
     setFile(null)
   }
-
   const onSubmit = async (data: CreatePartnerAccountBodyType) => {
     let body = data
     if (data.address) {
@@ -136,37 +125,19 @@ export default function AddPartner() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel htmlFor="image">Ảnh đại diện</FormLabel>
-                    <div className="flex items-start justify-start gap-2">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={avatarInputRef}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0]
-                          if (file) {
-                            setFile(file)
-                            field.onChange('http://localhost:9000/uploads/' + file.name)
-                          }
-                        }}
-                        className="hidden"
-                      />
-                      <button
-                        className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed"
-                        type="button"
-                        onClick={() => avatarInputRef.current?.click()}
-                      >
-                        <Upload className="text-muted-foreground h-4 w-4" />
-                        <span className="sr-only">Upload</span>
-                      </button>
-                      {field.value && (
-                        <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
-                          <AvatarImage src={previewAvatarFromFile()} />
-                          <AvatarFallback className="rounded-none text-center">
-                            Avatar
-                          </AvatarFallback>
-                        </Avatar>
-                      )}
-                    </div>
+                    <UploadImage
+                      value={
+                        typeof field.value === 'string'
+                          ? field.value
+                          : field.value instanceof File
+                            ? URL.createObjectURL(field.value)
+                            : undefined
+                      }
+                      onChange={(selectedFile, previewUrl) => {
+                        setFile(selectedFile)
+                        field.onChange(previewUrl)
+                      }}
+                    />
                   </FormItem>
                 )}
               />

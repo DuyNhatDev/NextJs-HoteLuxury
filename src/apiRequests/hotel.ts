@@ -12,9 +12,6 @@ const hotelApiRequest = {
   getHotel: (id: number) => http.get<HotelResType>(`${prefix}/${id}`),
   addHotel: (body: CreateHotelBodyType) => {
     const formData = objectToFormData(body)
-     for (const [key, value] of formData.entries()) {
-       console.log(`${key}:`, value)
-     }
     return http.post<HotelResType>(`${prefix}`, formData)
   },
   updateHotel: (id: number, body: UpdateHotelBodyType) => {

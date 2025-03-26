@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
-interface MultiImageUploadProps {
+interface MultiUploadImageProps {
   value?: string[]
   onChange?: (images: string[], files: File[]) => void
   maxImages?: number
@@ -64,7 +64,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
   )
 }
 
-export const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
+export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
   value = [],
   onChange,
   maxImages,

@@ -1,84 +1,49 @@
-'use client'
+import { Upload } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useRef } from 'react'
+import clsx from 'clsx'
 
-// ** Import React and Core Libraries
-import React from 'react'
-import { useForm, type ControllerRenderProps } from 'react-hook-form'
+interface UploadImageProps {
+  value?: string | undefined
+  onChange: (file: File, previewUrl: string) => void
+  className?: string
+}
 
-// ** Import Third Party Libraries
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+export default function UploadImage({ value, onChange, className }: UploadImageProps) {
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-// ** Import UI Components
-import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-
-// ** Import Custom Components
-import { MultiImageUpload } from '@/components/customize/multi-image-upload'
-
-// Define the form schema
-const schema = z.object({
-  images: z
-    .array(z.string().url({ message: 'Invalid image URL' }))
-    .min(1, { message: 'At least 1 image is required' })
-    .max(5, { message: 'Maximum 5 images allowed' }),
-})
-
-// Define the form data type
-type FormData = z.infer<typeof schema>
-
-const ImageUploadForm = () => {
-  const form = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: { images: [] },
-  })
-
-  const onSubmit = (data: FormData) => {
-    console.log('Form submitted with images:', data.images)
-    // Perform any further actions, e.g., send images to backend
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile) {
+      const previewUrl = URL.createObjectURL(selectedFile)
+      onChange(selectedFile, previewUrl)
+    }
   }
 
   return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-lg">
-            <FormField
-              control={form.control}
-              name="images"
-              render={({ field }: { field: ControllerRenderProps<FormData, 'images'> }) => (
-                <FormItem>
-                  <FormLabel className="text-lg font-medium">
-                    Upload your images or files (up to 5)
-                  </FormLabel>
-                  <FormControl>
-                    <MultiImageUpload
-                      value={field.value}
-                      onChange={field.onChange}
-                      maxImages={5}
-                      className="my-4"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              variant="default"
-              className="w-full bg-gray-900 text-white font-medium py-2 px-4 rounded-md hover:bg-gray-800 disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors duration-200"
-            >
-              Submit
-            </Button>
-          </form>
-        </Form>
-      </div>
+    <div className={clsx('flex items-start justify-start gap-2', className)}>
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
+      />
+      <button
+        type="button"
+        className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed hover:cursor-pointer"
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <Upload className="text-muted-foreground h-4 w-4" />
+        <span className="sr-only">Upload</span>
+      </button>
+
+      {value && (
+        <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
+          <AvatarImage src={typeof value === 'string' ? value : undefined} />
+          <AvatarFallback className="rounded-none text-center">Avatar</AvatarFallback>
+        </Avatar>
+      )}
+    </div>
   )
 }
-
-export default ImageUploadForm
