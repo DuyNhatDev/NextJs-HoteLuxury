@@ -28,6 +28,9 @@ import UploadImage from '@/components/customize/upload-image'
 import { UpdateHotelBodySchema, UpdateHotelBodyType } from '@/schemaValidations/hotel.schema'
 import { useGetHotel, useUpdateHotelMutation } from '@/queries/useHotel'
 import { MultiUploadImage } from '@/components/customize/multi-upload-image'
+import Combobox from '@/components/customize/combobox'
+import { useGetDestinationList } from '@/queries/useDestination'
+import RichTextEditor from '@/components/customize/rich-text-editor'
 
 export default function EditHotel({
   open,
@@ -41,24 +44,48 @@ export default function EditHotel({
   const [file, setFile] = useState<File | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const { data } = useGetHotel(String(id), Boolean(id))
+  const destinationsQueries = useGetDestinationList(open)
+  const destinations = destinationsQueries.data?.payload?.data || []
   const updateHotelMutation = useUpdateHotelMutation()
 
   const form = useForm<UpdateHotelBodyType>({
     resolver: zodResolver(UpdateHotelBodySchema),
     defaultValues: {
+      hotelName: '',
+      hotelType: '',
+      hotelPhoneNumber: '',
+      hotelStar: 5,
+      hotelAddress: '',
+      hotelDescription: '',
+      locationId: undefined,
       hotelImage: undefined,
       hotelImages: undefined,
     },
   })
   useEffect(() => {
     if (data) {
-      const { hotelImage, hotelImages } = data.payload.data
+      const {
+        hotelName,
+        hotelType,
+        hotelPhoneNumber,
+        hotelAddress,
+        hotelStar,
+        hotelDescription,
+        locationId,
+        hotelImage,
+        hotelImages,
+      } = data.payload.data
       form.reset({
+        hotelName: hotelName ?? '',
+        hotelType: hotelType ?? '',
+        hotelPhoneNumber: hotelPhoneNumber ?? '',
+        hotelStar: hotelStar ?? '',
+        hotelAddress: hotelAddress ?? '',
+        hotelDescription: hotelDescription ?? '',
+        locationId: locationId ?? '',
         hotelImage: hotelImage ?? undefined,
         hotelImages: hotelImages ?? undefined,
       })
-      console.log('image', form.watch('hotelImage'))
-      console.log('images', form.watch('hotelImages'))
     }
   }, [data, form])
   const onSubmit = async (data: UpdateHotelBodyType) => {
@@ -67,7 +94,6 @@ export default function EditHotel({
       let mergedImages: (File | string)[] = []
 
       if (files.length > 0) {
-        // Nếu có file mới, gộp ảnh cũ dạng string và file mới
         mergedImages = [
           ...(Array.isArray(data.hotelImages)
             ? data.hotelImages.filter((img) => typeof img === 'string')
@@ -75,16 +101,13 @@ export default function EditHotel({
           ...files,
         ]
       } else {
-        // Không có file mới => giữ nguyên dữ liệu cũ
         mergedImages = (data.hotelImages || []) as (string | File)[]
       }
-
       const body = {
         ...data,
         hotelImage: file ?? data.hotelImage,
         hotelImages: mergedImages,
       }
-      console.log(body)
       await updateHotelMutation.mutateAsync({ id: id!, body })
       toast.success('Cập nhật thành công')
       reset()
@@ -97,8 +120,10 @@ export default function EditHotel({
   }
 
   const reset = () => {
+    form.reset()
     setOpen(false)
     setFile(null)
+    setFiles([])
   }
 
   return (
@@ -170,6 +195,174 @@ export default function EditHotel({
                   </FormItem>
                 )}
               />
+              <div className="grid gap-7">
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelName"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="hotelName">
+                            Tên khách sạn <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="hotelName"
+                              type="text"
+                              className="w-full"
+                              required
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelPhoneNumber"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="hotelPhoneNumber">
+                            Số điện thoại <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="hotelPhoneNumber"
+                              type="text"
+                              className="w-full"
+                              required
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="hotelType"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="relative grid gap-2">
+                          <FormLabel htmlFor="password">
+                            Loại <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <CustomSelect
+                              options={[
+                                { label: 'Khách sạn', value: 'Khách sạn' },
+                                { label: 'Khu nghỉ dưỡng', value: 'Nữ' },
+                                { label: 'Biệt thự', value: 'Biệt thự' },
+                                { label: 'Căn hộ', value: 'Căn hộ' },
+                                { label: 'Nhà nghỉ', value: 'Nhà nghỉ' },
+                              ]}
+                              value={field.value}
+                              onChange={field.onChange}
+                              placeholder="Chọn loại"
+                              className="w-full"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelStar"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="hotelStar">
+                            Số sao <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <CustomSelect
+                              options={[
+                                { label: '⭐⭐⭐⭐⭐', value: 5 },
+                                { label: '⭐⭐⭐⭐', value: 4 },
+                                { label: '⭐⭐⭐', value: 3 },
+                                { label: '⭐⭐', value: 2 },
+                                { label: '⭐', value: 1 },
+                              ]}
+                              value={field.value}
+                              onChange={field.onChange}
+                              placeholder="Chọn giới tính"
+                              className="w-full"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="locationId"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="locationId">Địa điểm</FormLabel>
+                          <Combobox
+                            items={destinations.map((d) => ({
+                              value: d.locationId,
+                              label: d.locationName,
+                            }))}
+                            placeholder="Chọn địa điểm"
+                            onChange={field.onChange}
+                            value={field.value}
+                            className="w-full"
+                          />
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelAddress"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel htmlFor="hotelAddress">Địa chỉ</FormLabel>
+                        <FormControl>
+                          <Input id="address" type="text" required {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="hotelDescription"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="hotelDescription">Mô tả</FormLabel>
+                          <RichTextEditor
+                            value={field.value}
+                            onChange={field.onChange}
+                            title="Nhập mô tả cho khách sạn"
+                          />
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
             </div>
           </form>
         </Form>

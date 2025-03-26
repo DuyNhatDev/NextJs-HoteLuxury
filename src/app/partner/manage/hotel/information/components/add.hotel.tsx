@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle, PlusCircle } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -302,7 +302,7 @@ export default function AddHotel() {
                             }))}
                             placeholder="Chọn địa điểm"
                             onChange={field.onChange}
-                            value={selectedProvince.id}
+                            value={field.value}
                             className="w-full"
                           />
                           <FormMessage />
