@@ -115,7 +115,7 @@ export default function EditPartner({
     >
       <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Cập nhật tài khoản đối tác</DialogTitle>
+          <DialogTitle>Chỉnh sửa tài khoản đối tác</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

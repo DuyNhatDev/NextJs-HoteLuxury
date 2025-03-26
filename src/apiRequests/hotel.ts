@@ -9,7 +9,7 @@ import {
 const prefix = '/hotel'
 const hotelApiRequest = {
   getHotelList: () => http.get<HotelListResType>(`${prefix}`),
-  getHotel: (id: number) => http.get<HotelResType>(`${prefix}/${id}`),
+  getHotel: (id: string) => http.get<HotelResType>(`${prefix}/${id}`),
   addHotel: (body: CreateHotelBodyType) => {
     const formData = objectToFormData(body)
     return http.post<HotelResType>(`${prefix}`, formData)

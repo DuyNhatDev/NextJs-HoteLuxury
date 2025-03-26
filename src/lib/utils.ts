@@ -138,16 +138,21 @@ export const objectToFormData = (obj: Record<string, any>): FormData => {
   for (const key in obj) {
     const value = obj[key]
     if (value === undefined || value === null) continue
+
     if (Array.isArray(value)) {
-      value.forEach((item) => {
-        if (item instanceof File || item instanceof Blob) {
-          formData.append(key, item)
-        } else if (item instanceof Date) {
-          formData.append(key, item.toISOString())
-        } else {
-          formData.append(key, String(item))
-        }
-      })
+      if (value.length === 0) {
+        formData.append(key, JSON.stringify([]))
+      } else {
+        value.forEach((item) => {
+          if (item instanceof File || item instanceof Blob) {
+            formData.append(key, item)
+          } else if (item instanceof Date) {
+            formData.append(key, item.toISOString())
+          } else {
+            formData.append(key, String(item))
+          }
+        })
+      }
     } else if (value instanceof File || value instanceof Blob) {
       formData.append(key, value)
     } else if (value instanceof Date) {

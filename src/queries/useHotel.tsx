@@ -2,7 +2,7 @@ import hotelApiRequest from '@/apiRequests/hotel'
 import { UpdateHotelBodyType } from '@/schemaValidations/hotel.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-export const useGetHotel = (id?: number, enabled: boolean = false) => {
+export const useGetHotel = (id?: string, enabled: boolean = false) => {
   return useQuery({
     queryKey: ['hotel', id],
     queryFn: () => hotelApiRequest.getHotel(id!),

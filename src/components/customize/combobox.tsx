@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown, Undo2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,11 +15,12 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 interface ComboboxProps {
   items: { value: string | number; label: string }[]
-  value?: string | number,
+  value?: string | number
   placeholder?: string
   onChange?: (value: string | number) => void
   disabled?: boolean
   className?: string
+  showReset?: boolean
 }
 
 export default function Combobox({
@@ -29,6 +30,7 @@ export default function Combobox({
   onChange,
   disabled = false,
   className = '',
+  showReset = true,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [selectedValue, setSelectedValue] = useState(value)
@@ -43,6 +45,12 @@ export default function Combobox({
     setSelectedValue(newValue)
     setOpen(false)
     onChange?.(newValue)
+  }
+
+  const handleReset = () => {
+    setSelectedValue('')
+    setOpen(false)
+    onChange?.('')
   }
 
   return (
@@ -65,6 +73,11 @@ export default function Combobox({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
+              {showReset && (
+                <CommandItem onSelect={handleReset}>
+                  <Undo2 className="mr-2 h-4 w-4" /> Đặt lại lựa chọn
+                </CommandItem>
+              )}
               {items.map((item) => (
                 <CommandItem
                   key={item.value}

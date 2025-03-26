@@ -43,21 +43,30 @@ export const CreateHotelBodySchema = z.object({
     .max(15, 'Số điện thoại không quá 15 số')
     .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
   hotelStar: z.number({ message: 'Vui lòng chọn số sao' }),
-  hotelDescription: z.string(),
+  hotelDescription: z.string().optional(),
   hotelAddress: z.string().min(1, { message: 'Địa chỉ không được để trống' }),
-  hotelImage: z.union([z.string(), z.instanceof(File)]).optional(),
-  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()).optional(),
+  hotelImage: z.union([z.string(), z.instanceof(File)]),
+  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
   locationId: z.number().optional(),
   userId: z.number().optional(),
 })
 
 export type CreateHotelBodyType = z.infer<typeof CreateHotelBodySchema>
 
-export const UpdateHotelBodySchema = HotelSchema.omit({
-  hotelId: true,
-  userId: true,
-  minPrice: true,
-  locationName: true,
+export const UpdateHotelBodySchema = z.object({
+  // hotelName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
+  // hotelType: z.string().min(1, { message: 'Vui lòng chọn loại khách sạn' }),
+  // hotelPhoneNumber: z
+  //   .string()
+  //   .min(9, 'Số điện thoại phải có ít nhất 9 số')
+  //   .max(15, 'Số điện thoại không quá 15 số')
+  //   .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
+  // hotelStar: z.number({ message: 'Vui lòng chọn số sao' }),
+  // hotelAddress: z.string().min(1, { message: 'Địa chỉ không được để trống' }),
+  // hotelDescription: z.string(),
+  // locationId: z.number().optional(),
+  hotelImage: z.union([z.string(), z.instanceof(File)]),
+  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
 })
 
 export type UpdateHotelBodyType = z.infer<typeof UpdateHotelBodySchema>
