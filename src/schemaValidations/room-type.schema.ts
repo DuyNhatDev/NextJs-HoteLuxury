@@ -35,6 +35,7 @@ export const CreateRoomTypeBodySchema = z.object({
   hotelId: z.number(),
   roomTypeName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
   roomTypePrice: z.number({ message: 'Vui lòng chọn nhập giá' }),
+  maxPeople: z.number({ message: 'Vui lòng chọn số người' }),
   roomTypeDescription: z.string().optional(),
   roomTypeImage: z.union([z.string(), z.instanceof(File)]),
   roomTypeImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
@@ -45,6 +46,7 @@ export type CreateRoomTypeBodyType = z.infer<typeof CreateRoomTypeBodySchema>
 export const UpdateRoomTypeBodySchema = z.object({
   roomTypeName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
   roomTypePrice: z.number({ message: 'Vui lòng chọn nhập giá' }),
+  maxPeople: z.number({ message: 'Vui lòng chọn số người' }),
   roomTypeDescription: z.string().optional(),
   roomTypeImage: z.union([z.string(), z.instanceof(File)]),
   roomTypeImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),

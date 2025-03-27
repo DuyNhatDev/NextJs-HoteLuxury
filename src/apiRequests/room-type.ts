@@ -9,7 +9,7 @@ import {
 const prefix = '/room-type'
 const roomTypeApiRequest = {
   getRoomTypeList: () => http.get<RoomTypeListResType>(`${prefix}`),
-  getRoomType: (id: string) => http.get<RoomTypeResType>(`${prefix}/${id}`),
+  getRoomType: (id: string) => http.get<RoomTypeResType>(`${prefix}/by-hotel-manager/${id}`),
   addRoomType: (body: CreateRoomTypeBodyType) => {
     const formData = objectToFormData(body)
     return http.post<RoomTypeResType>(`${prefix}`, formData)
