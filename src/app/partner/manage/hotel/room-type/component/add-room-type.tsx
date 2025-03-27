@@ -21,12 +21,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
+import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
-import CustomSelect from '@/components/customize/select'
 import { MultiUploadImage } from '@/components/customize/multi-upload-image'
 import RichTextEditor from '@/components/customize/rich-text-editor'
-import { useAddHotelMutation } from '@/queries/useHotel'
 import UploadImage from '@/components/customize/upload-image'
 import {
   CreateRoomTypeBodySchema,
@@ -35,7 +33,7 @@ import {
 import { useAddRoomTypeMutation } from '@/queries/useRoomType'
 import CurrencyInput from '@/components/customize/currency-input'
 
-export default function AddRoomType() {
+export default function AddRoomType({ hotelId }: { hotelId: number }) {
   const [file, setFile] = useState<File | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const [open, setOpen] = useState(false)
@@ -43,7 +41,7 @@ export default function AddRoomType() {
   const form = useForm<CreateRoomTypeBodyType>({
     resolver: zodResolver(CreateRoomTypeBodySchema),
     defaultValues: {
-      hotelId: 28,
+      hotelId: hotelId ?? undefined,
       roomTypeName: '',
       roomTypePrice: undefined,
       maxPeople: undefined,
@@ -52,6 +50,14 @@ export default function AddRoomType() {
       roomTypeImages: undefined,
     },
   })
+
+  useEffect(() => {
+    form.reset({
+      ...form.getValues(),
+      hotelId,
+    })
+  }, [hotelId, form])
+
   const reset = () => {
     form.reset()
     setFile(null)
@@ -78,7 +84,6 @@ export default function AddRoomType() {
       toast.success('Thêm thành công')
       reset()
       setOpen(false)
-      console.log(body)
     } catch (error) {
       handleErrorApi({
         error,
@@ -92,12 +97,12 @@ export default function AddRoomType() {
       <DialogTrigger asChild>
         <Button size="sm" className="h-7 gap-1 bg-green-500 hover:bg-green-600">
           <PlusCircle className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Thêm khách sạn</span>
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Thêm loại phòng</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Thêm khách sạn</DialogTitle>
+          <DialogTitle>Thêm loại phòng</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

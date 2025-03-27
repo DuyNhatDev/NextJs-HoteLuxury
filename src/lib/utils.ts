@@ -63,11 +63,18 @@ export const setUserIdToLocalStorage = (value: string) => {
 export const getUserIdFromLocalStorage = () => {
   return isBrowser ? localStorage.getItem('userId') : null
 }
+export const setHotelIdToLocalStorage = (value: string) => {
+  return isBrowser && localStorage.setItem('hotelId', value)
+}
+export const getHotelIdFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem('hotelId') : null
+}
 export const removeTokensFromLocalStorage = () => {
   if (isBrowser) {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('userId')
+    localStorage.removeItem('hotelId')
   }
 }
 export const decodeToken = (token: string) => {

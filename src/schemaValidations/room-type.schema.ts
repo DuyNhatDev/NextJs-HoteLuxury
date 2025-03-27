@@ -32,7 +32,7 @@ export const RoomTypeListResSchema = z.object({
 export type RoomTypeListResType = z.infer<typeof RoomTypeListResSchema>
 
 export const CreateRoomTypeBodySchema = z.object({
-  hotelId: z.number(),
+  hotelId: z.number().optional(),
   roomTypeName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
   roomTypePrice: z.number({ message: 'Vui lòng chọn nhập giá' }),
   maxPeople: z.number({ message: 'Vui lòng chọn số người' }),
