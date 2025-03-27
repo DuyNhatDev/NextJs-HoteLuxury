@@ -20,7 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Switch } from '@/components/ui/switch'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
