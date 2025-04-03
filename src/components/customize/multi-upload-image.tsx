@@ -43,28 +43,21 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
       isDeleting: false,
       isFromAPI: true,
     }))
-
     setFiles((prevFiles) => {
       const uploadedFiles = prevFiles.filter((f) => !f.isFromAPI)
       return [...apiFiles, ...uploadedFiles]
     })
-
     prevValueRef.current = value
   }, [value])
 
   const handleUpload = (filesList: FileList) => {
     const fileArray = Array.from(filesList)
-    console.log('Files selected:', fileArray)
-
     if (maxImages && files.length + fileArray.length > maxImages) {
       alert(`Bạn chỉ được upload tối đa ${maxImages} ảnh.`)
       return
     }
-
     const newFiles: UploadedFile[] = fileArray.map((file) => {
       const previewUrl = URL.createObjectURL(file)
-      console.log('Created preview URL:', previewUrl)
-
       return {
         id: `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
         preview: previewUrl,
@@ -74,18 +67,14 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
         isFromAPI: false,
       }
     })
-
     const updatedFiles = [...files, ...newFiles]
-    console.log('Updated files:', updatedFiles)
     setFiles(updatedFiles)
-
     if (onChange) {
       onChange(
         updatedFiles.filter((f) => f.isFromAPI).map((f) => f.preview),
         updatedFiles.map((f) => f.originFile!).filter(Boolean)
       )
     }
-
     setInputKey(Date.now())
   }
 
@@ -93,10 +82,8 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
     (id: string) => {
       const deletedFile = files.find((f) => f.id === id)
       if (deletedFile?.preview.startsWith('blob:')) {
-        console.log('Revoking URL:', deletedFile.preview)
         URL.revokeObjectURL(deletedFile.preview)
       }
-
       const updatedFiles = files.filter((f) => f.id !== id)
       setFiles(updatedFiles)
       if (onChange) {
@@ -112,11 +99,9 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
   const handleDeleteAll = () => {
     files.forEach((f) => {
       if (f.preview.startsWith('blob:')) {
-        console.log('Revoking all URLs:', f.preview)
         URL.revokeObjectURL(f.preview)
       }
     })
-
     setFiles([])
     onChange?.([], [])
   }
