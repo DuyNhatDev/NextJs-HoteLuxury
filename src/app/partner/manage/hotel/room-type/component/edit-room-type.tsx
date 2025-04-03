@@ -75,7 +75,6 @@ export default function EditRoomType({
         roomTypeImage: roomTypeImage ?? undefined,
         roomTypeImages: roomTypeImages ?? undefined,
       })
-      console.log(data.payload.data)
     }
   }, [data, form])
   const onSubmit = async (data: UpdateRoomTypeBodyType) => {

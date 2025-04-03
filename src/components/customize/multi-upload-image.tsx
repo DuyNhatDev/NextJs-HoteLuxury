@@ -23,47 +23,6 @@ interface UploadedFile {
   isFromAPI?: boolean
 }
 
-interface ImagePreviewProps {
-  src: string
-  fileType: string
-  onDelete?: () => void
-  isDeleting?: boolean
-}
-
-export const ImagePreview: React.FC<ImagePreviewProps> = ({
-  src,
-  fileType,
-  onDelete,
-  isDeleting = false,
-}) => {
-  const isImage = fileType.startsWith('image/')
-  return (
-    <div
-      className={cn('relative h-20 w-20 rounded-md sm:h-24 sm:w-24', isDeleting && 'opacity-50')}
-    >
-      {isImage ? (
-        <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
-          <AvatarImage src={src} />
-          <AvatarFallback>Ảnh</AvatarFallback>
-        </Avatar>
-      ) : (
-        <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-100">
-          <File className="h-8 w-8 text-gray-500 sm:h-10 sm:w-10" />
-        </div>
-      )}
-      {!isDeleting && onDelete && (
-        <button
-          onClick={onDelete}
-          className="absolute top-1 right-1 rounded-full bg-red-200 p-1 text-red-600 hover:bg-red-300"
-          type="button"
-        >
-          <X className="h-2 w-2 sm:h-3 sm:w-3" />
-        </button>
-      )}
-    </div>
-  )
-}
-
 export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
   value = [],
   onChange,
@@ -74,40 +33,50 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
 }) => {
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [inputKey, setInputKey] = useState(Date.now())
-  const prevValueRef = useRef<string[]>(value)
+  const prevValueRef = useRef<string[]>([])
 
   useEffect(() => {
-    if (JSON.stringify(value) !== JSON.stringify(prevValueRef.current)) {
-      const apiFiles: UploadedFile[] = value.map((url, index) => ({
-        id: `api-${index}`,
-        preview: url,
-        fileType: `image/${url.split('.').pop() || 'jpeg'}`,
-        isDeleting: false,
-        isFromAPI: true,
-      }))
-      setFiles(apiFiles)
-      prevValueRef.current = value
-    }
+    const apiFiles: UploadedFile[] = value.map((url, index) => ({
+      id: `api-${index}`,
+      preview: url,
+      fileType: `image/${url.split('.').pop() || 'jpeg'}`,
+      isDeleting: false,
+      isFromAPI: true,
+    }))
+
+    setFiles((prevFiles) => {
+      const uploadedFiles = prevFiles.filter((f) => !f.isFromAPI)
+      return [...apiFiles, ...uploadedFiles]
+    })
+
+    prevValueRef.current = value
   }, [value])
 
   const handleUpload = (filesList: FileList) => {
     const fileArray = Array.from(filesList)
+    console.log('Files selected:', fileArray)
 
     if (maxImages && files.length + fileArray.length > maxImages) {
       alert(`Bạn chỉ được upload tối đa ${maxImages} ảnh.`)
       return
     }
 
-    const newFiles: UploadedFile[] = fileArray.map((file) => ({
-      id: `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-      preview: URL.createObjectURL(file),
-      fileType: file.type,
-      isDeleting: false,
-      originFile: file,
-      isFromAPI: false,
-    }))
+    const newFiles: UploadedFile[] = fileArray.map((file) => {
+      const previewUrl = URL.createObjectURL(file)
+      console.log('Created preview URL:', previewUrl)
+
+      return {
+        id: `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        preview: previewUrl,
+        fileType: file.type,
+        isDeleting: false,
+        originFile: file,
+        isFromAPI: false,
+      }
+    })
 
     const updatedFiles = [...files, ...newFiles]
+    console.log('Updated files:', updatedFiles)
     setFiles(updatedFiles)
 
     if (onChange) {
@@ -122,9 +91,14 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
 
   const handleDeleteImage = useCallback(
     (id: string) => {
+      const deletedFile = files.find((f) => f.id === id)
+      if (deletedFile?.preview.startsWith('blob:')) {
+        console.log('Revoking URL:', deletedFile.preview)
+        URL.revokeObjectURL(deletedFile.preview)
+      }
+
       const updatedFiles = files.filter((f) => f.id !== id)
       setFiles(updatedFiles)
-
       if (onChange) {
         onChange(
           updatedFiles.filter((f) => f.isFromAPI).map((f) => f.preview),
@@ -136,17 +110,16 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
   )
 
   const handleDeleteAll = () => {
+    files.forEach((f) => {
+      if (f.preview.startsWith('blob:')) {
+        console.log('Revoking all URLs:', f.preview)
+        URL.revokeObjectURL(f.preview)
+      }
+    })
+
     setFiles([])
     onChange?.([], [])
   }
-
-  useEffect(() => {
-    return () => {
-      files.forEach((f) => {
-        if (f.preview.startsWith('blob:')) URL.revokeObjectURL(f.preview)
-      })
-    }
-  }, [files])
 
   return (
     <div className={cn('flex w-full flex-col', className)}>
@@ -172,12 +145,28 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
         )}
 
         {files.map((file) => (
-          <ImagePreview
-            key={file.id}
-            src={file.preview}
-            fileType={file.fileType}
-            onDelete={() => handleDeleteImage(file.id)}
-          />
+          <div key={file.id} className="relative h-20 w-20 rounded-md sm:h-24 sm:w-24">
+            {file.fileType.startsWith('image/') ? (
+              <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
+                <AvatarImage
+                  src={file.preview}
+                  onError={() => console.error('Lỗi tải ảnh:', file.preview)}
+                />
+                <AvatarFallback>Ảnh</AvatarFallback>
+              </Avatar>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-100">
+                <File className="h-8 w-8 text-gray-500 sm:h-10 sm:w-10" />
+              </div>
+            )}
+            <button
+              onClick={() => handleDeleteImage(file.id)}
+              className="absolute top-1 right-1 rounded-full bg-red-200 p-1 text-red-600 hover:bg-red-300"
+              type="button"
+            >
+              <X className="h-2 w-2 sm:h-3 sm:w-3" />
+            </button>
+          </div>
         ))}
       </div>
 
