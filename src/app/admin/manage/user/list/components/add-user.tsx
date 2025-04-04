@@ -112,7 +112,7 @@ export default function AddUser() {
           <form
             noValidate
             className="w-full max-w-[600px] flex-shrink-0 space-y-2"
-            id="add-partner-form"
+            id="add-user-form"
             onSubmit={form.handleSubmit(onSubmit, (e) => {
               console.log(e)
             })}
@@ -337,7 +337,7 @@ export default function AddUser() {
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="add-partner-form" className="bg-blue-500 hover:bg-blue-600">
+          <Button type="submit" form="add-user-form" className="bg-blue-500 hover:bg-blue-600">
             {addUserMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
             Thêm
           </Button>

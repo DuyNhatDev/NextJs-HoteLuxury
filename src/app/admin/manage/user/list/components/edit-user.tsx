@@ -121,7 +121,7 @@ export default function EditUser({
           <form
             noValidate
             className="grid auto-rows-max items-start gap-4 md:gap-8"
-            id="edit-partner-form"
+            id="edit-user-form"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className="grid gap-4 py-4">
@@ -275,7 +275,7 @@ export default function EditUser({
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="edit-partner-form" className="bg-blue-500 hover:bg-blue-600">
+          <Button type="submit" form="edit-user-form" className="bg-blue-500 hover:bg-blue-600">
             {updateUserMutation.isPending && (
               <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
             )}
