@@ -62,6 +62,7 @@ export default function EditRoomType({
       const {
         roomTypeName,
         roomTypePrice,
+        roomTypeQuantity,
         maxPeople,
         roomTypeDescription,
         roomTypeImage,
@@ -70,6 +71,7 @@ export default function EditRoomType({
       form.reset({
         roomTypeName: roomTypeName ?? '',
         roomTypePrice: Number(roomTypePrice) ?? undefined,
+        roomTypeQuantity: roomTypeQuantity ?? undefined,
         maxPeople: maxPeople ?? undefined,
         roomTypeDescription: roomTypeDescription ?? '',
         roomTypeImage: roomTypeImage ?? undefined,
@@ -224,9 +226,40 @@ export default function EditRoomType({
                           </FormLabel>
                           <FormControl>
                             <CurrencyInput
-                              value={Number(field.value)}
-                              onChange={(val) => field.onChange(val)}
+                              value={field.value}
+                              onChange={field.onChange}
                               currency="VNĐ"
+                              className="w-full"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="roomTypeQuantity"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="roomTypeQuantity">
+                            Số lượng phòng <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="roomTypeQuantity"
+                              type="number"
+                              className="w-full"
+                              required
+                              {...field}
+                              value={field.value ?? ''}
+                              onChange={(e) => {
+                                const value = e.target.valueAsNumber
+                                field.onChange(isNaN(value) ? undefined : value)
+                              }}
                             />
                           </FormControl>
                           <FormMessage />

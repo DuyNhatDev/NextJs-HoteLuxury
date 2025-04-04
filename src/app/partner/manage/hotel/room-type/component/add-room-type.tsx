@@ -45,6 +45,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
       roomTypeName: '',
       roomTypePrice: undefined,
       maxPeople: undefined,
+      roomTypeQuantity: undefined,
       roomTypeDescription: '',
       roomTypeImage: undefined,
       roomTypeImages: undefined,
@@ -204,6 +205,37 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                               value={field.value}
                               onChange={field.onChange}
                               currency="VNĐ"
+                              className="w-full"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex w-full gap-4">
+                  <FormField
+                    control={form.control}
+                    name="roomTypeQuantity"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="roomTypeQuantity">
+                            Số lượng phòng <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="roomTypeQuantity"
+                              type="number"
+                              className="w-full"
+                              required
+                              {...field}
+                              value={field.value ?? ''}
+                              onChange={(e) => {
+                                const value = e.target.valueAsNumber
+                                field.onChange(isNaN(value) ? undefined : value)
+                              }}
                             />
                           </FormControl>
                           <FormMessage />

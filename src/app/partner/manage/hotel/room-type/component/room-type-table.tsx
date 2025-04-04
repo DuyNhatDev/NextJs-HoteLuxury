@@ -91,12 +91,12 @@ export const columns: ColumnDef<RoomTypeType>[] = [
       return a - b
     },
   },
-  //   {
-  //     accessorKey: 'roomTypeQuantity',
-  //     header: 'Số lượng',
-  //     cell: ({ row }) => <div className="capitalize">{row.getValue('roomTypeQuantity') || '-'}</div>,
-  //     accessorFn: (row) => row.roomTypeQuantity || '',
-  //   },
+  {
+    accessorKey: 'roomTypeQuantity',
+    header: 'Số lượng',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('roomTypeQuantity') || '-'}</div>,
+    accessorFn: (row) => row.roomTypeQuantity || '',
+  },
   {
     id: 'actions',
     header: 'Thao tác',
