@@ -28,25 +28,26 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/customize/auto-pagination'
 import { getLastTwoInitials } from '@/lib/utils'
-import { useGetPartnerList } from '@/queries/useAccount'
+import { useGetUserList } from '@/queries/useAccount'
 import { PenLine, Trash2 } from 'lucide-react'
 import AddPartner from '@/app/admin/manage/partner/list/components/add-partner'
 import CustomTooltip from '@/components/customize/tooltip'
-import EditPartner from '@/app/admin/manage/partner/list/components/edit-partner'
-import AlertDialogDeletePartner from '@/app/admin/manage/partner/list/components/delete-partner'
+import AlertDialogDeleteUser from '@/app/admin/manage/user/list/components/delete-user'
+import EditUser from '@/app/admin/manage/user/list/components/edit-user'
+import AddUser from '@/app/admin/manage/user/list/components/add-user'
 
-export type PartnerItem = AccountListResType['data'][0]
+export type UserItem = AccountListResType['data'][0]
 
-const PartnerTableContext = createContext<{
-  partnerIdEdit: number | undefined
-  setPartnerIdEdit: (value: number) => void
-  partnerDelete: PartnerItem | null
-  setPartnerDelete: (value: PartnerItem | null) => void
+const UserTableContext = createContext<{
+  userIdEdit: number | undefined
+  setUserIdEdit: (value: number) => void
+  userDelete: UserItem | null
+  setUserDelete: (value: UserItem | null) => void
 }>({
-  partnerIdEdit: undefined,
-  setPartnerIdEdit: (value: number | undefined) => {},
-  partnerDelete: null,
-  setPartnerDelete: (value: PartnerItem | null) => {},
+  userIdEdit: undefined,
+  setUserIdEdit: (value: number | undefined) => {},
+  userDelete: null,
+  setUserDelete: (value: UserItem | null) => {},
 })
 
 export const columns: ColumnDef<AccountType>[] = [
@@ -95,13 +96,13 @@ export const columns: ColumnDef<AccountType>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setPartnerIdEdit, setPartnerDelete } = useContext(PartnerTableContext)
+      const { setUserIdEdit, setUserDelete } = useContext(UserTableContext)
       const openEditPartner = () => {
-        setPartnerIdEdit(row.original.userId)
+        setUserIdEdit(row.original.userId)
       }
 
       const openDeletePartner = () => {
-        setPartnerDelete(row.original)
+        setUserDelete(row.original)
       }
       return (
         <div className="flex gap-3">
@@ -124,13 +125,13 @@ export const columns: ColumnDef<AccountType>[] = [
 ]
 
 const PAGE_SIZE = 5
-export default function PartnerTable() {
+export default function UserTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [partnerIdEdit, setPartnerIdEdit] = useState<number | undefined>()
-  const [partnerDelete, setPartnerDelete] = useState<PartnerItem | null>(null)
-  const partnerListQuery = useGetPartnerList()
+  const [userIdEdit, setUserIdEdit] = useState<number | undefined>()
+  const [userDelete, setUserDelete] = useState<UserItem | null>(null)
+  const partnerListQuery = useGetUserList()
   const data = partnerListQuery.data?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -171,15 +172,10 @@ export default function PartnerTable() {
   }, [table, pageIndex])
 
   return (
-    <PartnerTableContext.Provider
-      value={{ partnerIdEdit, setPartnerIdEdit, partnerDelete, setPartnerDelete }}
-    >
+    <UserTableContext.Provider value={{ userIdEdit, setUserIdEdit, userDelete, setUserDelete }}>
       <div className="w-full">
-        <EditPartner id={partnerIdEdit} setId={setPartnerIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeletePartner
-          partnerDelete={partnerDelete}
-          setPartnerDelete={setPartnerDelete}
-        />
+        <EditUser id={userIdEdit} setId={setUserIdEdit} onSubmitSuccess={() => {}} />
+        <AlertDialogDeleteUser userDelete={userDelete} setUserDelete={setUserDelete} />
         <div className="flex items-center gap-2 py-4">
           <Input
             placeholder="Lọc theo tên"
@@ -200,7 +196,7 @@ export default function PartnerTable() {
             className="max-w-sm flex-1"
           />
           <div className="ml-auto flex items-center gap-2">
-            <AddPartner />
+            <AddUser />
           </div>
         </div>
         <div className="rounded-md border">
@@ -250,11 +246,11 @@ export default function PartnerTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/admin/manage/partner/list"
+              pathname="/admin/manage/user/list"
             />
           </div>
         </div>
       </div>
-    </PartnerTableContext.Provider>
+    </UserTableContext.Provider>
   )
 }

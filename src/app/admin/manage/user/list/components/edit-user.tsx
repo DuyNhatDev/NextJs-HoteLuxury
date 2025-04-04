@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import {
-  UpdatePartnerAccountBodySchema,
-  UpdatePartnerAccountBodyType,
+  UpdateUserAccountBodySchema,
+  UpdateUserAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
@@ -25,14 +25,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-import { useGetAccount, useUpdatePartnerMutation } from '@/queries/useAccount'
+import { useGetAccount, useUpdateUserMutation } from '@/queries/useAccount'
 import { handleErrorApi } from '@/lib/utils'
 import { Role } from '@/constants/type'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
 import UploadImage from '@/components/customize/upload-image'
 
-export default function EditPartner({
+export default function EditUser({
   id,
   setId,
   onSubmitSuccess,
@@ -43,10 +43,10 @@ export default function EditPartner({
 }) {
   const [file, setFile] = useState<File | null>(null)
   const { data } = useGetAccount(String(id), Boolean(id))
-  const updatePartnerMutation = useUpdatePartnerMutation()
+  const updateUserMutation = useUpdateUserMutation()
 
-  const form = useForm<UpdatePartnerAccountBodyType>({
-    resolver: zodResolver(UpdatePartnerAccountBodySchema),
+  const form = useForm<UpdateUserAccountBodyType>({
+    resolver: zodResolver(UpdateUserAccountBodySchema),
     defaultValues: {
       fullname: '',
       email: '',
@@ -71,12 +71,12 @@ export default function EditPartner({
         gender: gender ?? 'Nam',
         address: address ?? '',
         active: active ?? false,
-        roleId: roleId ?? Role.Partner,
+        roleId: roleId ?? Role.Client,
       })
     }
   }, [data, form])
-  const onSubmit = async (data: UpdatePartnerAccountBodyType) => {
-    if (updatePartnerMutation.isPending) return
+  const onSubmit = async (data: UpdateUserAccountBodyType) => {
+    if (updateUserMutation.isPending) return
     try {
       let body = data
       if (file) {
@@ -85,7 +85,7 @@ export default function EditPartner({
           image: file,
         }
       }
-      await updatePartnerMutation.mutateAsync({ id: id!, body })
+      await updateUserMutation.mutateAsync({ id: id!, body })
       toast.success('Cập nhật thành công')
       reset()
       if (onSubmitSuccess) {
@@ -115,7 +115,7 @@ export default function EditPartner({
     >
       <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa tài khoản đối tác</DialogTitle>
+          <DialogTitle>Chỉnh sửa tài khoản người dùng</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -276,7 +276,7 @@ export default function EditPartner({
         </Form>
         <DialogFooter>
           <Button type="submit" form="edit-partner-form" className="bg-blue-500 hover:bg-blue-600">
-            {updatePartnerMutation.isPending && (
+            {updateUserMutation.isPending && (
               <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
             )}
             Lưu

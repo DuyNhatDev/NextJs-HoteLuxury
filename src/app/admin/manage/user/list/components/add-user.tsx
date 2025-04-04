@@ -23,10 +23,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
-import { useAddPartnerMutation } from '@/queries/useAccount'
+import { useAddUserMutation } from '@/queries/useAccount'
 import {
-  CreatePartnerAccountBodySchema,
-  CreatePartnerAccountBodyType,
+  CreateUserAccountBodySchema,
+  CreateUserAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
@@ -37,10 +37,10 @@ import Combobox from '@/components/customize/combobox'
 import { Role } from '@/constants/type'
 import UploadImage from '@/components/customize/upload-image'
 
-export default function AddPartner() {
+export default function AddUser() {
   const [file, setFile] = useState<File | null>(null)
   const [open, setOpen] = useState(false)
-  const addPartnerMutation = useAddPartnerMutation()
+  const addUserMutation = useAddUserMutation()
   const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedWard, setSelectedWard] = useState<SelectLocation>({ id: '', name: '' })
@@ -50,8 +50,8 @@ export default function AddPartner() {
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []
-  const form = useForm<CreatePartnerAccountBodyType>({
-    resolver: zodResolver(CreatePartnerAccountBodySchema),
+  const form = useForm<CreateUserAccountBodyType>({
+    resolver: zodResolver(CreateUserAccountBodySchema),
     defaultValues: {
       fullname: '',
       email: '',
@@ -60,14 +60,14 @@ export default function AddPartner() {
       phoneNumber: '',
       birthDate: '',
       address: '',
-      roleId: Role.Partner,
+      roleId: Role.Client,
     },
   })
   const reset = () => {
     form.reset()
     setFile(null)
   }
-  const onSubmit = async (data: CreatePartnerAccountBodyType) => {
+  const onSubmit = async (data: CreateUserAccountBodyType) => {
     let body = data
     if (data.address) {
       const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
@@ -76,7 +76,7 @@ export default function AddPartner() {
         address: fullAddress,
       }
     }
-    if (addPartnerMutation.isPending) return
+    if (addUserMutation.isPending) return
     try {
       if (file) {
         body = {
@@ -84,7 +84,7 @@ export default function AddPartner() {
           image: file,
         }
       }
-      await addPartnerMutation.mutateAsync(body)
+      await addUserMutation.mutateAsync(body)
       toast.success('Thêm thành công')
       reset()
       setOpen(false)
@@ -106,7 +106,7 @@ export default function AddPartner() {
       </DialogTrigger>
       <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Tạo tài khoản tối tác</DialogTitle>
+          <DialogTitle>Tạo tài khoản người dùng</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -338,7 +338,7 @@ export default function AddPartner() {
         </Form>
         <DialogFooter>
           <Button type="submit" form="add-partner-form" className="bg-blue-500 hover:bg-blue-600">
-            {addPartnerMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
+            {addUserMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
             Thêm
           </Button>
         </DialogFooter>

@@ -1,3 +1,4 @@
+import UserTable from '@/app/admin/manage/user/list/components/user-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense } from 'react'
 
@@ -11,7 +12,7 @@ export default function PartnerPage() {
           </CardHeader>
           <CardContent>
             <Suspense>
-              {/* <PartnerTable /> */}
+              <UserTable />
             </Suspense>
           </CardContent>
         </Card>

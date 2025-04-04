@@ -73,6 +73,41 @@ export const CreatePartnerAccountBodySchema = z
 
 export type CreatePartnerAccountBodyType = z.infer<typeof CreatePartnerAccountBodySchema>
 
+export const CreateUserAccountBodySchema = z
+  .object({
+    email: z.string().email({ message: 'Email không hợp lệ' }),
+    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
+    password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
+    phoneNumber: z
+      .union([
+        z
+          .string()
+          .min(9, 'Số điện thoại phải có ít nhất 9 số')
+          .max(15, 'Số điện thoại không quá 15 số')
+          .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
+        z.literal(''),
+        z.undefined(),
+      ])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+
+    address: z
+      .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    image: z.union([z.string(), z.instanceof(File)]).optional(),
+    roleId: z.enum([Role.Client]),
+  })
+  .strict()
+
+export type CreateUserAccountBodyType = z.infer<typeof CreateUserAccountBodySchema>
+
 export const UpdatePartnerAccountBodySchema = z
   .object({
     fullname: z
@@ -111,6 +146,45 @@ export const UpdatePartnerAccountBodySchema = z
   .strict()
 
 export type UpdatePartnerAccountBodyType = z.infer<typeof UpdatePartnerAccountBodySchema>
+
+export const UpdateUserAccountBodySchema = z
+  .object({
+    fullname: z
+      .string()
+      .trim()
+      .min(1, { message: 'Họ và tên không được để trống' })
+      .max(256)
+      .optional(),
+    email: z.string().optional(),
+    gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
+    phoneNumber: z
+      .union([
+        z
+          .string()
+          .min(9, 'Số điện thoại phải có ít nhất 9 số')
+          .max(15, 'Số điện thoại không quá 15 số')
+          .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
+        z.literal(''),
+        z.undefined(),
+      ])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    address: z
+      .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    image: z.union([z.string(), z.instanceof(File)]).optional(),
+    isConfirmed: z.boolean().optional(),
+    active: z.boolean().optional(),
+    roleId: z.enum([Role.Partner, Role.Admin, Role.Client]).optional(),
+  })
+  .strict()
+
+export type UpdateUserAccountBodyType = z.infer<typeof UpdateUserAccountBodySchema>
 
 export const ChangePasswordBody = z
   .object({

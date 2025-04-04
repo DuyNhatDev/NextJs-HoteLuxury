@@ -33,18 +33,18 @@ import AddDestination from '@/app/admin/manage/destination/components/add-destin
 import EditDestination from '@/app/admin/manage/destination/components/edit-destination'
 import AlertDialogDeleteDestination from '@/app/admin/manage/destination/components/delete-destination'
 
-export type DestinationTypeItem = DestinationListResType['data'][0]
+export type DestinationItem = DestinationListResType['data'][0]
 
 const DestinationTableContext = createContext<{
   destinationIdEdit: number | undefined
   setDestinationIdEdit: (value: number) => void
-  destinationDelete: DestinationTypeItem | null
-  setDestinationDelete: (value: DestinationTypeItem | null) => void
+  destinationDelete: DestinationItem | null
+  setDestinationDelete: (value: DestinationItem | null) => void
 }>({
   destinationIdEdit: undefined,
   setDestinationIdEdit: (value: number | undefined) => {},
   destinationDelete: null,
-  setDestinationDelete: (value: DestinationTypeItem | null) => {},
+  setDestinationDelete: (value: DestinationItem | null) => {},
 })
 
 export const columns: ColumnDef<DestinationType>[] = [
@@ -105,7 +105,7 @@ export default function DestinationTable() {
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
   const [destinationIdEdit, setDestinationIdEdit] = useState<number | undefined>()
-  const [destinationDelete, setDestinationDelete] = useState<DestinationTypeItem | null>(null)
+  const [destinationDelete, setDestinationDelete] = useState<DestinationItem | null>(null)
   const destinationListQuery = useGetDestinationList()
   const data = destinationListQuery.data?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])

@@ -1,4 +1,4 @@
-import { DestinationTypeItem } from '@/app/admin/manage/destination/components/destination-table'
+import { DestinationItem } from '@/app/admin/manage/destination/components/destination-table'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +17,8 @@ export default function AlertDialogDeleteDestination({
   destinationDelete,
   setDestinationDelete,
 }: {
-  destinationDelete: DestinationTypeItem | null
-  setDestinationDelete: (value: DestinationTypeItem | null) => void
+  destinationDelete: DestinationItem | null
+  setDestinationDelete: (value: DestinationItem | null) => void
 }) {
   const { mutateAsync } = useDeleteDestinationMutation()
   const deleteDestination = async () => {

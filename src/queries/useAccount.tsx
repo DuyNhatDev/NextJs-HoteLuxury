@@ -1,5 +1,5 @@
 import accountApiRequest from '@/apiRequests/account'
-import { UpdatePartnerAccountBodyType } from '@/schemaValidations/account.schema'
+import { UpdatePartnerAccountBodyType, UpdateUserAccountBodyType } from '@/schemaValidations/account.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetAccount = (id?: string, enabled: boolean = false) => {
@@ -24,6 +24,13 @@ export const useGetPartnerPendingList = () => {
   })
 }
 
+export const useGetUserList = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: accountApiRequest.getUserList,
+  })
+}
+
 export const useAddPartnerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -31,6 +38,18 @@ export const useAddPartnerMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['partners'],
+      })
+    },
+  })
+}
+
+export const useAddUserMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: accountApiRequest.addUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
       })
     },
   })
@@ -49,10 +68,23 @@ export const useUpdatePartnerMutation = () => {
   })
 }
 
+export const useUpdateUserMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, body }: { id: number; body: UpdateUserAccountBodyType }) =>
+      accountApiRequest.updateUser(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+      })
+    },
+  })
+}
+
 export const useDeletePartnerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: accountApiRequest.deletePartner,
+    mutationFn: accountApiRequest.deleteAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['partners'],
@@ -60,10 +92,23 @@ export const useDeletePartnerMutation = () => {
     },
   })
 }
+
+export const useDeleteUserMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: accountApiRequest.deleteAccount,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+      })
+    },
+  })
+}
+
 export const useRejectPartnerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: accountApiRequest.deletePartner,
+    mutationFn: accountApiRequest.deleteAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['pending-partners'],
