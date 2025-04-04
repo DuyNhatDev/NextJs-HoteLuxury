@@ -3,14 +3,15 @@ import { objectToFormData } from '@/lib/utils'
 import {
   CreateDestinationBodyType,
   DestinationListResType,
+  DestinationResType,
   UpdateDestinationBodyType,
-} from '@/schemaValidations/destination.chema'
+} from '@/schemaValidations/destination.schema'
 
 const prefix = '/location'
 
 const destinationApiRequest = {
   getDestinationList: () => http.get<DestinationListResType>(`${prefix}`),
-  getDestination: (id: number) => http.get<DestinationListResType>(`${prefix}/${id}`),
+  getDestination: (id: number) => http.get<DestinationResType>(`${prefix}/${id}`),
   addDestination: (body: CreateDestinationBodyType) => {
     const formData = objectToFormData(body)
     return http.post<DestinationListResType>(`${prefix}`, formData)

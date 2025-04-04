@@ -1,5 +1,5 @@
 import destinationApiRequest from '@/apiRequests/destination'
-import { UpdateDestinationBodyType } from '@/schemaValidations/destination.chema'
+import { UpdateDestinationBodyType } from '@/schemaValidations/destination.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetDestination = (id?: number, enabled: boolean = false) => {

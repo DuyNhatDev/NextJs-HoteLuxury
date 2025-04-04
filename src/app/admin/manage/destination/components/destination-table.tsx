@@ -1,5 +1,4 @@
 'use client'
-import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +11,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -26,92 +24,63 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/customize/auto-pagination'
-import { formatCurrency, getLastTwoInitials } from '@/lib/utils'
+import { getLastTwoInitials } from '@/lib/utils'
 import { PenLine, Trash2 } from 'lucide-react'
 import CustomTooltip from '@/components/customize/tooltip'
-import { RoomTypeListResType, RoomTypeType } from '@/schemaValidations/room-type.schema'
-import { useGetRoomTypeList } from '@/queries/useRoomType'
-import AddRoomType from '@/app/partner/manage/hotel/room-type/component/add-room-type'
-import EditRoomType from '@/app/partner/manage/hotel/room-type/component/edit-room-type'
-import AlertDialogDeleteRoomType from '@/app/partner/manage/hotel/room-type/component/delete-room-type'
-import { useGetHotelList } from '@/queries/useHotel'
-import { HotelType } from '@/schemaValidations/hotel.schema'
+import { DestinationListResType, DestinationType } from '@/schemaValidations/destination.schema'
+import { useGetDestinationList } from '@/queries/useDestination'
+import AddDestination from '@/app/admin/manage/destination/components/add-destination'
+import EditDestination from '@/app/admin/manage/destination/components/edit-destination'
+import AlertDialogDeleteDestination from '@/app/admin/manage/destination/components/delete-destination'
 
-export type RoomTypeItem = RoomTypeListResType['data'][0]
+export type DestinationTypeItem = DestinationListResType['data'][0]
 
-const RoomTypeTableContext = createContext<{
-  roomTypeIdEdit: number | undefined
-  setRoomTypeIdEdit: (value: number) => void
-  roomTypeDelete: RoomTypeItem | null
-  setRoomTypeDelete: (value: RoomTypeItem | null) => void
+const DestinationTableContext = createContext<{
+  destinationIdEdit: number | undefined
+  setDestinationIdEdit: (value: number) => void
+  destinationDelete: DestinationTypeItem | null
+  setDestinationDelete: (value: DestinationTypeItem | null) => void
 }>({
-  roomTypeIdEdit: undefined,
-  setRoomTypeIdEdit: (value: number | undefined) => {},
-  roomTypeDelete: null,
-  setRoomTypeDelete: (value: RoomTypeItem | null) => {},
+  destinationIdEdit: undefined,
+  setDestinationIdEdit: (value: number | undefined) => {},
+  destinationDelete: null,
+  setDestinationDelete: (value: DestinationTypeItem | null) => {},
 })
 
-export const columns: ColumnDef<RoomTypeType>[] = [
+export const columns: ColumnDef<DestinationType>[] = [
   {
-    accessorKey: 'roomTypeImage',
-    header: 'Ảnh',
+    accessorKey: 'locationImage',
+    header: () => <div className="text-center">Ảnh</div>,
     cell: ({ row }) => (
-      <div>
+      <div className="flex justify-center">
         <Avatar className="aspect-square h-[50px] w-[50px] rounded-md object-cover">
-          <AvatarImage src={row.getValue('roomTypeImage')} />
+          <AvatarImage src={row.getValue('locationImage')} />
           <AvatarFallback className="rounded-none">
-            {getLastTwoInitials(row.original.roomTypeName)}
+            {getLastTwoInitials(row.original.locationName)}
           </AvatarFallback>
         </Avatar>
       </div>
     ),
   },
   {
-    accessorKey: 'roomTypeName',
-    header: 'Tên',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('roomTypeName')}</div>,
-  },
-  {
-    accessorKey: 'roomTypePrice',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Giá
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('roomTypePrice'))}</div>,
-    sortingFn: (rowA, rowB, columnId) => {
-      const a = rowA.getValue<number>(columnId) ?? 0
-      const b = rowB.getValue<number>(columnId) ?? 0
-      return a - b
-    },
-  },
-  {
-    accessorKey: 'roomTypeQuantity',
-    header: 'Số lượng',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('roomTypeQuantity') || '-'}</div>,
-    accessorFn: (row) => row.roomTypeQuantity || '',
+    accessorKey: 'locationName',
+    header: () => <div className="text-center">Tên</div>,
+    cell: ({ row }) => <div className="text-center capitalize">{row.getValue('locationName')}</div>,
   },
   {
     id: 'actions',
-    header: 'Thao tác',
+    header: () => <div className="text-center">Thao tác</div>,
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setRoomTypeIdEdit, setRoomTypeDelete } = useContext(RoomTypeTableContext)
+      const { setDestinationIdEdit, setDestinationDelete } = useContext(DestinationTableContext)
       const openEditRoomType = () => {
-        setRoomTypeIdEdit(row.original.roomTypeId)
+        setDestinationIdEdit(row.original.locationId)
       }
-
       const openDeletePartner = () => {
-        setRoomTypeDelete(row.original)
+        setDestinationDelete(row.original)
       }
       return (
-        <div className="flex gap-3">
+        <div className="flex justify-center gap-3">
           <CustomTooltip content="Sửa">
             <PenLine
               className="h-5 w-5 text-blue-600 hover:cursor-pointer"
@@ -131,17 +100,14 @@ export const columns: ColumnDef<RoomTypeType>[] = [
 ]
 
 const PAGE_SIZE = 5
-export default function RoomTypeTable() {
+export default function DestinationTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [roomTypeIdEdit, setRoomTypeIdEdit] = useState<number | undefined>()
-  const [roomTypeDelete, setRoomTypeDelete] = useState<RoomTypeItem | null>(null)
-  const hotelData = useGetHotelList()
-  const myHotel: HotelType | undefined = hotelData.data?.payload?.data[0]
-  const [hotelId, setHotelId] = useState<number | undefined>()
-  const roomTypeListQuery = useGetRoomTypeList()
-  const data = roomTypeListQuery.data?.payload.data ?? []
+  const [destinationIdEdit, setDestinationIdEdit] = useState<number | undefined>()
+  const [destinationDelete, setDestinationDelete] = useState<DestinationTypeItem | null>(null)
+  const destinationListQuery = useGetDestinationList()
+  const data = destinationListQuery.data?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -180,40 +146,31 @@ export default function RoomTypeTable() {
     })
   }, [table, pageIndex])
 
-  useEffect(() => {
-    const hotelId = myHotel?.hotelId
-    setHotelId(hotelId)
-  }, [myHotel])
-
   return (
-    <RoomTypeTableContext.Provider
-      value={{ roomTypeIdEdit, setRoomTypeIdEdit, roomTypeDelete, setRoomTypeDelete }}
+    <DestinationTableContext.Provider
+      value={{ destinationIdEdit, setDestinationIdEdit, destinationDelete, setDestinationDelete }}
     >
       <div className="w-full">
-        <EditRoomType id={roomTypeIdEdit} setId={setRoomTypeIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeleteRoomType
-          roomTypeDelete={roomTypeDelete}
-          setRoomTypeDelete={setRoomTypeDelete}
+        <EditDestination
+          id={destinationIdEdit}
+          setId={setDestinationIdEdit}
+          onSubmitSuccess={() => {}}
+        />
+        <AlertDialogDeleteDestination
+          destinationDelete={destinationDelete}
+          setDestinationDelete={setDestinationDelete}
         />
         <div className="flex items-center gap-2 py-4">
           <Input
             placeholder="Lọc theo tên"
-            value={(table.getColumn('roomTypeName')?.getFilterValue() as string) ?? ''}
+            value={(table.getColumn('locationName')?.getFilterValue() as string) ?? ''}
             onChange={(event) =>
-              table.getColumn('roomTypeName')?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm flex-1"
-          />
-          <Input
-            placeholder="Lọc theo giá"
-            value={(table.getColumn('roomTypePrice')?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn('roomTypePrice')?.setFilterValue(event.target.value)
+              table.getColumn('locationName')?.setFilterValue(event.target.value)
             }
             className="max-w-sm flex-1"
           />
           <div className="ml-auto flex items-center gap-2">
-            <AddRoomType hotelId={hotelId!} />
+            <AddDestination />
           </div>
         </div>
         <div className="rounded-md border">
@@ -263,11 +220,11 @@ export default function RoomTypeTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/partner/manage/room-type/list"
+              pathname="/admin/manage/destination"
             />
           </div>
         </div>
       </div>
-    </RoomTypeTableContext.Provider>
+    </DestinationTableContext.Provider>
   )
 }

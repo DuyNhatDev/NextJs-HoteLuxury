@@ -1,4 +1,4 @@
-import RoomTypeTable from '@/app/partner/manage/hotel/room-type/component/room-type-table'
+import RoomTypeTable from '@/app/partner/manage/hotel/room-type/components/room-type-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense } from 'react'
 

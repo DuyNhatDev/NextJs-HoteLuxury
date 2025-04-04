@@ -8,6 +8,14 @@ export const DestinationSchema = z.object({
 
 export type DestinationType = z.infer<typeof DestinationSchema>
 
+export const DestinationResType = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: DestinationSchema,
+})
+
+export type DestinationResType = z.infer<typeof DestinationResType>
+
 export const DestinationListResSchema = z.object({
   status: z.string(),
   message: z.string(),
