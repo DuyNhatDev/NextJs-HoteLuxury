@@ -1,5 +1,8 @@
 import accountApiRequest from '@/apiRequests/account'
-import { UpdatePartnerAccountBodyType, UpdateUserAccountBodyType } from '@/schemaValidations/account.schema'
+import {
+  UpdatePartnerAccountBodyType,
+  UpdateUserAccountBodyType,
+} from '@/schemaValidations/account.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetAccount = (id?: string, enabled: boolean = false) => {
@@ -127,5 +130,11 @@ export const useConfirmPartnerMutation = () => {
         queryKey: ['pending-partners'],
       })
     },
+  })
+}
+
+export const useChangePasswordMutation = () => {
+  return useMutation({
+    mutationFn: accountApiRequest.changePassword,
   })
 }

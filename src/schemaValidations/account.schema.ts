@@ -188,13 +188,14 @@ export type UpdateUserAccountBodyType = z.infer<typeof UpdateUserAccountBodySche
 
 export const ChangePasswordBody = z
   .object({
-    oldPassword: z.string().min(6).max(100),
-    password: z.string().min(6).max(100),
-    confirmPassword: z.string().min(6).max(100),
+    userId: z.string(),
+    oldPassword: z.string().min(6, { message: 'Vui lòng nhập mật khẩu cũ' }).max(100),
+    newPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
   })
   .strict()
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
+  .superRefine(({ confirmPassword, newPassword }, ctx) => {
+    if (confirmPassword !== newPassword) {
       ctx.addIssue({
         code: 'custom',
         message: 'Mật khẩu mới không khớp',
@@ -204,11 +205,3 @@ export const ChangePasswordBody = z
   })
 
 export type ChangePasswordBodyType = z.infer<typeof ChangePasswordBody>
-
-export const ChangePasswordV2Body = ChangePasswordBody
-
-export type ChangePasswordV2BodyType = z.infer<typeof ChangePasswordV2Body>
-
-export const ChangePasswordV2Res = LoginResSchema
-
-export type ChangePasswordV2ResType = z.infer<typeof ChangePasswordV2Res>

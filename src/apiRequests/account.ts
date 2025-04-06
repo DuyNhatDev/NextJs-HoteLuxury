@@ -3,6 +3,7 @@ import { objectToFormData } from '@/lib/utils'
 import {
   AccountListResType,
   AccountResType,
+  ChangePasswordBodyType,
   CreatePartnerAccountBodyType,
   CreateUserAccountBodyType,
   UpdatePartnerAccountBodyType,
@@ -35,5 +36,7 @@ const accountApiRequest = {
   deleteAccount: (id: number) => http.delete(`${prefix}/${id}`),
   confirmPartner: (id: number, isConfirmed: boolean) =>
     http.put<AccountResType>(`${prefix}/${id}`, { isConfirmed }),
+  changePassword: (body: ChangePasswordBodyType) =>
+    http.post<AccountResType>(`${prefix}/update-password`, body),
 }
 export default accountApiRequest
