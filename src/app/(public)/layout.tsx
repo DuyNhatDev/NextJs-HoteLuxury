@@ -48,7 +48,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
           <DarkModeToggle />
         </div>
       </header>
-      <main className="flex flex-1 items-center justify-center p-4">{children}</main>
+      <main className="flex flex-1 flex-col gap-4 md:gap-8">{children}</main>
     </div>
   )
 }
