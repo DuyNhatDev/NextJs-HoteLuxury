@@ -7,10 +7,7 @@ export default async function Home() {
   let destinationList: DestinationType[] = []
   try {
     const result = await destinationApiRequest.getDestinationList()
-    const {
-      payload: { data },
-    } = result
-    destinationList = data
+    destinationList = result.payload.data
   } catch (error) {
     return <div>Something went wrong</div>
   }
@@ -30,18 +27,18 @@ export default async function Home() {
       </section>
       <section className="container mx-auto max-w-screen-xl space-y-10 px-16 py-8">
         <h2 className="text-center text-2xl font-bold">Điểm đến yêu thích</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {destinationList.map((destination) => (
             <Link href="#" key={destination.locationId}>
-              <div className="relative h-[200px] w-full overflow-hidden rounded-lg">
+              <div className="group relative h-[200px] w-full overflow-hidden rounded-sm">
                 <Image
                   src={destination.locationImage as string}
                   fill
                   quality={100}
                   alt={destination.locationName}
-                  className="object-cover"
+                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                 />
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-2">
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-2 transition-all duration-300 ease-in-out group-hover:from-black/90">
                   <p className="text-xl font-semibold text-white">{destination.locationName}</p>
                 </div>
               </div>
