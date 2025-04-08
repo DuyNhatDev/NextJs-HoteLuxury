@@ -35,7 +35,12 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
   const [inputKey, setInputKey] = useState(Date.now())
   const prevValueRef = useRef<string[]>([])
 
+  // Sync ảnh từ prop value (chỉ khi không có ảnh đang upload)
   useEffect(() => {
+    const hasLocalUpload = files.some((f) => !f.isFromAPI)
+    if (JSON.stringify(prevValueRef.current) === JSON.stringify(value)) return
+    if (hasLocalUpload) return
+
     const apiFiles: UploadedFile[] = value.map((url, index) => ({
       id: `api-${index}`,
       preview: url,
@@ -43,38 +48,42 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
       isDeleting: false,
       isFromAPI: true,
     }))
-    setFiles((prevFiles) => {
-      const uploadedFiles = prevFiles.filter((f) => !f.isFromAPI)
-      return [...apiFiles, ...uploadedFiles]
-    })
+
+    setFiles(apiFiles)
     prevValueRef.current = value
-  }, [value])
+  }, [value, files])
+
+  const getCurrentFiles = (list: UploadedFile[]) => {
+    const apiImages = list.filter((f) => f.isFromAPI).map((f) => f.preview)
+    const uploadedFiles = list.filter((f) => !f.isFromAPI && f.originFile).map((f) => f.originFile!)
+    return { apiImages, uploadedFiles }
+  }
 
   const handleUpload = (filesList: FileList) => {
     const fileArray = Array.from(filesList)
+
     if (maxImages && files.length + fileArray.length > maxImages) {
       alert(`Bạn chỉ được upload tối đa ${maxImages} ảnh.`)
       return
     }
-    const newFiles: UploadedFile[] = fileArray.map((file) => {
-      const previewUrl = URL.createObjectURL(file)
-      return {
-        id: `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-        preview: previewUrl,
-        fileType: file.type,
-        isDeleting: false,
-        originFile: file,
-        isFromAPI: false,
-      }
-    })
+
+    const newFiles: UploadedFile[] = fileArray.map((file) => ({
+      id: `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      preview: URL.createObjectURL(file),
+      fileType: file.type,
+      isDeleting: false,
+      originFile: file,
+      isFromAPI: false,
+    }))
+
     const updatedFiles = [...files, ...newFiles]
     setFiles(updatedFiles)
+
     if (onChange) {
-      onChange(
-        updatedFiles.filter((f) => f.isFromAPI).map((f) => f.preview),
-        updatedFiles.map((f) => f.originFile!).filter(Boolean)
-      )
+      const { apiImages, uploadedFiles } = getCurrentFiles(updatedFiles)
+      onChange(apiImages, uploadedFiles)
     }
+
     setInputKey(Date.now())
   }
 
@@ -84,13 +93,13 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
       if (deletedFile?.preview.startsWith('blob:')) {
         URL.revokeObjectURL(deletedFile.preview)
       }
+
       const updatedFiles = files.filter((f) => f.id !== id)
       setFiles(updatedFiles)
+
       if (onChange) {
-        onChange(
-          updatedFiles.filter((f) => f.isFromAPI).map((f) => f.preview),
-          updatedFiles.map((f) => f.originFile!).filter(Boolean)
-        )
+        const { apiImages, uploadedFiles } = getCurrentFiles(updatedFiles)
+        onChange(apiImages, uploadedFiles)
       }
     },
     [files, onChange]
@@ -102,9 +111,18 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
         URL.revokeObjectURL(f.preview)
       }
     })
+
     setFiles([])
     onChange?.([], [])
   }
+
+  useEffect(() => {
+    return () => {
+      files.forEach((f) => {
+        if (f.preview.startsWith('blob:')) URL.revokeObjectURL(f.preview)
+      })
+    }
+  }, [files])
 
   return (
     <div className={cn('flex w-full flex-col', className)}>
