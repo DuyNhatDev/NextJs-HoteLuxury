@@ -1,6 +1,5 @@
 import {
   Hotel,
-  MapPinned,
   Settings,
   ReceiptText,
   MessageCircleMore,

@@ -1,4 +1,5 @@
 'use client'
+
 import { ChevronRight, LayoutDashboard, type LucideIcon } from 'lucide-react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -21,7 +22,6 @@ export function NavManage({
     title: string
     url: string
     icon?: LucideIcon
-    isActive?: boolean
     items?: {
       title: string
       url: string
@@ -29,6 +29,23 @@ export function NavManage({
   }[]
 }) {
   const pathname = usePathname()
+
+  const activeItems = items.map((item) => {
+    const subItemsWithActive =
+      item.items?.map((subItem) => ({
+        ...subItem,
+        isActive: pathname === subItem.url,
+      })) ?? []
+
+    const isActive = subItemsWithActive.some((subItem) => subItem.isActive)
+
+    return {
+      ...item,
+      isActive,
+      items: subItemsWithActive,
+    }
+  })
+
   return (
     <>
       <SidebarMenu>
@@ -48,10 +65,11 @@ export function NavManage({
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
+
       <SidebarGroup>
         <SidebarGroupLabel>Quản lý</SidebarGroupLabel>
         <SidebarMenu>
-          {items.map((item) => (
+          {activeItems.map((item) => (
             <Collapsible
               key={item.title}
               asChild
@@ -68,25 +86,22 @@ export function NavManage({
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {item.items?.map((subItem) => {
-                      const active = pathname === subItem.url
-                      return (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild>
-                            <Link
-                              href={subItem.url}
-                              className={
-                                active
-                                  ? 'bg-accent text-accent-foreground'
-                                  : 'text-muted-foreground'
-                              }
-                            >
-                              <span>{subItem.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      )
-                    })}
+                    {item.items?.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild>
+                          <Link
+                            href={subItem.url}
+                            className={
+                              subItem.isActive
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-muted-foreground'
+                            }
+                          >
+                            <span>{subItem.title}</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
                   </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>

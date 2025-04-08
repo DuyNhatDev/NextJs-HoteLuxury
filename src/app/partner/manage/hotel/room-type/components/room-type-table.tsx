@@ -263,7 +263,7 @@ export default function RoomTypeTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/partner/manage/room-type/list"
+              pathname="/partner/manage/hotel/room-type"
             />
           </div>
         </div>

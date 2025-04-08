@@ -84,7 +84,7 @@ export default function HotelInformation() {
             <CarouselMainContainer className="h-[500px]">
               {imageList.map((img, index) => (
                 <SliderMainItem key={index} className="bg-transparent">
-                  <div className="outline-border bg-background relative h-full w-full overflow-hidden rounded-xl outline outline-1">
+                  <div className="outline-border bg-background relative h-full w-full overflow-hidden rounded-xl outline">
                     <Image src={img} alt={`hotel-image-${index}`} fill />
                   </div>
                 </SliderMainItem>
@@ -93,7 +93,7 @@ export default function HotelInformation() {
             <CarouselThumbsContainer>
               {imageList.map((img, index) => (
                 <SliderThumbItem key={index} index={index} className="h-40 w-40 bg-transparent">
-                  <div className="outline-border bg-background relative size-full overflow-hidden rounded-xl outline outline-1">
+                  <div className="outline-border bg-background relative size-full overflow-hidden rounded-sm outline">
                     <Image src={img} alt={`hotel-image-thumb-${index}`} fill />
                   </div>
                 </SliderThumbItem>

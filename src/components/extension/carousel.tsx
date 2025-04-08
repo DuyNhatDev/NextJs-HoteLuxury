@@ -275,9 +275,9 @@ const SliderThumbItem = forwardRef<
       )}
     >
       <div
-        className={`relative aspect-square h-20 w-full cursor-pointer rounded-md transition-transform duration-300 ${
+        className={`relative aspect-square h-20 w-full cursor-pointer rounded-sm transition-transform duration-300 ${
           isSlideActive
-            ? 'scale-110 border-2 border-blue-500'
+            ? 'scale-110 border-4 border-blue-400'
             : 'scale-100 border border-transparent'
         }`}
       >

@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode'
 import authApiRequest from '@/apiRequests/auth'
 import { TokenPayload } from '@/types/jwt.types'
 import { format, parseISO } from 'date-fns'
+import { slugify } from '@whthduck/slugify-vi'
 
 export const handleErrorApi = ({
   error,
@@ -173,4 +174,8 @@ export const objectToFormData = (obj: Record<string, any>): FormData => {
 
 export const formatDate = (dateString?: string): string => {
   return dateString ? format(parseISO(dateString), 'dd-MM-yyyy') : ''
+}
+
+export const generateSlugUrl = (name: string) => {
+  return `${slugify(name)}`
 }

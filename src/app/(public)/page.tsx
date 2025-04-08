@@ -1,4 +1,5 @@
 import destinationApiRequest from '@/apiRequests/destination'
+import { generateSlugUrl } from '@/lib/utils'
 import { DestinationType } from '@/schemaValidations/destination.schema'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -29,7 +30,10 @@ export default async function Home() {
         <h2 className="text-center text-2xl font-bold">Điểm đến yêu thích</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {destinationList.map((destination) => (
-            <Link href="#" key={destination.locationId}>
+            <Link
+              href={`khach-san-${generateSlugUrl(destination.locationName)}`}
+              key={destination.locationId}
+            >
               <div className="group relative h-[200px] w-full overflow-hidden rounded-sm">
                 <Image
                   src={destination.locationImage as string}
