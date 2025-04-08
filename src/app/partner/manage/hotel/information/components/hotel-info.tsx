@@ -85,7 +85,13 @@ export default function HotelInformation() {
               {imageList.map((img, index) => (
                 <SliderMainItem key={index} className="bg-transparent">
                   <div className="outline-border bg-background relative h-full w-full overflow-hidden rounded-xl outline">
-                    <Image src={img} alt={`hotel-image-${index}`} fill />
+                    <Image
+                      src={img}
+                      alt={`hotel-image-${index}`}
+                      quality={100}
+                      fill
+                      className="object-contain object-center"
+                    />
                   </div>
                 </SliderMainItem>
               ))}
@@ -94,7 +100,7 @@ export default function HotelInformation() {
               {imageList.map((img, index) => (
                 <SliderThumbItem key={index} index={index} className="h-40 w-40 bg-transparent">
                   <div className="outline-border bg-background relative size-full overflow-hidden rounded-sm outline">
-                    <Image src={img} alt={`hotel-image-thumb-${index}`} fill />
+                    <Image src={img} alt={`hotel-image-thumb-${index}`} quality={100} fill />
                   </div>
                 </SliderThumbItem>
               ))}

@@ -241,7 +241,7 @@ export default function AddHotel() {
                             <CustomSelect
                               options={[
                                 { label: 'Khách sạn', value: 'Khách sạn' },
-                                { label: 'Khu nghỉ dưỡng', value: 'Nữ' },
+                                { label: 'Khu nghỉ dưỡng', value: 'Khu nghỉ dưỡng' },
                                 { label: 'Biệt thự', value: 'Biệt thự' },
                                 { label: 'Căn hộ', value: 'Căn hộ' },
                                 { label: 'Nhà nghỉ', value: 'Nhà nghỉ' },
