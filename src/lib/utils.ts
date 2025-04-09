@@ -175,6 +175,10 @@ export const formatDate = (dateString?: string): string => {
   return dateString ? format(parseISO(dateString), 'dd-MM-yyyy') : ''
 }
 
+export const formatDateToString = (date?: Date): string => {
+  return date ? format(date, 'yyyy-MM-dd') : ''
+}
+
 export const generateSlugUrl = (name: string) => {
   return `${slugify(name)}`
 }

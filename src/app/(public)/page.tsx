@@ -1,4 +1,5 @@
 import destinationApiRequest from '@/apiRequests/destination'
+import SearchForm from '@/app/(public)/components/search-form'
 import { generateSlugUrl } from '@/lib/utils'
 import { DestinationType } from '@/schemaValidations/destination.schema'
 import Image from 'next/image'
@@ -22,12 +23,13 @@ export default async function Home() {
             fill
             quality={100}
             alt="Banner"
-            className="absolute top-0 left-0 h-full w-full object-cover"
+            className="absolute top-0 left-0 z-0 h-full w-full object-cover"
           />
+          <SearchForm />
         </div>
       </section>
       <section className="container mx-auto max-w-screen-xl space-y-10 px-16 py-8">
-        <h2 className="text-center text-2xl font-bold">Điểm đến yêu thích</h2>
+        <h2 className="mb-3 text-center text-2xl font-bold">Điểm đến yêu thích</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {destinationList.map((destination) => (
             <Link

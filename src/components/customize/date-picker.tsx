@@ -17,7 +17,7 @@ interface DatePickerButtonProps {
   placeholder?: string
   className?: string
   disabled?: boolean
-  format?: string // Format ngày hiển thị
+  format?: string
 }
 
 export default function DatePickerButton({
@@ -45,7 +45,7 @@ export default function DatePickerButton({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-auto p-4 rounded-lg shadow-md" align="center">
+      <PopoverContent className="w-auto rounded-lg p-4 shadow-md" align="center">
         <DayPicker
           mode="single"
           selected={value}

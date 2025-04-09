@@ -65,6 +65,9 @@ export default function AddPartner() {
   })
   const reset = () => {
     form.reset()
+    setSelectedProvince({ id: '', name: '' })
+    setSelectedDistrict({ id: '', name: '' })
+    setSelectedWard({ id: '', name: '' })
     setFile(null)
   }
   const onSubmit = async (data: CreatePartnerAccountBodyType) => {

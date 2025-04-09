@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sheet'
 import DarkModeToggle from '@/components/dark-mode-toggle'
 import Image from 'next/image'
-import DropdownAvatar from '@/app/(public)/dropdown-avatar'
+import DropdownAvatar from '@/app/(public)/components/dropdown-avatar'
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
