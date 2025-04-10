@@ -179,6 +179,10 @@ export const formatDateToString = (date?: Date): string => {
   return date ? format(date, 'yyyy-MM-dd') : ''
 }
 
+export const formatProvince = (province: string): string => {
+  return province.replace(/^(Tỉnh|Thành phố)\s+/i, '').trim()
+}
+
 export const generateSlugUrl = (name: string) => {
   return `${slugify(name)}`
 }

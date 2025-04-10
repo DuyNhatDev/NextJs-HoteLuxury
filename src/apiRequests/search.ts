@@ -4,7 +4,7 @@ import { SearchSuggestResType, SearchSuggestType } from '@/schemaValidations/sea
 import queryString from 'query-string'
 
 const searchApiRequest = {
-  getSuggest: (queryParams: SearchSuggestType) =>
+  getSuggestList: (queryParams: SearchSuggestType) =>
     http.get<SearchSuggestResType>(
       '/hotel/suggested-hotel?' +
         queryString.stringify({

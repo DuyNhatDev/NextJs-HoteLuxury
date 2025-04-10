@@ -3,28 +3,24 @@
 import DateRangePicker from '@/components/customize/date-range-picker'
 import RoomGuestSelector from '@/components/customize/room-guest-selector'
 import { Button } from '@/components/ui/button'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from '@/components/ui/command'
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Card, CardContent } from '@/components/ui/card'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { formatProvince } from '@/lib/utils'
+import { useGetDestinationList } from '@/queries/useDestination'
+import { useGetSuggestList } from '@/queries/useSearch'
 import { SearchSuggestSchema, SearchSuggestType } from '@/schemaValidations/search.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
-import { Calculator, Calendar, CreditCard, MapPin, Settings, Smile, User } from 'lucide-react'
+import { Hotel, MapPin } from 'lucide-react'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
   const [open, setOpen] = useState(false)
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLDivElement>(null)
   const form = useForm<SearchSuggestType>({
     resolver: zodResolver(SearchSuggestSchema),
     defaultValues: {
@@ -33,8 +29,20 @@ export default function SearchForm() {
       keyword: '',
     },
   })
+  const dayStart = form.watch('dayStart')
+  const dayEnd = form.watch('dayEnd')
+  const keyword = form.watch('keyword')
+  const suggestListQuery = useGetSuggestList({
+    dayStart,
+    dayEnd,
+    keyword,
+  })
+  const suggestHotelList = suggestListQuery.data?.payload.data ?? []
+  const suggestLocationList = suggestListQuery.data?.payload.provinces ?? []
+  const destinationListQuery = useGetDestinationList()
+  const destinationList = destinationListQuery.data?.payload.data ?? []
   const handleClickOutside = (event: MouseEvent) => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+    if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
       setOpen(false)
     }
   }
@@ -44,6 +52,12 @@ export default function SearchForm() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+  // useEffect(() => {
+  //   console.log(suggestLocationList)
+  // }, [suggestLocationList])
+  useEffect(() => {
+    console.log(keyword)
+  }, [keyword])
   const onSubmit = async (data: SearchSuggestType) => {
     console.log('From', data.dayStart)
     console.log('To', data.dayEnd)
@@ -59,57 +73,107 @@ export default function SearchForm() {
               console.log(err)
             })}
           >
-            <div className="relative w-full">
-              <div ref={wrapperRef} className="relative w-full">
-                <Command className="w-full rounded-lg border shadow-md">
-                  <CommandInput
-                    placeholder="Bạn muốn đi đâu"
-                    icon={<MapPin className="size-4 shrink-0 opacity-50" />}
-                    className="h-14 rounded-lg"
-                    onFocus={() => setOpen(true)}
-                  />
-                  {open && (
-                    <div className="absolute top-full z-20 mt-1 w-full rounded-md border bg-white shadow-md">
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading="Suggestions">
-                          <CommandItem>
-                            <Calendar />
-                            <span>Calendar</span>
-                          </CommandItem>
-                          <CommandItem>
-                            <Smile />
-                            <span>Search Emoji</span>
-                          </CommandItem>
-                          <CommandItem disabled>
-                            <Calculator />
-                            <span>Calculator</span>
-                          </CommandItem>
-                        </CommandGroup>
-                        <CommandSeparator />
-                        <CommandGroup heading="Settings">
-                          <CommandItem>
-                            <User />
-                            <span>Profile</span>
-                            <CommandShortcut>⌘P</CommandShortcut>
-                          </CommandItem>
-                          <CommandItem>
-                            <CreditCard />
-                            <span>Billing</span>
-                            <CommandShortcut>⌘B</CommandShortcut>
-                          </CommandItem>
-                          <CommandItem>
-                            <Settings />
-                            <span>Settings</span>
-                            <CommandShortcut>⌘S</CommandShortcut>
-                          </CommandItem>
-                        </CommandGroup>
-                      </CommandList>
-                    </div>
-                  )}
-                </Command>
-              </div>
+            <div className="relative w-full" ref={inputRef}>
+              <FormField
+                control={form.control}
+                name="keyword"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    <FormControl>
+                      <div className="relative w-full">
+                        <MapPin className="text-muted-foreground absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2" />
+                        <Input
+                          id="keyword"
+                          placeholder="Bạn muốn đi đâu"
+                          className="bg-background h-14 rounded-lg pl-13"
+                          onFocus={() => setOpen(true)}
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                    {open && field.value.trim() === '' && (
+                      <div className="max-h-lg absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md bg-white px-4 pt-2 pb-4 shadow-lg">
+                        <h1 className="p-2 text-lg font-bold text-gray-700">
+                          Địa điểm đang hot nhất
+                        </h1>
+
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+                          {destinationList.map((destination) => (
+                            <Card
+                              key={destination.locationId}
+                              onClick={() => setOpen(false)}
+                              className="hover:bg-muted cursor-pointer border-0 p-2 text-left shadow-none transition-colors"
+                            >
+                              <CardContent className="flex items-center gap-3 p-0">
+                                <div className="relative h-[70px] w-[70px] flex-shrink-0 overflow-hidden rounded-md">
+                                  <Image
+                                    src={destination.locationImage as string}
+                                    alt={destination.locationName}
+                                    quality={100}
+                                    fill
+                                  />
+                                </div>
+                                <p className="text-[16px] text-gray-800">
+                                  {destination.locationName}
+                                </p>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {open && field.value.trim() !== '' && (
+                      <div className="max-h-lg absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md bg-white px-4 pt-2 pb-4 shadow-lg">
+                        {/* Group Khách sạn */}
+                        <div className="my-2 flex items-center rounded-md bg-gray-100 p-1">
+                          <Hotel className="mr-2 ml-1 text-gray-600" />
+                          <p className="ml-1 text-sm font-semibold text-gray-700">Khách sạn</p>
+                        </div>
+
+                        <div className="space-y-1">
+                          {suggestHotelList.slice(0, 10).map((hotel, index) => (
+                            <Card
+                              key={`hotel-${index}`}
+                              className="cursor-pointer border-none bg-white px-4 py-2 shadow-none transition-colors hover:bg-gray-100"
+                              onClick={() => {
+                                setOpen(false)
+                              }}
+                            >
+                              <CardContent className="p-0">
+                                <p className="text-sm text-gray-800">{hotel.hotelName}</p>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+
+                        {/* Group Địa điểm */}
+                        <div className="mt-4 mb-2 flex items-center rounded-md bg-gray-100 p-1">
+                          <MapPin className="mr-2 text-gray-600" />
+                          <p className="text-sm font-semibold text-gray-700">Địa điểm</p>
+                        </div>
+
+                        <div className="space-y-1">
+                          {suggestLocationList.slice(0, 10).map((location, index) => (
+                            <Card
+                              key={`location-${index}`}
+                              className="cursor-pointer border-none bg-white px-4 py-2 shadow-none transition-colors hover:bg-gray-100"
+                              onClick={() => {
+                                setOpen(false)
+                              }}
+                            >
+                              <CardContent className="p-0">
+                                <p className="text-sm text-gray-800">{formatProvince(location)}</p>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </FormItem>
+                )}
+              />
             </div>
+
             <div className="grid grid-cols-8 items-stretch gap-4">
               <div className="col-span-4">
                 <FormField
