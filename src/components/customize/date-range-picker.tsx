@@ -70,14 +70,11 @@ export default function DateRangePicker({
         <Button
           variant="outline"
           disabled={disabled}
-          className={cn(
-            'flex !h-14 items-center justify-center gap-2 rounded-md border px-2 py-1',
-            className
-          )}
+          className={cn('flex !h-14 items-center justify-center gap-2 border px-2 py-1', className)}
         >
           {internalRange?.from ? (
             <>
-              <div className="flex h-full items-center gap-2 px-2"> 
+              <div className="flex h-full items-center gap-2 px-2">
                 <CalendarIcon className="!h-6 !w-6 text-gray-500" />
                 <div className="flex flex-col justify-center text-left leading-tight">
                   <span className="text-[15px] font-medium">{formatDay(internalRange.from)}</span>

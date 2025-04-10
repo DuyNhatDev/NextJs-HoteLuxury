@@ -1,5 +1,4 @@
 'use client'
-
 import DateRangePicker from '@/components/customize/date-range-picker'
 import RoomGuestSelector from '@/components/customize/room-guest-selector'
 import { Button } from '@/components/ui/button'
@@ -9,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { formatProvince } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useSearch'
-import { SearchSuggestSchema, SearchSuggestType } from '@/schemaValidations/search.schema'
+import { SearchSchema, SearchType } from '@/schemaValidations/search.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
 import { Hotel, MapPin } from 'lucide-react'
@@ -21,20 +20,25 @@ import { useForm } from 'react-hook-form'
 export default function SearchForm() {
   const [open, setOpen] = useState(false)
   const inputRef = useRef<HTMLDivElement>(null)
-  const form = useForm<SearchSuggestType>({
-    resolver: zodResolver(SearchSuggestSchema),
+  const form = useForm<SearchType>({
+    resolver: zodResolver(SearchSchema),
     defaultValues: {
       dayStart: new Date(),
       dayEnd: addDays(new Date(), 2),
       filter: '',
+      adultQuantity: 2,
+      childQuantity: 0,
+      currentRooms: 1,
     },
   })
-  const dayStart = form.watch('dayStart')
-  const dayEnd = form.watch('dayEnd')
-  const keyword = form.watch('filter')
+  const { control, watch, setValue } = form
+  const dayStart = watch('dayStart')
+  const dayEnd = watch('dayEnd')
+  const keyword = watch('filter')
+  const adultQuantity = watch('adultQuantity')
+  const childQuantity = watch('childQuantity')
+  const currentRooms = watch('currentRooms')
   const suggestListQuery = useGetSuggestList({
-    dayStart,
-    dayEnd,
     filter: keyword,
   })
   const suggestHotelList = suggestListQuery.data?.payload.data ?? []
@@ -53,14 +57,13 @@ export default function SearchForm() {
     }
   }, [])
   // useEffect(() => {
-  //   console.log(suggestLocationList)
-  // }, [suggestLocationList])
-  useEffect(() => {
-    console.log(keyword)
-  }, [keyword])
-  const onSubmit = async (data: SearchSuggestType) => {
-    console.log('From', data.dayStart)
-    console.log('To', data.dayEnd)
+  //   const subscription = watch((formValues) => {
+  //     console.log('Form values changed:', formValues)
+  //   })
+  //   return () => subscription.unsubscribe()
+  // }, [watch])
+  const onSubmit = async (data: SearchType) => {
+    console.log(data)
   }
   return (
     <div className="absolute inset-0 flex items-center justify-center">
@@ -75,7 +78,7 @@ export default function SearchForm() {
           >
             <div className="relative w-full" ref={inputRef}>
               <FormField
-                control={form.control}
+                control={control}
                 name="filter"
                 render={({ field }) => (
                   <FormItem className="relative">
@@ -85,17 +88,16 @@ export default function SearchForm() {
                         <Input
                           id="filter"
                           placeholder="Bạn muốn đi đâu"
-                          className="bg-background h-14 rounded-lg pl-13"
+                          className="bg-background h-14 rounded-sm pl-13"
+                          autoComplete="off"
                           onFocus={() => setOpen(true)}
                           {...field}
                         />
                       </div>
                     </FormControl>
                     {open && field.value.trim() === '' && (
-                      <div className="max-h-lg absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md bg-white px-4 pt-2 pb-4 shadow-lg">
-                        <h1 className="p-2 text-lg font-bold text-gray-700">
-                          Địa điểm đang hot nhất
-                        </h1>
+                      <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md px-4 pt-2 pb-4 shadow-lg">
+                        <h1 className="p-2 text-lg font-bold">Địa điểm đang hot nhất</h1>
 
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
                           {destinationList.map((destination) => (
@@ -113,9 +115,7 @@ export default function SearchForm() {
                                     fill
                                   />
                                 </div>
-                                <p className="text-[16px] text-gray-800">
-                                  {destination.locationName}
-                                </p>
+                                <p className="text-[16px]">{destination.locationName}</p>
                               </CardContent>
                             </Card>
                           ))}
@@ -123,48 +123,71 @@ export default function SearchForm() {
                       </div>
                     )}
                     {open && field.value.trim() !== '' && (
-                      <div className="max-h-lg absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md bg-white px-4 pt-2 pb-4 shadow-lg">
-                        <div className="my-2 flex items-center rounded-md bg-gray-100 p-1">
-                          <Hotel className="mr-2 ml-1 text-gray-600" />
-                          <p className="ml-1 text-sm font-semibold text-gray-700">Khách sạn</p>
-                        </div>
-                        <div className="space-y-1">
-                          {suggestHotelList.slice(0, 10).map((hotel, index) => (
-                            <Card
-                              key={`hotel-${index}`}
-                              className="cursor-pointer border-none bg-white px-4 py-2 shadow-none transition-colors hover:bg-gray-100"
-                              onClick={() => {
-                                setOpen(false)
-                              }}
-                            >
-                              <CardContent className="p-0">
-                                <p className="text-sm text-gray-800">{hotel.hotelName}</p>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
+                      <>
+                        {suggestHotelList.length === 0 && suggestLocationList.length === 0 ? (
+                          <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-sm p-5 shadow-lg">
+                            <div className="-mx-4 flex items-center justify-center px-4 py-2">
+                              <p className="ml-1 text-sm font-semibold">
+                                Không tìm thấy kết quả nào phù hợp
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-sm px-4 pb-4 shadow-lg">
+                            {suggestHotelList.length > 0 && (
+                              <>
+                                <div className="-mx-4 flex items-center px-4 py-2">
+                                  <p className="ml-1 text-sm font-semibold">Khách sạn</p>
+                                </div>
+                                <div className="space-y-1">
+                                  {suggestHotelList.slice(0, 10).map((hotel, index) => (
+                                    <Card
+                                      key={`hotel-${index}`}
+                                      className="hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors"
+                                      onClick={() => {
+                                        setOpen(false)
+                                      }}
+                                    >
+                                      <CardContent className="p-0">
+                                        <div className="flex items-center gap-2">
+                                          <Hotel className="h-5 w-5 text-gray-600" />
+                                          <p className="text-sm">{hotel.hotelName}</p>
+                                        </div>
+                                      </CardContent>
+                                    </Card>
+                                  ))}
+                                </div>
+                              </>
+                            )}
 
-                        <div className="mt-4 mb-2 flex items-center rounded-md bg-gray-100 p-1">
-                          <MapPin className="mr-2 text-gray-600" />
-                          <p className="text-sm font-semibold text-gray-700">Địa điểm</p>
-                        </div>
-
-                        <div className="space-y-1">
-                          {suggestLocationList.slice(0, 10).map((location, index) => (
-                            <Card
-                              key={`location-${index}`}
-                              className="cursor-pointer border-none bg-white px-4 py-2 shadow-none transition-colors hover:bg-gray-100"
-                              onClick={() => {
-                                setOpen(false)
-                              }}
-                            >
-                              <CardContent className="p-0">
-                                <p className="text-sm text-gray-800">{formatProvince(location)}</p>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
-                      </div>
+                            {suggestLocationList.length > 0 && (
+                              <>
+                                <div className="-mx-4 mt-3 flex items-center px-4 py-2">
+                                  <p className="text-sm font-semibold">Địa điểm</p>
+                                </div>
+                                <div className="space-y-1">
+                                  {suggestLocationList.slice(0, 10).map((location, index) => (
+                                    <Card
+                                      key={`location-${index}`}
+                                      className="hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors"
+                                      onClick={() => {
+                                        setOpen(false)
+                                      }}
+                                    >
+                                      <CardContent className="p-0">
+                                        <div className="flex items-center gap-2">
+                                          <MapPin className="h-5 w-5 text-gray-600" />
+                                          <p className="text-sm">{formatProvince(location)}</p>
+                                        </div>
+                                      </CardContent>
+                                    </Card>
+                                  ))}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </>
                     )}
                   </FormItem>
                 )}
@@ -174,15 +197,15 @@ export default function SearchForm() {
             <div className="grid grid-cols-8 items-stretch gap-4">
               <div className="col-span-4">
                 <FormField
-                  control={form.control}
+                  control={control}
                   name="dayStart"
                   render={() => (
                     <FormItem className="w-full">
                       <DateRangePicker
                         className="w-full"
                         value={{
-                          from: form.watch('dayStart'),
-                          to: form.watch('dayEnd'),
+                          from: watch('dayStart'),
+                          to: watch('dayEnd'),
                         }}
                         onChange={(range: DateRange | undefined) => {
                           if (range?.from) form.setValue('dayStart', range.from)
@@ -196,7 +219,22 @@ export default function SearchForm() {
               </div>
 
               <div className="col-span-3">
-                <RoomGuestSelector className="w-full" />
+                <FormField
+                  control={control}
+                  name="currentRooms"
+                  render={({ field }) => (
+                    <FormItem>
+                      <RoomGuestSelector
+                        rooms={field.value}
+                        adults={adultQuantity}
+                        child={childQuantity}
+                        onRoomsChange={field.onChange}
+                        onAdultsChange={(value) => setValue('adultQuantity', value)}
+                        onChildrenChange={(value) => setValue('childQuantity', value)}
+                      />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <div className="col-span-1 h-full">

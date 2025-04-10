@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Minus, Plus, UserRound } from 'lucide-react'
@@ -15,7 +15,7 @@ interface CounterProps {
 }
 
 const Counter = ({ label, subtitle, value, minValue, onDecrease, onIncrease }: CounterProps) => {
-  const isDisabled = value <= minValue!
+  const isDisabled = value <= (minValue ?? 0)
   return (
     <div className="grid grid-cols-[1fr_auto] items-center gap-4 py-2">
       <div>
@@ -27,10 +27,10 @@ const Counter = ({ label, subtitle, value, minValue, onDecrease, onIncrease }: C
           variant="outline"
           size="icon"
           onClick={onDecrease}
-          className="rounded-full border-gray-300"
+          className="rounded-full"
           disabled={isDisabled}
         >
-          <Minus className="h-4 w-4" />
+          <Minus className="h-4 w-4 text-blue-500" />
         </Button>
         <div className="w-6 text-center">{value}</div>
         <Button
@@ -39,7 +39,7 @@ const Counter = ({ label, subtitle, value, minValue, onDecrease, onIncrease }: C
           onClick={onIncrease}
           className="rounded-full border-gray-300"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4 text-blue-500" />
         </Button>
       </div>
     </div>
@@ -48,41 +48,37 @@ const Counter = ({ label, subtitle, value, minValue, onDecrease, onIncrease }: C
 
 interface RoomGuestSelectorProps {
   className?: string
-  value?: {
-    rooms: number
-    adults: number
-    children: number
-  }
-  onChange?: (value: { rooms: number; adults: number; children: number }) => void
+  rooms: number
+  adults: number
+  child: number
+  onRoomsChange: (value: number) => void
+  onAdultsChange: (value: number) => void
+  onChildrenChange: (value: number) => void
 }
 
-const RoomGuestSelector = ({ className, value, onChange }: RoomGuestSelectorProps) => {
-  const [rooms, setRooms] = useState(value?.rooms ?? 1)
-  const [adults, setAdults] = useState(value?.adults ?? 2)
-  const [children, setChildren] = useState(value?.children ?? 0)
-  const [open, setOpen] = useState(false)
-  const handleChange = (newValues: { rooms: number; adults: number; children: number }) => {
-    setRooms(newValues.rooms)
-    setAdults(newValues.adults)
-    setChildren(newValues.children)
-    onChange?.(newValues)
-  }
+const RoomGuestSelector = ({
+  className,
+  rooms,
+  adults,
+  child,
+  onRoomsChange,
+  onAdultsChange,
+  onChildrenChange,
+}: RoomGuestSelectorProps) => {
+  const [open, setOpen] = React.useState(false)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn(
-            'flex !h-14 items-center justify-center gap-2 rounded-md border px-2 py-1',
-            className
-          )}
+          className={cn('flex !h-14 items-center justify-center gap-2 border px-2 py-1', className)}
         >
           <div className="flex h-full items-center gap-2 px-2">
             <UserRound className="!h-6 !w-6 text-gray-500" />
             <div className="flex flex-col justify-center text-left leading-tight">
               <span className="text-[15px] font-medium">
-                {adults} người lớn, {children} trẻ em
+                {adults} người lớn, {child} trẻ em
               </span>
               <span className="text-muted-foreground text-sm">{rooms} Phòng</span>
             </div>
@@ -90,34 +86,32 @@ const RoomGuestSelector = ({ className, value, onChange }: RoomGuestSelectorProp
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-auto rounded-lg p-0 shadow-md" align="center">
-        <Card className="rounded-lg p-0 shadow-md">
-          <CardContent className="p-4">
+      <PopoverContent className="w-auto rounded-sm p-0 shadow-none" align="center">
+        <Card className="rounded-sm p-0 shadow-none">
+          <CardContent className="px-5">
             <Counter
               label="Phòng"
               subtitle=""
               value={rooms}
               minValue={1}
-              onDecrease={() => handleChange({ rooms: Math.max(1, rooms - 1), adults, children })}
-              onIncrease={() => handleChange({ rooms: rooms + 1, adults, children })}
+              onDecrease={() => onRoomsChange(Math.max(1, rooms - 1))}
+              onIncrease={() => onRoomsChange(rooms + 1)}
             />
             <Counter
               label="Người Lớn"
               subtitle="Từ 17 tuổi"
               value={adults}
               minValue={1}
-              onDecrease={() => handleChange({ rooms, adults: Math.max(1, adults - 1), children })}
-              onIncrease={() => handleChange({ rooms, adults: adults + 1, children })}
+              onDecrease={() => onAdultsChange(Math.max(1, adults - 1))}
+              onIncrease={() => onAdultsChange(adults + 1)}
             />
             <Counter
               label="Trẻ em"
               subtitle="Từ 0 - 16 tuổi"
-              value={children}
+              value={child}
               minValue={0}
-              onDecrease={() =>
-                handleChange({ rooms, adults, children: Math.max(0, children - 1) })
-              }
-              onIncrease={() => handleChange({ rooms, adults, children: children + 1 })}
+              onDecrease={() => onChildrenChange(Math.max(0, child - 1))}
+              onIncrease={() => onChildrenChange(child + 1)}
             />
           </CardContent>
         </Card>
