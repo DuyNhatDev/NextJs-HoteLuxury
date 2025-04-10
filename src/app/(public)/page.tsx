@@ -24,6 +24,7 @@ export default async function Home() {
             quality={100}
             alt="Banner"
             className="absolute top-0 left-0 z-0 h-full w-full object-cover"
+            priority
           />
           <SearchForm />
         </div>
@@ -39,9 +40,10 @@ export default async function Home() {
               <div className="group relative h-[200px] w-full overflow-hidden rounded-sm">
                 <Image
                   src={destination.locationImage as string}
-                  fill
-                  quality={100}
                   alt={destination.locationName}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={100}
                   className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                 />
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-2 transition-all duration-300 ease-in-out group-hover:from-black/90">

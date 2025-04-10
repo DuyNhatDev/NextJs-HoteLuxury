@@ -24,7 +24,7 @@ export default function SearchForm() {
     resolver: zodResolver(SearchSchema),
     defaultValues: {
       dayStart: new Date(),
-      dayEnd: addDays(new Date(), 2),
+      dayEnd: addDays(new Date(), 1),
       filter: '',
       adultQuantity: 2,
       childQuantity: 0,
@@ -67,7 +67,7 @@ export default function SearchForm() {
   }
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className="relative w-full max-w-3xl rounded-sm bg-gray-800/20 p-4 shadow-lg">
+      <div className="relative w-full max-w-[730px] rounded-sm bg-gray-800/20 p-4 shadow-lg">
         <Form {...form}>
           <form
             className="flex w-full flex-col gap-4"
@@ -84,22 +84,23 @@ export default function SearchForm() {
                   <FormItem className="relative">
                     <FormControl>
                       <div className="relative w-full">
-                        <MapPin className="text-muted-foreground absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2" />
+                        <MapPin className="text-muted-foreground absolute top-1/2 left-6 h-5 w-5 -translate-y-1/2" />
                         <Input
                           id="filter"
                           placeholder="Bạn muốn đi đâu"
-                          className="bg-background h-14 rounded-sm pl-13"
+                          className="bg-background h-14 rounded-sm pl-14"
                           autoComplete="off"
                           onFocus={() => setOpen(true)}
                           {...field}
                         />
                       </div>
                     </FormControl>
+
                     {open && field.value.trim() === '' && (
                       <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md px-4 pt-2 pb-4 shadow-lg">
                         <h1 className="p-2 text-lg font-bold">Địa điểm đang hot nhất</h1>
 
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+                        <div className="grid grid-cols-3 gap-2">
                           {destinationList.map((destination) => (
                             <Card
                               key={destination.locationId}
@@ -111,6 +112,7 @@ export default function SearchForm() {
                                   <Image
                                     src={destination.locationImage as string}
                                     alt={destination.locationName}
+                                    sizes="(max-width: 768px) 100vw, 33vw"
                                     quality={100}
                                     fill
                                   />
@@ -122,6 +124,7 @@ export default function SearchForm() {
                         </div>
                       </div>
                     )}
+
                     {open && field.value.trim() !== '' && (
                       <>
                         {suggestHotelList.length === 0 && suggestLocationList.length === 0 ? (
@@ -194,50 +197,51 @@ export default function SearchForm() {
               />
             </div>
 
-            <div className="grid grid-cols-8 items-stretch gap-4">
-              <div className="col-span-4">
+            <div className="grid w-full max-w-full grid-cols-1 items-stretch gap-4 overflow-hidden sm:grid-cols-8">
+              <div className="col-span-1 w-full max-w-full sm:col-span-4">
                 <FormField
                   control={control}
                   name="dayStart"
                   render={() => (
                     <FormItem className="w-full">
-                      <DateRangePicker
-                        className="w-full"
-                        value={{
-                          from: watch('dayStart'),
-                          to: watch('dayEnd'),
-                        }}
-                        onChange={(range: DateRange | undefined) => {
-                          if (range?.from) form.setValue('dayStart', range.from)
-                          if (range?.to) form.setValue('dayEnd', range.to)
-                        }}
-                      />
+                      <div className="w-full min-w-0">
+                        <DateRangePicker
+                          className="w-full"
+                          value={{ from: dayStart, to: dayEnd }}
+                          onChange={(range: DateRange | undefined) => {
+                            if (range?.from) setValue('dayStart', range.from)
+                            if (range?.to) setValue('dayEnd', range.to)
+                          }}
+                        />
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="col-span-3">
+              <div className="col-span-1 w-full max-w-full sm:col-span-3">
                 <FormField
                   control={control}
                   name="currentRooms"
                   render={({ field }) => (
-                    <FormItem>
-                      <RoomGuestSelector
-                        rooms={field.value}
-                        adults={adultQuantity}
-                        child={childQuantity}
-                        onRoomsChange={field.onChange}
-                        onAdultsChange={(value) => setValue('adultQuantity', value)}
-                        onChildrenChange={(value) => setValue('childQuantity', value)}
-                      />
+                    <FormItem className="w-full">
+                      <div className="w-full min-w-0">
+                        <RoomGuestSelector
+                          rooms={field.value}
+                          adults={adultQuantity}
+                          child={childQuantity}
+                          onRoomsChange={field.onChange}
+                          onAdultsChange={(value) => setValue('adultQuantity', value)}
+                          onChildrenChange={(value) => setValue('childQuantity', value)}
+                        />
+                      </div>
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="col-span-1 h-full">
+              <div className="col-span-1 w-full">
                 <Button
                   type="submit"
                   className="h-full w-full bg-orange-400 font-bold hover:bg-orange-500"

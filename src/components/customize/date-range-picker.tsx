@@ -31,7 +31,7 @@ export default function DateRangePicker({
 
   const defaultRange: DateRange = {
     from: new Date(),
-    to: addDays(new Date(), 2),
+    to: addDays(new Date(), 1),
   }
 
   const [internalRange, setInternalRange] = useState<DateRange | undefined>(value || defaultRange)
