@@ -10,7 +10,7 @@ const searchApiRequest = {
         queryString.stringify({
           dayStart: formatDateToString(queryParams.dayStart),
           dayEnd: formatDateToString(queryParams.dayStart),
-          keyword: queryParams.keyword,
+          filter: queryParams.filter,
         })
     ),
 }

@@ -4,7 +4,7 @@ import z from 'zod'
 export const SearchSuggestSchema = z.object({
   dayStart: z.date(),
   dayEnd: z.date(),
-  keyword: z.string(),
+  filter: z.string(),
 })
 
 export type SearchSuggestType = z.infer<typeof SearchSuggestSchema>

@@ -50,8 +50,10 @@ export default function EditRoomType({
     resolver: zodResolver(UpdateRoomTypeBodySchema),
     defaultValues: {
       roomTypeName: '',
-      roomTypePrice: undefined,
-      maxPeople: undefined,
+      roomTypePrice: 0,
+      roomTypeQuantity: 0,
+      adultQuantity: 0,
+      childQuantity: 0,
       roomTypeDescription: '',
       roomTypeImage: undefined,
       roomTypeImages: undefined,
@@ -63,16 +65,18 @@ export default function EditRoomType({
         roomTypeName,
         roomTypePrice,
         roomTypeQuantity,
-        maxPeople,
+        adultQuantity,
+        childQuantity,
         roomTypeDescription,
         roomTypeImage,
         roomTypeImages,
       } = data.payload.data
       form.reset({
         roomTypeName: roomTypeName ?? '',
-        roomTypePrice: Number(roomTypePrice) ?? undefined,
-        roomTypeQuantity: roomTypeQuantity ?? undefined,
-        maxPeople: maxPeople ?? undefined,
+        roomTypePrice: Number(roomTypePrice) ?? 0,
+        roomTypeQuantity: roomTypeQuantity ?? 0,
+        adultQuantity: adultQuantity ?? 0,
+        childQuantity: childQuantity ?? 0,
         roomTypeDescription: roomTypeDescription ?? '',
         roomTypeImage: roomTypeImage ?? undefined,
         roomTypeImages: roomTypeImages ?? undefined,
@@ -114,6 +118,7 @@ export default function EditRoomType({
   }
 
   const reset = () => {
+    form.reset()
     setId(undefined)
     setFile(null)
     setFiles([])
@@ -177,7 +182,7 @@ export default function EditRoomType({
                               ? URL.createObjectURL(item)
                               : ''
                         )}
-                        maxImages={10}
+                        maxImages={20}
                         onChange={(urls, files) => {
                           field.onChange(urls)
                           setFiles(files)
@@ -237,8 +242,6 @@ export default function EditRoomType({
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
                     name="roomTypeQuantity"
@@ -267,18 +270,48 @@ export default function EditRoomType({
                       </FormItem>
                     )}
                   />
+                </div>
+                <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
-                    name="maxPeople"
+                    name="adultQuantity"
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <div className="grid gap-2">
-                          <FormLabel htmlFor="maxPeople">
-                            Số người <span className="text-red-500">*</span>
+                          <FormLabel htmlFor="adultQuantity">
+                            Số người lớn <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
-                              id="maxPeople"
+                              id="adultQuantity"
+                              type="number"
+                              className="w-full"
+                              required
+                              {...field}
+                              value={field.value ?? ''}
+                              onChange={(e) => {
+                                const value = e.target.valueAsNumber
+                                field.onChange(isNaN(value) ? undefined : value)
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="childQuantity"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="childQuantity">
+                            Số trẻ em <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="childQuantity"
                               type="number"
                               className="w-full"
                               required

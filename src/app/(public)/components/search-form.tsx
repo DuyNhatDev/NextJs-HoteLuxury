@@ -26,16 +26,16 @@ export default function SearchForm() {
     defaultValues: {
       dayStart: new Date(),
       dayEnd: addDays(new Date(), 2),
-      keyword: '',
+      filter: '',
     },
   })
   const dayStart = form.watch('dayStart')
   const dayEnd = form.watch('dayEnd')
-  const keyword = form.watch('keyword')
+  const keyword = form.watch('filter')
   const suggestListQuery = useGetSuggestList({
     dayStart,
     dayEnd,
-    keyword,
+    filter: keyword,
   })
   const suggestHotelList = suggestListQuery.data?.payload.data ?? []
   const suggestLocationList = suggestListQuery.data?.payload.provinces ?? []
@@ -76,14 +76,14 @@ export default function SearchForm() {
             <div className="relative w-full" ref={inputRef}>
               <FormField
                 control={form.control}
-                name="keyword"
+                name="filter"
                 render={({ field }) => (
                   <FormItem className="relative">
                     <FormControl>
                       <div className="relative w-full">
                         <MapPin className="text-muted-foreground absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2" />
                         <Input
-                          id="keyword"
+                          id="filter"
                           placeholder="Bạn muốn đi đâu"
                           className="bg-background h-14 rounded-lg pl-13"
                           onFocus={() => setOpen(true)}
@@ -124,12 +124,10 @@ export default function SearchForm() {
                     )}
                     {open && field.value.trim() !== '' && (
                       <div className="max-h-lg absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md bg-white px-4 pt-2 pb-4 shadow-lg">
-                        {/* Group Khách sạn */}
                         <div className="my-2 flex items-center rounded-md bg-gray-100 p-1">
                           <Hotel className="mr-2 ml-1 text-gray-600" />
                           <p className="ml-1 text-sm font-semibold text-gray-700">Khách sạn</p>
                         </div>
-
                         <div className="space-y-1">
                           {suggestHotelList.slice(0, 10).map((hotel, index) => (
                             <Card
@@ -146,7 +144,6 @@ export default function SearchForm() {
                           ))}
                         </div>
 
-                        {/* Group Địa điểm */}
                         <div className="mt-4 mb-2 flex items-center rounded-md bg-gray-100 p-1">
                           <MapPin className="mr-2 text-gray-600" />
                           <p className="text-sm font-semibold text-gray-700">Địa điểm</p>

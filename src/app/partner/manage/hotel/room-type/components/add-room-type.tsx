@@ -43,9 +43,10 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
     defaultValues: {
       hotelId: hotelId ?? undefined,
       roomTypeName: '',
-      roomTypePrice: undefined,
-      maxPeople: undefined,
-      roomTypeQuantity: undefined,
+      roomTypePrice: 0,
+      roomTypeQuantity: 0,
+      adultQuantity: 0,
+      childQuantity: 0,
       roomTypeDescription: '',
       roomTypeImage: undefined,
       roomTypeImages: undefined,
@@ -153,7 +154,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                               ? URL.createObjectURL(item)
                               : ''
                         )}
-                        maxImages={10}
+                        maxImages={20}
                         onChange={(urls, files) => {
                           field.onChange(urls)
                           setFiles(files)
@@ -213,8 +214,6 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
                     name="roomTypeQuantity"
@@ -243,18 +242,48 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                       </FormItem>
                     )}
                   />
+                </div>
+                <div className="flex w-full gap-4">
                   <FormField
                     control={form.control}
-                    name="maxPeople"
+                    name="adultQuantity"
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <div className="grid gap-2">
-                          <FormLabel htmlFor="maxPeople">
-                            Số người <span className="text-red-500">*</span>
+                          <FormLabel htmlFor="adultQuantity">
+                            Số người lớn <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
-                              id="maxPeople"
+                              id="adultQuantity"
+                              type="number"
+                              className="w-full"
+                              required
+                              {...field}
+                              value={field.value ?? ''}
+                              onChange={(e) => {
+                                const value = e.target.valueAsNumber
+                                field.onChange(isNaN(value) ? undefined : value)
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="childQuantity"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="childQuantity">
+                            Số trẻ em <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="childQuantity"
                               type="number"
                               className="w-full"
                               required

@@ -183,7 +183,7 @@ export default function EditHotel({
                               ? URL.createObjectURL(item)
                               : ''
                         )}
-                        maxImages={10}
+                        maxImages={20}
                         onChange={(urls, files) => {
                           field.onChange(urls)
                           setFiles(files)
