@@ -26,3 +26,27 @@ export const SuggestListResSchema = z.object({
 })
 
 export type SuggestListResType = z.infer<typeof SuggestListResSchema>
+
+export const FilterParamsSchema = z.object({
+  dayStart: z.date(),
+  dayEnd: z.date(),
+  filter: z.string().optional(),
+  adultQuantity: z.number(),
+  childQuantity: z.number(),
+  currentRooms: z.number(),
+  hotelName: z.string().optional(),
+  hotelStar: z.array(z.number()).optional(),
+  hotelType: z.array(z.string()).optional(),
+  minPrice: z.string().optional(),
+})
+
+export type FilterParamsType = z.infer<typeof FilterParamsSchema>
+
+export const FilterListResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: z.array(HotelSchema),
+  outOfRoom: z.array(HotelSchema),
+})
+
+export type FilterListResType = z.infer<typeof FilterListResSchema>

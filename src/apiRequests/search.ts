@@ -1,6 +1,8 @@
 import http from '@/lib/http'
 import { formatDateToString } from '@/lib/utils'
 import {
+  FilterListResType,
+  FilterParamsType,
   SuggestListResType,
   SuggestParamsType,
 } from '@/schemaValidations/search.schema'
@@ -14,6 +16,30 @@ const searchApiRequest = {
           filter: queryParams.filter,
         })
     ),
+getFilterHotelList: (queryParams: FilterParamsType) =>
+  http.get<FilterListResType>(
+    '/hotel/user-filter?' +
+      queryString.stringify(
+        {
+          dayStart: formatDateToString(queryParams.dayStart),
+          dayEnd: formatDateToString(queryParams.dayEnd),
+          adultQuantity: queryParams.adultQuantity,
+          childQuantity: queryParams.childQuantity,
+          currentRooms: queryParams.currentRooms,
+          filter: queryParams.filter,
+          hotelName: queryParams.hotelName,
+          hotelStar: queryParams.hotelStar,
+          hotelType: queryParams.hotelType,
+          minPrice: queryParams.minPrice,
+        },
+        {
+          skipNull: true,
+          skipEmptyString: true,
+          arrayFormat: 'none',
+        }
+      )
+  ),
+
 }
 
 export default searchApiRequest

@@ -17,7 +17,7 @@ export default async function Home() {
     <div className="w-full space-y-4">
       <section className="relative z-10">
         <span className="absolute top-0 left-0 z-10 h-full w-full"></span>
-        <div className="relative z-20 min-h-[400px] px-4 py-10 sm:px-10 md:px-20 md:py-20">
+        <div className="relative z-20 min-h-[450px] px-4 py-10 sm:px-10 md:px-20 md:py-20">
           <Image
             src="/image/banner.png"
             fill
