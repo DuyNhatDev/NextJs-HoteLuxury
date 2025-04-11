@@ -63,6 +63,7 @@ export default function SearchForm() {
   //   return () => subscription.unsubscribe()
   // }, [watch])
   const onSubmit = async (data: SearchType) => {
+    if (watch('filter').trim() === '') setOpen(true)
     console.log(data)
   }
   return (
@@ -244,7 +245,7 @@ export default function SearchForm() {
               <div className="col-span-1 w-full sm:col-span-3">
                 <Button
                   type="submit"
-                  className="h-full w-full text-lg bg-orange-400 font-bold hover:bg-orange-500"
+                  className="h-full w-full bg-orange-400 text-lg font-bold hover:bg-orange-500"
                 >
                   Tìm
                 </Button>

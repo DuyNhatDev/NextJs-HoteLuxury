@@ -94,10 +94,10 @@ export default function DateRangePicker({
                   </div>
                 </div>
                 {getNights(internalRange) > 0 && (
-                  <div className="text-muted-foreground absolute top-1/2 left-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center px-1 text-sm">
+                  <div className="text-muted-foreground absolute top-1/2 left-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center px-1 text-sm text-[18px]">
                     {getNights(internalRange)}
-                    <span className="text-[13px]">
-                      <Moon />
+                    <span>
+                      <Moon className="!h-5 !w-5" />
                     </span>
                   </div>
                 )}
