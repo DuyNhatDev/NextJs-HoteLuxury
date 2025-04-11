@@ -56,7 +56,7 @@ export default function DateRangePicker({
 
   const formatDay = (date?: Date) => {
     if (!date) return ''
-    return formatDate(date, "dd 'tháng' MM", { locale: vi })
+    return formatDate(date, 'dd/MM/yyyy', { locale: vi })
   }
 
   const formatWeekday = (date?: Date) => {
@@ -70,17 +70,17 @@ export default function DateRangePicker({
         <Button
           variant="outline"
           disabled={disabled}
-          className={cn('flex !h-14 items-center justify-center gap-2 border px-2 py-1', className)}
+          className={cn('flex !h-15 items-center justify-center gap-2 border px-2 py-0', className)}
         >
           {internalRange?.from ? (
             <>
               <div className="flex h-full items-center gap-2 px-2">
                 <CalendarIcon className="!h-6 !w-6 text-gray-500" />
-                <div className="flex flex-col justify-center text-left leading-tight">
-                  <span className="text-[15px] font-medium">{formatDay(internalRange.from)}</span>
-                  <span className="text-muted-foreground text-sm">
+                <div className="flex flex-col justify-center gap-1 text-left leading-tight">
+                  <span className="text-muted-foreground text-[16px]">
                     {formatWeekday(internalRange.from)}
                   </span>
+                  <span className="text-[15px] font-medium">{formatDay(internalRange.from)}</span>
                 </div>
               </div>
               <div className="relative flex h-full items-center justify-center px-4">
@@ -106,11 +106,11 @@ export default function DateRangePicker({
               {internalRange.to ? (
                 <div className="flex h-full items-center gap-2 px-2">
                   <CalendarIcon className="!h-6 !w-6 text-gray-500" />
-                  <div className="flex flex-col justify-center text-left leading-tight">
-                    <span className="text-[15px] font-medium">{formatDay(internalRange.to)}</span>
-                    <span className="text-muted-foreground text-sm">
+                  <div className="flex flex-col justify-center gap-1 text-left leading-tight">
+                    <span className="text-muted-foreground text-[16px]">
                       {formatWeekday(internalRange.to)}
                     </span>
+                    <span className="text-[15px] font-medium">{formatDay(internalRange.to)}</span>
                   </div>
                 </div>
               ) : (

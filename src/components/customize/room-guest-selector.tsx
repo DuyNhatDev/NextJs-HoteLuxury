@@ -72,17 +72,17 @@ const RoomGuestSelector = ({
         <Button
           variant="outline"
           className={cn(
-            'flex !h-14 w-full items-center justify-center gap-2 border px-2 py-1',
+            'flex !h-15 w-full items-center justify-center gap-2 border px-2 py-1',
             className
           )}
         >
           <div className="flex h-full items-center gap-2 px-2">
             <UserRound className="!h-6 !w-6 text-gray-500" />
-            <div className="flex flex-col justify-center text-left leading-tight">
+            <div className="flex flex-col justify-center gap-1 text-left leading-tight">
+              <span className="text-muted-foreground text-[16px]">{rooms} Phòng</span>
               <span className="text-[15px] font-medium">
                 {adults} người lớn, {child} trẻ em
               </span>
-              <span className="text-muted-foreground text-sm">{rooms} Phòng</span>
             </div>
           </div>
         </Button>
@@ -90,7 +90,7 @@ const RoomGuestSelector = ({
 
       <PopoverContent className="w-full rounded-sm p-0 shadow-none" align="center">
         <Card className="rounded-sm p-0 shadow-none">
-          <CardContent className="w-full px-6">
+          <CardContent className="w-full px-4.5">
             <div className="divide-y">
               <div className="py-1">
                 <Counter

@@ -67,10 +67,10 @@ export default function SearchForm() {
   }
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className="relative w-full max-w-[730px] rounded-sm bg-gray-800/20 p-4 shadow-lg">
+      <div className="relative w-full max-w-[740px] rounded-sm bg-gray-800/20 p-4 shadow-lg">
         <Form {...form}>
           <form
-            className="flex w-full flex-col gap-4"
+            className="flex w-full flex-col gap-3"
             noValidate
             onSubmit={form.handleSubmit(onSubmit, (err) => {
               console.log(err)
@@ -87,8 +87,8 @@ export default function SearchForm() {
                         <MapPin className="text-muted-foreground absolute top-1/2 left-6 h-5 w-5 -translate-y-1/2" />
                         <Input
                           id="filter"
-                          placeholder="Bạn muốn đi đâu"
-                          className="bg-background h-14 rounded-sm pl-14"
+                          placeholder="Bạn muốn đi đâu?"
+                          className="bg-background h-15 rounded-sm pl-14 !text-base placeholder:text-base"
                           autoComplete="off"
                           onFocus={() => setOpen(true)}
                           {...field}
@@ -130,7 +130,7 @@ export default function SearchForm() {
                         {suggestHotelList.length === 0 && suggestLocationList.length === 0 ? (
                           <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-sm p-5 shadow-lg">
                             <div className="-mx-4 flex items-center justify-center px-4 py-2">
-                              <p className="ml-1 text-sm font-semibold">
+                              <p className="text-md ml-1 font-semibold">
                                 Không tìm thấy kết quả nào phù hợp
                               </p>
                             </div>
@@ -197,8 +197,8 @@ export default function SearchForm() {
               />
             </div>
 
-            <div className="grid w-full max-w-full grid-cols-1 items-stretch gap-4 overflow-hidden sm:grid-cols-8">
-              <div className="col-span-1 w-full max-w-full sm:col-span-4">
+            <div className="grid w-full max-w-full grid-cols-1 items-stretch gap-3 overflow-hidden sm:grid-cols-20">
+              <div className="col-span-1 w-full max-w-full sm:col-span-10">
                 <FormField
                   control={control}
                   name="dayStart"
@@ -220,7 +220,7 @@ export default function SearchForm() {
                 />
               </div>
 
-              <div className="col-span-1 w-full max-w-full sm:col-span-3">
+              <div className="col-span-1 w-full max-w-full sm:col-span-7">
                 <FormField
                   control={control}
                   name="currentRooms"
@@ -241,10 +241,10 @@ export default function SearchForm() {
                 />
               </div>
 
-              <div className="col-span-1 w-full">
+              <div className="col-span-1 w-full sm:col-span-3">
                 <Button
                   type="submit"
-                  className="h-full w-full bg-orange-400 font-bold hover:bg-orange-500"
+                  className="h-full w-full text-lg bg-orange-400 font-bold hover:bg-orange-500"
                 >
                   Tìm
                 </Button>
