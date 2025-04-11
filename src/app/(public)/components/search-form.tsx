@@ -9,6 +9,7 @@ import { formatProvince } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useSearch'
 import { SearchSchema, SearchType } from '@/schemaValidations/search.schema'
+import { useSearchStore } from '@/store/search-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
 import { Hotel, MapPin } from 'lucide-react'
@@ -18,6 +19,8 @@ import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
+  const search = useSearchStore((state) => state.search)
+  const setSearch = useSearchStore((state) => state.setSearch)
   const [open, setOpen] = useState(false)
   const inputRef = useRef<HTMLDivElement>(null)
   const form = useForm<SearchType>({
@@ -37,7 +40,6 @@ export default function SearchForm() {
   const keyword = watch('filter')
   const adultQuantity = watch('adultQuantity')
   const childQuantity = watch('childQuantity')
-  const currentRooms = watch('currentRooms')
   const suggestListQuery = useGetSuggestList({
     filter: keyword,
   })
@@ -56,15 +58,9 @@ export default function SearchForm() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-  // useEffect(() => {
-  //   const subscription = watch((formValues) => {
-  //     console.log('Form values changed:', formValues)
-  //   })
-  //   return () => subscription.unsubscribe()
-  // }, [watch])
   const onSubmit = async (data: SearchType) => {
-    if (watch('filter').trim() === '') setOpen(true)
-    console.log(data)
+    if (keyword.trim() === '') setOpen(true)
+    setSearch(data)
   }
   return (
     <div className="absolute inset-0 flex items-center justify-center">
@@ -85,11 +81,11 @@ export default function SearchForm() {
                   <FormItem className="relative">
                     <FormControl>
                       <div className="relative w-full">
-                        <MapPin className="text-muted-foreground absolute top-1/2 left-6 h-5 w-5 -translate-y-1/2" />
+                        <MapPin className="text-muted-foreground absolute top-1/2 left-6 h-6 w-6 -translate-y-1/2" />
                         <Input
                           id="filter"
                           placeholder="Bạn muốn đi đâu?"
-                          className="bg-background h-15 rounded-sm pl-14 !text-base placeholder:text-base"
+                          className="bg-background h-15 rounded-sm pl-15 !text-base placeholder:text-base"
                           autoComplete="off"
                           onFocus={() => setOpen(true)}
                           {...field}
@@ -105,7 +101,10 @@ export default function SearchForm() {
                           {destinationList.map((destination) => (
                             <Card
                               key={destination.locationId}
-                              onClick={() => setOpen(false)}
+                              onClick={() => {
+                                setValue('filter', destination.locationName)
+                                setOpen(false)
+                              }}
                               className="hover:bg-muted cursor-pointer border-0 p-2 text-left shadow-none transition-colors"
                             >
                               <CardContent className="flex items-center gap-3 p-0">

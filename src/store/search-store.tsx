@@ -30,6 +30,17 @@ export const useSearchStore = create(
     }),
     {
       name: 'search-storage',
+      merge: (persistedState, currentState) => {
+        const state = persistedState as SearchStoreType
+        return {
+          ...currentState,
+          search: {
+            ...state.search,
+            dayStart: new Date(state.search.dayStart),
+            dayEnd: new Date(state.search.dayEnd),
+          },
+        }
+      },
     }
   )
 )
