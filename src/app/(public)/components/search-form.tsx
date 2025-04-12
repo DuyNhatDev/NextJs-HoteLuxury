@@ -33,6 +33,7 @@ export default function SearchForm() {
       currentRooms: 1,
     },
   })
+
   const { control, watch, setValue } = form
   const dayStart = watch('dayStart')
   const dayEnd = watch('dayEnd')
@@ -51,11 +52,22 @@ export default function SearchForm() {
       setOpen(false)
     }
   }
+
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      setSearch(values)
+    })
+    return () => subscription.unsubscribe()
+  }, [form, setSearch])
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
+  }, [])
+  useEffect(() => {
+    localStorage.removeItem('search-storage')
   }, [])
   const onSubmit = async (data: SearchType) => {
     if (keyword.trim() === '') setOpen(true)

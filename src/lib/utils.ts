@@ -229,3 +229,8 @@ export const getOriginalHotelTypeValueFromSlug = (slug: string): string => {
   }
   return slugMap[slug] || slug
 }
+
+export const extractLocationName = (slug?: string): string => {
+  if (!slug) return ''
+  return slug.replace('khach-san-', '').replace(/-/g, ' ')
+}
