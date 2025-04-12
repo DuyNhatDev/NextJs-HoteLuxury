@@ -8,6 +8,7 @@ import authApiRequest from '@/apiRequests/auth'
 import { TokenPayload } from '@/types/jwt.types'
 import { format, parseISO } from 'date-fns'
 import { slugify } from '@whthduck/slugify-vi'
+import queryString from 'query-string'
 
 export const handleErrorApi = ({
   error,
@@ -233,4 +234,30 @@ export const getOriginalHotelTypeValueFromSlug = (slug: string): string => {
 export const extractLocationName = (slug?: string): string => {
   if (!slug) return ''
   return slug.replace('khach-san-', '').replace(/-/g, ' ')
+}
+
+export const isDate = (value: any): value is Date => {
+  return value instanceof Date && !isNaN(value.getTime())
+}
+
+export const buildQueryParams = (params: Record<string, any>) => {
+  const formattedParams: Record<string, any> = {}
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === null || value === undefined || value === '') return
+
+    if (Array.isArray(value)) {
+      formattedParams[key] = value.join(',')
+    } else if (isDate(value)) {
+      formattedParams[key] = formatDateToString(value)
+    } else {
+      formattedParams[key] = value
+    }
+  })
+
+  return queryString.stringify(formattedParams, {
+    skipNull: true,
+    skipEmptyString: true,
+    arrayFormat: 'none',
+  })
 }
