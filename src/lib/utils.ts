@@ -186,3 +186,46 @@ export const formatProvince = (province: string): string => {
 export const generateSlugUrl = (name: string) => {
   return `${slugify(name)}`
 }
+
+export type ParamsObject = Record<string, string | string[] | undefined>
+
+export const updateURLParams = ({
+  currentParams,
+  router,
+  values,
+}: {
+  currentParams: URLSearchParams
+  router: { push: (url: string) => void }
+  values: Record<string, string[] | string>
+}) => {
+  const params = new URLSearchParams(currentParams.toString())
+
+  Object.entries(values).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        const slugifiedValues = value.map((v) => slugify(v))
+        params.set(key, slugifiedValues.join(','))
+      } else {
+        params.delete(key)
+      }
+    } else if (typeof value === 'string' && value.trim() !== '') {
+      params.set(key, slugify(value))
+    } else {
+      params.delete(key)
+    }
+  })
+
+  const query = params.toString().replace(/%2C/g, ',')
+  router.push(`?${query}`)
+}
+
+export const getOriginalHotelTypeValueFromSlug = (slug: string): string => {
+  const slugMap: Record<string, string> = {
+    'khach-san': 'Khách sạn',
+    'khu-nghi-duong': 'Khu nghỉ dưỡng',
+    'biet-thu': 'Biệt thự',
+    'can-ho': 'Căn hộ',
+    'nha-nghi': 'Nhà nghỉ',
+  }
+  return slugMap[slug] || slug
+}

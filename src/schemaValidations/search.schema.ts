@@ -1,3 +1,4 @@
+import { RangePriceValues } from '@/constants/type'
 import { HotelSchema } from '@/schemaValidations/hotel.schema'
 import z from 'zod'
 
@@ -35,7 +36,7 @@ export const FilterParamsSchema = z.object({
   childQuantity: z.number(),
   currentRooms: z.number(),
   hotelName: z.string().optional(),
-  hotelStar: z.array(z.number()).optional(),
+  hotelStar: z.array(z.string()).optional(),
   hotelType: z.array(z.string()).optional(),
   minPrice: z.string().optional(),
 })

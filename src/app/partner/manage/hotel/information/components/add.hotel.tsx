@@ -98,7 +98,6 @@ export default function AddHotel() {
       toast.success('Thêm thành công')
       reset()
       setOpen(false)
-      console.log(body)
     } catch (error) {
       handleErrorApi({
         error,

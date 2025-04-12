@@ -19,7 +19,6 @@ import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
-  const search = useSearchStore((state) => state.search)
   const setSearch = useSearchStore((state) => state.setSearch)
   const [open, setOpen] = useState(false)
   const inputRef = useRef<HTMLDivElement>(null)
