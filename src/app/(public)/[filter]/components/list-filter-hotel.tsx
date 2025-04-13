@@ -47,7 +47,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
               const href = `${params.filter as string}/${slug}-chi-tiet`
               return (
                 <Link key={hotel.hotelId} href={href} className="w-full">
-                  <Card className="grid w-full grid-cols-10 gap-3 rounded border p-0 hover:border-blue-500 hover:shadow-md">
+                  <Card className="grid w-full transform grid-cols-10 gap-3 rounded border p-0 transition-transform duration-200 ease-in-out hover:scale-101 hover:border-blue-500 hover:shadow-md">
                     <div className="relative col-span-3 aspect-[3/2] h-full w-full overflow-hidden">
                       <Image
                         src={hotel.hotelImage}
