@@ -106,16 +106,17 @@ export const Rating = ({
           })
         )}
         {partialStar}
-        {[...Array(Math.max(0, totalStars - fullStars - (partialStar ? 1 : 0)))].map((_, i) =>
-          React.cloneElement(Icon, {
-            key: i + fullStars + 1,
-            size,
-            className: cn('stroke-1', ratingVariants[variant].emptyStar),
-            onClick: handleClick,
-            onMouseEnter: handleMouseEnter,
-            'data-star-index': i + fullStars + 1,
-          })
-        )}
+        {!disabled &&
+          [...Array(Math.max(0, totalStars - fullStars - (partialStar ? 1 : 0)))].map((_, i) =>
+            React.cloneElement(Icon, {
+              key: i + fullStars + 1,
+              size,
+              className: cn('stroke-1', ratingVariants[variant].emptyStar),
+              onClick: handleClick,
+              onMouseEnter: handleMouseEnter,
+              'data-star-index': i + fullStars + 1,
+            })
+          )}
       </div>
       {showText && (
         <span className="text-muted-foreground text-xs font-semibold">

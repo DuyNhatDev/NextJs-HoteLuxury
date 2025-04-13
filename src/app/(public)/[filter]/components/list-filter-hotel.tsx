@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Rating } from '@/components/ui/rating'
+import { Rating } from '@/components/customize/rating'
 import { extractLocationName, generateSlugUrl } from '@/lib/utils'
 import { useGetFilterHotelList } from '@/queries/useFilter'
 import { FilterParamsType } from '@/schemaValidations/filter.schema'
@@ -10,18 +10,30 @@ import { MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { useState } from 'react'
 
 export default function ListFilterHotel({ filterParams }: { filterParams: FilterParamsType }) {
   const params = useParams()
   const rawFilter = extractLocationName(params.filter as string)
   const effectiveFilter = filterParams.filter?.trim() ? filterParams.filter : rawFilter
+
   const hotelFilterListQuery = useGetFilterHotelList({
     ...filterParams,
     filter: effectiveFilter,
   })
+
   const hotelFilterList = hotelFilterListQuery.data?.payload?.data || []
   const outOfRoomList = hotelFilterListQuery.data?.payload?.outOfRoom || []
   const fullHotelList = [...hotelFilterList, ...outOfRoomList]
+
+  const [visibleCount, setVisibleCount] = useState(10)
+
+  const visibleHotelList = fullHotelList.slice(0, visibleCount)
+  const hotelsRemaining = Math.max(fullHotelList.length - visibleCount, 0)
+
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 10)
+  }
 
   return (
     <div className="w-full">
@@ -30,7 +42,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
       ) : (
         <>
           <div className="flex flex-col gap-4">
-            {fullHotelList.map((hotel) => {
+            {visibleHotelList.map((hotel) => {
               const slug = generateSlugUrl(hotel.hotelName)
               const href = `${params.filter as string}/${slug}-chi-tiet`
               return (
@@ -88,6 +100,18 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
               )
             })}
           </div>
+
+          {hotelsRemaining > 0 && (
+            <div className="mt-4 flex justify-center">
+              <Button
+                variant="outline"
+                onClick={handleShowMore}
+                className="border-blue-60 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+              >
+                Xem thêm {hotelsRemaining} khách sạn
+              </Button>
+            </div>
+          )}
         </>
       )}
     </div>

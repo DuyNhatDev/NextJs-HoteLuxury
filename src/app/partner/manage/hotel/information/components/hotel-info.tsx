@@ -1,7 +1,7 @@
 'use client'
 
 import AddHotel from '@/app/partner/manage/hotel/information/components/add.hotel'
-import { Rating } from '@/components/ui/rating'
+import { Rating } from '@/components/customize/rating'
 import { useGetHotelList } from '@/queries/useHotel'
 import { HotelType } from '@/schemaValidations/hotel.schema'
 import Image from 'next/image'
