@@ -1,5 +1,5 @@
 'use client'
-import { FilterParamsSchema, FilterParamsType } from '@/schemaValidations/search.schema'
+import { FilterParamsSchema, FilterParamsType } from '@/schemaValidations/filter.schema'
 import { useSearchStore } from '@/store/search-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -90,10 +90,7 @@ export default function FilterForm() {
       <div className="grid grid-cols-4 items-start gap-4">
         <div className="col-span-1 rounded border p-4">
           <Form {...form}>
-            <form
-              className="flex w-full flex-col gap-3"
-              noValidate
-            >
+            <form className="flex w-full flex-col gap-3" noValidate>
               <div className="relative w-full">
                 <FormField
                   control={control}

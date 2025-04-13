@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Rating } from '@/components/ui/rating'
 import { extractLocationName, generateSlugUrl } from '@/lib/utils'
-import { useGetFilterHotelList } from '@/queries/useSearch'
-import { FilterParamsType } from '@/schemaValidations/search.schema'
+import { useGetFilterHotelList } from '@/queries/useFilter'
+import { FilterParamsType } from '@/schemaValidations/filter.schema'
 import { MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -35,18 +35,18 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
               const href = `${params.filter as string}/${slug}-chi-tiet`
               return (
                 <Link key={hotel.hotelId} href={href} className="w-full">
-                  <Card className="grid w-full grid-cols-10 gap-3 rounded border p-4 hover:border-blue-500 hover:shadow-md">
-                    <div className="relative col-span-3 -m-4 h-[180px] w-full overflow-hidden rounded">
+                  <Card className="grid w-full grid-cols-10 gap-3 rounded border p-0 hover:border-blue-500 hover:shadow-md">
+                    <div className="relative col-span-3 aspect-[3/2] h-full w-full overflow-hidden">
                       <Image
-                        src={hotel.hotelImage || '/placeholder.jpg'}
-                        alt={hotel.hotelName || ''}
+                        src={hotel.hotelImage}
+                        alt={hotel.hotelName}
                         fill
                         className="object-cover"
                       />
                     </div>
 
                     <CardContent className="col-span-5 flex flex-col justify-between gap-1 px-0 py-0">
-                      <div className="flex flex-1 flex-col gap-2">
+                      <div className="flex flex-1 flex-col gap-2 px-1 py-3">
                         <div>
                           <h3 className="mb-1 line-clamp-2 text-lg font-semibold">
                             {hotel.hotelName}
@@ -66,16 +66,22 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
                             <span className="font-medium">{hotel.hotelAddress}</span>
                           </div>
                           <div className="inline-block rounded px-2 py-1 text-sm">
-                            <Badge variant="secondary" className='py-1'>{hotel.hotelType}</Badge>
+                            <Badge variant="secondary" className="py-1">
+                              {hotel.hotelType}
+                            </Badge>
                           </div>
                         </div>
                       </div>
                     </CardContent>
 
-                    <div className="col-span-2 flex items-center justify-end">
-                      <p className="text-lg font-semibold text-green-600">
-                        {Number(hotel.minPrice).toLocaleString('vi-VN')} VND
-                      </p>
+                    <div className="col-span-2 flex items-center justify-end px-3">
+                      {hotel.minPrice ? (
+                        <p className="text-lg font-semibold text-green-600">
+                          {Number(hotel.minPrice).toLocaleString('vi-VN')} VND
+                        </p>
+                      ) : (
+                        <p className="text-lg font-semibold text-orange-500">Hết phòng</p>
+                      )}
                     </div>
                   </Card>
                 </Link>

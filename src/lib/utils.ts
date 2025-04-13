@@ -242,10 +242,8 @@ export const isDate = (value: any): value is Date => {
 
 export const buildQueryParams = (params: Record<string, any>) => {
   const formattedParams: Record<string, any> = {}
-
   Object.entries(params).forEach(([key, value]) => {
     if (value === null || value === undefined || value === '') return
-
     if (Array.isArray(value)) {
       formattedParams[key] = value.join(',')
     } else if (isDate(value)) {

@@ -1,4 +1,4 @@
-import { SearchType } from '@/schemaValidations/search.schema'
+import { SearchType } from '@/schemaValidations/filter.schema'
 import { addDays } from 'date-fns'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'

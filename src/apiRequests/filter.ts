@@ -5,17 +5,11 @@ import {
   FilterParamsType,
   SuggestListResType,
   SuggestParamsType,
-} from '@/schemaValidations/search.schema'
-import queryString from 'query-string'
+} from '@/schemaValidations/filter.schema'
 
 const searchApiRequest = {
   getSuggestList: (queryParams: SuggestParamsType) =>
-    http.get<SuggestListResType>(
-      '/hotel/suggested-hotel?' +
-        queryString.stringify({
-          filter: queryParams.filter,
-        })
-    ),
+    http.get<SuggestListResType>('/hotel/suggested-hotel?' + buildQueryParams(queryParams)),
   getFilterHotelList: (queryParams: FilterParamsType) =>
     http.get<FilterListResType>('/hotel/user-filter?' + buildQueryParams(queryParams)),
 }

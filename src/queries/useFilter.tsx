@@ -1,5 +1,5 @@
-import searchApiRequest from '@/apiRequests/search'
-import { FilterParamsType, SuggestParamsType } from '@/schemaValidations/search.schema'
+import searchApiRequest from '@/apiRequests/filter'
+import { FilterParamsType, SuggestParamsType } from '@/schemaValidations/filter.schema'
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetSuggestList = (queryParams: SuggestParamsType) => {

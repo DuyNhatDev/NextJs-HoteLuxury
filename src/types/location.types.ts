@@ -25,3 +25,8 @@ export interface SelectLocation {
   id: string
   name: string
 }
+
+export interface Coord {
+  lat: number
+  lng: number
+}
