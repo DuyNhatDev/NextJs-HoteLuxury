@@ -7,7 +7,7 @@ export const SuggestParamsSchema = z.object({
 
 export type SuggestParamsType = z.infer<typeof SuggestParamsSchema>
 
-export const SearchSchema = z.object({
+export const FilterSchema = z.object({
   dayStart: z.date(),
   dayEnd: z.date(),
   filter: z.string(),
@@ -16,7 +16,7 @@ export const SearchSchema = z.object({
   currentRooms: z.number(),
 })
 
-export type SearchType = z.infer<typeof SearchSchema>
+export type FilterType = z.infer<typeof FilterSchema>
 
 export const SuggestListResSchema = z.object({
   status: z.string(),

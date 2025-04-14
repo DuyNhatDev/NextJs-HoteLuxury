@@ -1,15 +1,15 @@
-import { SearchType } from '@/schemaValidations/filter.schema'
+import { FilterType } from '@/schemaValidations/filter.schema'
 import { addDays } from 'date-fns'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface SearchStoreType {
-  search: SearchType
-  setSearch: (data: Partial<SearchType>) => void
-  resetSearch: () => void
+  filter: FilterType
+  setFilter: (data: Partial<FilterType>) => void
+  resetFilter: () => void
 }
 
-const defaultSearch: SearchType = {
+const defaultSearch: FilterType = {
   dayStart: new Date(),
   dayEnd: addDays(new Date(), 1),
   filter: '',
@@ -21,23 +21,23 @@ const defaultSearch: SearchType = {
 export const useSearchStore = create(
   persist<SearchStoreType>(
     (set) => ({
-      search: defaultSearch,
-      setSearch: (data) =>
+      filter: defaultSearch,
+      setFilter: (data) =>
         set((state) => ({
-          search: { ...state.search, ...data },
+          filter: { ...state.filter, ...data },
         })),
-      resetSearch: () => set({ search: defaultSearch }),
+      resetFilter: () => set({ filter: defaultSearch }),
     }),
     {
-      name: 'search-storage',
+      name: 'filter-storage',
       merge: (persistedState, currentState) => {
         const state = persistedState as SearchStoreType
         return {
           ...currentState,
-          search: {
-            ...state.search,
-            dayStart: new Date(state.search.dayStart),
-            dayEnd: new Date(state.search.dayEnd),
+          filter: {
+            ...state.filter,
+            dayStart: new Date(state.filter.dayStart),
+            dayEnd: new Date(state.filter.dayEnd),
           },
         }
       },

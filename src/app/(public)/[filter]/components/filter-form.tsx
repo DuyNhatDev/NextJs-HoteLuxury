@@ -1,6 +1,6 @@
 'use client'
 import { FilterParamsSchema, FilterParamsType } from '@/schemaValidations/filter.schema'
-import { useSearchStore } from '@/store/search-store'
+import { useSearchStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
@@ -21,19 +21,19 @@ import { getOriginalHotelTypeValueFromSlug, updateURLParams } from '@/lib/utils'
 import ListFilterHotel from '@/app/(public)/[filter]/components/list-filter-hotel'
 
 export default function FilterForm() {
-  const search = useSearchStore((state) => state.search)
+  const filter = useSearchStore((state) => state.filter)
   const searchParams = useSearchParams()
   const router = useRouter()
   const form = useForm<FilterParamsType>({
     resolver: zodResolver(FilterParamsSchema),
     defaultValues: {
-      dayStart: search.dayStart,
-      dayEnd: search.dayEnd,
-      filter: search.filter,
+      dayStart: filter.dayStart,
+      dayEnd: filter.dayEnd,
+      filter: filter.filter,
       hotelName: '',
-      adultQuantity: search.adultQuantity,
-      childQuantity: search.childQuantity,
-      currentRooms: search.currentRooms,
+      adultQuantity: filter.adultQuantity,
+      childQuantity: filter.childQuantity,
+      currentRooms: filter.currentRooms,
       hotelStar: [],
       hotelType: [],
       minPrice: '',
@@ -50,18 +50,18 @@ export default function FilterForm() {
     const originHotelType = hotelType.map((slug) => getOriginalHotelTypeValueFromSlug(slug))
 
     reset({
-      dayStart: search.dayStart,
-      dayEnd: search.dayEnd,
-      filter: search.filter,
+      dayStart: filter.dayStart,
+      dayEnd: filter.dayEnd,
+      filter: filter.filter,
       hotelName: '',
-      adultQuantity: search.adultQuantity,
-      childQuantity: search.childQuantity,
-      currentRooms: search.currentRooms,
+      adultQuantity: filter.adultQuantity,
+      childQuantity: filter.childQuantity,
+      currentRooms: filter.currentRooms,
       hotelStar,
       hotelType: originHotelType,
       minPrice,
     })
-  }, [search, reset, searchParams])
+  }, [filter, reset, searchParams])
 
   useEffect(() => {
     const subscription = watch((formValues) => {

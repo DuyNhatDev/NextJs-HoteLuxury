@@ -1,15 +1,15 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useSearchStore } from '@/store/search-store'
+import { useSearchStore } from '@/store/filter-store'
 import { generateSlugUrl } from '@/lib/utils'
 import { DestinationType } from '@/schemaValidations/destination.schema'
 
 export default function DestinationList({ destinations }: { destinations: DestinationType[] }) {
-  const setSearch = useSearchStore((state) => state.setSearch)
+  const setFilter = useSearchStore((state) => state.setFilter)
 
   const handleClick = (destination: DestinationType) => {
-    setSearch({ filter: destination.locationName })
+    setFilter({ filter: destination.locationName })
   }
 
   return (

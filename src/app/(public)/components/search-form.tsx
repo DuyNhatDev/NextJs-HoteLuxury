@@ -5,25 +5,28 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { formatProvince } from '@/lib/utils'
+import { formatProvince, generateSlugUrl } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useFilter'
-import { SearchSchema, SearchType } from '@/schemaValidations/filter.schema'
-import { useSearchStore } from '@/store/search-store'
+import { FilterSchema, FilterType } from '@/schemaValidations/filter.schema'
+import { useSearchStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
 import { Hotel, MapPin } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
-  const setSearch = useSearchStore((state) => state.setSearch)
+  const setFilter = useSearchStore((state) => state.setFilter)
+  const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [isHotel, setIsHotel] = useState(false)
   const inputRef = useRef<HTMLDivElement>(null)
-  const form = useForm<SearchType>({
-    resolver: zodResolver(SearchSchema),
+  const form = useForm<FilterType>({
+    resolver: zodResolver(FilterSchema),
     defaultValues: {
       dayStart: new Date(),
       dayEnd: addDays(new Date(), 1),
@@ -55,10 +58,10 @@ export default function SearchForm() {
 
   useEffect(() => {
     const subscription = form.watch((values) => {
-      setSearch(values)
+      setFilter(values)
     })
     return () => subscription.unsubscribe()
-  }, [form, setSearch])
+  }, [form, setFilter])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -69,9 +72,12 @@ export default function SearchForm() {
   useEffect(() => {
     localStorage.removeItem('search-storage')
   }, [])
-  const onSubmit = async (data: SearchType) => {
+  const onSubmit = async (data: FilterType) => {
     if (keyword.trim() === '') setOpen(true)
-    setSearch(data)
+    setFilter(data)
+    if (!isHotel) {
+      router.push(`khach-san-${generateSlugUrl(keyword)}`)
+    }
   }
   return (
     <div className="absolute inset-0 flex items-center justify-center">
@@ -159,6 +165,7 @@ export default function SearchForm() {
                                       key={`hotel-${index}`}
                                       className="hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors"
                                       onClick={() => {
+                                        setIsHotel(true)
                                         setOpen(false)
                                       }}
                                     >
@@ -185,6 +192,7 @@ export default function SearchForm() {
                                       key={`location-${index}`}
                                       className="hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors"
                                       onClick={() => {
+                                        setValue('filter', formatProvince(location))
                                         setOpen(false)
                                       }}
                                     >
