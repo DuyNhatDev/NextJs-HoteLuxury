@@ -9,9 +9,8 @@ import { formatProvince, generateSlugUrl } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useFilter'
 import { FilterSchema, FilterType } from '@/schemaValidations/filter.schema'
-import { useSearchStore } from '@/store/filter-store'
+import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { addDays } from 'date-fns'
 import { Hotel, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -21,24 +20,30 @@ import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
   const router = useRouter()
-  const filter = useSearchStore((state) => state.filter)
-  const setFilter = useSearchStore((state) => state.setFilter)
+  const filter = useFilterStore((state) => state.filter)
+  const isHydrated = useFilterStore((state) => state.isHydrated)
+  const setFilter = useFilterStore((state) => state.setFilter)
   const [open, setOpen] = useState(false)
   const [isHotel, setIsHotel] = useState(false)
   const inputRef = useRef<HTMLDivElement>(null)
+  const hasReset = useRef(false)
+
   const form = useForm<FilterType>({
     resolver: zodResolver(FilterSchema),
     defaultValues: {
-      dayStart: filter.dayStart,
-      dayEnd: filter.dayEnd,
-      filter: filter.filter,
-      adultQuantity: filter.adultQuantity,
-      childQuantity: filter.childQuantity,
-      currentRooms: filter.currentRooms,
+      ...filter,
     },
   })
 
-  const { control, watch, setValue } = form
+  const { control, watch, setValue, reset } = form
+  useEffect(() => {
+    if (isHydrated && !hasReset.current) {
+      reset(filter)
+      hasReset.current = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isHydrated])
+
   const dayStart = watch('dayStart')
   const dayEnd = watch('dayEnd')
   const keyword = watch('filter')
@@ -58,31 +63,29 @@ export default function SearchForm() {
   }
 
   useEffect(() => {
-    const subscription = form.watch((values) => {
-      setFilter(values)
-    })
-    return () => subscription.unsubscribe()
-  }, [form, setFilter])
-
-  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-  useEffect(() => {
-    localStorage.removeItem('search-storage')
-  }, [])
+
   const onSubmit = async (data: FilterType) => {
-    if (keyword.trim() === '') setOpen(true)
     setFilter(data)
-  if (!isHotel) {
-        router.push(`khach-san-${generateSlugUrl(keyword)}`)
+    if (data.filter.trim() === '') {
+      setOpen(true)
+    } else {
+      if (!isHotel) {
+        setTimeout(() => {
+          const url = `khach-san-${generateSlugUrl(data.filter)}`
+          router.push(url)
+        }, 100)
       }
+    }
   }
+
   return (
     <div className="flex w-full justify-center">
-      <div className="w-full rounded-sm bg-gray-800/20 p-4 shadow-lg">
+      <div className="w-full rounded-sm bg-gray-800/20 p-4">
         <Form {...form}>
           <form
             className="flex w-full flex-col gap-3 md:flex-row"
@@ -145,7 +148,7 @@ export default function SearchForm() {
                     {open && field.value.trim() !== '' && (
                       <>
                         {suggestHotelList.length === 0 && suggestLocationList.length === 0 ? (
-                          <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-sm p-5 shadow-lg">
+                          <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 w-[700px] overflow-auto rounded-sm p-5 shadow-lg">
                             <div className="-mx-4 flex items-center justify-center px-4 py-2">
                               <p className="text-md ml-1 font-semibold">
                                 Không tìm thấy kết quả nào phù hợp
@@ -153,7 +156,7 @@ export default function SearchForm() {
                             </div>
                           </div>
                         ) : (
-                          <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-sm px-4 pb-4 shadow-lg">
+                          <div className="max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 w-[700px] overflow-auto rounded-sm px-4 pb-4 shadow-lg">
                             {suggestHotelList.length > 0 && (
                               <>
                                 <div className="-mx-4 flex items-center px-4 py-2">

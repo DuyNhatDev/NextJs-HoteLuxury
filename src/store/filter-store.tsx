@@ -3,13 +3,15 @@ import { addDays } from 'date-fns'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface SearchStoreType {
+interface FilterStoreType {
   filter: FilterType
   setFilter: (data: Partial<FilterType>) => void
   resetFilter: () => void
+  isHydrated: boolean
+  setHydrated: () => void
 }
 
-const defaultSearch: FilterType = {
+const defaultFilter: FilterType = {
   dayStart: new Date(),
   dayEnd: addDays(new Date(), 1),
   filter: '',
@@ -18,20 +20,25 @@ const defaultSearch: FilterType = {
   currentRooms: 1,
 }
 
-export const useSearchStore = create(
-  persist<SearchStoreType>(
+export const useFilterStore = create(
+  persist<FilterStoreType>(
     (set) => ({
-      filter: defaultSearch,
+      filter: defaultFilter,
       setFilter: (data) =>
         set((state) => ({
           filter: { ...state.filter, ...data },
         })),
-      resetFilter: () => set({ filter: defaultSearch }),
+      resetFilter: () => set({ filter: defaultFilter }),
+      isHydrated: false,
+      setHydrated: () => set({ isHydrated: true }),
     }),
     {
       name: 'filter-storage',
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated()
+      },
       merge: (persistedState, currentState) => {
-        const state = persistedState as SearchStoreType
+        const state = persistedState as FilterStoreType
         return {
           ...currentState,
           filter: {

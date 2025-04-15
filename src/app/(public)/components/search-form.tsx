@@ -9,7 +9,7 @@ import { formatProvince, generateSlugUrl } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useFilter'
 import { FilterSchema, FilterType } from '@/schemaValidations/filter.schema'
-import { useSearchStore } from '@/store/filter-store'
+import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
 import { Hotel, MapPin } from 'lucide-react'
@@ -20,7 +20,7 @@ import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
-  const setFilter = useSearchStore((state) => state.setFilter)
+  const setFilter = useFilterStore((state) => state.setFilter)
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [isHotel, setIsHotel] = useState(false)
@@ -70,13 +70,17 @@ export default function SearchForm() {
     }
   }, [])
   useEffect(() => {
-    localStorage.removeItem('search-storage')
+    localStorage.removeItem('filter-storage')
   }, [])
+  
   const onSubmit = async (data: FilterType) => {
-    if (keyword.trim() === '') setOpen(true)
     setFilter(data)
-    if (!isHotel) {
-      router.push(`khach-san-${generateSlugUrl(keyword)}`)
+    if (keyword.trim() === '') {
+      setOpen(true)
+    } else {
+      if (!isHotel) {
+        router.push(`khach-san-${generateSlugUrl(keyword)}`)
+      }
     }
   }
   return (

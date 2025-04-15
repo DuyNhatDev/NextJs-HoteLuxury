@@ -10,13 +10,13 @@ export default function ListHotelPage() {
         </div>
       </div>
 
-      {/* <div className="flex-1 overflow-auto">
-          <div className="mx-auto h-full w-full max-w-[350px] bg-yellow-200 p-4 sm:max-w-xl md:max-w-6xl">
+      {/* <div className="flex-1">
+          <div className="mx-auto h-full w-full bg-yellow-200 p-4 sm:max-w-xl md:max-w-6xl">
           </div>
         </div> */}
 
       <div className="flex-1">
-        <div className="mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl">
+        <div className="mx-auto h-full w-full pb-3 pt-0 sm:max-w-xl md:max-w-6xl">
           <FilterForm />
         </div>
       </div>

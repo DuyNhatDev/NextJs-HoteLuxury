@@ -1,6 +1,6 @@
 'use client'
 import { FilterParamsSchema, FilterParamsType } from '@/schemaValidations/filter.schema'
-import { useSearchStore } from '@/store/filter-store'
+import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
@@ -21,7 +21,7 @@ import { getOriginalHotelTypeValueFromSlug, updateURLParams } from '@/lib/utils'
 import ListFilterHotel from '@/app/(public)/[filter]/components/list-filter-hotel'
 
 export default function FilterForm() {
-  const filter = useSearchStore((state) => state.filter)
+  const filter = useFilterStore((state) => state.filter)
   const searchParams = useSearchParams()
   const router = useRouter()
   const form = useForm<FilterParamsType>({
@@ -48,7 +48,6 @@ export default function FilterForm() {
     const hotelType = searchParams.get('hotelType')?.split(',') ?? []
     const minPrice = searchParams.get('minPrice') ?? ''
     const originHotelType = hotelType.map((slug) => getOriginalHotelTypeValueFromSlug(slug))
-
     reset({
       dayStart: filter.dayStart,
       dayEnd: filter.dayEnd,
@@ -86,7 +85,12 @@ export default function FilterForm() {
   }, [watch, router, searchParams])
 
   return (
-    <div>
+    <div className="flex flex-col">
+      <div className="mx-auto mb-3 h-full w-full sm:max-w-xl md:max-w-6xl">
+        <div className="text-xl font-bold text-blue-900 py-2">
+          Khách sạn {filter.filter}
+        </div>
+      </div>
       <div className="grid grid-cols-4 items-start gap-4">
         <div className="col-span-1 rounded border p-4">
           <Form {...form}>
