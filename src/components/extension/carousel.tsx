@@ -338,7 +338,7 @@ const CarouselPrevious = forwardRef<HTMLButtonElement, React.ComponentProps<type
         disabled={!canScroll}
         {...props}
       >
-        <ChevronLeftIcon className="h-4 w-4" />
+        <ChevronLeftIcon className="!h-5 !w-5 text-blue-400" />
         <span className="sr-only">Previous slide</span>
       </Button>
     )
@@ -368,7 +368,7 @@ const CarouselNext = forwardRef<HTMLButtonElement, React.ComponentProps<typeof B
         disabled={!canScroll}
         {...props}
       >
-        <ChevronRightIcon className="h-4 w-4" />
+        <ChevronRightIcon className="!h-5 !w-5 text-blue-400" />
         <span className="sr-only">Next slide</span>
       </Button>
     )

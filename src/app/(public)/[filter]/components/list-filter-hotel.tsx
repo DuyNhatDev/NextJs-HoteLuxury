@@ -11,6 +11,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function ListFilterHotel({ filterParams }: { filterParams: FilterParamsType }) {
   const params = useParams()
@@ -37,8 +38,12 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
 
   return (
     <div className="w-full">
-      {fullHotelList.length === 0 ? (
-        <p className="px-4 py-2 text-center text-lg">Không tìm thấy khách sạn phù hợp</p>
+      {hotelFilterListQuery.isPending ? (
+        <div className="flex items-center justify-center py-8">
+          <Spinner>Đang tải...</Spinner>
+        </div>
+      ) : fullHotelList.length === 0 ? (
+        <p className="px-4 py-8 text-center text-lg">Không tìm thấy khách sạn phù hợp</p>
       ) : (
         <>
           <div className="flex flex-col gap-4">

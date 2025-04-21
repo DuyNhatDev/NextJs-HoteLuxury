@@ -16,6 +16,9 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: 'Đặt phòng khách sạn trực tuyến',
   description: 'The booking hotel app',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 const clientId = envConfig.NEXT_PUBLIC_GG_CLIENT_ID
 export default function RootLayout({

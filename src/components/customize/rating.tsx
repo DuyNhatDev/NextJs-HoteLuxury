@@ -21,6 +21,7 @@ const ratingVariants = {
 
 interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
   rating: number
+  score?: number
   totalStars?: number
   size?: number
   fill?: boolean
@@ -28,11 +29,13 @@ interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: keyof typeof ratingVariants
   onRatingChange?: (rating: number) => void
   showText?: boolean
+  showEmpty?: boolean
   disabled?: boolean
 }
 
 export const Rating = ({
   rating: initialRating,
+  score,
   totalStars = 5,
   size = 20,
   fill = true,
@@ -40,11 +43,13 @@ export const Rating = ({
   variant = 'default',
   onRatingChange,
   showText = true,
+  showEmpty = false,
   disabled = false,
   ...props
 }: RatingProps) => {
+  const computedRating = score !== undefined ? score / 2 : initialRating
   const [hoverRating, setHoverRating] = useState<number | null>(null)
-  const [currentRating, setCurrentRating] = useState(initialRating)
+  const [currentRating, setCurrentRating] = useState(computedRating)
   const [isHovering, setIsHovering] = useState(false)
 
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -71,7 +76,7 @@ export const Rating = ({
     }
   }
 
-  const displayRating = disabled ? initialRating : (hoverRating ?? currentRating)
+  const displayRating = disabled ? computedRating : (hoverRating ?? currentRating)
   const fullStars = Math.floor(displayRating)
   const partialStar =
     displayRating % 1 > 0 ? (
@@ -100,20 +105,20 @@ export const Rating = ({
               fill ? 'fill-current stroke-1' : 'fill-transparent',
               ratingVariants[variant].star
             ),
-            onClick: handleClick,
-            onMouseEnter: handleMouseEnter,
+            onClick: disabled ? undefined : handleClick,
+            onMouseEnter: disabled ? undefined : handleMouseEnter,
             'data-star-index': i + 1,
           })
         )}
         {partialStar}
-        {!disabled &&
+        {(showEmpty || !disabled) &&
           [...Array(Math.max(0, totalStars - fullStars - (partialStar ? 1 : 0)))].map((_, i) =>
             React.cloneElement(Icon, {
               key: i + fullStars + 1,
               size,
               className: cn('stroke-1', ratingVariants[variant].emptyStar),
-              onClick: handleClick,
-              onMouseEnter: handleMouseEnter,
+              onClick: disabled ? undefined : handleClick,
+              onMouseEnter: disabled ? undefined : handleMouseEnter,
               'data-star-index': i + fullStars + 1,
             })
           )}
