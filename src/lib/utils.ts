@@ -233,7 +233,12 @@ export const getOriginalHotelTypeValueFromSlug = (slug: string): string => {
 
 export const extractLocationName = (slug?: string): string => {
   if (!slug) return ''
-  return slug.replace('khach-san-', '').replace(/-/g, ' ')
+  return slug.replace('khach-san-', '').replace(/-/g, ' ').trim()
+}
+
+export const extractHotelName = (slug?: string): string => {
+  if (!slug) return ''
+  return slug.replace('chi-tiet', '').replace(/-/g, ' ').trim()
 }
 
 export const isDate = (value: any): value is Date => {

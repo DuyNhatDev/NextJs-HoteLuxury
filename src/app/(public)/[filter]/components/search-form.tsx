@@ -9,6 +9,7 @@ import { formatProvince, generateSlugUrl } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useFilter'
 import { FilterSchema, FilterType } from '@/schemaValidations/filter.schema'
+import { HotelType } from '@/schemaValidations/hotel.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Hotel, MapPin } from 'lucide-react'
@@ -69,6 +70,9 @@ export default function SearchForm() {
     }
   }, [])
 
+  const findHotelByKeyword = (keyword: string, suggestions: HotelType[]): HotelType | undefined =>
+    suggestions.find((hotel) => hotel.hotelName === keyword)
+
   const onSubmit = async (data: FilterType) => {
     setFilter(data)
     if (data.filter.trim() === '') {
@@ -79,6 +83,14 @@ export default function SearchForm() {
           const url = `khach-san-${generateSlugUrl(data.filter)}`
           router.push(url)
         }, 100)
+      } else {
+        const matchedHotel = findHotelByKeyword(keyword, suggestHotelList)
+        if (matchedHotel?.locationName) {
+          setTimeout(() => {
+            const url = `khach-san-${generateSlugUrl(matchedHotel?.locationName)}/${generateSlugUrl(keyword)}-chi-tiet`
+            router.push(url)
+          }, 100)
+        }
       }
     }
   }
@@ -169,6 +181,7 @@ export default function SearchForm() {
                                       className="hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors"
                                       onClick={() => {
                                         setIsHotel(true)
+                                        setValue('filter', hotel.hotelName)
                                         setOpen(false)
                                       }}
                                     >

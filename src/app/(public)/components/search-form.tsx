@@ -9,6 +9,7 @@ import { formatProvince, generateSlugUrl } from '@/lib/utils'
 import { useGetDestinationList } from '@/queries/useDestination'
 import { useGetSuggestList } from '@/queries/useFilter'
 import { FilterSchema, FilterType } from '@/schemaValidations/filter.schema'
+import { HotelType } from '@/schemaValidations/hotel.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
@@ -72,14 +73,24 @@ export default function SearchForm() {
   useEffect(() => {
     localStorage.removeItem('filter-storage')
   }, [])
-  
+
+  const findHotelByKeyword = (keyword: string, suggestions: HotelType[]): HotelType | undefined =>
+    suggestions.find((hotel) => hotel.hotelName === keyword)
+
   const onSubmit = async (data: FilterType) => {
     setFilter(data)
     if (keyword.trim() === '') {
       setOpen(true)
     } else {
       if (!isHotel) {
-        router.push(`khach-san-${generateSlugUrl(keyword)}`)
+        const url = `khach-san-${generateSlugUrl(keyword)}`
+        router.push(url)
+      } else {
+        const matchedHotel = findHotelByKeyword(keyword, suggestHotelList)
+        if (matchedHotel?.locationName) {
+          const url = `khach-san-${generateSlugUrl(matchedHotel?.locationName)}/${generateSlugUrl(keyword)}-chi-tiet`
+          router.push(url)
+        }
       }
     }
   }
@@ -170,6 +181,7 @@ export default function SearchForm() {
                                       className="hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors"
                                       onClick={() => {
                                         setIsHotel(true)
+                                        setValue('filter', hotel.hotelName)
                                         setOpen(false)
                                       }}
                                     >
