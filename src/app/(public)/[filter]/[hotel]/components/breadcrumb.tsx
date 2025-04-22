@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { generateSlugUrl } from '@/lib/utils'
 import { useFilterStore } from '@/store/filter-store'
+import Link from 'next/link'
 
 interface BreadcrumbItems {
   locationName: string
@@ -21,22 +22,26 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator>/</BreadcrumbSeparator>
-        <BreadcrumbItem>
-          <BreadcrumbLink
-            onClick={() => {
-              setFilter({ filter: locationName })
-            }}
-            href={`/khach-san-${generateSlugUrl(locationName)}`}
-          >
-            {locationName}
+          <BreadcrumbLink asChild>
+            <Link href="/">Trang chủ</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage className='text-gray-500'>{hotelName}</BreadcrumbPage>
+          <BreadcrumbLink asChild>
+            <Link
+              onClick={() => {
+                setFilter({ filter: locationName })
+              }}
+              href={`/khach-san-${generateSlugUrl(locationName)}`}
+            >
+              {locationName}
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>/</BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbPage>{hotelName}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

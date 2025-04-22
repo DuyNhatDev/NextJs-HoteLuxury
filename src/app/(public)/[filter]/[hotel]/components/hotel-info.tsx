@@ -40,7 +40,7 @@ export default function HotelInfo() {
   )
   const roomTypeRef = useRef<HTMLDivElement>(null)
   const handleScroll = () => {
-    const headerHeight = 56 
+    const headerHeight = 56
 
     const element = roomTypeRef.current
     if (element) {
@@ -63,11 +63,14 @@ export default function HotelInfo() {
 
       <div className="mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl">
         <div className="flex">
+          {/* Map */}
           <div className="flex-1">
             <div className="w-ful mx-auto py-3 sm:max-w-xl md:max-w-6xl"></div>
           </div>
+          {/* Thông tin khách sạn */}
           <div className="flex-3">
             <div className="mx-auto h-full w-full sm:max-w-xl md:max-w-6xl">
+              {/* Thông tin */}
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-4 flex-col items-start justify-start gap-2 p-3">
                   <h1 className="text-xl font-bold text-blue-900">{hotelData?.hotelName}</h1>
@@ -102,6 +105,7 @@ export default function HotelInfo() {
                   </Button>
                 </div>
               </div>
+              {/* Hình ảnh */}
               {imageList && imageList.length > 0 && (
                 <Carousel className="p-2">
                   <CarouselPrevious className="absolute top-1/3 left-10 h-7 w-7 -translate-y-1/3 opacity-50" />
@@ -137,6 +141,7 @@ export default function HotelInfo() {
                   </CarouselThumbsContainer>
                 </Carousel>
               )}
+              {/* Mô tả */}
               <div className="border-gray-20 m-2 rounded border p-3">
                 <h4 className="mb-2 text-lg font-semibold">Mô tả:</h4>
                 <div
@@ -144,6 +149,7 @@ export default function HotelInfo() {
                   dangerouslySetInnerHTML={{ __html: hotelData?.hotelDescription || '' }}
                 />
               </div>
+              {/* Danh sách loại phòng */}
               <div className="p-2" ref={roomTypeRef}>
                 <h2 className="py-2 font-semibold text-blue-900">
                   Bảng giá {hotelData?.hotelName}

@@ -93,7 +93,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
 
                     <div className="col-span-2 flex items-center justify-end px-3">
                       {hotel.minPrice ? (
-                        <p className="text-lg font-semibold text-green-600">
+                        <p className="text-lg font-semibold text-sky-500">
                           {Number(hotel.minPrice).toLocaleString('vi-VN')} VND
                         </p>
                       ) : (
