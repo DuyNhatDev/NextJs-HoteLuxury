@@ -19,6 +19,8 @@ import { HotelType } from '@/schemaValidations/hotel.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { MapPin } from 'lucide-react'
 import { useParams } from 'next/navigation'
+import SearchForm from '@/app/(public)/[filter]/[hotel]/components/search-form'
+import { useRef } from 'react'
 
 export default function HotelInfo() {
   const filter = useFilterStore((state) => state.filter)
@@ -36,6 +38,19 @@ export default function HotelInfo() {
   const imageList = [hotelData?.hotelImage, ...(hotelData?.hotelImages ?? [])].filter(
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
+  const roomTypeRef = useRef<HTMLDivElement>(null)
+  const handleScroll = () => {
+    const headerHeight = 56 
+
+    const element = roomTypeRef.current
+    if (element) {
+      const offsetTop = element.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({
+        top: offsetTop - headerHeight,
+        behavior: 'smooth',
+      })
+    }
+  }
 
   return (
     <div className="flex flex-col">
@@ -79,7 +94,10 @@ export default function HotelInfo() {
                     {/* {Number(hotelData?.minPrice).toLocaleString('vi-VN')} VND */}
                     {Number(1280000).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
                   </p>
-                  <Button className="text-md h-12 w-full bg-orange-400 font-bold text-white hover:bg-orange-400">
+                  <Button
+                    className="text-md h-12 w-full bg-orange-400 font-bold text-white hover:bg-orange-400"
+                    onClick={handleScroll}
+                  >
                     Đặt ngay
                   </Button>
                 </div>
@@ -119,12 +137,18 @@ export default function HotelInfo() {
                   </CarouselThumbsContainer>
                 </Carousel>
               )}
-              <div className="border-gray-20 rounded border p-3 m-2">
+              <div className="border-gray-20 m-2 rounded border p-3">
                 <h4 className="mb-2 text-lg font-semibold">Mô tả:</h4>
                 <div
                   className="leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: hotelData?.hotelDescription || '' }}
                 />
+              </div>
+              <div className="p-2" ref={roomTypeRef}>
+                <h2 className="py-2 font-semibold text-blue-900">
+                  Bảng giá {hotelData?.hotelName}
+                </h2>
+                <SearchForm />
               </div>
             </div>
           </div>
