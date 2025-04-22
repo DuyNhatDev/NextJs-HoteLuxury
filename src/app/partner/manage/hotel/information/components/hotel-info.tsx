@@ -13,7 +13,7 @@ import {
   CarouselThumbsContainer,
   SliderMainItem,
   SliderThumbItem,
-} from '@/components/extension/carousel'
+} from '@/components/customize/carousel'
 import { MapPin, PenLine, Phone } from 'lucide-react'
 import CustomTooltip from '@/components/customize/tooltip'
 import { useState } from 'react'

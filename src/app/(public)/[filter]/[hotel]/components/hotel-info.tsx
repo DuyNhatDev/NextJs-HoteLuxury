@@ -9,7 +9,7 @@ import {
   CarouselThumbsContainer,
   SliderMainItem,
   SliderThumbItem,
-} from '@/components/extension/carousel'
+} from '@/components/customize/carousel'
 import { Rating } from '@/components/customize/rating'
 import { Button } from '@/components/ui/button'
 import { extractHotelName } from '@/lib/utils'
@@ -49,7 +49,7 @@ export default function HotelInfo() {
       <div className="mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl">
         <div className="flex">
           <div className="flex-1">
-            <div className="mx-auto w-ful py-3 sm:max-w-xl md:max-w-6xl"></div>
+            <div className="w-ful mx-auto py-3 sm:max-w-xl md:max-w-6xl"></div>
           </div>
           <div className="flex-3">
             <div className="mx-auto h-full w-full sm:max-w-xl md:max-w-6xl">
@@ -79,7 +79,7 @@ export default function HotelInfo() {
                     {/* {Number(hotelData?.minPrice).toLocaleString('vi-VN')} VND */}
                     {Number(1280000).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
                   </p>
-                  <Button className="text-md h-12 w-40 bg-orange-400 font-bold text-white hover:bg-orange-400">
+                  <Button className="text-md h-12 w-full bg-orange-400 font-bold text-white hover:bg-orange-400">
                     Đặt ngay
                   </Button>
                 </div>
@@ -119,6 +119,13 @@ export default function HotelInfo() {
                   </CarouselThumbsContainer>
                 </Carousel>
               )}
+              <div className="border-gray-20 rounded border p-3 m-2">
+                <h4 className="mb-2 text-lg font-semibold">Mô tả:</h4>
+                <div
+                  className="leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: hotelData?.hotelDescription || '' }}
+                />
+              </div>
             </div>
           </div>
         </div>
