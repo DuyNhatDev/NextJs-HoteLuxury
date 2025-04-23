@@ -9,7 +9,6 @@ import { TokenPayload } from '@/types/jwt.types'
 import { format, parseISO } from 'date-fns'
 import { slugify } from '@whthduck/slugify-vi'
 import queryString from 'query-string'
-
 export const handleErrorApi = ({
   error,
   setError,

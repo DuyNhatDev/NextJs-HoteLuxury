@@ -32,6 +32,15 @@ export const RoomTypeListResSchema = z.object({
 
 export type RoomTypeListResType = z.infer<typeof RoomTypeListResSchema>
 
+export const FilterRoomTypeListResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: z.array(RoomTypeSchema),
+  minPrice: z.number(),
+})
+
+export type FilterRoomTypeListResType = z.infer<typeof FilterRoomTypeListResSchema>
+
 export const CreateRoomTypeBodySchema = z.object({
   hotelId: z.number().optional(),
   roomTypeName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
@@ -58,3 +67,14 @@ export const UpdateRoomTypeBodySchema = z.object({
 })
 
 export type UpdateRoomTypeBodyType = z.infer<typeof UpdateRoomTypeBodySchema>
+
+export const FilterRoomTypeSchema = z.object({
+  hotelId: z.number(),
+  dayStart: z.date(),
+  dayEnd: z.date(),
+  adultQuantity: z.number(),
+  childQuantity: z.number(),
+  currentRooms: z.number(),
+})
+
+export type FilterRoomTypeType = z.infer<typeof FilterRoomTypeSchema>

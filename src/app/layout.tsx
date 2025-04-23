@@ -8,6 +8,7 @@ import AppProvider from '@/components/app-provider'
 import NextTopLoader from 'nextjs-toploader'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import envConfig from '@/config'
+// import Script from 'next/script'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -28,7 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+      <body className={cn('bg-background min-h-screen font-sans antialiased', fontSans.variable)}>
+        {/* <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${envConfig.NEXT_PUBLIC_GG_MAP_API_KEY}&libraries=places`}
+          strategy="beforeInteractive"
+        /> */}
         <NextTopLoader showSpinner={false} color="oklch(0.869 0.022 252.894)" />
         <GoogleOAuthProvider clientId={clientId}>
           <AppProvider>
