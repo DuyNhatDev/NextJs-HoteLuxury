@@ -24,9 +24,10 @@ import { useEffect, useRef, useState } from 'react'
 import Map from '@/components/customize/map'
 import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete'
 import { Coord } from '@/types/location.types'
-import RoomTypeTable from '@/app/(public)/[filter]/[hotel]/components/room-type-table'
+import { usePriceStore } from '@/store/price-store'
 
 export default function HotelInfo() {
+  const minPrice = usePriceStore((state) => state.minPrice)
   const filter = useFilterStore((state) => state.filter)
   const params = useParams()
   const { data } = useGetFilterHotelList({
@@ -42,10 +43,6 @@ export default function HotelInfo() {
   const imageList = [hotelData?.hotelImage, ...(hotelData?.hotelImages ?? [])].filter(
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
-  const [minPrice, setMinPrince] = useState(0)
-  const receiveMinPrince = (mpr: number) => {
-    setMinPrince(mpr)
-  }
   const roomTypeRef = useRef<HTMLDivElement>(null)
   const handleScroll = () => {
     const headerHeight = 56
@@ -161,7 +158,7 @@ export default function HotelInfo() {
                 <h2 className="py-2 font-semibold text-blue-900">
                   Bảng giá {hotelData?.hotelName}
                 </h2>
-                {hotelId && <SearchForm hotelId={hotelId} onSendMinPrice={receiveMinPrince} />}
+                {hotelId && <SearchForm hotelId={hotelId} />}
               </div>
             </div>
           </div>

@@ -14,10 +14,9 @@ import { useForm } from 'react-hook-form'
 
 interface SearchFormProps {
   hotelId: number
-  onSendMinPrice: (minPrice: number) => void
 }
 
-export default function SearchForm({ hotelId, onSendMinPrice }: SearchFormProps) {
+export default function SearchForm({ hotelId }: SearchFormProps) {
   const filter = useFilterStore((state) => state.filter)
   const isHydrated = useFilterStore((state) => state.isHydrated)
   const [params, setParams] = useState<FilterRoomTypeType>({
@@ -28,14 +27,6 @@ export default function SearchForm({ hotelId, onSendMinPrice }: SearchFormProps)
     childQuantity: filter.childQuantity,
     currentRooms: filter.currentRooms,
   })
-  const [minPrice, setMinPrince] = useState(0)
-  const receiveMinPrince = (mpr: number) => {
-    setMinPrince(mpr)
-  }
-
-  useEffect(() => {
-    onSendMinPrice(minPrice)
-  }, [minPrice, onSendMinPrice])
 
   const hasReset = useRef(false)
   const form = useForm<FilterType>({
@@ -131,7 +122,7 @@ export default function SearchForm({ hotelId, onSendMinPrice }: SearchFormProps)
           </Form>
         </div>
       </div>
-      <RoomTypeTable params={params} onSendMinPrice={receiveMinPrince} />
+      <RoomTypeTable params={params} />
     </>
   )
 }
