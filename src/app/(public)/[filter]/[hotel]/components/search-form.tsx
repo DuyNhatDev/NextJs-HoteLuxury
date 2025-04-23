@@ -12,9 +12,13 @@ import { useEffect, useRef, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
-export default function SearchForm({ hotelId }: { hotelId: number }) {
+interface SearchFormProps {
+  hotelId: number
+  onSendMinPrice: (minPrice: number) => void
+}
+
+export default function SearchForm({ hotelId, onSendMinPrice }: SearchFormProps) {
   const filter = useFilterStore((state) => state.filter)
-  const setFilter = useFilterStore((state) => state.setFilter)
   const isHydrated = useFilterStore((state) => state.isHydrated)
   const [params, setParams] = useState<FilterRoomTypeType>({
     hotelId,
@@ -24,6 +28,15 @@ export default function SearchForm({ hotelId }: { hotelId: number }) {
     childQuantity: filter.childQuantity,
     currentRooms: filter.currentRooms,
   })
+  const [minPrice, setMinPrince] = useState(0)
+  const receiveMinPrince = (mpr: number) => {
+    setMinPrince(mpr)
+  }
+
+  useEffect(() => {
+    onSendMinPrice(minPrice)
+  }, [minPrice, onSendMinPrice])
+
   const hasReset = useRef(false)
   const form = useForm<FilterType>({
     resolver: zodResolver(FilterSchema),
@@ -118,7 +131,7 @@ export default function SearchForm({ hotelId }: { hotelId: number }) {
           </Form>
         </div>
       </div>
-      <RoomTypeTable params={params} />
+      <RoomTypeTable params={params} onSendMinPrice={receiveMinPrince} />
     </>
   )
 }

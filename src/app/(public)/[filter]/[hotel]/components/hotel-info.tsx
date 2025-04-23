@@ -42,6 +42,10 @@ export default function HotelInfo() {
   const imageList = [hotelData?.hotelImage, ...(hotelData?.hotelImages ?? [])].filter(
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
+  const [minPrice, setMinPrince] = useState(0)
+  const receiveMinPrince = (mpr: number) => {
+    setMinPrince(mpr)
+  }
   const roomTypeRef = useRef<HTMLDivElement>(null)
   const handleScroll = () => {
     const headerHeight = 56
@@ -98,8 +102,7 @@ export default function HotelInfo() {
                 <div className="flex flex-1 flex-col items-end justify-start p-3">
                   <p className="text-sm">Giá chỉ từ</p>
                   <p className="text-lg font-semibold text-sky-500">
-                    {/* {Number(hotelData?.minPrice).toLocaleString('vi-VN')} VND */}
-                    {Number(1280000).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
+                    {Number(minPrice).toLocaleString('vi-VN')} VND
                   </p>
                   <Button
                     className="text-md h-12 w-full bg-orange-400 font-bold text-white hover:bg-orange-400"
@@ -158,7 +161,7 @@ export default function HotelInfo() {
                 <h2 className="py-2 font-semibold text-blue-900">
                   Bảng giá {hotelData?.hotelName}
                 </h2>
-                {hotelId && <SearchForm hotelId={hotelId} />}
+                {hotelId && <SearchForm hotelId={hotelId} onSendMinPrice={receiveMinPrince} />}
               </div>
             </div>
           </div>
