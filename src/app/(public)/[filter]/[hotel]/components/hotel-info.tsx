@@ -20,10 +20,7 @@ import { useFilterStore } from '@/store/filter-store'
 import { MapPin } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import SearchForm from '@/app/(public)/[filter]/[hotel]/components/search-form'
-import { useEffect, useRef, useState } from 'react'
-import Map from '@/components/customize/map'
-import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete'
-import { Coord } from '@/types/location.types'
+import { useRef } from 'react'
 import { usePriceStore } from '@/store/price-store'
 
 export default function HotelInfo() {

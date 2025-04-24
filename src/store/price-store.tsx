@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 
-interface PriceStore {
+interface PriceStoreType {
   minPrice: number
   setMinPrice: (value: number) => void
 }
 
-export const usePriceStore = create<PriceStore>((set) => ({
+export const usePriceStore = create<PriceStoreType>((set) => ({
   minPrice: 0,
   setMinPrice: (value) => set({ minPrice: value }),
 }))

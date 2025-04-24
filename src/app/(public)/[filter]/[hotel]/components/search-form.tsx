@@ -62,7 +62,7 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
   return (
     <>
       <div className="flex w-full justify-center">
-        <div className="w-full rounded-sm bg-gray-800/20 p-4">
+        <div className="w-full rounded-sm bg-gray-200 p-4">
           <Form {...form}>
             <form
               className="flex w-full flex-col gap-3 md:flex-row"

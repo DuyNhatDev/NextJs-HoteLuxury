@@ -43,7 +43,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
           <Spinner>Đang tải...</Spinner>
         </div>
       ) : fullHotelList.length === 0 ? (
-        <p className="px-4 py-8 text-center text-lg">Không tìm thấy khách sạn phù hợp</p>
+        <p className="px-4 py-8 text-center text-lg">Không tìm thấy kết quả phù hợp</p>
       ) : (
         <>
           <div className="flex flex-col gap-4">
@@ -94,7 +94,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
                     <div className="col-span-2 flex items-center justify-end px-3">
                       {hotel.minPrice ? (
                         <p className="text-lg font-semibold text-sky-500">
-                          {Number(hotel.minPrice).toLocaleString('vi-VN')} VND
+                          {Number(hotel.minPrice).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
                         </p>
                       ) : (
                         <p className="text-lg font-semibold text-orange-500">Hết phòng</p>
