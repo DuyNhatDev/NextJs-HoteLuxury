@@ -37,8 +37,8 @@ export default function Map({ address }: MapProps) {
   return (
     <MapContainer
       center={[position.lat, position.lng]}
-      zoom={15}
-      style={{ height: '320px', width: '100%' }}
+      zoom={13}
+      style={{ height: '320px', width: '100%', zIndex: 10 }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'

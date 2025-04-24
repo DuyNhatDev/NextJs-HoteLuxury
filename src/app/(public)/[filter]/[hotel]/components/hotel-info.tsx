@@ -103,7 +103,7 @@ export default function HotelInfo() {
                 <div className="flex flex-1 flex-col items-end justify-start p-3">
                   <p className="text-sm">Giá chỉ từ</p>
                   <p className="text-lg font-semibold text-sky-500">
-                    {Number(minPrice).toLocaleString('vi-VN')} VND
+                    {Number(minPrice).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
                   </p>
                   <Button
                     className="text-md h-12 w-full bg-orange-400 font-bold text-white hover:bg-orange-400"
