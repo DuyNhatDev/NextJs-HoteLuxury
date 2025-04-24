@@ -37,6 +37,7 @@ export default function HotelInfo() {
     hotelType: [],
     filter: extractHotelName(params.hotel as string),
   })
+  console.log(extractHotelName(params.hotel as string))
   const result: HotelType | undefined = data?.payload?.data[0]
   const hotelId = result?.hotelId
   const hotelQuery = useGetHotel(String(hotelId), !!hotelId)
