@@ -1,24 +1,44 @@
-import React from 'react'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
-import envConfig from '@/config'
-import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete'
+'use client'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
 
-const containerStyle = {
-  width: '100%',
-  height: '350px',
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import { useGetCoordinates } from '@/queries/useLocation'
+
+delete (L.Icon.Default.prototype as any)._getIconUrl
+
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+})
+
+interface MapProps {
+  address: string
 }
 
-const center = {
-  lat: 10.762622,
-  lng: 106.660172,
-}
+export default function Map({ address }: MapProps) {
+  const { data: position, isPending, error } = useGetCoordinates(address)
+  if (isPending) return <p>Đang tải bản đồ...</p>
+  if (error) return <p className="text-red-500">Lỗi: {(error as Error).message}</p>
+  if (!position) return null
 
-export default async function Map() {
   return (
-    <LoadScript googleMapsApiKey={envConfig.NEXT_PUBLIC_GG_MAP_API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={13}>
-        <Marker position={center} />
-      </GoogleMap>
-    </LoadScript>
+    <MapContainer center={[position.lat, position.lng]} zoom={15} style={{ height: '400px', width: '100%' }}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={position}>
+        <Popup>
+          <strong>Địa chỉ:</strong>
+          <br />
+          {address}
+        </Popup>
+      </Marker>
+    </MapContainer>
   )
 }

@@ -22,6 +22,10 @@ import { useParams } from 'next/navigation'
 import SearchForm from '@/app/(public)/[filter]/[hotel]/components/search-form'
 import { useRef } from 'react'
 import { usePriceStore } from '@/store/price-store'
+import dynamic from 'next/dynamic'
+const Map = dynamic(() => import('@/components/customize/map'), {
+  ssr: false,
+})
 
 export default function HotelInfo() {
   const minPrice = usePriceStore((state) => state.minPrice)
@@ -67,7 +71,9 @@ export default function HotelInfo() {
         <div className="flex">
           {/* Map */}
           <div className="flex-1">
-            <div className="w-ful mx-auto py-3 sm:max-w-xl md:max-w-6xl">{/* <Map /> */}</div>
+            <div className="w-ful mx-auto py-3 sm:max-w-xl md:max-w-6xl">
+              <Map address={hotelData?.hotelAddress ?? ''} />
+            </div>
           </div>
           {/* Thông tin khách sạn */}
           <div className="flex-3">

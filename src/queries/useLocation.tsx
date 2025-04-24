@@ -24,3 +24,11 @@ export const useGetWards = (idDistrict: string) => {
     enabled: !!idDistrict,
   })
 }
+
+export const useGetCoordinates = (address: string) => {
+  return useQuery({
+    queryKey: ['coordinates', address],
+    queryFn: () => locationApiRequest.getCoordinates(address),
+    enabled: !!address,
+  })
+}
