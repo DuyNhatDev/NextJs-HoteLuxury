@@ -7,7 +7,7 @@ export const AccountSchema = z.object({
   userId: z.number(),
   fullname: z.string(),
   email: z.string(),
-  roleId: z.enum([Role.Admin, Role.Partner, Role.Client]),
+  roleId: z.enum([Role.Admin, Role.Partner, Role.Customer]),
   image: z.string().nullable(),
   birthDate: z.string(),
   address: z.string(),
@@ -102,7 +102,7 @@ export const CreateUserAccountBodySchema = z
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
     image: z.union([z.string(), z.instanceof(File)]).optional(),
-    roleId: z.enum([Role.Client]),
+    roleId: z.enum([Role.Customer]),
   })
   .strict()
 
@@ -141,7 +141,7 @@ export const UpdatePartnerAccountBodySchema = z
     image: z.union([z.string(), z.instanceof(File)]).optional(),
     isConfirmed: z.boolean().optional(),
     active: z.boolean().optional(),
-    roleId: z.enum([Role.Partner, Role.Admin, Role.Client]).optional(),
+    roleId: z.enum([Role.Partner, Role.Admin, Role.Customer]).optional(),
   })
   .strict()
 
@@ -180,7 +180,7 @@ export const UpdateUserAccountBodySchema = z
     image: z.union([z.string(), z.instanceof(File)]).optional(),
     isConfirmed: z.boolean().optional(),
     active: z.boolean().optional(),
-    roleId: z.enum([Role.Partner, Role.Admin, Role.Client]).optional(),
+    roleId: z.enum([Role.Partner, Role.Admin, Role.Customer]).optional(),
   })
   .strict()
 

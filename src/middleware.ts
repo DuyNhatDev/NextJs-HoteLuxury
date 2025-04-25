@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
     // 2.3 Vào không đúng role, redirect về trang chủ
     const role = decodeToken(refreshToken).roleId
     const roleAccess = {
-      [Role.Client]: [...adminPaths, ...partnerPaths],
+      [Role.Customer]: [...adminPaths, ...partnerPaths],
       [Role.Partner]: [...adminPaths],
       [Role.Admin]: [...partnerPaths],
     }

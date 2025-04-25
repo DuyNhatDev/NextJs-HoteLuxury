@@ -71,7 +71,7 @@ export default function EditUser({
         gender: gender ?? 'Nam',
         address: address ?? '',
         active: active ?? false,
-        roleId: roleId ?? Role.Client,
+        roleId: roleId ?? Role.Customer,
       })
     }
   }, [data, form])
@@ -276,9 +276,7 @@ export default function EditUser({
         </Form>
         <DialogFooter>
           <Button type="submit" form="edit-user-form" className="bg-blue-500 hover:bg-blue-600">
-            {updateUserMutation.isPending && (
-              <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-            )}
+            {updateUserMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />}
             Lưu
           </Button>
         </DialogFooter>

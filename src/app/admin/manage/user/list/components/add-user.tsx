@@ -60,7 +60,7 @@ export default function AddUser() {
       phoneNumber: '',
       birthDate: '',
       address: '',
-      roleId: Role.Client,
+      roleId: Role.Customer,
     },
   })
   const reset = () => {

@@ -7,10 +7,10 @@ export const TokenType = {
 export const Role = {
   Admin: 'R1',
   Partner: 'R2',
-  Client: 'R3',
+  Customer: 'R3',
 } as const
 
-export const RoleValues = [Role.Admin, Role.Partner, Role.Client] as const
+export const RoleValues = [Role.Admin, Role.Partner, Role.Customer] as const
 
 export const RangePriceValues = [
   '',
