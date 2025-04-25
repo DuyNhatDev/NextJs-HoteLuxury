@@ -1,6 +1,6 @@
 'use client'
 import { useGetFilterRoomTypeList } from '@/queries/useRoomType'
-import { FilterRoomTypeType } from '@/schemaValidations/room-type.schema'
+import { FilterRoomTypeParamsType } from '@/schemaValidations/room-type.schema'
 import { usePriceStore } from '@/store/price-store'
 import { useEffect } from 'react'
 import {
@@ -30,19 +30,39 @@ import {
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { Spinner } from '@/components/ui/spinner'
+import { useBookingStore } from '@/store/booking-store'
+import { generateCode, getAccessTokenFromLocalStorage } from '@/lib/utils'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface RoomTypeTableProps {
-  params: FilterRoomTypeType
+  params: FilterRoomTypeParamsType
 }
 
 export default function RoomTypeTable({ params }: RoomTypeTableProps) {
+  const router = useRouter()
+  const pathname = usePathname()
   const setMinPrice = usePriceStore((state) => state.setMinPrice)
+  const setBooking = useBookingStore((state) => state.setBooking)
   const roomTypeFilterListQuery = useGetFilterRoomTypeList(params)
   const roomTypeList = roomTypeFilterListQuery.data?.payload?.data || []
   const price = roomTypeFilterListQuery.data?.payload?.minPrice || 0
+
   useEffect(() => {
     setMinPrice(price)
   }, [price, setMinPrice])
+
+  const handleBooking = (roomTypeId: number, roomTypeName: string) => {
+    setBooking({ roomTypeName })
+    const isLoggedIn = getAccessTokenFromLocalStorage()
+    const currentUrl = pathname
+    if (!isLoggedIn) {
+      router.push(`/login?callbackUrl=${encodeURIComponent(currentUrl)}`)
+    } else {
+      const id = `${params.hotelId}${roomTypeId}${generateCode()}`
+      const url = `/thong-tin-booking/${id}`
+      router.push(url)
+    }
+  }
 
   return (
     <>
@@ -154,7 +174,10 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
                   {/* Đặt */}
                   <TableCell className="mt-2 w-[18.65%] border text-right align-top">
                     <div className="mt-2 inline-block text-center">
-                      <Button className="rounded-t rounded-b-none bg-orange-400 px-6 py-2 text-[15px] font-bold text-white hover:bg-orange-400">
+                      <Button
+                        className="rounded-t rounded-b-none bg-orange-400 px-6 py-2 text-[15px] font-bold text-white hover:bg-orange-400"
+                        onClick={() => handleBooking(rt.roomTypeId, rt.roomTypeName)}
+                      >
                         Yêu cầu đặt
                       </Button>
                       <div className="w-full rounded-b border border-orange-400 bg-white px-6 py-1 text-[14px] text-orange-400">

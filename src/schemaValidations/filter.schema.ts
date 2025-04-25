@@ -18,6 +18,16 @@ export const FilterSchema = z.object({
 
 export type FilterType = z.infer<typeof FilterSchema>
 
+export const FilterRoomTypeSchema = z.object({
+  dayStart: z.date(),
+  dayEnd: z.date(),
+  adultQuantity: z.number(),
+  childQuantity: z.number(),
+  currentRooms: z.number(),
+})
+
+export type FilterRoomTypeType = z.infer<typeof FilterRoomTypeSchema>
+
 export const SuggestListResSchema = z.object({
   status: z.string(),
   message: z.string(),

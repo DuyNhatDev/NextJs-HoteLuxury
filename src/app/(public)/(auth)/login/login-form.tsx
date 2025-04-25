@@ -35,6 +35,7 @@ export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const clearTokens = searchParams.get('clearTokens')
+  const callbackUrl = searchParams.get('callbackUrl')
   const setRole = useAppStore((state) => state.setRole)
   const loginMutation = useLoginMutation()
   const loginByGoogleMutation = useLoginByGoogleMutation()
@@ -63,7 +64,11 @@ export default function LoginForm() {
       } else if (role === 'R2') {
         router.push('/partner/dashboard')
       } else {
-        router.push('/')
+        if (callbackUrl) {
+          router.push(callbackUrl)
+        } else {
+          router.push('/')
+        }
       }
     } catch (error: any) {
       handleErrorApi({
@@ -85,7 +90,11 @@ export default function LoginForm() {
       } else if (role === 'R2') {
         router.push('/partner/dashboard')
       } else {
-        router.push('/')
+        if (callbackUrl) {
+          router.push(callbackUrl)
+        } else {
+          router.push('/')
+        }
       }
     } catch (error: any) {
       handleErrorApi({

@@ -22,6 +22,7 @@ import { useForm } from 'react-hook-form'
 
 export default function SearchForm() {
   const setFilter = useFilterStore((state) => state.setFilter)
+  const resetFilter = useFilterStore((state) => state.resetFilter)
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [isHotel, setIsHotel] = useState(false)
@@ -71,7 +72,8 @@ export default function SearchForm() {
     }
   }, [])
   useEffect(() => {
-    localStorage.removeItem('filter-storage')
+    resetFilter()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const findHotelByKeyword = (keyword: string, suggestions: HotelType[]): HotelType | undefined =>

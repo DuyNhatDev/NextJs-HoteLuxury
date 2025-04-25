@@ -20,9 +20,10 @@ import { useFilterStore } from '@/store/filter-store'
 import { MapPin } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import SearchForm from '@/app/(public)/[filter]/[hotel]/components/search-form'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePriceStore } from '@/store/price-store'
 import dynamic from 'next/dynamic'
+import { useBookingStore } from '@/store/booking-store'
 const Map = dynamic(() => import('@/components/customize/map'), {
   ssr: false,
 })
@@ -30,6 +31,7 @@ const Map = dynamic(() => import('@/components/customize/map'), {
 export default function HotelInfo() {
   const minPrice = usePriceStore((state) => state.minPrice)
   const filter = useFilterStore((state) => state.filter)
+  const setBooking = useBookingStore((state) => state.setBooking)
   const params = useParams()
   const { data } = useGetFilterHotelList({
     ...filter,
@@ -37,7 +39,6 @@ export default function HotelInfo() {
     hotelType: [],
     filter: extractHotelName(params.hotel as string),
   })
-  console.log(extractHotelName(params.hotel as string))
   const result: HotelType | undefined = data?.payload?.data[0]
   const hotelId = result?.hotelId
   const hotelQuery = useGetHotel(String(hotelId), !!hotelId)
@@ -46,9 +47,13 @@ export default function HotelInfo() {
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
   const roomTypeRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setBooking({ hotelName: hotelData?.hotelName, hotelAddress: hotelData?.hotelAddress })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hotelData?.hotelName, hotelData?.hotelAddress])
   const handleScroll = () => {
     const headerHeight = 56
-
     const element = roomTypeRef.current
     if (element) {
       const offsetTop = element.getBoundingClientRect().top + window.scrollY

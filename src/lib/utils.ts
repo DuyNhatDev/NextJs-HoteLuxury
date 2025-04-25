@@ -263,3 +263,8 @@ export const buildQueryParams = (params: Record<string, any>) => {
     arrayFormat: 'none',
   })
 }
+
+export const generateCode = () => {
+  const randomNum = Math.floor(Math.random() * 1000000)
+  return String(randomNum).padStart(6, '0')
+}

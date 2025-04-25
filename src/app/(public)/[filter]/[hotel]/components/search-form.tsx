@@ -4,8 +4,9 @@ import DateRangePicker from '@/components/customize/date-range-picker'
 import RoomGuestSelector from '@/components/customize/room-guest-selector'
 import { Button } from '@/components/ui/button'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { FilterSchema, FilterType } from '@/schemaValidations/filter.schema'
-import { FilterRoomTypeType } from '@/schemaValidations/room-type.schema'
+import { FilterRoomTypeSchema, FilterRoomTypeType } from '@/schemaValidations/filter.schema'
+import { FilterRoomTypeParamsType } from '@/schemaValidations/room-type.schema'
+import { useBookingStore } from '@/store/booking-store'
 import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
@@ -18,8 +19,9 @@ interface SearchFormProps {
 
 export default function SearchForm({ hotelId }: SearchFormProps) {
   const filter = useFilterStore((state) => state.filter)
+  const setBooking = useBookingStore((state) => state.setBooking)
   const isHydrated = useFilterStore((state) => state.isHydrated)
-  const [params, setParams] = useState<FilterRoomTypeType>({
+  const [params, setParams] = useState<FilterRoomTypeParamsType>({
     hotelId,
     dayStart: filter.dayStart,
     dayEnd: filter.dayEnd,
@@ -27,13 +29,10 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
     childQuantity: filter.childQuantity,
     currentRooms: filter.currentRooms,
   })
-
   const hasReset = useRef(false)
-  const form = useForm<FilterType>({
-    resolver: zodResolver(FilterSchema),
-    defaultValues: {
-      ...filter,
-    },
+  const form = useForm<FilterRoomTypeType>({
+    resolver: zodResolver(FilterRoomTypeSchema),
+    defaultValues: (({ filter, ...rest }) => rest)(filter),
   })
 
   const { control, watch, setValue, reset } = form
@@ -46,17 +45,23 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHydrated])
 
+  useEffect(() => {
+    const { filter: _, ...rest } = filter
+    setBooking(rest)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const dayStart = watch('dayStart')
   const dayEnd = watch('dayEnd')
   const adultQuantity = watch('adultQuantity')
   const childQuantity = watch('childQuantity')
 
-  const onSubmit = async (data: FilterType) => {
-    const { filter, ...filterRoomTypeParams } = data
+  const onSubmit = async (data: FilterRoomTypeType) => {
     setParams((prev) => ({
       ...prev,
-      ...filterRoomTypeParams,
+      ...data,
     }))
+    setBooking(data)
   }
 
   return (

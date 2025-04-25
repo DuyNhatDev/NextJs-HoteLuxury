@@ -68,7 +68,7 @@ export const UpdateRoomTypeBodySchema = z.object({
 
 export type UpdateRoomTypeBodyType = z.infer<typeof UpdateRoomTypeBodySchema>
 
-export const FilterRoomTypeSchema = z.object({
+export const FilterRoomTypeParamsSchema = z.object({
   hotelId: z.number(),
   dayStart: z.date(),
   dayEnd: z.date(),
@@ -77,4 +77,4 @@ export const FilterRoomTypeSchema = z.object({
   currentRooms: z.number(),
 })
 
-export type FilterRoomTypeType = z.infer<typeof FilterRoomTypeSchema>
+export type FilterRoomTypeParamsType = z.infer<typeof FilterRoomTypeParamsSchema>
