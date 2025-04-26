@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 const adminPaths = ['/admin']
 const partnerPaths = ['/partner']
-const privatePaths = [...adminPaths, ...partnerPaths]
+const customerPath = ['/thong-tin-booking']
+const privatePaths = [...adminPaths, ...partnerPaths, ...customerPath]
 const unAuthPaths = ['/login', '/register', '/forgot-password', '/reset-password']
 
 export function middleware(request: NextRequest) {
@@ -53,5 +54,6 @@ export const config = {
     '/register',
     '/forgot-password',
     '/reset-password',
+    '/thong-tin-booking/:path*',
   ],
 }

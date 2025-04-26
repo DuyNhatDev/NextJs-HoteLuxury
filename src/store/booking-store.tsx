@@ -11,6 +11,7 @@ interface BookingInfoType {
   adultQuantity: number
   childQuantity: number
   currentRooms: number
+  price: number
 }
 
 interface BookingInfoStoreType {
@@ -30,6 +31,7 @@ const defaultBooking: BookingInfoType = {
   adultQuantity: 2,
   childQuantity: 0,
   currentRooms: 1,
+  price: 0,
 }
 
 export const useBookingStore = create(

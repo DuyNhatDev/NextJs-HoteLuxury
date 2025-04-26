@@ -51,8 +51,8 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
     setMinPrice(price)
   }, [price, setMinPrice])
 
-  const handleBooking = (roomTypeId: number, roomTypeName: string) => {
-    setBooking({ roomTypeName })
+  const handleBooking = (roomTypeId: number, roomTypeName: string, price: number) => {
+    setBooking({ roomTypeName, price })
     const isLoggedIn = getAccessTokenFromLocalStorage()
     const currentUrl = pathname
     if (!isLoggedIn) {
@@ -96,7 +96,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
               return (
                 <TableRow key={rt.roomTypeId} className="hover:bg-transparent">
                   {/* Loại phòng */}
-                  <TableCell className="w-[26.94%] border py-3 align-top font-medium">
+                  <TableCell className="w-[26.94%] border py-3 align-top font-medium break-words">
                     <h1 className="mb-2 text-base font-semibold whitespace-normal text-sky-500">
                       {rt.roomTypeName}
                     </h1>
@@ -111,7 +111,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
                               className="object-cover"
                             />
                           </div>
-                          <p className="mt-2 text-sm font-normal text-sky-500 hover:cursor-pointer">
+                          <p className="mt-2 text-sm font-normal whitespace-normal text-sky-500 hover:cursor-pointer">
                             Xem ảnh chi tiết phòng
                           </p>
                         </div>
@@ -156,7 +156,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
                   </TableCell>
 
                   {/* Mô tả */}
-                  <TableCell className="w-[31.09%] border align-top">
+                  <TableCell className="w-[31.09%] border align-top break-words">
                     <div
                       className="mt-2 leading-relaxed whitespace-normal"
                       dangerouslySetInnerHTML={{ __html: rt.roomTypeDescription || '' }}
@@ -165,7 +165,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
 
                   {/* Tổng giá */}
                   <TableCell className="w-[23.32%] border text-center align-top">
-                    <p className="mt-2 text-lg font-semibold text-sky-500">
+                    <p className="mt-2 w-full text-lg font-semibold whitespace-normal text-sky-500">
                       {Number(rt.roomTypePrice).toLocaleString('vi-VN')}{' '}
                       <span className="text-sm">VND</span>
                     </p>
@@ -173,10 +173,12 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
 
                   {/* Đặt */}
                   <TableCell className="mt-2 w-[18.65%] border text-right align-top">
-                    <div className="mt-2 inline-block text-center">
+                    <div className="mt-2 inline-block w-full text-center whitespace-normal">
                       <Button
-                        className="rounded-t rounded-b-none bg-orange-400 px-6 py-2 text-[15px] font-bold text-white hover:bg-orange-400"
-                        onClick={() => handleBooking(rt.roomTypeId, rt.roomTypeName)}
+                        className="w-full rounded-t rounded-b-none bg-orange-400 py-2 text-[15px] font-bold whitespace-normal text-white hover:bg-orange-400"
+                        onClick={() =>
+                          handleBooking(rt.roomTypeId, rt.roomTypeName, rt.roomTypePrice)
+                        }
                       >
                         Yêu cầu đặt
                       </Button>
