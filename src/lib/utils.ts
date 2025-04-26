@@ -268,3 +268,4 @@ export const generateCode = () => {
   const randomNum = Math.floor(Math.random() * 1000000)
   return String(randomNum).padStart(6, '0')
 }
+
