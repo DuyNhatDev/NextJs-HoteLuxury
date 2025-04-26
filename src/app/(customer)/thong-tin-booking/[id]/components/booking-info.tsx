@@ -24,23 +24,23 @@ export default function BookingInfo() {
         <CardTitle className="text-blue-900">{booking.hotelName}</CardTitle>
       </CardHeader>
       <CardContent className="px-0">
-        <div className="my-3 flex items-start text-gray-500">
+        <div className="my-2 flex items-start text-gray-500">
           <MapPin className="mr-2 h-7 w-7" />
           <span className="break-words">{booking.hotelAddress}</span>
         </div>
-        <div className="my-3 flex items-center">
+        <div className="my-2 flex items-center">
           <Calendar className="mr-2 h-4 w-4" />
           <span>{`${formatDayWithDate(booking.dayStart)} → ${formatDayWithDate(booking.dayEnd)} · ${differenceInCalendarDays(booking.dayEnd, booking.dayStart)} đêm`}</span>
         </div>
-        <div className="my-3 flex items-center">
+        <div className="my-2 flex items-center">
           <UserRound className="mr-2 h-4 w-4" />
           <span>{`${booking.currentRooms} Phòng ${removePhong(booking.roomTypeName)}`}</span>
         </div>
-        <div className="my-3 flex items-center">
+        <div className="my-2 flex items-center">
           <ReceiptText className="mr-2 h-4 w-4" />
           <span>{`${booking.adultQuantity} người lớn · ${booking.childQuantity} trẻ em`}</span>
         </div>
-        <div className="my-3 flex items-center text-gray-500">
+        <div className="my-2 flex items-center text-gray-500">
           <CircleAlert className="mr-2 h-4 w-4" />
           <span>Không thể hoàn hoặc hủy thay đổi</span>
         </div>
