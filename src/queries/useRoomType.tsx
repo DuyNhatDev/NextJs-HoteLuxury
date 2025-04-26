@@ -1,5 +1,5 @@
 import roomTypeApiRequest from '@/apiRequests/room-type'
-import { FilterRoomTypeType, UpdateRoomTypeBodyType } from '@/schemaValidations/room-type.schema'
+import { FilterRoomTypeParamsType, UpdateRoomTypeBodyType } from '@/schemaValidations/room-type.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetRoomType = (id?: string, enabled: boolean = false) => {
@@ -54,7 +54,7 @@ export const useDeleteRoomTypeMutation = () => {
   })
 }
 
-export const useGetFilterRoomTypeList = (queryParams: FilterRoomTypeType) => {
+export const useGetFilterRoomTypeList = (queryParams: FilterRoomTypeParamsType) => {
   return useQuery({
     queryFn: () => roomTypeApiRequest.getFilterRoomTypeList(queryParams),
     queryKey: ['filter-room-types', queryParams],

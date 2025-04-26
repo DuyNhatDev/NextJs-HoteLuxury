@@ -2,7 +2,7 @@ import http from '@/lib/http'
 import { buildQueryParams, objectToFormData } from '@/lib/utils'
 import {
   CreateRoomTypeBodyType,
-  FilterRoomTypeType,
+  FilterRoomTypeParamsType,
   RoomTypeListResType,
   FilterRoomTypeListResType,
   RoomTypeResType,
@@ -21,7 +21,7 @@ const roomTypeApiRequest = {
     return http.put<RoomTypeResType>(`${prefix}/${id}`, formData)
   },
   deleteRoomType: (id: number) => http.delete(`${prefix}/${id}`),
-  getFilterRoomTypeList: (queryParams: FilterRoomTypeType) =>
+  getFilterRoomTypeList: (queryParams: FilterRoomTypeParamsType) =>
     http.get<FilterRoomTypeListResType>(`${prefix}/filter?` + buildQueryParams(queryParams)),
 }
 export default roomTypeApiRequest

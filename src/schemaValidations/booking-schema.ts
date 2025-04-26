@@ -2,11 +2,14 @@ import z from 'zod'
 
 export const BookingSchema = z.object({
   userId: z.number(),
-  hotelId: z.number(),
+  roomTypeId: z.number(),
   dayStart: z.date(),
   dayEnd: z.date(),
   price: z.number(),
   roomQuantity: z.number(),
+  title: z.enum(['Anh', 'Chị'], {
+    message: 'Vui lòng chọn danh xưng',
+  }),
   customerName: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
   customerPhone: z
     .string()
