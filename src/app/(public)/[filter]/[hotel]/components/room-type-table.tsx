@@ -52,7 +52,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
   }, [price, setMinPrice])
 
   const handleBooking = (roomTypeId: number, roomTypeName: string, price: number) => {
-    setBooking({ roomTypeName, price })
+    setBooking({ roomTypeId, roomTypeName, price })
     const isLoggedIn = getAccessTokenFromLocalStorage()
     const currentUrl = pathname
     if (!isLoggedIn) {

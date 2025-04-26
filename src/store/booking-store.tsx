@@ -7,10 +7,11 @@ interface BookingInfoType {
   hotelAddress: string
   dayStart: Date
   dayEnd: Date
-  roomTypeName: string
   adultQuantity: number
   childQuantity: number
   currentRooms: number
+  roomTypeId: number
+  roomTypeName: string
   price: number
 }
 
@@ -27,10 +28,11 @@ const defaultBooking: BookingInfoType = {
   hotelAddress: '',
   dayStart: new Date(),
   dayEnd: addDays(new Date(), 1),
-  roomTypeName: '',
   adultQuantity: 2,
   childQuantity: 0,
   currentRooms: 1,
+  roomTypeId: -1,
+  roomTypeName: '',
   price: 0,
 }
 
