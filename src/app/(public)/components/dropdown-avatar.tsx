@@ -51,30 +51,28 @@ export default function DropdownAvatar() {
             <ChevronDown className="text-white" />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="center">
+        <DropdownMenuContent align="center" className="rounded">
           {role ? (
             <>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="rounded">
                 <Link href="/dashboard/profile" className="flex items-center">
                   <CircleUser className="mr-2 h-4 w-4" />
                   Hồ sơ của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="rounded">
                 <Link href="/dashboard/trips" className="flex items-center">
                   <FileText className="mr-2 h-4 w-4" />
                   Đơn của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="rounded">
                 <Link href="/dashboard/voucher" className="flex items-center">
                   <Ticket className="mr-2 h-4 w-4" />
                   Voucher của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent">
-                {/* <LogOut className="mr-2 h-4 w-4" />
-                Đăng xuất */}
+              <DropdownMenuItem className="hover:bg-transparent">
                 <Button
                   variant="outline"
                   className="w-full hover:border-blue-300 hover:bg-transparent"
@@ -88,7 +86,7 @@ export default function DropdownAvatar() {
             </>
           ) : (
             <>
-              <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent">
+              <DropdownMenuItem className="hover:bg-transparent">
                 <div className="flex flex-col items-center">
                   <Button
                     className="mb-2 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"

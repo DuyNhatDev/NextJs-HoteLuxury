@@ -41,7 +41,7 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage>{hotelName}</BreadcrumbPage>
+          <BreadcrumbPage className='text-gray-500'>{hotelName}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

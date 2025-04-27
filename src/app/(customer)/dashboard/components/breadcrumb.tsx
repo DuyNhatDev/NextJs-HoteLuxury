@@ -30,7 +30,9 @@ export default function BreadcrumbNav() {
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage>{getBreadcrumbPageFromPathName(breadcrumbPage)}</BreadcrumbPage>
+          <BreadcrumbPage className="text-gray-500">
+            {getBreadcrumbPageFromPathName(breadcrumbPage)}
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
