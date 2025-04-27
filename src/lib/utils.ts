@@ -269,3 +269,11 @@ export const generateCode = () => {
   return String(randomNum).padStart(6, '0')
 }
 
+export const getBreadcrumbPageFromPathName = (pathName: string): string => {
+  const pathNameMap: Record<string, string> = {
+    profile: 'Hồ sơ của tôi',
+    trips: 'Đơn của tôi',
+    voucher: 'Voucher của tôi',
+  }
+  return pathNameMap[pathName] || pathName
+}
