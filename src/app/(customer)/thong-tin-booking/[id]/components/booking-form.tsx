@@ -115,10 +115,11 @@ export default function BookingForm() {
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="col-span-6" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="customerName"
@@ -203,7 +204,7 @@ export default function BookingForm() {
                   <FormItem>
                     <div className="flex flex-col gap-4">
                       <FormLabel className="text-[16px] font-semibold text-blue-900">
-                        Phương thức thanh toán <span className="text-red-500">*</span>
+                        Phương thức thanh toán
                       </FormLabel>
                       <FormControl>
                         <RadioGroup

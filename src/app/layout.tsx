@@ -5,10 +5,9 @@ import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import AppProvider from '@/components/app-provider'
-import NextTopLoader from 'nextjs-toploader'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import envConfig from '@/config'
-// import Script from 'next/script'
+import HolyLoader from 'holy-loader'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -30,11 +29,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('bg-background min-h-screen font-sans antialiased', fontSans.variable)}>
-        {/* <Script
-          src={`https://maps.googleapis.com/maps/api/js?key=${envConfig.NEXT_PUBLIC_GG_MAP_API_KEY}&libraries=places`}
-          strategy="beforeInteractive"
-        /> */}
-        <NextTopLoader showSpinner={false} color="oklch(0.869 0.022 252.894)" />
+        <HolyLoader
+          color="oklch(0.869 0.022 252.894)"
+          height="1rem"
+          speed={250}
+          easing="linear"
+          showSpinner
+        />
         <GoogleOAuthProvider clientId={clientId}>
           <AppProvider>
             <ThemeProvider
