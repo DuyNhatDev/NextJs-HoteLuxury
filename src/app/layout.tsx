@@ -31,10 +31,8 @@ export default function RootLayout({
       <body className={cn('bg-background min-h-screen font-sans antialiased', fontSans.variable)}>
         <HolyLoader
           color="oklch(0.869 0.022 252.894)"
-          height="1rem"
           speed={250}
           easing="linear"
-          showSpinner
         />
         <GoogleOAuthProvider clientId={clientId}>
           <AppProvider>

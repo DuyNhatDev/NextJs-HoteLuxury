@@ -13,7 +13,7 @@ import DarkModeToggle from '@/components/dark-mode-toggle'
 import Image from 'next/image'
 import DropdownAvatar from '@/app/(public)/components/dropdown-avatar'
 
-export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function MainLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="relative flex min-h-screen w-full flex-col">
       <header className="sticky top-0 z-20 flex h-14 items-center gap-4 bg-blue-900 px-4 md:pr-6 md:pl-52">

@@ -1,11 +1,12 @@
 'use client'
-import { CircleUser, FileText, LogOut, ChevronDown } from 'lucide-react'
+import { CircleUser, FileText, Ticket, ChevronDown } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -13,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { useLogoutMutation } from '@/queries/useAuth'
 import { useGetAccount } from '@/queries/useAccount'
 import { useAppStore } from '@/store/app-store'
+import Link from 'next/link'
 
 export default function DropdownAvatar() {
   const role = useAppStore((state) => state.role)
@@ -23,7 +25,8 @@ export default function DropdownAvatar() {
   const { data } = useGetAccount(userId!, true)
   const avatar = data?.payload?.data?.image ?? ''
   const name = data?.payload?.data?.fullname ?? ''
-  const logout = async () => {
+
+  const handleLogout = async () => {
     if (logoutMutation.isPending) return
     try {
       await logoutMutation.mutateAsync()
@@ -52,16 +55,35 @@ export default function DropdownAvatar() {
           {role ? (
             <>
               <DropdownMenuItem>
-                <CircleUser className="mr-2 h-4 w-4" />
-                Hồ sơ cá nhân
+                <Link href="/dashboard/profile" className="flex items-center">
+                  <CircleUser className="mr-2 h-4 w-4" />
+                  Hồ sơ của tôi
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <FileText className="mr-2 h-4 w-4" />
-                Đơn của tôi
+                <Link href="/dashboard/trips" className="flex items-center">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Đơn của tôi
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={logout}>
-                <LogOut className="mr-2 h-4 w-4" />
-                Đăng xuất
+              <DropdownMenuItem>
+                <Link href="/dashboard/voucher" className="flex items-center">
+                  <Ticket className="mr-2 h-4 w-4" />
+                  Voucher của tôi
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent">
+                {/* <LogOut className="mr-2 h-4 w-4" />
+                Đăng xuất */}
+                <Button
+                  variant="outline"
+                  className="w-full hover:border-blue-300 hover:bg-transparent"
+                  onClick={() => {
+                    handleLogout
+                  }}
+                >
+                  Đăng xuất
+                </Button>
               </DropdownMenuItem>
             </>
           ) : (

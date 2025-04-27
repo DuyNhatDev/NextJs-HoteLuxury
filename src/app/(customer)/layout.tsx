@@ -1,5 +1,5 @@
-import Layout from '@/app/(public)/layout'
+import MainLayout from '@/app/(public)/layout'
 
-export default function GuestLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <Layout>{children}</Layout>
+export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <MainLayout>{children}</MainLayout>
 }
