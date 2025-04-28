@@ -72,13 +72,11 @@ export default function DropdownAvatar() {
                   Voucher của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-transparent">
+              <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent">
                 <Button
                   variant="outline"
                   className="w-full hover:border-blue-300 hover:bg-transparent"
-                  onClick={() => {
-                    handleLogout
-                  }}
+                  onClick={handleLogout}
                 >
                   Đăng xuất
                 </Button>
@@ -86,7 +84,7 @@ export default function DropdownAvatar() {
             </>
           ) : (
             <>
-              <DropdownMenuItem className="hover:bg-transparent">
+              <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent">
                 <div className="flex flex-col items-center">
                   <Button
                     className="mb-2 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"

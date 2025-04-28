@@ -165,7 +165,7 @@ export default function LoginForm() {
                       </Link>
                     </div>
                     <FormControl>
-                      <PasswordInput id="password" required {...field} />
+                      <PasswordInput id="password" autoComplete="true" required {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
