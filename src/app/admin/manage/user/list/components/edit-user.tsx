@@ -45,7 +45,6 @@ export default function EditUser({
   const [file, setFile] = useState<File | null>(null)
   const { data } = useGetAccount(String(id), Boolean(id))
   const updateUserMutation = useUpdateCustomerMutation()
-
   const form = useForm<UpdateCustomerAccountBodyType>({
     resolver: zodResolver(UpdateCustomerAccountBodySchema),
     defaultValues: {

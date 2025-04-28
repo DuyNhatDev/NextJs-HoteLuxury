@@ -89,9 +89,9 @@ export const useUpdateProfileMutation = () => {
   return useMutation({
     mutationFn: ({ id, body }: { id: number; body: UpdateProfileBodyType }) =>
       accountApiRequest.updateProfile(id, body),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['account'],
+        queryKey: ['account', variables.id.toString()],
       })
     },
   })

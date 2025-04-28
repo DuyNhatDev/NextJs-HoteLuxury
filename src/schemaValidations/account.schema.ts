@@ -190,10 +190,7 @@ export const UpdateProfileBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z
-      .union([z.string(), z.literal(''), z.undefined()])
-      .transform((val) => (val === '' ? undefined : val))
-      .optional(),
+    birthDate: z.date().optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
