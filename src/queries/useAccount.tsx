@@ -2,7 +2,7 @@ import accountApiRequest from '@/apiRequests/account'
 import {
   UpdatePartnerAccountBodyType,
   UpdateProfileBodyType,
-  UpdateUserAccountBodyType,
+  UpdateCustomerAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -47,7 +47,7 @@ export const useAddPartnerMutation = () => {
   })
 }
 
-export const useAddUserMutation = () => {
+export const useAddCustomerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: accountApiRequest.addUser,
@@ -72,11 +72,11 @@ export const useUpdatePartnerMutation = () => {
   })
 }
 
-export const useUpdateUserMutation = () => {
+export const useUpdateCustomerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, body }: { id: number; body: UpdateUserAccountBodyType }) =>
-      accountApiRequest.updateUser(id, body),
+    mutationFn: ({ id, body }: { id: number; body: UpdateCustomerAccountBodyType }) =>
+      accountApiRequest.updateCustomer(id, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['users'],
@@ -84,7 +84,7 @@ export const useUpdateUserMutation = () => {
     },
   })
 }
-export const useProfileMutation = () => {
+export const useUpdateProfileMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id, body }: { id: number; body: UpdateProfileBodyType }) =>

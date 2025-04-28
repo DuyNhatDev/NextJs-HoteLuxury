@@ -36,6 +36,7 @@ import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
 import { Role } from '@/constants/type'
 import UploadImage from '@/components/customize/upload-image'
+import { DateTimePicker } from '@/components/customize/date-time-picker'
 
 export default function AddPartner() {
   const [file, setFile] = useState<File | null>(null)
@@ -58,7 +59,7 @@ export default function AddPartner() {
       image: undefined,
       password: '',
       phoneNumber: '',
-      birthDate: '',
+      birthDate: undefined,
       address: '',
       roleId: Role.Partner,
     },
@@ -236,7 +237,12 @@ export default function AddPartner() {
                         <div className="grid gap-2">
                           <FormLabel htmlFor="birthDate">Ngày sinh</FormLabel>
                           <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
+                            <DateTimePicker
+                              placeholder="Chọn ngày sinh"
+                              granularity="day"
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
                           </FormControl>
                           <FormMessage />
                         </div>

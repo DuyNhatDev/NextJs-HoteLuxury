@@ -23,10 +23,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
-import { useAddUserMutation } from '@/queries/useAccount'
+import { useAddCustomerMutation } from '@/queries/useAccount'
 import {
-  CreateUserAccountBodySchema,
-  CreateUserAccountBodyType,
+  CreateCustomerAccountBodySchema,
+  CreateCustomerAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
@@ -36,11 +36,12 @@ import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
 import { Role } from '@/constants/type'
 import UploadImage from '@/components/customize/upload-image'
+import { DateTimePicker } from '@/components/customize/date-time-picker'
 
 export default function AddUser() {
   const [file, setFile] = useState<File | null>(null)
   const [open, setOpen] = useState(false)
-  const addUserMutation = useAddUserMutation()
+  const addUserMutation = useAddCustomerMutation()
   const [selectedProvince, setSelectedProvince] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedDistrict, setSelectedDistrict] = useState<SelectLocation>({ id: '', name: '' })
   const [selectedWard, setSelectedWard] = useState<SelectLocation>({ id: '', name: '' })
@@ -50,15 +51,15 @@ export default function AddUser() {
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []
-  const form = useForm<CreateUserAccountBodyType>({
-    resolver: zodResolver(CreateUserAccountBodySchema),
+  const form = useForm<CreateCustomerAccountBodyType>({
+    resolver: zodResolver(CreateCustomerAccountBodySchema),
     defaultValues: {
       fullname: '',
       email: '',
       image: undefined,
       password: '',
       phoneNumber: '',
-      birthDate: '',
+      birthDate: undefined,
       address: '',
       roleId: Role.Customer,
     },
@@ -67,7 +68,7 @@ export default function AddUser() {
     form.reset()
     setFile(null)
   }
-  const onSubmit = async (data: CreateUserAccountBodyType) => {
+  const onSubmit = async (data: CreateCustomerAccountBodyType) => {
     let body = data
     if (data.address) {
       const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
@@ -233,7 +234,12 @@ export default function AddUser() {
                         <div className="grid gap-2">
                           <FormLabel htmlFor="birthDate">Ngày sinh</FormLabel>
                           <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
+                            <DateTimePicker
+                              placeholder="Chọn ngày sinh"
+                              granularity="day"
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
                           </FormControl>
                           <FormMessage />
                         </div>

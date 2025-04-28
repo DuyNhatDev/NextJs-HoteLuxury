@@ -1,6 +1,4 @@
 import { Role } from '@/constants/type'
-import { LoginResSchema } from '@/schemaValidations/auth.schema'
-
 import z from 'zod'
 
 export const AccountSchema = z.object({
@@ -9,7 +7,7 @@ export const AccountSchema = z.object({
   email: z.string(),
   roleId: z.enum([Role.Admin, Role.Partner, Role.Customer]),
   image: z.string().nullable(),
-  birthDate: z.string(),
+  birthDate: z.date(),
   address: z.string(),
   phoneNumber: z.string(),
   gender: z.enum(['Nam', 'Nữ']),
@@ -56,12 +54,7 @@ export const CreatePartnerAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-
-    birthDate: z
-      .union([z.string(), z.literal(''), z.undefined()])
-      .transform((val) => (val === '' ? undefined : val))
-      .optional(),
-
+    birthDate: z.date().optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -73,7 +66,7 @@ export const CreatePartnerAccountBodySchema = z
 
 export type CreatePartnerAccountBodyType = z.infer<typeof CreatePartnerAccountBodySchema>
 
-export const CreateUserAccountBodySchema = z
+export const CreateCustomerAccountBodySchema = z
   .object({
     email: z.string().email({ message: 'Email không hợp lệ' }),
     fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
@@ -91,12 +84,7 @@ export const CreateUserAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-
-    birthDate: z
-      .union([z.string(), z.literal(''), z.undefined()])
-      .transform((val) => (val === '' ? undefined : val))
-      .optional(),
-
+    birthDate: z.date().optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -106,7 +94,7 @@ export const CreateUserAccountBodySchema = z
   })
   .strict()
 
-export type CreateUserAccountBodyType = z.infer<typeof CreateUserAccountBodySchema>
+export type CreateCustomerAccountBodyType = z.infer<typeof CreateCustomerAccountBodySchema>
 
 export const UpdatePartnerAccountBodySchema = z
   .object({
@@ -130,10 +118,7 @@ export const UpdatePartnerAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z
-      .union([z.string(), z.literal(''), z.undefined()])
-      .transform((val) => (val === '' ? undefined : val))
-      .optional(),
+    birthDate: z.date().optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -147,7 +132,7 @@ export const UpdatePartnerAccountBodySchema = z
 
 export type UpdatePartnerAccountBodyType = z.infer<typeof UpdatePartnerAccountBodySchema>
 
-export const UpdateUserAccountBodySchema = z
+export const UpdateCustomerAccountBodySchema = z
   .object({
     fullname: z
       .string()
@@ -169,10 +154,7 @@ export const UpdateUserAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z
-      .union([z.string(), z.literal(''), z.undefined()])
-      .transform((val) => (val === '' ? undefined : val))
-      .optional(),
+    birthDate: z.date().optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -184,7 +166,7 @@ export const UpdateUserAccountBodySchema = z
   })
   .strict()
 
-export type UpdateUserAccountBodyType = z.infer<typeof UpdateUserAccountBodySchema>
+export type UpdateCustomerAccountBodyType = z.infer<typeof UpdateCustomerAccountBodySchema>
 
 export const UpdateProfileBodySchema = z
   .object({

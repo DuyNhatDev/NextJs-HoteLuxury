@@ -5,10 +5,10 @@ import {
   AccountResType,
   ChangePasswordBodyType,
   CreatePartnerAccountBodyType,
-  CreateUserAccountBodyType,
+  CreateCustomerAccountBodyType,
   UpdatePartnerAccountBodyType,
   UpdateProfileBodyType,
-  UpdateUserAccountBodyType,
+  UpdateCustomerAccountBodyType,
 } from '@/schemaValidations/account.schema'
 
 const prefix = '/user'
@@ -22,7 +22,7 @@ const accountApiRequest = {
     const formData = objectToFormData(body)
     return http.post<AccountResType>(`${prefix}`, formData)
   },
-  addUser: (body: CreateUserAccountBodyType) => {
+  addUser: (body: CreateCustomerAccountBodyType) => {
     const formData = objectToFormData(body)
     return http.post<AccountResType>(`${prefix}`, formData)
   },
@@ -30,7 +30,7 @@ const accountApiRequest = {
     const formData = objectToFormData(body)
     return http.put<AccountResType>(`${prefix}/${id}`, formData)
   },
-  updateUser: (id: number, body: UpdateUserAccountBodyType) => {
+  updateCustomer: (id: number, body: UpdateCustomerAccountBodyType) => {
     const formData = objectToFormData(body)
     return http.put<AccountResType>(`${prefix}/${id}`, formData)
   },

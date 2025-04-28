@@ -27,6 +27,7 @@ import 'react-day-picker/dist/style.css'
 import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaValidations/auth.schema'
 import { LoaderCircle } from 'lucide-react'
 import { Role } from '@/constants/type'
+import { DateTimePicker } from '@/components/customize/date-time-picker'
 
 export default function PartnerRegisterForm() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
@@ -51,7 +52,7 @@ export default function PartnerRegisterForm() {
       confirmPassword: '',
       //gender: '',
       phoneNumber: '',
-      birthDate: '',
+      birthDate: undefined,
       address: '',
       roleId: Role.Partner,
     },
@@ -77,7 +78,7 @@ export default function PartnerRegisterForm() {
   }
   return (
     <>
-      <Card className="mx-auto max-w-xl min-w-96">
+      <Card className="mx-auto my-4 max-w-xl min-w-96 rounded-sm">
         <CardHeader className="relative flex w-full items-center px-4">
           {/* <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} /> */}
           <CardTitle className="mx-auto text-2xl font-bold text-blue-900">
@@ -180,7 +181,12 @@ export default function PartnerRegisterForm() {
                             Ngày sinh <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
+                            <DateTimePicker
+                              placeholder="Chọn ngày sinh"
+                              granularity="day"
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
                           </FormControl>
                           <FormMessage />
                         </div>

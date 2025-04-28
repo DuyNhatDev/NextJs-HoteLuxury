@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import {
-  UpdateUserAccountBodySchema,
-  UpdateUserAccountBodyType,
+  UpdateCustomerAccountBodySchema,
+  UpdateCustomerAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
@@ -25,12 +25,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-import { useGetAccount, useUpdateUserMutation } from '@/queries/useAccount'
+import { useGetAccount, useUpdateCustomerMutation } from '@/queries/useAccount'
 import { handleErrorApi } from '@/lib/utils'
 import { Role } from '@/constants/type'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
 import UploadImage from '@/components/customize/upload-image'
+import { DateTimePicker } from '@/components/customize/date-time-picker'
 
 export default function EditUser({
   id,
@@ -43,17 +44,17 @@ export default function EditUser({
 }) {
   const [file, setFile] = useState<File | null>(null)
   const { data } = useGetAccount(String(id), Boolean(id))
-  const updateUserMutation = useUpdateUserMutation()
+  const updateUserMutation = useUpdateCustomerMutation()
 
-  const form = useForm<UpdateUserAccountBodyType>({
-    resolver: zodResolver(UpdateUserAccountBodySchema),
+  const form = useForm<UpdateCustomerAccountBodyType>({
+    resolver: zodResolver(UpdateCustomerAccountBodySchema),
     defaultValues: {
       fullname: '',
       email: '',
       image: undefined,
       phoneNumber: '',
       gender: 'Nam',
-      birthDate: '',
+      birthDate: undefined,
       address: '',
       roleId: Role.Partner,
     },
@@ -75,7 +76,7 @@ export default function EditUser({
       })
     }
   }, [data, form])
-  const onSubmit = async (data: UpdateUserAccountBodyType) => {
+  const onSubmit = async (data: UpdateCustomerAccountBodyType) => {
     if (updateUserMutation.isPending) return
     try {
       let body = data
@@ -203,7 +204,12 @@ export default function EditUser({
                         <div className="grid gap-2">
                           <FormLabel htmlFor="birthDate">Ngày sinh</FormLabel>
                           <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
+                            <DateTimePicker
+                              placeholder="Chọn ngày sinh"
+                              granularity="day"
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
                           </FormControl>
                           <FormMessage />
                         </div>
