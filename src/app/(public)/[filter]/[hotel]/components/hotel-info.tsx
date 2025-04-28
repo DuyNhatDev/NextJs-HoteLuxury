@@ -66,7 +66,7 @@ export default function HotelInfo() {
 
   return (
     <div className="flex flex-col">
-      <div className="mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl">
+      <div className="mx-auto h-full w-full py-4 sm:max-w-xl md:max-w-6xl">
         <BreadcrumbNav
           locationName={hotelData?.locationName ?? ''}
           hotelName={hotelData?.hotelName ?? ''}
@@ -76,8 +76,8 @@ export default function HotelInfo() {
       <div className="mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl">
         <div className="flex">
           {/* Map */}
-          <div className="flex-1">
-            <div className="w-ful mx-auto py-3 sm:max-w-xl md:max-w-6xl">
+          <div className="flex-1 px-1">
+            <div className="w-ful mx-auto sm:max-w-xl md:max-w-6xl">
               <Map address={hotelData?.hotelAddress ?? ''} />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function HotelInfo() {
             <div className="mx-auto h-full w-full sm:max-w-xl md:max-w-6xl">
               {/* Thông tin */}
               <div className="flex items-start justify-between gap-4">
-                <div className="flex flex-4 flex-col items-start justify-start gap-2 p-3">
+                <div className="flex flex-4 flex-col items-start justify-start gap-2 px-3">
                   <h1 className="text-xl font-bold text-blue-900">{hotelData?.hotelName}</h1>
                   <div className="flex items-center">
                     <Rating
@@ -105,7 +105,7 @@ export default function HotelInfo() {
                   <div></div>
                 </div>
 
-                <div className="flex flex-1 flex-col items-end justify-start p-3">
+                <div className="flex flex-1 flex-col items-end justify-start px-3">
                   <p className="text-sm">Giá chỉ từ</p>
                   <p className="text-lg font-semibold text-sky-500">
                     {Number(minPrice).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
@@ -120,7 +120,7 @@ export default function HotelInfo() {
               </div>
               {/* Hình ảnh */}
               {imageList && imageList.length > 0 && (
-                <Carousel className="p-2">
+                <Carousel className="mt-2 p-2">
                   <CarouselPrevious className="absolute top-1/3 left-10 h-7 w-7 -translate-y-1/3 opacity-50" />
                   <CarouselNext className="absolute top-1/3 right-10 h-7 w-7 -translate-y-1/3 opacity-50" />
 

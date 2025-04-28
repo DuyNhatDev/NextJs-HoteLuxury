@@ -19,13 +19,17 @@ export default function BreadcrumbNav() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/">Trang chủ</Link>
+            <Link href="/" className="text-blue-600 hover:underline">
+              Trang chủ
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/dashboard/profile">Tài khoản</Link>
+            <Link href="/dashboard/profile" className="text-blue-600 hover:underline">
+              Tài khoản
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>

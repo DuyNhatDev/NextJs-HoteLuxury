@@ -23,7 +23,9 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/">Trang chủ</Link>
+            <Link href="/" className="text-blue-600 hover:underline">
+              Trang chủ
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
@@ -34,6 +36,7 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
                 setFilter({ filter: locationName })
               }}
               href={`/khach-san-${generateSlugUrl(locationName)}`}
+              className="text-blue-600 hover:underline"
             >
               {locationName}
             </Link>
@@ -41,7 +44,7 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage className='text-gray-500'>{hotelName}</BreadcrumbPage>
+          <BreadcrumbPage className="text-gray-500">{hotelName}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
