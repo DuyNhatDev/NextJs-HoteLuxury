@@ -1,7 +1,5 @@
+import ProfileForm from '@/app/(customer)/dashboard/profile/profile-form'
+
 export default function ProfilePage() {
-  return (
-    <div>
-      <h1>My Profile</h1>
-    </div>
-  )
+  return <ProfileForm />
 }

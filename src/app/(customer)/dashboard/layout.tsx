@@ -5,11 +5,11 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
   return (
     <div className="mx-auto w-full p-6 sm:max-w-xl md:max-w-6xl">
       <BreadcrumbNav />
-      <div className="mx-auto flex w-full flex-col gap-5 py-3 lg:flex-row">
+      <div className="mx-auto flex w-full flex-col gap-5 py-4 lg:flex-row">
         <div className="w-full lg:basis-1/4">
           <SideBar />
         </div>
-        <div className="w-full bg-green-200 lg:basis-3/4">{children}</div>
+        <div className="w-full lg:basis-3/4">{children}</div>
       </div>
     </div>
   )

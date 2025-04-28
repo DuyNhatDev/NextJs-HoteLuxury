@@ -44,7 +44,7 @@ export default function DropdownAvatar() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex cursor-pointer items-center">
-            <Avatar>
+            <Avatar className="h-9 w-9">
               <AvatarImage src={avatar || '/image/no-avatar.png'} />
               <AvatarFallback>{getLastTwoInitials(name)}</AvatarFallback>
             </Avatar>
