@@ -7,6 +7,7 @@ import {
   CreatePartnerAccountBodyType,
   CreateUserAccountBodyType,
   UpdatePartnerAccountBodyType,
+  UpdateProfileBodyType,
   UpdateUserAccountBodyType,
 } from '@/schemaValidations/account.schema'
 
@@ -30,6 +31,10 @@ const accountApiRequest = {
     return http.put<AccountResType>(`${prefix}/${id}`, formData)
   },
   updateUser: (id: number, body: UpdateUserAccountBodyType) => {
+    const formData = objectToFormData(body)
+    return http.put<AccountResType>(`${prefix}/${id}`, formData)
+  },
+  updateProfile: (id: number, body: UpdateProfileBodyType) => {
     const formData = objectToFormData(body)
     return http.put<AccountResType>(`${prefix}/${id}`, formData)
   },

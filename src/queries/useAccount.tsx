@@ -1,6 +1,7 @@
 import accountApiRequest from '@/apiRequests/account'
 import {
   UpdatePartnerAccountBodyType,
+  UpdateProfileBodyType,
   UpdateUserAccountBodyType,
 } from '@/schemaValidations/account.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -79,6 +80,18 @@ export const useUpdateUserMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['users'],
+      })
+    },
+  })
+}
+export const useProfileMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, body }: { id: number; body: UpdateProfileBodyType }) =>
+      accountApiRequest.updateProfile(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['account'],
       })
     },
   })

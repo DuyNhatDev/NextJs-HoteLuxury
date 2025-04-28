@@ -10,8 +10,6 @@ export default function ProfileForm() {
   const [editingField, setEditingField] = useState<string | null>(null)
   const userId = getUserIdFromLocalStorage()
   const { data } = useGetAccount(userId ?? undefined, Boolean(userId))
-  const [date, setDate] = useState<Date | undefined>(undefined)
-  const [time, setTime] = useState<Date | undefined>(undefined)
   const handleEditClick = (field: string) => {
     if (field !== 'email') {
       setEditingField(field)
@@ -35,7 +33,7 @@ export default function ProfileForm() {
         </Avatar>
       </CardHeader>
       <CardContent>
-        <DateTimePicker granularity="day" value={date} onChange={setDate} />
+        
       </CardContent>
     </Card>
   )

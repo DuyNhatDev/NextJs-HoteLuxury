@@ -186,6 +186,42 @@ export const UpdateUserAccountBodySchema = z
 
 export type UpdateUserAccountBodyType = z.infer<typeof UpdateUserAccountBodySchema>
 
+export const UpdateProfileBodySchema = z
+  .object({
+    fullname: z
+      .string()
+      .trim()
+      .min(1, { message: 'Họ và tên không được để trống' })
+      .max(256)
+      .optional(),
+    email: z.string().optional(),
+    gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
+    phoneNumber: z
+      .union([
+        z
+          .string()
+          .min(9, 'Số điện thoại phải có ít nhất 9 số')
+          .max(15, 'Số điện thoại không quá 15 số')
+          .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
+        z.literal(''),
+        z.undefined(),
+      ])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    address: z
+      .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
+    image: z.union([z.string(), z.instanceof(File)]).optional(),
+  })
+  .strict()
+
+export type UpdateProfileBodyType = z.infer<typeof UpdateProfileBodySchema>
+
 export const ChangePasswordBody = z
   .object({
     userId: z.string(),
