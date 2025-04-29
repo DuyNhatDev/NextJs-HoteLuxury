@@ -31,7 +31,6 @@ import { Role } from '@/constants/type'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
 import UploadImage from '@/components/customize/upload-image'
-import { DateTimePicker } from '@/components/customize/date-time-picker'
 
 export default function EditPartner({
   id,
@@ -54,7 +53,7 @@ export default function EditPartner({
       image: undefined,
       phoneNumber: '',
       gender: 'Nam',
-      birthDate: undefined,
+      birthDate: '',
       address: '',
       roleId: Role.Partner,
     },
@@ -204,12 +203,7 @@ export default function EditPartner({
                         <div className="grid gap-2">
                           <FormLabel htmlFor="birthDate">Ngày sinh</FormLabel>
                           <FormControl>
-                            <DateTimePicker
-                              placeholder="Chọn ngày sinh"
-                              granularity="day"
-                              value={field.value}
-                              onChange={field.onChange}
-                            />
+                            <Input id="birthDate" type="date" required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>

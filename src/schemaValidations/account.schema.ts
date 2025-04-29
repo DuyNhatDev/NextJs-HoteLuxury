@@ -7,7 +7,7 @@ export const AccountSchema = z.object({
   email: z.string(),
   roleId: z.enum([Role.Admin, Role.Partner, Role.Customer]),
   image: z.string().nullable(),
-  birthDate: z.date(),
+  birthDate: z.string(),
   address: z.string(),
   phoneNumber: z.string(),
   gender: z.enum(['Nam', 'Nữ']),
@@ -54,7 +54,10 @@ export const CreatePartnerAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z.date().optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -84,7 +87,10 @@ export const CreateCustomerAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z.date().optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -118,7 +124,10 @@ export const UpdatePartnerAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z.date().optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -154,7 +163,10 @@ export const UpdateCustomerAccountBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z.date().optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
@@ -190,7 +202,10 @@ export const UpdateProfileBodySchema = z
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    birthDate: z.date().optional(),
+    birthDate: z
+      .union([z.string(), z.literal(''), z.undefined()])
+      .transform((val) => (val === '' ? undefined : val))
+      .optional(),
     address: z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))

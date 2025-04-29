@@ -185,7 +185,7 @@ export const PartnerRegisterBodySchema = z
       .min(9, 'Số điện thoại phải có ít nhất 9 số')
       .max(15, 'Số điện thoại không quá 15 số')
       .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
-    birthDate: z.date(),
+    birthDate: z.string(),
     address: z.string().min(1, 'Địa chỉ không được để trống'),
     roleId: z.enum([Role.Partner]),
   })
