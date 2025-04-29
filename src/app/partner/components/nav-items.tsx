@@ -1,9 +1,4 @@
-import {
-  Hotel,
-  Settings,
-  ReceiptText,
-  MessageCircleMore,
-} from 'lucide-react'
+import { Hotel, Settings, ReceiptText, MessageCircleMore } from 'lucide-react'
 
 export const data = {
   navManage: [
@@ -14,13 +9,13 @@ export const data = {
       items: [
         {
           title: 'Thông tin khách sạn',
-          url: '/partner/manage/hotel/information',
+          url: '/partner/manage/hotel/information'
         },
         {
           title: 'Danh sách loại phòng',
-          url: '/partner/manage/hotel/room-type',
-        },
-      ],
+          url: '/partner/manage/hotel/room-type'
+        }
+      ]
     },
     {
       title: 'Đơn đặt phòng',
@@ -29,13 +24,13 @@ export const data = {
       items: [
         {
           title: 'Danh sách đơn',
-          url: '/partner/manage/order/list',
+          url: '/partner/manage/order/list'
         },
         {
           title: 'Chờ duyệt',
-          url: '/partner/manage/order/pending',
-        },
-      ],
+          url: '/partner/manage/order/pending'
+        }
+      ]
     },
     {
       title: 'Đanh giá phản hồi',
@@ -44,9 +39,9 @@ export const data = {
       items: [
         {
           title: 'Danh sách phản hồi',
-          url: '/partner/manage/feedback',
-        },
-      ],
+          url: '/partner/manage/feedback'
+        }
+      ]
     },
     {
       title: 'Cài đặt',
@@ -55,15 +50,15 @@ export const data = {
       items: [
         {
           title: 'Tài khoản',
-          url: '/partner/manage/setting/account',
+          url: '/partner/manage/setting/account'
         },
         {
           title: 'Đổi mật khẩu',
-          url: '/partner/manage/setting/change-password',
-        },
-      ],
-    },
-  ],
+          url: '/partner/manage/setting/change-password'
+        }
+      ]
+    }
+  ]
   // projects: [
   //   {
   //     name: 'Design Engineering',

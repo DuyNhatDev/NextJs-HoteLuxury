@@ -5,12 +5,7 @@ import { useTheme } from 'next-themes'
 import { Laptop2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export default function DarkModeToggle({ className = '' }) {
   const { setTheme } = useTheme()
@@ -18,23 +13,23 @@ export default function DarkModeToggle({ className = '' }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className={`rounded-full ${className}`}>
-          <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
+        <Button variant='outline' size='icon' className={`rounded-full ${className}`}>
+          <SunIcon className='h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90' />
+          <MoonIcon className='absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0' />
+          <span className='sr-only'>Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center">
+      <DropdownMenuContent align='center'>
         <DropdownMenuItem onClick={() => setTheme('light')}>
-          <SunIcon className="mr-2 h-4 w-4" />
+          <SunIcon className='mr-2 h-4 w-4' />
           Sáng
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
-          <MoonIcon className="mr-2 h-4 w-4" />
+          <MoonIcon className='mr-2 h-4 w-4' />
           Tối
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
-          <Laptop2 className="mr-2 h-4 w-4" />
+          <Laptop2 className='mr-2 h-4 w-4' />
           Hệ thống
         </DropdownMenuItem>
       </DropdownMenuContent>

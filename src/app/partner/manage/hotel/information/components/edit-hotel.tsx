@@ -1,25 +1,12 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
@@ -34,7 +21,7 @@ import RichTextEditor from '@/components/customize/rich-text-editor'
 export default function EditHotel({
   open,
   setOpen,
-  id,
+  id
 }: {
   open: boolean
   setOpen: (value: boolean) => void
@@ -58,8 +45,8 @@ export default function EditHotel({
       hotelDescription: '',
       locationId: undefined,
       hotelImage: undefined,
-      hotelImages: undefined,
-    },
+      hotelImages: undefined
+    }
   })
   useEffect(() => {
     if (data) {
@@ -72,7 +59,7 @@ export default function EditHotel({
         hotelDescription,
         locationId,
         hotelImage,
-        hotelImages,
+        hotelImages
       } = data.payload.data
       form.reset({
         hotelName: hotelName ?? '',
@@ -83,7 +70,7 @@ export default function EditHotel({
         hotelDescription: hotelDescription ?? '',
         locationId: locationId ?? '',
         hotelImage: hotelImage ?? undefined,
-        hotelImages: hotelImages ?? undefined,
+        hotelImages: hotelImages ?? undefined
       })
     }
   }, [data, form])
@@ -94,10 +81,8 @@ export default function EditHotel({
 
       if (files.length > 0) {
         mergedImages = [
-          ...(Array.isArray(data.hotelImages)
-            ? data.hotelImages.filter((img) => typeof img === 'string')
-            : []),
-          ...files,
+          ...(Array.isArray(data.hotelImages) ? data.hotelImages.filter((img) => typeof img === 'string') : []),
+          ...files
         ]
       } else {
         mergedImages = (data.hotelImages || []) as (string | File)[]
@@ -105,7 +90,7 @@ export default function EditHotel({
       const body = {
         ...data,
         hotelImage: file ?? data.hotelImage,
-        hotelImages: mergedImages,
+        hotelImages: mergedImages
       }
       await updateHotelMutation.mutateAsync({ id: id!, body })
       toast.success('Cập nhật thành công')
@@ -113,7 +98,7 @@ export default function EditHotel({
     } catch (error) {
       handleErrorApi({
         error,
-        setError: form.setError,
+        setError: form.setError
       })
     }
   }
@@ -134,21 +119,21 @@ export default function EditHotel({
         }
       }}
     >
-      <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
+      <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>Chỉnh sửa thông tin khách sạn</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
             noValidate
-            className="grid auto-rows-max items-start gap-4 md:gap-8"
-            id="edit-hotel-form"
+            className='grid auto-rows-max items-start gap-4 md:gap-8'
+            id='edit-hotel-form'
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="grid gap-4 py-4">
+            <div className='grid gap-4 py-4'>
               <FormField
                 control={form.control}
-                name="hotelImage"
+                name='hotelImage'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Ảnh thumbnail</FormLabel>
@@ -170,18 +155,14 @@ export default function EditHotel({
               />
               <FormField
                 control={form.control}
-                name="hotelImages"
+                name='hotelImages'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Ảnh slider</FormLabel>
                     <FormControl>
                       <MultiUploadImage
                         value={(field.value || []).map((item) =>
-                          typeof item === 'string'
-                            ? item
-                            : item instanceof File
-                              ? URL.createObjectURL(item)
-                              : ''
+                          typeof item === 'string' ? item : item instanceof File ? URL.createObjectURL(item) : ''
                         )}
                         maxImages={20}
                         onChange={(urls, files) => {
@@ -194,25 +175,19 @@ export default function EditHotel({
                   </FormItem>
                 )}
               />
-              <div className="grid gap-7">
-                <div className="flex w-full gap-4">
+              <div className='grid gap-7'>
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="hotelName"
+                    name='hotelName'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="hotelName">
-                            Tên khách sạn <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='hotelName'>
+                            Tên khách sạn <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input
-                              id="hotelName"
-                              type="text"
-                              className="w-full"
-                              required
-                              {...field}
-                            />
+                            <Input id='hotelName' type='text' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -220,24 +195,18 @@ export default function EditHotel({
                     )}
                   />
                 </div>
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="hotelPhoneNumber"
+                    name='hotelPhoneNumber'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="hotelPhoneNumber">
-                            Số điện thoại <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='hotelPhoneNumber'>
+                            Số điện thoại <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input
-                              id="hotelPhoneNumber"
-                              type="text"
-                              className="w-full"
-                              required
-                              {...field}
-                            />
+                            <Input id='hotelPhoneNumber' type='text' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -246,12 +215,12 @@ export default function EditHotel({
                   />
                   <FormField
                     control={form.control}
-                    name="hotelType"
+                    name='hotelType'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="relative grid gap-2">
-                          <FormLabel htmlFor="password">
-                            Loại <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='relative grid gap-2'>
+                          <FormLabel htmlFor='password'>
+                            Loại <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <CustomSelect
@@ -260,12 +229,12 @@ export default function EditHotel({
                                 { label: 'Khu nghỉ dưỡng', value: 'Khu nghỉ dưỡng' },
                                 { label: 'Biệt thự', value: 'Biệt thự' },
                                 { label: 'Căn hộ', value: 'Căn hộ' },
-                                { label: 'Nhà nghỉ', value: 'Nhà nghỉ' },
+                                { label: 'Nhà nghỉ', value: 'Nhà nghỉ' }
                               ]}
                               value={field.value}
                               onChange={field.onChange}
-                              placeholder="Chọn loại"
-                              className="w-full"
+                              placeholder='Chọn loại'
+                              className='w-full'
                             />
                           </FormControl>
                           <FormMessage />
@@ -274,15 +243,15 @@ export default function EditHotel({
                     )}
                   />
                 </div>
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="hotelStar"
+                    name='hotelStar'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="hotelStar">
-                            Số sao <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='hotelStar'>
+                            Số sao <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <CustomSelect
@@ -291,12 +260,12 @@ export default function EditHotel({
                                 { label: '⭐⭐⭐⭐', value: 4 },
                                 { label: '⭐⭐⭐', value: 3 },
                                 { label: '⭐⭐', value: 2 },
-                                { label: '⭐', value: 1 },
+                                { label: '⭐', value: 1 }
                               ]}
                               value={field.value}
                               onChange={field.onChange}
-                              placeholder="Chọn giới tính"
-                              className="w-full"
+                              placeholder='Chọn giới tính'
+                              className='w-full'
                             />
                           </FormControl>
                           <FormMessage />
@@ -306,20 +275,20 @@ export default function EditHotel({
                   />
                   <FormField
                     control={form.control}
-                    name="locationId"
+                    name='locationId'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="locationId">Địa điểm</FormLabel>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='locationId'>Địa điểm</FormLabel>
                           <Combobox
                             items={destinations.map((d) => ({
                               value: d.locationId,
-                              label: d.locationName,
+                              label: d.locationName
                             }))}
-                            placeholder="Chọn địa điểm"
+                            placeholder='Chọn địa điểm'
                             onChange={field.onChange}
                             value={field.value}
-                            className="w-full"
+                            className='w-full'
                           />
                           <FormMessage />
                         </div>
@@ -327,33 +296,33 @@ export default function EditHotel({
                     )}
                   />
                 </div>
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="hotelAddress"
+                    name='hotelAddress'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel htmlFor="hotelAddress">Địa chỉ</FormLabel>
+                      <FormItem className='flex-1'>
+                        <FormLabel htmlFor='hotelAddress'>Địa chỉ</FormLabel>
                         <FormControl>
-                          <Input id="address" type="text" required {...field} />
+                          <Input id='address' type='text' required {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="hotelDescription"
+                    name='hotelDescription'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="hotelDescription">Mô tả</FormLabel>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='hotelDescription'>Mô tả</FormLabel>
                           <RichTextEditor
                             value={field.value}
                             onChange={field.onChange}
-                            title="Nhập mô tả cho khách sạn"
+                            title='Nhập mô tả cho khách sạn'
                           />
                           <FormMessage />
                         </div>
@@ -366,10 +335,8 @@ export default function EditHotel({
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="edit-hotel-form" className="bg-blue-500 hover:bg-blue-600">
-            {updateHotelMutation.isPending && (
-              <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-            )}
+          <Button type='submit' form='edit-hotel-form' className='bg-blue-500 hover:bg-blue-600'>
+            {updateHotelMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Lưu
           </Button>
         </DialogFooter>

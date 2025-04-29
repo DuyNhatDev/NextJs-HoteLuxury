@@ -1,11 +1,6 @@
 'use client'
 import { CircleUser, FileText, Ticket, ChevronDown } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
@@ -34,48 +29,48 @@ export default function DropdownAvatar() {
       router.push('/')
     } catch (error: any) {
       handleErrorApi({
-        error,
+        error
       })
     }
   }
 
   return (
-    <div className="relative flex items-center gap-2">
+    <div className='relative flex items-center gap-2'>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="flex cursor-pointer items-center">
-            <Avatar className="h-9 w-9">
+          <div className='flex cursor-pointer items-center'>
+            <Avatar className='h-9 w-9'>
               <AvatarImage src={avatar || '/image/no-avatar.png'} />
               <AvatarFallback>{getLastTwoInitials(name)}</AvatarFallback>
             </Avatar>
-            <ChevronDown className="text-white" />
+            <ChevronDown className='text-white' />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="center" className="rounded">
+        <DropdownMenuContent align='center' className='rounded'>
           {role ? (
             <>
-              <DropdownMenuItem className="rounded focus:bg-transparent focus:text-blue-500">
-                <Link href="/dashboard/profile" className="flex items-center">
-                  <CircleUser className="mr-2 h-4 w-4" />
+              <DropdownMenuItem className='rounded focus:bg-transparent focus:text-blue-500'>
+                <Link href='/dashboard/profile' className='flex items-center'>
+                  <CircleUser className='mr-2 h-4 w-4' />
                   Hồ sơ của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="rounded focus:bg-transparent focus:text-blue-500">
-                <Link href="/dashboard/trips" className="flex items-center">
-                  <FileText className="mr-2 h-4 w-4" />
+              <DropdownMenuItem className='rounded focus:bg-transparent focus:text-blue-500'>
+                <Link href='/dashboard/trips' className='flex items-center'>
+                  <FileText className='mr-2 h-4 w-4' />
                   Đơn của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="rounded focus:bg-transparent focus:text-blue-500">
-                <Link href="/dashboard/voucher" className="flex items-center">
-                  <Ticket className="mr-2 h-4 w-4" />
+              <DropdownMenuItem className='rounded focus:bg-transparent focus:text-blue-500'>
+                <Link href='/dashboard/voucher' className='flex items-center'>
+                  <Ticket className='mr-2 h-4 w-4' />
                   Voucher của tôi
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-transparent">
+              <DropdownMenuItem className='focus:bg-transparent'>
                 <Button
-                  variant="outline"
-                  className="w-full hover:border-blue-300 hover:bg-transparent"
+                  variant='outline'
+                  className='w-full hover:border-blue-300 hover:bg-transparent'
                   onClick={handleLogout}
                 >
                   Đăng xuất
@@ -84,17 +79,17 @@ export default function DropdownAvatar() {
             </>
           ) : (
             <>
-              <DropdownMenuItem className="focus:bg-transparent">
-                <div className="flex flex-col items-center">
+              <DropdownMenuItem className='focus:bg-transparent'>
+                <div className='flex flex-col items-center'>
                   <Button
-                    className="mb-2 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                    className='mb-2 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
                     onClick={() => router.push('/register')}
                   >
                     Đăng ký
                   </Button>
-                  <p className="text-center text-sm">Quý khách đã có tài khoản?</p>
+                  <p className='text-center text-sm'>Quý khách đã có tài khoản?</p>
                   <span
-                    className="block cursor-pointer text-blue-500 hover:underline"
+                    className='block cursor-pointer text-blue-500 hover:underline'
                     onClick={() => {
                       router.push('/login')
                     }}
@@ -107,7 +102,7 @@ export default function DropdownAvatar() {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className="text-sm font-medium text-white">{name || ''}</span>
+      <span className='text-sm font-medium text-white'>{name || ''}</span>
     </div>
   )
 }

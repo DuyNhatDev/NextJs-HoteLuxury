@@ -13,15 +13,15 @@ export async function GET() {
   } catch (error) {
     if (error instanceof HttpError) {
       return Response.json(error.payload, {
-        status: error.status,
+        status: error.status
       })
     } else {
       return Response.json(
         {
-          message: 'Có lỗi xảy ra',
+          message: 'Có lỗi xảy ra'
         },
         {
-          status: 500,
+          status: 500
         }
       )
     }

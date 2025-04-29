@@ -9,17 +9,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
+  useReactTable
 } from '@tanstack/react-table'
 import { Input } from '@/components/ui/input'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -44,32 +37,30 @@ const DestinationTableContext = createContext<{
   destinationIdEdit: undefined,
   setDestinationIdEdit: (value: number | undefined) => {},
   destinationDelete: null,
-  setDestinationDelete: (value: DestinationItem | null) => {},
+  setDestinationDelete: (value: DestinationItem | null) => {}
 })
 
 export const columns: ColumnDef<DestinationType>[] = [
   {
     accessorKey: 'locationImage',
-    header: () => <div className="text-center">Ảnh</div>,
+    header: () => <div className='text-center'>Ảnh</div>,
     cell: ({ row }) => (
-      <div className="flex justify-center">
-        <Avatar className="aspect-square h-[50px] w-[50px] rounded-md object-cover">
+      <div className='flex justify-center'>
+        <Avatar className='aspect-square h-[50px] w-[50px] rounded-md object-cover'>
           <AvatarImage src={row.getValue('locationImage')} />
-          <AvatarFallback className="rounded-none">
-            {getLastTwoInitials(row.original.locationName)}
-          </AvatarFallback>
+          <AvatarFallback className='rounded-none'>{getLastTwoInitials(row.original.locationName)}</AvatarFallback>
         </Avatar>
       </div>
-    ),
+    )
   },
   {
     accessorKey: 'locationName',
-    header: () => <div className="text-center">Tên</div>,
-    cell: ({ row }) => <div className="text-center capitalize">{row.getValue('locationName')}</div>,
+    header: () => <div className='text-center'>Tên</div>,
+    cell: ({ row }) => <div className='text-center capitalize'>{row.getValue('locationName')}</div>
   },
   {
     id: 'actions',
-    header: () => <div className="text-center">Thao tác</div>,
+    header: () => <div className='text-center'>Thao tác</div>,
     enableHiding: false,
     cell: function Actions({ row }) {
       const { setDestinationIdEdit, setDestinationDelete } = useContext(DestinationTableContext)
@@ -80,23 +71,17 @@ export const columns: ColumnDef<DestinationType>[] = [
         setDestinationDelete(row.original)
       }
       return (
-        <div className="flex justify-center gap-3">
-          <CustomTooltip content="Sửa">
-            <PenLine
-              className="h-5 w-5 text-blue-600 hover:cursor-pointer"
-              onClick={openEditRoomType}
-            />
+        <div className='flex justify-center gap-3'>
+          <CustomTooltip content='Sửa'>
+            <PenLine className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openEditRoomType} />
           </CustomTooltip>
-          <CustomTooltip content="Xóa">
-            <Trash2
-              className="h-5 w-5 text-red-600 hover:cursor-pointer"
-              onClick={openDeletePartner}
-            />
+          <CustomTooltip content='Xóa'>
+            <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openDeletePartner} />
           </CustomTooltip>
         </div>
       )
-    },
-  },
+    }
+  }
 ]
 
 const PAGE_SIZE = 5
@@ -114,7 +99,7 @@ export default function DestinationTable() {
   const [rowSelection, setRowSelection] = useState({})
   const [pagination, setPagination] = useState({
     pageIndex,
-    pageSize: PAGE_SIZE,
+    pageSize: PAGE_SIZE
   })
 
   const table = useReactTable({
@@ -135,14 +120,14 @@ export default function DestinationTable() {
       columnFilters,
       columnVisibility,
       rowSelection,
-      pagination,
-    },
+      pagination
+    }
   })
 
   useEffect(() => {
     table.setPagination({
       pageIndex,
-      pageSize: PAGE_SIZE,
+      pageSize: PAGE_SIZE
     })
   }, [table, pageIndex])
 
@@ -150,30 +135,24 @@ export default function DestinationTable() {
     <DestinationTableContext.Provider
       value={{ destinationIdEdit, setDestinationIdEdit, destinationDelete, setDestinationDelete }}
     >
-      <div className="w-full">
-        <EditDestination
-          id={destinationIdEdit}
-          setId={setDestinationIdEdit}
-          onSubmitSuccess={() => {}}
-        />
+      <div className='w-full'>
+        <EditDestination id={destinationIdEdit} setId={setDestinationIdEdit} onSubmitSuccess={() => {}} />
         <AlertDialogDeleteDestination
           destinationDelete={destinationDelete}
           setDestinationDelete={setDestinationDelete}
         />
-        <div className="flex items-center gap-2 py-4">
+        <div className='flex items-center gap-2 py-4'>
           <Input
-            placeholder="Lọc theo tên"
+            placeholder='Lọc theo tên'
             value={(table.getColumn('locationName')?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn('locationName')?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm flex-1"
+            onChange={(event) => table.getColumn('locationName')?.setFilterValue(event.target.value)}
+            className='max-w-sm flex-1'
           />
-          <div className="ml-auto flex items-center gap-2">
+          <div className='ml-auto flex items-center gap-2'>
             <AddDestination />
           </div>
         </div>
-        <div className="rounded-md border">
+        <div className='rounded-md border'>
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -181,9 +160,7 @@ export default function DestinationTable() {
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
                     )
                   })}
@@ -195,15 +172,13 @@ export default function DestinationTable() {
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <TableCell colSpan={columns.length} className='h-24 text-center'>
                     Không có dữ liệu
                   </TableCell>
                 </TableRow>
@@ -211,16 +186,16 @@ export default function DestinationTable() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 pt-4">
-          <div className="text-muted-foreground flex-1 py-4 text-xs">
-            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{' '}
-            <strong>{data.length}</strong> kết quả
+        <div className='flex items-center justify-end space-x-2 pt-4'>
+          <div className='text-muted-foreground flex-1 py-4 text-xs'>
+            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong <strong>{data.length}</strong>{' '}
+            kết quả
           </div>
           <div>
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/admin/manage/destination"
+              pathname='/admin/manage/destination'
             />
           </div>
         </div>

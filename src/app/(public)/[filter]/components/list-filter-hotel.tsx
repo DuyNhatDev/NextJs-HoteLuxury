@@ -20,7 +20,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
 
   const hotelFilterListQuery = useGetFilterHotelList({
     ...filterParams,
-    filter: effectiveFilter,
+    filter: effectiveFilter
   })
 
   const hotelFilterList = hotelFilterListQuery.data?.payload?.data || []
@@ -37,53 +37,46 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
   }
 
   return (
-    <div className="w-full">
+    <div className='w-full'>
       {hotelFilterListQuery.isPending ? (
-        <div className="flex items-center justify-center py-8">
+        <div className='flex items-center justify-center py-8'>
           <Spinner>Đang tải...</Spinner>
         </div>
       ) : fullHotelList.length === 0 ? (
-        <p className="px-4 py-8 text-center text-lg">Không tìm thấy kết quả phù hợp</p>
+        <p className='px-4 py-8 text-center text-lg'>Không tìm thấy kết quả phù hợp</p>
       ) : (
         <>
-          <div className="flex flex-col gap-4">
+          <div className='flex flex-col gap-4'>
             {visibleHotelList.map((hotel) => {
               const slug = generateSlugUrl(hotel.hotelName)
               const href = `${params.filter as string}/${slug}-chi-tiet`
               return (
-                <Link key={hotel.hotelId} href={href} className="w-full">
-                  <Card className="grid w-full transform grid-cols-10 gap-3 rounded border p-0 transition-transform duration-200 ease-in-out hover:scale-101 hover:border-blue-500 hover:shadow-md">
-                    <div className="relative col-span-3 aspect-[3/2] h-full w-full overflow-hidden">
-                      <Image
-                        src={hotel.hotelImage}
-                        alt={hotel.hotelName}
-                        fill
-                        className="object-cover"
-                      />
+                <Link key={hotel.hotelId} href={href} className='w-full'>
+                  <Card className='grid w-full transform grid-cols-10 gap-3 rounded border p-0 transition-transform duration-200 ease-in-out hover:scale-101 hover:border-blue-500 hover:shadow-md'>
+                    <div className='relative col-span-3 aspect-[3/2] h-full w-full overflow-hidden'>
+                      <Image src={hotel.hotelImage} alt={hotel.hotelName} fill className='object-cover' />
                     </div>
 
-                    <CardContent className="col-span-5 flex flex-col justify-between gap-1 px-0 py-0">
-                      <div className="flex flex-1 flex-col gap-2 px-1 py-3">
+                    <CardContent className='col-span-5 flex flex-col justify-between gap-1 px-0 py-0'>
+                      <div className='flex flex-1 flex-col gap-2 px-1 py-3'>
                         <div>
-                          <h3 className="mb-1 line-clamp-2 text-lg font-semibold">
-                            {hotel.hotelName}
-                          </h3>
+                          <h3 className='mb-1 line-clamp-2 text-lg font-semibold'>{hotel.hotelName}</h3>
                           <Rating
                             rating={hotel.hotelStar || 0}
                             size={22}
-                            variant="yellow"
+                            variant='yellow'
                             showText={false}
                             disabled={true}
                           />
                         </div>
 
-                        <div className="space-y-2">
-                          <div className="flex items-center text-sm text-gray-500">
-                            <MapPin className="mr-2 h-6 w-6 text-red-500" />
-                            <span className="font-medium">{hotel.hotelAddress}</span>
+                        <div className='space-y-2'>
+                          <div className='flex items-center text-sm text-gray-500'>
+                            <MapPin className='mr-2 h-6 w-6 text-red-500' />
+                            <span className='font-medium'>{hotel.hotelAddress}</span>
                           </div>
-                          <div className="inline-block rounded px-2 py-1 text-sm">
-                            <Badge variant="secondary" className="py-1">
+                          <div className='inline-block rounded px-2 py-1 text-sm'>
+                            <Badge variant='secondary' className='py-1'>
                               {hotel.hotelType}
                             </Badge>
                           </div>
@@ -91,13 +84,13 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
                       </div>
                     </CardContent>
 
-                    <div className="col-span-2 flex items-center justify-end px-3">
+                    <div className='col-span-2 flex items-center justify-end px-3'>
                       {hotel.minPrice ? (
-                        <p className="text-lg font-semibold text-sky-500">
-                          {Number(hotel.minPrice).toLocaleString('vi-VN')} <span className="text-sm">VND</span>
+                        <p className='text-lg font-semibold text-sky-500'>
+                          {Number(hotel.minPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                         </p>
                       ) : (
-                        <p className="text-lg font-semibold text-orange-500">Hết phòng</p>
+                        <p className='text-lg font-semibold text-orange-500'>Hết phòng</p>
                       )}
                     </div>
                   </Card>
@@ -107,11 +100,11 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
           </div>
 
           {hotelsRemaining > 0 && (
-            <div className="mt-4 flex justify-center">
+            <div className='mt-4 flex justify-center'>
               <Button
-                variant="outline"
+                variant='outline'
                 onClick={handleShowMore}
-                className="border-blue-60 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                className='border-blue-60 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white'
               >
                 Xem thêm {hotelsRemaining} khách sạn
               </Button>

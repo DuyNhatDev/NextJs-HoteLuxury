@@ -27,12 +27,12 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
     dayEnd: filter.dayEnd,
     adultQuantity: filter.adultQuantity,
     childQuantity: filter.childQuantity,
-    currentRooms: filter.currentRooms,
+    currentRooms: filter.currentRooms
   })
   const hasReset = useRef(false)
   const form = useForm<FilterRoomTypeType>({
     resolver: zodResolver(FilterRoomTypeSchema),
-    defaultValues: (({ filter, ...rest }) => rest)(filter),
+    defaultValues: (({ filter, ...rest }) => rest)(filter)
   })
 
   const { control, watch, setValue, reset } = form
@@ -59,31 +59,31 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
   const onSubmit = async (data: FilterRoomTypeType) => {
     setParams((prev) => ({
       ...prev,
-      ...data,
+      ...data
     }))
     setBooking(data)
   }
 
   return (
     <>
-      <div className="flex w-full justify-center">
-        <div className="w-full rounded-sm bg-gray-200 p-4">
+      <div className='flex w-full justify-center'>
+        <div className='w-full rounded-sm bg-gray-200 p-4'>
           <Form {...form}>
             <form
-              className="flex w-full flex-col gap-3 md:flex-row"
+              className='flex w-full flex-col gap-3 md:flex-row'
               noValidate
               onSubmit={form.handleSubmit(onSubmit, (err) => {
                 console.log(err)
               })}
             >
-              <div className="w-full md:flex-[3]">
+              <div className='w-full md:flex-[3]'>
                 <FormField
                   control={control}
-                  name="dayStart"
+                  name='dayStart'
                   render={() => (
-                    <FormItem className="w-full">
+                    <FormItem className='w-full'>
                       <DateRangePicker
-                        className="w-full"
+                        className='w-full'
                         value={{ from: dayStart, to: dayEnd }}
                         onChange={(range: DateRange | undefined) => {
                           if (range?.from) setValue('dayStart', range.from)
@@ -96,12 +96,12 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
                 />
               </div>
 
-              <div className="w-full md:flex-[2.5]">
+              <div className='w-full md:flex-[2.5]'>
                 <FormField
                   control={control}
-                  name="currentRooms"
+                  name='currentRooms'
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className='w-full'>
                       <RoomGuestSelector
                         rooms={field.value}
                         adults={adultQuantity}
@@ -115,11 +115,8 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
                 />
               </div>
 
-              <div className="w-full md:flex-[1.5]">
-                <Button
-                  type="submit"
-                  className="h-full w-full bg-orange-400 text-lg font-bold hover:bg-orange-500"
-                >
+              <div className='w-full md:flex-[1.5]'>
+                <Button type='submit' className='h-full w-full bg-orange-400 text-lg font-bold hover:bg-orange-500'>
                   Tìm
                 </Button>
               </div>

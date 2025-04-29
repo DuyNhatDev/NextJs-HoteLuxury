@@ -5,18 +5,15 @@ import queryString from 'query-string'
 const locationApiRequest = {
   getProvinces: () =>
     http.get<Province[]>(`api/locations/provinces`, {
-      baseUrl: '',
+      baseUrl: ''
     }),
   getDistricts: (idProvince: string) =>
-    http.get<District[]>(
-      `api/locations/districts?` + queryString.stringify({ parentId: idProvince }),
-      {
-        baseUrl: '',
-      }
-    ),
+    http.get<District[]>(`api/locations/districts?` + queryString.stringify({ parentId: idProvince }), {
+      baseUrl: ''
+    }),
   getWards: (idDistrict: string) =>
     http.get<Ward[]>(`api/locations/wards?` + queryString.stringify({ parentId: idDistrict }), {
-      baseUrl: '',
+      baseUrl: ''
     }),
 
   getCoordinates: async (address: string): Promise<Coordinates> => {
@@ -28,8 +25,8 @@ const locationApiRequest = {
     }
     return {
       lat: parseFloat(data[0].lat),
-      lng: parseFloat(data[0].lon),
+      lng: parseFloat(data[0].lon)
     }
-  },
+  }
 }
 export default locationApiRequest

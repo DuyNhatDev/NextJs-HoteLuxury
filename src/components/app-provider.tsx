@@ -9,9 +9,9 @@ import { useAppStore } from '@/store/app-store'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
+      refetchOnWindowFocus: false
+    }
+  }
 })
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {

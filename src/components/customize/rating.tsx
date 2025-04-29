@@ -7,16 +7,16 @@ import { cn } from '@/lib/utils'
 const ratingVariants = {
   default: {
     star: 'text-foreground',
-    emptyStar: 'text-muted-foreground',
+    emptyStar: 'text-muted-foreground'
   },
   destructive: {
     star: 'text-red-500',
-    emptyStar: 'text-red-200',
+    emptyStar: 'text-red-200'
   },
   yellow: {
     star: 'text-yellow-500',
-    emptyStar: 'text-yellow-200',
-  },
+    emptyStar: 'text-yellow-200'
+  }
 }
 
 interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -91,23 +91,20 @@ export const Rating = ({
   return (
     <div
       className={cn('flex w-fit flex-col gap-2', {
-        'pointer-events-none': disabled,
+        'pointer-events-none': disabled
       })}
       onMouseLeave={handleMouseLeave}
       {...props}
     >
-      <div className="flex items-center" onMouseEnter={handleMouseEnter}>
+      <div className='flex items-center' onMouseEnter={handleMouseEnter}>
         {[...Array(fullStars)].map((_, i) =>
           React.cloneElement(Icon, {
             key: i,
             size,
-            className: cn(
-              fill ? 'fill-current stroke-1' : 'fill-transparent',
-              ratingVariants[variant].star
-            ),
+            className: cn(fill ? 'fill-current stroke-1' : 'fill-transparent', ratingVariants[variant].star),
             onClick: disabled ? undefined : handleClick,
             onMouseEnter: disabled ? undefined : handleMouseEnter,
-            'data-star-index': i + 1,
+            'data-star-index': i + 1
           })
         )}
         {partialStar}
@@ -119,14 +116,12 @@ export const Rating = ({
               className: cn('stroke-1', ratingVariants[variant].emptyStar),
               onClick: disabled ? undefined : handleClick,
               onMouseEnter: disabled ? undefined : handleMouseEnter,
-              'data-star-index': i + fullStars + 1,
+              'data-star-index': i + fullStars + 1
             })
           )}
       </div>
       {showText && (
-        <span className="text-muted-foreground text-xs font-semibold">
-          Current Rating: {`${currentRating}`}
-        </span>
+        <span className='text-muted-foreground text-xs font-semibold'>Current Rating: {`${currentRating}`}</span>
       )}
     </div>
   )
@@ -144,19 +139,19 @@ const PartialStar = ({ fillPercentage, size, className, Icon }: PartialStarProps
     <div style={{ position: 'relative', display: 'inline-block' }}>
       {React.cloneElement(Icon, {
         size,
-        className: cn('fill-transparent', className),
+        className: cn('fill-transparent', className)
       })}
       <div
         style={{
           position: 'absolute',
           top: 0,
           overflow: 'hidden',
-          width: `${fillPercentage * 100}%`,
+          width: `${fillPercentage * 100}%`
         }}
       >
         {React.cloneElement(Icon, {
           size,
-          className: cn('fill-current', className),
+          className: cn('fill-current', className)
         })}
       </div>
     </div>

@@ -8,7 +8,7 @@ import {
   CreateCustomerAccountBodyType,
   UpdatePartnerAccountBodyType,
   UpdateProfileBodyType,
-  UpdateCustomerAccountBodyType,
+  UpdateCustomerAccountBodyType
 } from '@/schemaValidations/account.schema'
 
 const prefix = '/user'
@@ -39,9 +39,7 @@ const accountApiRequest = {
     return http.put<AccountResType>(`${prefix}/${id}`, formData)
   },
   deleteAccount: (id: number) => http.delete(`${prefix}/${id}`),
-  confirmPartner: (id: number, isConfirmed: boolean) =>
-    http.put<AccountResType>(`${prefix}/${id}`, { isConfirmed }),
-  changePassword: (body: ChangePasswordBodyType) =>
-    http.post<AccountResType>(`${prefix}/update-password`, body),
+  confirmPartner: (id: number, isConfirmed: boolean) => http.put<AccountResType>(`${prefix}/${id}`, { isConfirmed }),
+  changePassword: (body: ChangePasswordBodyType) => http.post<AccountResType>(`${prefix}/update-password`, body)
 }
 export default accountApiRequest

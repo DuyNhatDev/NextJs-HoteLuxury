@@ -46,19 +46,13 @@ const CarouselContext = createContext<CarouselContextType | null>(null)
  * Carousel Docs: {@link: https://shadcn-extension.vercel.app/docs/carousel}
  */
 
-const Carousel = forwardRef<
-  HTMLDivElement,
-  CarouselContextProps & React.HTMLAttributes<HTMLDivElement>
->(
-  (
-    { carouselOptions, orientation = 'horizontal', dir, plugins, children, className, ...props },
-    ref
-  ) => {
+const Carousel = forwardRef<HTMLDivElement, CarouselContextProps & React.HTMLAttributes<HTMLDivElement>>(
+  ({ carouselOptions, orientation = 'horizontal', dir, plugins, children, className, ...props }, ref) => {
     const [emblaMainRef, emblaMainApi] = useEmblaCarousel(
       {
         ...carouselOptions,
         axis: orientation === 'vertical' ? 'y' : 'x',
-        direction: carouselOptions?.direction ?? (dir as DirectionOption),
+        direction: carouselOptions?.direction ?? (dir as DirectionOption)
       },
       plugins
     )
@@ -69,7 +63,7 @@ const Carousel = forwardRef<
         axis: orientation === 'vertical' ? 'y' : 'x',
         direction: carouselOptions?.direction ?? (dir as DirectionOption),
         containScroll: 'keepSnaps',
-        dragFree: true,
+        dragFree: true
       },
       plugins
     )
@@ -174,7 +168,7 @@ const Carousel = forwardRef<
           handleKeyDown,
           carouselOptions,
           direction,
-          orientation: orientation || (carouselOptions?.axis === 'y' ? 'vertical' : 'horizontal'),
+          orientation: orientation || (carouselOptions?.axis === 'y' ? 'vertical' : 'horizontal')
         }}
       >
         <div
@@ -199,11 +193,8 @@ const CarouselMainContainer = forwardRef<HTMLDivElement, {} & React.HTMLAttribut
     const { mainRef, orientation, direction } = useCarousel()
 
     return (
-      <div {...props} ref={mainRef} className="overflow-hidden" dir={direction}>
-        <div
-          ref={ref}
-          className={cn('flex', `${orientation === 'vertical' ? 'flex-col' : ''}`, className)}
-        >
+      <div {...props} ref={mainRef} className='overflow-hidden' dir={direction}>
+        <div ref={ref} className={cn('flex', `${orientation === 'vertical' ? 'flex-col' : ''}`, className)}>
           {children}
         </div>
       </div>
@@ -213,23 +204,19 @@ const CarouselMainContainer = forwardRef<HTMLDivElement, {} & React.HTMLAttribut
 
 CarouselMainContainer.displayName = 'CarouselMainContainer'
 
-const CarouselThumbsContainer = forwardRef<
-  HTMLDivElement,
-  {} & React.HTMLAttributes<HTMLDivElement>
->(({ className, dir, children, ...props }, ref) => {
-  const { thumbsRef, orientation, direction } = useCarousel()
+const CarouselThumbsContainer = forwardRef<HTMLDivElement, {} & React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, dir, children, ...props }, ref) => {
+    const { thumbsRef, orientation, direction } = useCarousel()
 
-  return (
-    <div {...props} ref={thumbsRef} className="overflow-hidden" dir={direction}>
-      <div
-        ref={ref}
-        className={cn('flex', `${orientation === 'vertical' ? 'flex-col' : ''}`, className)}
-      >
-        {children}
+    return (
+      <div {...props} ref={thumbsRef} className='overflow-hidden' dir={direction}>
+        <div ref={ref} className={cn('flex', `${orientation === 'vertical' ? 'flex-col' : ''}`, className)}>
+          {children}
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 CarouselThumbsContainer.displayName = 'CarouselThumbsContainer'
 
@@ -241,9 +228,7 @@ const SliderMainItem = forwardRef<HTMLDivElement, {} & React.HTMLAttributes<HTML
         {...props}
         ref={ref}
         className={cn(
-          `bg-background min-w-0 shrink-0 grow-0 basis-full p-1 ${
-            orientation === 'vertical' ? 'pb-1' : 'pr-1'
-          }`,
+          `bg-background min-w-0 shrink-0 grow-0 basis-full p-1 ${orientation === 'vertical' ? 'pb-1' : 'pr-1'}`,
           className
         )}
       >
@@ -276,9 +261,7 @@ const SliderThumbItem = forwardRef<
     >
       <div
         className={`relative aspect-square h-20 w-full cursor-pointer rounded-sm transition-transform duration-300 ${
-          isSlideActive
-            ? 'scale-110 border-4 border-blue-400'
-            : 'scale-100 border border-transparent'
+          isSlideActive ? 'scale-110 border-4 border-blue-400' : 'scale-100 border border-transparent'
         }`}
       >
         {children}
@@ -289,36 +272,34 @@ const SliderThumbItem = forwardRef<
 
 SliderThumbItem.displayName = 'SliderThumbItem'
 
-const CarouselIndicator = forwardRef<
-  HTMLButtonElement,
-  { index: number } & React.ComponentProps<typeof Button>
->(({ className, index, children, ...props }, ref) => {
-  const { activeIndex, onThumbClick } = useCarousel()
-  const isSlideActive = activeIndex === index
-  return (
-    <Button
-      ref={ref}
-      size="icon"
-      className={cn(
-        'h-1 w-6 rounded-full',
-        "data-[active='false']:bg-primary/50 data-[active='true']:bg-primary",
-        className
-      )}
-      data-active={isSlideActive}
-      onClick={() => onThumbClick(index)}
-      {...props}
-    >
-      <span className="sr-only">slide {index + 1} </span>
-    </Button>
-  )
-})
+const CarouselIndicator = forwardRef<HTMLButtonElement, { index: number } & React.ComponentProps<typeof Button>>(
+  ({ className, index, children, ...props }, ref) => {
+    const { activeIndex, onThumbClick } = useCarousel()
+    const isSlideActive = activeIndex === index
+    return (
+      <Button
+        ref={ref}
+        size='icon'
+        className={cn(
+          'h-1 w-6 rounded-full',
+          "data-[active='false']:bg-primary/50 data-[active='true']:bg-primary",
+          className
+        )}
+        data-active={isSlideActive}
+        onClick={() => onThumbClick(index)}
+        {...props}
+      >
+        <span className='sr-only'>slide {index + 1} </span>
+      </Button>
+    )
+  }
+)
 
 CarouselIndicator.displayName = 'CarouselIndicator'
 
 const CarouselPrevious = forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, dir, variant = 'outline', size = 'icon', ...props }, ref) => {
-    const { canScrollNext, canScrollPrev, scrollNext, scrollPrev, orientation, direction } =
-      useCarousel()
+    const { canScrollNext, canScrollPrev, scrollNext, scrollPrev, orientation, direction } = useCarousel()
 
     const scroll = direction === 'rtl' ? scrollNext : scrollPrev
     const canScroll = direction === 'rtl' ? canScrollNext : canScrollPrev
@@ -338,8 +319,8 @@ const CarouselPrevious = forwardRef<HTMLButtonElement, React.ComponentProps<type
         disabled={!canScroll}
         {...props}
       >
-        <ChevronLeftIcon className="!h-5 !w-5 text-blue-400" />
-        <span className="sr-only">Previous slide</span>
+        <ChevronLeftIcon className='!h-5 !w-5 text-blue-400' />
+        <span className='sr-only'>Previous slide</span>
       </Button>
     )
   }
@@ -348,8 +329,7 @@ CarouselPrevious.displayName = 'CarouselPrevious'
 
 const CarouselNext = forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, dir, variant = 'outline', size = 'icon', ...props }, ref) => {
-    const { canScrollNext, canScrollPrev, scrollNext, scrollPrev, orientation, direction } =
-      useCarousel()
+    const { canScrollNext, canScrollPrev, scrollNext, scrollPrev, orientation, direction } = useCarousel()
     const scroll = direction === 'rtl' ? scrollPrev : scrollNext
     const canScroll = direction === 'rtl' ? canScrollPrev : canScrollNext
     return (
@@ -368,8 +348,8 @@ const CarouselNext = forwardRef<HTMLButtonElement, React.ComponentProps<typeof B
         disabled={!canScroll}
         {...props}
       >
-        <ChevronRightIcon className="!h-5 !w-5 text-blue-400" />
-        <span className="sr-only">Next slide</span>
+        <ChevronRightIcon className='!h-5 !w-5 text-blue-400' />
+        <span className='sr-only'>Next slide</span>
       </Button>
     )
   }
@@ -386,5 +366,5 @@ export {
   CarouselIndicator,
   CarouselPrevious,
   CarouselNext,
-  useCarousel,
+  useCarousel
 }

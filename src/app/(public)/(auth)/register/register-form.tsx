@@ -4,14 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { RegisterBodySchema, RegisterBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
@@ -34,8 +27,8 @@ export default function RegisterForm() {
       fullname: '',
       email: '',
       password: '',
-      confirmPassword: '',
-    },
+      confirmPassword: ''
+    }
   })
   const onSubmit = async (data: RegisterBodyType) => {
     if (registerMutation.isPending) return
@@ -47,42 +40,36 @@ export default function RegisterForm() {
     } catch (error: any) {
       handleErrorApi({
         error,
-        setError: form.setError,
+        setError: form.setError
       })
     }
   }
   return (
     <>
-      <Card className="mx-auto max-w-sm min-w-96">
-        <CardHeader className="relative flex w-full items-center px-4">
-          <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} />
-          <CardTitle className="mx-auto text-2xl font-bold text-blue-900">Đăng Ký</CardTitle>
+      <Card className='mx-auto max-w-sm min-w-96'>
+        <CardHeader className='relative flex w-full items-center px-4'>
+          <ArrowLeft className='absolute left-5 cursor-pointer' onClick={() => router.back()} />
+          <CardTitle className='mx-auto text-2xl font-bold text-blue-900'>Đăng Ký</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form
-              className="w-full max-w-[600px] flex-shrink-0 space-y-2"
+              className='w-full max-w-[600px] flex-shrink-0 space-y-2'
               noValidate
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <div className="grid gap-4">
+              <div className='grid gap-4'>
                 <FormField
                   control={form.control}
-                  name="fullname"
+                  name='fullname'
                   render={({ field }) => (
                     <FormItem>
-                      <div className="grid gap-2">
-                        <FormLabel htmlFor="fullname">
-                          Họ và tên <span className="text-red-500">*</span>
+                      <div className='grid gap-2'>
+                        <FormLabel htmlFor='fullname'>
+                          Họ và tên <span className='text-red-500'>*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            id="fullname"
-                            placeholder="Ví dụ: Nguyen Van A"
-                            type="text"
-                            required
-                            {...field}
-                          />
+                          <Input id='fullname' placeholder='Ví dụ: Nguyen Van A' type='text' required {...field} />
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -91,21 +78,15 @@ export default function RegisterForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="email"
+                  name='email'
                   render={({ field }) => (
                     <FormItem>
-                      <div className="grid gap-2">
-                        <FormLabel htmlFor="email">
-                          Email <span className="text-red-500">*</span>
+                      <div className='grid gap-2'>
+                        <FormLabel htmlFor='email'>
+                          Email <span className='text-red-500'>*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            id="email"
-                            placeholder="Ví dụ: example@gmail.com"
-                            type="email"
-                            required
-                            {...field}
-                          />
+                          <Input id='email' placeholder='Ví dụ: example@gmail.com' type='email' required {...field} />
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -114,14 +95,14 @@ export default function RegisterForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="password"
+                  name='password'
                   render={({ field }) => (
                     <FormItem>
-                      <div className="relative grid gap-2">
-                        <FormLabel htmlFor="password">
-                          Mật khẩu <span className="text-red-500">*</span>
+                      <div className='relative grid gap-2'>
+                        <FormLabel htmlFor='password'>
+                          Mật khẩu <span className='text-red-500'>*</span>
                         </FormLabel>
-                        <PasswordInput id="password" required {...field} />
+                        <PasswordInput id='password' required {...field} />
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -129,30 +110,28 @@ export default function RegisterForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="confirmPassword"
+                  name='confirmPassword'
                   render={({ field }) => (
                     <FormItem>
-                      <div className="relative grid gap-2">
-                        <FormLabel htmlFor="confirmPassword">
-                          Nhập lại mật khẩu <span className="text-red-500">*</span>
+                      <div className='relative grid gap-2'>
+                        <FormLabel htmlFor='confirmPassword'>
+                          Nhập lại mật khẩu <span className='text-red-500'>*</span>
                         </FormLabel>
                         <FormControl>
-                          <PasswordInput id="confirmPassword" required {...field} />
+                          <PasswordInput id='confirmPassword' required {...field} />
                         </FormControl>
                         <FormMessage />
                       </div>
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="mt-2 w-full bg-orange-500 hover:bg-orange-600">
-                  {registerMutation.isPending && (
-                    <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-                  )}
+                <Button type='submit' className='mt-2 w-full bg-orange-500 hover:bg-orange-600'>
+                  {registerMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
                   Đăng ký
                 </Button>
-                <div className="flex items-center justify-center">
-                  <span className="px-2 text-sm text-gray-500">Bạn đã có tài khoản?</span>
-                  <Link href="/login" className="cursor-pointer text-sm text-blue-700 underline">
+                <div className='flex items-center justify-center'>
+                  <span className='px-2 text-sm text-gray-500'>Bạn đã có tài khoản?</span>
+                  <Link href='/login' className='cursor-pointer text-sm text-blue-700 underline'>
                     Đăng nhập
                   </Link>
                 </div>

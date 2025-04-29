@@ -11,37 +11,28 @@ import HolyLoader from 'holy-loader'
 
 const fontSans = FontSans({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-sans'
 })
 export const metadata: Metadata = {
   title: 'Đặt phòng khách sạn trực tuyến',
   description: 'The booking hotel app',
   icons: {
-    icon: '/favicon.ico',
-  },
+    icon: '/favicon.ico'
+  }
 }
 const clientId = envConfig.NEXT_PUBLIC_GG_CLIENT_ID
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='en' suppressHydrationWarning>
       <body className={cn('bg-background min-h-screen font-sans antialiased', fontSans.variable)}>
-        <HolyLoader
-          color="oklch(0.869 0.022 252.894)"
-          speed={250}
-          easing="linear"
-        />
+        <HolyLoader color='oklch(0.869 0.022 252.894)' speed={250} easing='linear' />
         <GoogleOAuthProvider clientId={clientId}>
           <AppProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
+            <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
               {children}
               <Toaster
                 richColors

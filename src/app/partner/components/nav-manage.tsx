@@ -10,13 +10,13 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  SidebarMenuSubItem
 } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export function NavManage({
-  items,
+  items
 }: {
   items: {
     title: string
@@ -34,7 +34,7 @@ export function NavManage({
     const subItemsWithActive =
       item.items?.map((subItem) => ({
         ...subItem,
-        isActive: pathname === subItem.url,
+        isActive: pathname === subItem.url
       })) ?? []
 
     const isActive = subItemsWithActive.some((subItem) => subItem.isActive)
@@ -42,22 +42,18 @@ export function NavManage({
     return {
       ...item,
       isActive,
-      items: subItemsWithActive,
+      items: subItemsWithActive
     }
   })
 
   return (
     <>
       <SidebarMenu>
-        <SidebarMenuItem key="dashboard" className="px-2">
+        <SidebarMenuItem key='dashboard' className='px-2'>
           <SidebarMenuButton asChild>
             <Link
-              href="/partner/dashboard"
-              className={
-                pathname === '/partner/dashboard'
-                  ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                  : ''
-              }
+              href='/partner/dashboard'
+              className={pathname === '/partner/dashboard' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
             >
               <LayoutDashboard />
               <span>Dashboard</span>
@@ -70,18 +66,13 @@ export function NavManage({
         <SidebarGroupLabel>Quản lý</SidebarGroupLabel>
         <SidebarMenu>
           {activeItems.map((item) => (
-            <Collapsible
-              key={item.title}
-              asChild
-              defaultOpen={item.isActive}
-              className="group/collapsible"
-            >
+            <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
@@ -91,11 +82,7 @@ export function NavManage({
                         <SidebarMenuSubButton asChild>
                           <Link
                             href={subItem.url}
-                            className={
-                              subItem.isActive
-                                ? 'bg-accent text-accent-foreground'
-                                : 'text-muted-foreground'
-                            }
+                            className={subItem.isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'}
                           >
                             <span>{subItem.title}</span>
                           </Link>

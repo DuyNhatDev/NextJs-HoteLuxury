@@ -7,5 +7,5 @@ interface PriceStoreType {
 
 export const usePriceStore = create<PriceStoreType>((set) => ({
   minPrice: 0,
-  setMinPrice: (value) => set({ minPrice: value }),
+  setMinPrice: (value) => set({ minPrice: value })
 }))

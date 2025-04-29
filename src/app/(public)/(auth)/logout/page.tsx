@@ -1,5 +1,5 @@
-import Logout from "@/app/(public)/(auth)/logout/logout";
-import { Suspense } from "react";
+import Logout from '@/app/(public)/(auth)/logout/logout'
+import { Suspense } from 'react'
 export default function LogoutPage() {
   return (
     <Suspense>

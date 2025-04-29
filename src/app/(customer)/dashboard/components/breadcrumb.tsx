@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
 import { getBreadcrumbPageFromPathName } from '@/lib/utils'
 import Link from 'next/link'
@@ -19,7 +19,7 @@ export default function BreadcrumbNav() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/" className="text-blue-600 hover:underline">
+            <Link href='/' className='text-blue-600 hover:underline'>
               Trang chủ
             </Link>
           </BreadcrumbLink>
@@ -27,16 +27,14 @@ export default function BreadcrumbNav() {
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/dashboard/profile" className="text-blue-600 hover:underline">
+            <Link href='/dashboard/profile' className='text-blue-600 hover:underline'>
               Tài khoản
             </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-gray-500">
-            {getBreadcrumbPageFromPathName(breadcrumbPage)}
-          </BreadcrumbPage>
+          <BreadcrumbPage className='text-gray-500'>{getBreadcrumbPageFromPathName(breadcrumbPage)}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

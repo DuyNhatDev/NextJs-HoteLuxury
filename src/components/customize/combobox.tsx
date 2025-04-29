@@ -1,16 +1,10 @@
 'use client'
+
 import { useEffect, useState } from 'react'
 import { Check, ChevronsUpDown, Undo2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 interface ComboboxProps {
@@ -30,7 +24,7 @@ export default function Combobox({
   onChange,
   disabled = false,
   className = '',
-  showReset = true,
+  showReset = true
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [selectedValue, setSelectedValue] = useState(value)
@@ -57,25 +51,25 @@ export default function Combobox({
     <Popover open={open} onOpenChange={(state) => !disabled && setOpen(state)}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
-          role="combobox"
+          variant='outline'
+          role='combobox'
           aria-expanded={open}
           className={cn('w-[200px] justify-between', className)}
           disabled={disabled}
         >
           {selectedValue ? items.find((item) => item.value === selectedValue)?.label : placeholder}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronsUpDown className='opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className={cn('w-[200px] p-0', className)}>
         <Command>
-          <CommandInput placeholder="Search..." className="h-9" disabled={disabled} />
+          <CommandInput placeholder='Search...' className='h-9' disabled={disabled} />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {showReset && (
                 <CommandItem onSelect={handleReset}>
-                  <Undo2 className="mr-2 h-4 w-4" /> Đặt lại lựa chọn
+                  <Undo2 className='mr-2 h-4 w-4' /> Đặt lại lựa chọn
                 </CommandItem>
               )}
               {items.map((item) => (
@@ -86,12 +80,7 @@ export default function Combobox({
                   className={cn(disabled && 'pointer-events-none opacity-50')}
                 >
                   {item.label}
-                  <Check
-                    className={cn(
-                      'ml-auto',
-                      selectedValue === item.value ? 'opacity-100' : 'opacity-0'
-                    )}
-                  />
+                  <Check className={cn('ml-auto', selectedValue === item.value ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>
               ))}
             </CommandGroup>

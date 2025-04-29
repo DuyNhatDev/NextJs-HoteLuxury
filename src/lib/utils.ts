@@ -12,7 +12,7 @@ import queryString from 'query-string'
 export const handleErrorApi = ({
   error,
   setError,
-  duration,
+  duration
 }: {
   error: any
   setError?: UseFormSetError<any>
@@ -22,18 +22,18 @@ export const handleErrorApi = ({
     error.payload.errors.forEach((item) => {
       setError(item.field, {
         type: 'server',
-        message: item.message,
+        message: item.message
       })
     })
   } else if (error instanceof HttpError) {
     toast.error('Lỗi', {
       description: error.payload.message || 'Có lỗi xảy ra khi gửi yêu cầu.',
-      duration: duration ?? 5000,
+      duration: duration ?? 5000
     })
   } else {
     toast.error('Lỗi', {
       description: error?.payload?.message ?? 'Lỗi không xác định',
-      duration: duration ?? 5000,
+      duration: duration ?? 5000
     })
   }
 }
@@ -81,10 +81,7 @@ export const removeTokensFromLocalStorage = () => {
 export const decodeToken = (token: string) => {
   return jwtDecode<TokenPayload>(token)
 }
-export const checkAndRefreshToken = async (param?: {
-  onError?: () => void
-  onSuccess?: () => void
-}) => {
+export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuccess?: () => void }) => {
   const accessToken = getAccessTokenFromLocalStorage()
   const refreshToken = getRefreshTokenFromLocalStorage()
   if (!accessToken || !refreshToken) return
@@ -109,7 +106,7 @@ export const checkAndRefreshToken = async (param?: {
 export const formatCurrency = (number: number) => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
-    currency: 'VND',
+    currency: 'VND'
   }).format(number)
 }
 
@@ -121,9 +118,7 @@ export function removeAccents(str: string) {
     .replace(/Đ/g, 'D')
 }
 export const simpleMatchText = (fullText: string, matchText: string) => {
-  return removeAccents(fullText.toLowerCase()).includes(
-    removeAccents(matchText.trim().toLowerCase())
-  )
+  return removeAccents(fullText.toLowerCase()).includes(removeAccents(matchText.trim().toLowerCase()))
 }
 export const formatDateTimeToLocaleString = (date: string | Date) => {
   return format(date instanceof Date ? date : new Date(date), 'HH:mm:ss dd/MM/yyyy')
@@ -192,7 +187,7 @@ export type ParamsObject = Record<string, string | string[] | undefined>
 export const updateURLParams = ({
   currentParams,
   router,
-  values,
+  values
 }: {
   currentParams: URLSearchParams
   router: { push: (url: string) => void }
@@ -225,7 +220,7 @@ export const getOriginalHotelTypeValueFromSlug = (slug: string): string => {
     'khu-nghi-duong': 'Khu nghỉ dưỡng',
     'biet-thu': 'Biệt thự',
     'can-ho': 'Căn hộ',
-    'nha-nghi': 'Nhà nghỉ',
+    'nha-nghi': 'Nhà nghỉ'
   }
   return slugMap[slug] || slug
 }
@@ -260,7 +255,7 @@ export const buildQueryParams = (params: Record<string, any>) => {
   return queryString.stringify(formattedParams, {
     skipNull: true,
     skipEmptyString: true,
-    arrayFormat: 'none',
+    arrayFormat: 'none'
   })
 }
 
@@ -273,7 +268,7 @@ export const getBreadcrumbPageFromPathName = (pathName: string): string => {
   const pathNameMap: Record<string, string> = {
     profile: 'Hồ sơ của tôi',
     trips: 'Đơn của tôi',
-    voucher: 'Voucher của tôi',
+    voucher: 'Voucher của tôi'
   }
   return pathNameMap[pathName] || pathName
 }

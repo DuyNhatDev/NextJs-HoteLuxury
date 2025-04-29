@@ -7,7 +7,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
 import { useDeleteDestinationMutation } from '@/queries/useDestination'
@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 
 export default function AlertDialogDeleteDestination({
   destinationDelete,
-  setDestinationDelete,
+  setDestinationDelete
 }: {
   destinationDelete: DestinationItem | null
   setDestinationDelete: (value: DestinationItem | null) => void
@@ -29,7 +29,7 @@ export default function AlertDialogDeleteDestination({
         toast.success('Xóa thành công')
       } catch (error) {
         handleErrorApi({
-          error,
+          error
         })
       }
     }
@@ -48,12 +48,12 @@ export default function AlertDialogDeleteDestination({
           <AlertDialogTitle>Xóa địa điểm?</AlertDialogTitle>
           <AlertDialogDescription>
             Bạn có chắc muốn địa điểm
-            <span className="rounded px-1 font-bold">{destinationDelete?.locationName}</span>?
+            <span className='rounded px-1 font-bold'>{destinationDelete?.locationName}</span>?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-600" onClick={deleteDestination}>
+          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deleteDestination}>
             Xóa
           </AlertDialogAction>
         </AlertDialogFooter>

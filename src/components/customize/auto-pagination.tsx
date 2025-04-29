@@ -6,15 +6,15 @@ import {
   PaginationItem,
   PaginationLink,
   PaginationNext,
-  PaginationPrevious,
+  PaginationPrevious
 } from '@/components/ui/pagination'
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Props {
   page: number
-  pageSize: number // tổng số trang
-  totalItems?: number // Tổng số item, nếu muốn check không có item
+  pageSize: number
+  totalItems?: number
   pathname?: string
   isLink?: boolean
   onClick?: (pageNumber: number) => void
@@ -28,7 +28,7 @@ export default function AutoPagination({
   totalItems = 1,
   pathname = '/',
   isLink = true,
-  onClick = (pageNumber) => {},
+  onClick = (pageNumber) => {}
 }: Props) {
   const isPrevDisabled = page <= 1 || totalItems === 0
   const isNextDisabled = page >= pageSize || totalItems === 0
@@ -67,11 +67,7 @@ export default function AutoPagination({
         const pageNumber = index + 1
 
         // Điều kiện render ...
-        if (
-          page <= RANGE * 2 + 1 &&
-          pageNumber > page + RANGE &&
-          pageNumber < pageSize - RANGE + 1
-        ) {
+        if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
           return renderDotAfter()
         } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
           if (pageNumber < page - RANGE && pageNumber > RANGE) {
@@ -79,11 +75,7 @@ export default function AutoPagination({
           } else if (pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
             return renderDotAfter()
           }
-        } else if (
-          page >= pageSize - RANGE * 2 &&
-          pageNumber > RANGE &&
-          pageNumber < page - RANGE
-        ) {
+        } else if (page >= pageSize - RANGE * 2 && pageNumber > RANGE && pageNumber < page - RANGE) {
           return renderDotBefore()
         }
 
@@ -93,7 +85,7 @@ export default function AutoPagination({
               <PaginationLink
                 href={{
                   pathname,
-                  query: { page: pageNumber },
+                  query: { page: pageNumber }
                 }}
                 isActive={pageNumber === page}
               >
@@ -103,7 +95,7 @@ export default function AutoPagination({
               <Button
                 onClick={() => onClick(pageNumber)}
                 variant={pageNumber === page ? 'outline' : 'ghost'}
-                className="h-9 w-9 p-0"
+                className='h-9 w-9 p-0'
               >
                 {pageNumber}
               </Button>
@@ -122,7 +114,7 @@ export default function AutoPagination({
               disabled={isPrevDisabled}
               href={{
                 pathname,
-                query: { page: page - 1 },
+                query: { page: page - 1 }
               }}
               className={cn({ 'cursor-not-allowed opacity-50': isPrevDisabled })}
               onClick={(e) => {
@@ -132,11 +124,11 @@ export default function AutoPagination({
           ) : (
             <Button
               disabled={isPrevDisabled}
-              className="h-9 p-0 px-2"
-              variant="ghost"
+              className='h-9 p-0 px-2'
+              variant='ghost'
               onClick={() => onClick(page - 1)}
             >
-              <ChevronLeft className="h-5 w-5" /> Previous
+              <ChevronLeft className='h-5 w-5' /> Previous
             </Button>
           )}
         </PaginationItem>
@@ -149,7 +141,7 @@ export default function AutoPagination({
               disabled={isNextDisabled}
               href={{
                 pathname,
-                query: { page: page + 1 },
+                query: { page: page + 1 }
               }}
               className={cn({ 'cursor-not-allowed opacity-50': isNextDisabled })}
               onClick={(e) => {
@@ -159,11 +151,11 @@ export default function AutoPagination({
           ) : (
             <Button
               disabled={isNextDisabled}
-              className="h-9 p-0 px-2"
-              variant="ghost"
+              className='h-9 p-0 px-2'
+              variant='ghost'
               onClick={() => onClick(page + 1)}
             >
-              Next <ChevronRight className="h-5 w-5" />
+              Next <ChevronRight className='h-5 w-5' />
             </Button>
           )}
         </PaginationItem>

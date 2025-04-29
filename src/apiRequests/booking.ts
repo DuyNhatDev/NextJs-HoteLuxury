@@ -6,6 +6,6 @@ const bookingApiRequest = {
   createBooking: (body: BookingType) => {
     const formData = objectToFormData(body)
     return http.post<BookingResType>(`${prefix}`, formData)
-  },
+  }
 }
 export default bookingApiRequest

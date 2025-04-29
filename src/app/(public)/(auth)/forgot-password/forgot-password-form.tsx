@@ -1,14 +1,7 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -29,8 +22,8 @@ export default function ForgetPasswordForm() {
   const form = useForm<ForgotPasswordBodyType>({
     resolver: zodResolver(ForgotPasswordBodySchema),
     defaultValues: {
-      email: '',
-    },
+      email: ''
+    }
   })
   const onSubmit = async (data: ForgotPasswordBodyType) => {
     if (forgotPasswordMutation.isPending) return
@@ -42,52 +35,42 @@ export default function ForgetPasswordForm() {
     } catch (error: any) {
       handleErrorApi({
         error,
-        setError: form.setError,
+        setError: form.setError
       })
     }
   }
   return (
-    <div className="flex h-full min-h-[40vh] w-full items-center justify-center px-4">
-      <Card className="mx-auto max-w-sm">
-        <CardHeader className="relative flex w-full items-center px-4">
+    <div className='flex h-full min-h-[40vh] w-full items-center justify-center px-4'>
+      <Card className='mx-auto max-w-sm'>
+        <CardHeader className='relative flex w-full items-center px-4'>
           <ArrowLeft
-            className="absolute left-5 cursor-pointer"
+            className='absolute left-5 cursor-pointer'
             onClick={() => {
               router.back()
             }}
           />
-          <CardTitle className="mx-auto text-center text-2xl font-bold text-blue-900">
-            Quên mật khẩu
-          </CardTitle>
+          <CardTitle className='mx-auto text-center text-2xl font-bold text-blue-900'>Quên mật khẩu</CardTitle>
           <CardDescription>Nhập email của bạn để gửi yêu cầu đặt lại mật khẩu.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" noValidate>
-              <div className="grid gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8' noValidate>
+              <div className='grid gap-4'>
                 <FormField
                   control={form.control}
-                  name="email"
+                  name='email'
                   render={({ field }) => (
-                    <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormItem className='grid gap-2'>
+                      <FormLabel htmlFor='email'>Email</FormLabel>
                       <FormControl>
-                        <Input
-                          id="email"
-                          placeholder="example@gmail.com"
-                          type="email"
-                          {...field}
-                          required
-                        />
+                        <Input id='email' placeholder='example@gmail.com' type='email' {...field} required />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
-                  {forgotPasswordMutation.isPending && (
-                    <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-                  )}
+                <Button type='submit' className='w-full bg-blue-500 hover:bg-blue-600'>
+                  {forgotPasswordMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
                   Gửi yêu cầu
                 </Button>
               </div>

@@ -1,13 +1,7 @@
 'use client'
 
 import React from 'react'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 interface Option {
   label: string
@@ -29,7 +23,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   onChange,
   placeholder = 'Select an option',
   className,
-  disabled = false,
+  disabled = false
 }) => {
   const handleChange = (val: string) => {
     const selectedOption = options.find((option) => String(option.value) === val)
@@ -37,11 +31,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   }
 
   return (
-    <Select
-      value={value !== undefined ? String(value) : undefined}
-      onValueChange={handleChange}
-      disabled={disabled}
-    >
+    <Select value={value !== undefined ? String(value) : undefined} onValueChange={handleChange} disabled={disabled}>
       <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

@@ -11,7 +11,7 @@ export const RoomTypeSchema = z.object({
   adultQuantity: z.number(),
   childQuantity: z.number(),
   roomTypeImage: z.string(),
-  roomTypeImages: z.array(z.string()),
+  roomTypeImages: z.array(z.string())
 })
 
 export type RoomTypeType = z.infer<typeof RoomTypeSchema>
@@ -19,7 +19,7 @@ export type RoomTypeType = z.infer<typeof RoomTypeSchema>
 export const RoomTypeResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: RoomTypeSchema,
+  data: RoomTypeSchema
 })
 
 export type RoomTypeResType = z.infer<typeof RoomTypeResSchema>
@@ -27,7 +27,7 @@ export type RoomTypeResType = z.infer<typeof RoomTypeResSchema>
 export const RoomTypeListResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: z.array(RoomTypeSchema),
+  data: z.array(RoomTypeSchema)
 })
 
 export type RoomTypeListResType = z.infer<typeof RoomTypeListResSchema>
@@ -36,7 +36,7 @@ export const FilterRoomTypeListResSchema = z.object({
   status: z.string(),
   message: z.string(),
   data: z.array(RoomTypeSchema),
-  minPrice: z.number(),
+  minPrice: z.number()
 })
 
 export type FilterRoomTypeListResType = z.infer<typeof FilterRoomTypeListResSchema>
@@ -50,7 +50,7 @@ export const CreateRoomTypeBodySchema = z.object({
   roomTypeQuantity: z.number({ message: 'Vui lòng nhập số lượng phòng' }),
   roomTypeDescription: z.string().optional(),
   roomTypeImage: z.union([z.string(), z.instanceof(File)]),
-  roomTypeImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
+  roomTypeImages: z.array(z.union([z.string(), z.instanceof(File)]).optional())
 })
 
 export type CreateRoomTypeBodyType = z.infer<typeof CreateRoomTypeBodySchema>
@@ -63,7 +63,7 @@ export const UpdateRoomTypeBodySchema = z.object({
   roomTypeQuantity: z.number({ message: 'Vui lòng nhập số lượng phòng' }),
   roomTypeDescription: z.string().optional(),
   roomTypeImage: z.union([z.string(), z.instanceof(File)]),
-  roomTypeImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
+  roomTypeImages: z.array(z.union([z.string(), z.instanceof(File)]).optional())
 })
 
 export type UpdateRoomTypeBodyType = z.infer<typeof UpdateRoomTypeBodySchema>
@@ -74,7 +74,7 @@ export const FilterRoomTypeParamsSchema = z.object({
   dayEnd: z.date(),
   adultQuantity: z.number(),
   childQuantity: z.number(),
-  currentRooms: z.number(),
+  currentRooms: z.number()
 })
 
 export type FilterRoomTypeParamsType = z.infer<typeof FilterRoomTypeParamsSchema>

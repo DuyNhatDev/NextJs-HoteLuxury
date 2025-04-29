@@ -6,12 +6,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  useSidebar
 } from '@/components/ui/sidebar'
 import Link from 'next/link'
 
 export function NavProjects({
-  projects,
+  projects
 }: {
   projects: {
     name: string
@@ -19,9 +19,8 @@ export function NavProjects({
     icon: LucideIcon
   }[]
 }) {
-
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (

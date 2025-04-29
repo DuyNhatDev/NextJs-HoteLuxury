@@ -2,14 +2,7 @@
 import { FilterParamsSchema, FilterParamsType } from '@/schemaValidations/filter.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
@@ -36,8 +29,8 @@ export default function FilterForm() {
       currentRooms: filter.currentRooms,
       hotelStar: [],
       hotelType: [],
-      minPrice: '',
-    },
+      minPrice: ''
+    }
   })
 
   const { control, watch, reset } = form
@@ -58,26 +51,22 @@ export default function FilterForm() {
       currentRooms: filter.currentRooms,
       hotelStar,
       hotelType: originHotelType,
-      minPrice,
+      minPrice
     })
   }, [filter, reset, searchParams])
 
   useEffect(() => {
     const subscription = watch((formValues) => {
-      const cleanedHotelStar = (formValues.hotelStar ?? []).filter(
-        (s): s is string => typeof s === 'string'
-      )
-      const cleanedHotelType = (formValues.hotelType ?? []).filter(
-        (s): s is string => typeof s === 'string'
-      )
+      const cleanedHotelStar = (formValues.hotelStar ?? []).filter((s): s is string => typeof s === 'string')
+      const cleanedHotelType = (formValues.hotelType ?? []).filter((s): s is string => typeof s === 'string')
       updateURLParams({
         currentParams: searchParams,
         router,
         values: {
           hotelStar: cleanedHotelStar,
           hotelType: cleanedHotelType,
-          minPrice: formValues.minPrice ?? '',
-        },
+          minPrice: formValues.minPrice ?? ''
+        }
       })
     })
 
@@ -85,29 +74,27 @@ export default function FilterForm() {
   }, [watch, router, searchParams])
 
   return (
-    <div className="flex flex-col">
-      <div className="mx-auto mb-3 h-full w-full sm:max-w-xl md:max-w-6xl">
-        <div className="text-xl font-bold text-blue-900 py-2">
-          Khách sạn {filter.filter}
-        </div>
+    <div className='flex flex-col'>
+      <div className='mx-auto mb-3 h-full w-full sm:max-w-xl md:max-w-6xl'>
+        <div className='py-2 text-xl font-bold text-blue-900'>Khách sạn {filter.filter}</div>
       </div>
-      <div className="grid grid-cols-4 items-start gap-4">
-        <div className="col-span-1 rounded border p-4">
+      <div className='grid grid-cols-4 items-start gap-4'>
+        <div className='col-span-1 rounded border p-4'>
           <Form {...form}>
-            <form className="flex w-full flex-col gap-3" noValidate>
-              <div className="relative w-full">
+            <form className='flex w-full flex-col gap-3' noValidate>
+              <div className='relative w-full'>
                 <FormField
                   control={control}
-                  name="hotelName"
+                  name='hotelName'
                   render={({ field }) => (
-                    <FormItem className="relative">
+                    <FormItem className='relative'>
                       <FormControl>
-                        <div className="relative w-full">
+                        <div className='relative w-full'>
                           <Input
-                            id="hotelName"
-                            placeholder="Nhập tên khách sạn"
-                            className="bg-background h-11 rounded-sm"
-                            autoComplete="off"
+                            id='hotelName'
+                            placeholder='Nhập tên khách sạn'
+                            className='bg-background h-11 rounded-sm'
+                            autoComplete='off'
                             {...field}
                           />
                         </div>
@@ -116,34 +103,32 @@ export default function FilterForm() {
                   )}
                 />
 
-                <div className="my-3 border-t border-gray-200"></div>
+                <div className='my-3 border-t border-gray-200'></div>
 
                 <FormField
                   control={control}
-                  name="hotelStar"
+                  name='hotelStar'
                   render={() => (
                     <FormItem>
-                      <FormLabel className="text-base">Hạng sao</FormLabel>
+                      <FormLabel className='text-base'>Hạng sao</FormLabel>
                       {starItems.map((item) => (
                         <FormField
                           key={item.value}
                           control={form.control}
-                          name="hotelStar"
+                          name='hotelStar'
                           render={({ field }) => (
-                            <FormItem className="flex flex-row items-center space-x-3">
+                            <FormItem className='flex flex-row items-center space-x-3'>
                               <FormControl>
                                 <Checkbox
                                   checked={(field.value ?? []).includes(item.value)}
                                   onCheckedChange={(checked) =>
                                     checked
                                       ? field.onChange([...(field.value ?? []), item.value])
-                                      : field.onChange(
-                                          (field.value ?? []).filter((v) => v !== item.value)
-                                        )
+                                      : field.onChange((field.value ?? []).filter((v) => v !== item.value))
                                   }
                                 />
                               </FormControl>
-                              <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
+                              <FormLabel className='text-sm font-normal'>{item.label}</FormLabel>
                             </FormItem>
                           )}
                         />
@@ -153,34 +138,32 @@ export default function FilterForm() {
                   )}
                 />
 
-                <div className="my-3 border-t border-gray-200"></div>
+                <div className='my-3 border-t border-gray-200'></div>
 
                 <FormField
                   control={control}
-                  name="hotelType"
+                  name='hotelType'
                   render={() => (
                     <FormItem>
-                      <FormLabel className="text-base">Loại hình</FormLabel>
+                      <FormLabel className='text-base'>Loại hình</FormLabel>
                       {hotelTypeItems.map((item) => (
                         <FormField
                           key={item.value}
                           control={form.control}
-                          name="hotelType"
+                          name='hotelType'
                           render={({ field }) => (
-                            <FormItem className="flex flex-row items-center space-x-3">
+                            <FormItem className='flex flex-row items-center space-x-3'>
                               <FormControl>
                                 <Checkbox
                                   checked={(field.value ?? []).includes(item.value)}
                                   onCheckedChange={(checked) =>
                                     checked
                                       ? field.onChange([...(field.value ?? []), item.value])
-                                      : field.onChange(
-                                          (field.value ?? []).filter((v) => v !== item.value)
-                                        )
+                                      : field.onChange((field.value ?? []).filter((v) => v !== item.value))
                                   }
                                 />
                               </FormControl>
-                              <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
+                              <FormLabel className='text-sm font-normal'>{item.label}</FormLabel>
                             </FormItem>
                           )}
                         />
@@ -190,29 +173,26 @@ export default function FilterForm() {
                   )}
                 />
 
-                <div className="my-3 border-t border-gray-200"></div>
+                <div className='my-3 border-t border-gray-200'></div>
 
                 <FormField
                   control={control}
-                  name="minPrice"
+                  name='minPrice'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base">Giá</FormLabel>
+                      <FormLabel className='text-base'>Giá</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           value={field.value}
-                          className="flex flex-col space-y-1"
+                          className='flex flex-col space-y-1'
                         >
                           {rangePriceItems.map((item) => (
-                            <FormItem
-                              key={item.value}
-                              className="flex flex-row items-center space-x-3"
-                            >
+                            <FormItem key={item.value} className='flex flex-row items-center space-x-3'>
                               <FormControl>
                                 <RadioGroupItem value={item.value} />
                               </FormControl>
-                              <FormLabel className="font-normal">{item.label}</FormLabel>
+                              <FormLabel className='font-normal'>{item.label}</FormLabel>
                             </FormItem>
                           ))}
                         </RadioGroup>
@@ -226,7 +206,7 @@ export default function FilterForm() {
           </Form>
         </div>
 
-        <div className="col-span-3 rounded">
+        <div className='col-span-3 rounded'>
           <ListFilterHotel filterParams={watchedValues} />
         </div>
       </div>

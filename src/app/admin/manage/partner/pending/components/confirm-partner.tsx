@@ -7,15 +7,15 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useConfirmPartnerMutation, useRejectPartnerMutation } from '@/queries/useAccount'
+import { useConfirmPartnerMutation } from '@/queries/useAccount'
 import { toast } from 'sonner'
 
 export default function AlertDialogConfirmPartner({
   partnerConfirm,
-  setPartnerConfirm,
+  setPartnerConfirm
 }: {
   partnerConfirm: PartnerPendingItem | null
   setPartnerConfirm: (value: PartnerPendingItem | null) => void
@@ -29,7 +29,7 @@ export default function AlertDialogConfirmPartner({
         toast.success('Duyệt thành công')
       } catch (error) {
         handleErrorApi({
-          error,
+          error
         })
       }
     }
@@ -48,12 +48,12 @@ export default function AlertDialogConfirmPartner({
           <AlertDialogTitle>Duyệt tài khoản?</AlertDialogTitle>
           <AlertDialogDescription>
             Tài khoản
-            <span className="rounded px-1 font-bold">{partnerConfirm?.fullname}</span>sẽ được duyệt
+            <span className='rounded px-1 font-bold'>{partnerConfirm?.fullname}</span>sẽ được duyệt
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className="bg-green-500 hover:bg-green-600" onClick={confirmPartner}>
+          <AlertDialogAction className='bg-green-500 hover:bg-green-600' onClick={confirmPartner}>
             Duyệt
           </AlertDialogAction>
         </AlertDialogFooter>

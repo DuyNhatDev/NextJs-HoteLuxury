@@ -27,14 +27,14 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange, title 
   }
 
   return (
-    <Card className="max-h-96 overflow-hidden p-4 shadow-md gap-2">
-      <CardTitle className="text-lg">{title || ''}</CardTitle>
-      <CardContent className="h-full p-0">
-        <div className="h-72 overflow-y-auto">
+    <Card className='max-h-96 gap-2 overflow-hidden p-4 shadow-md'>
+      <CardTitle className='text-lg'>{title || ''}</CardTitle>
+      <CardContent className='h-full p-0'>
+        <div className='h-72 overflow-y-auto'>
           <ReactQuill
             value={editorContent}
             onChange={handleEditorChange}
-            className="h-52"
+            className='h-52'
             modules={{
               toolbar: {
                 container: [
@@ -44,10 +44,10 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange, title 
                   [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
                   ['link', 'image', 'video'],
                   ['code-block'],
-                  ['clean'],
-                ],
+                  ['clean']
+                ]
               },
-              clipboard: { matchVisual: false },
+              clipboard: { matchVisual: false }
             }}
             formats={[
               'header',
@@ -63,7 +63,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange, title 
               'link',
               'image',
               'video',
-              'code-block',
+              'code-block'
             ]}
           />
         </div>

@@ -4,7 +4,7 @@ import {
   CreateHotelBodyType,
   HotelListResType,
   HotelResType,
-  UpdateHotelBodyType,
+  UpdateHotelBodyType
 } from '@/schemaValidations/hotel.schema'
 const prefix = '/hotel'
 const hotelApiRequest = {
@@ -18,6 +18,6 @@ const hotelApiRequest = {
     const formData = objectToFormData(body)
     return http.put<HotelResType>(`${prefix}/${id}`, formData)
   },
-  deleteHotel: (id: number) => http.delete(`${prefix}/${id}`),
+  deleteHotel: (id: number) => http.delete(`${prefix}/${id}`)
 }
 export default hotelApiRequest

@@ -12,7 +12,7 @@ export default function FullscreenControl() {
   useEffect(() => {
     L.control
       .fullscreen({
-        position: 'topleft',
+        position: 'topleft'
       })
       .addTo(map)
   }, [map])

@@ -7,7 +7,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
 import { useRejectPartnerMutation } from '@/queries/useAccount'
@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 
 export default function AlertDialogRejectPartner({
   partnerReject,
-  setPartnerReject,
+  setPartnerReject
 }: {
   partnerReject: PartnerPendingItem | null
   setPartnerReject: (value: PartnerPendingItem | null) => void
@@ -29,7 +29,7 @@ export default function AlertDialogRejectPartner({
         toast.success('Từ chối thành công')
       } catch (error) {
         handleErrorApi({
-          error,
+          error
         })
       }
     }
@@ -47,13 +47,13 @@ export default function AlertDialogRejectPartner({
         <AlertDialogHeader>
           <AlertDialogTitle>Từ chối tài khoản?</AlertDialogTitle>
           <AlertDialogDescription>
-            Tài khoản<span className="rounded px-1 font-bold">{partnerReject?.fullname}</span>
+            Tài khoản<span className='rounded px-1 font-bold'>{partnerReject?.fullname}</span>
             sẽ bị từ chối
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-600" onClick={rejectPartner}>
+          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={rejectPartner}>
             Từ chối
           </AlertDialogAction>
         </AlertDialogFooter>

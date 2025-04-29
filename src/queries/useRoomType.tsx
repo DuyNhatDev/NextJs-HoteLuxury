@@ -6,14 +6,14 @@ export const useGetRoomType = (id?: string, enabled: boolean = false) => {
   return useQuery({
     queryKey: ['room-type', id],
     queryFn: () => roomTypeApiRequest.getRoomType(id!),
-    enabled: !!id && enabled,
+    enabled: !!id && enabled
   })
 }
 
 export const useGetRoomTypeList = () => {
   return useQuery({
     queryKey: ['room-types'],
-    queryFn: roomTypeApiRequest.getRoomTypeList,
+    queryFn: roomTypeApiRequest.getRoomTypeList
   })
 }
 
@@ -23,9 +23,9 @@ export const useAddRoomTypeMutation = () => {
     mutationFn: roomTypeApiRequest.addRoomType,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['room-types'],
+        queryKey: ['room-types']
       })
-    },
+    }
   })
 }
 
@@ -36,9 +36,9 @@ export const useUpdateRoomTypeMutation = () => {
       roomTypeApiRequest.updateRoomType(id, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['room-types'],
+        queryKey: ['room-types']
       })
-    },
+    }
   })
 }
 
@@ -48,15 +48,15 @@ export const useDeleteRoomTypeMutation = () => {
     mutationFn: roomTypeApiRequest.deleteRoomType,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['room-types'],
+        queryKey: ['room-types']
       })
-    },
+    }
   })
 }
 
 export const useGetFilterRoomTypeList = (queryParams: FilterRoomTypeParamsType) => {
   return useQuery({
     queryFn: () => roomTypeApiRequest.getFilterRoomTypeList(queryParams),
-    queryKey: ['filter-room-types', queryParams],
+    queryKey: ['filter-room-types', queryParams]
   })
 }

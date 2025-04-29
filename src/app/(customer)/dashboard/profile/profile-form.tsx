@@ -21,13 +21,12 @@ import { format as formatDate } from 'date-fns'
 import CustomSelect from '@/components/customize/select'
 
 export default function ProfileForm() {
-  const updateProfileMutation = useUpdateProfileMutation()
-  const [editingField, setEditingField] = useState<keyof UpdateProfileBodyType | null>(null)
   const userId = getUserIdFromLocalStorage()
   const { data } = useGetAccount(userId ?? undefined, Boolean(userId))
+  const updateProfileMutation = useUpdateProfileMutation()
+  const [editingField, setEditingField] = useState<keyof UpdateProfileBodyType | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [initialData, setInitialData] = useState<UpdateProfileBodyType>({})
-
   const avatarInputRef = useRef<HTMLInputElement | null>(null)
   const form = useForm<UpdateProfileBodyType>({
     resolver: zodResolver(UpdateProfileBodySchema),

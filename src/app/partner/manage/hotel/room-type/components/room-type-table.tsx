@@ -10,18 +10,11 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
+  useReactTable
 } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -48,7 +41,7 @@ const RoomTypeTableContext = createContext<{
   roomTypeIdEdit: undefined,
   setRoomTypeIdEdit: (value: number | undefined) => {},
   roomTypeDelete: null,
-  setRoomTypeDelete: (value: RoomTypeItem | null) => {},
+  setRoomTypeDelete: (value: RoomTypeItem | null) => {}
 })
 
 export const columns: ColumnDef<RoomTypeType>[] = [
@@ -57,30 +50,25 @@ export const columns: ColumnDef<RoomTypeType>[] = [
     header: 'Ảnh',
     cell: ({ row }) => (
       <div>
-        <Avatar className="aspect-square h-[50px] w-[50px] rounded-md object-cover">
+        <Avatar className='aspect-square h-[50px] w-[50px] rounded-md object-cover'>
           <AvatarImage src={row.getValue('roomTypeImage')} />
-          <AvatarFallback className="rounded-none">
-            {getLastTwoInitials(row.original.roomTypeName)}
-          </AvatarFallback>
+          <AvatarFallback className='rounded-none'>{getLastTwoInitials(row.original.roomTypeName)}</AvatarFallback>
         </Avatar>
       </div>
-    ),
+    )
   },
   {
     accessorKey: 'roomTypeName',
     header: 'Tên',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('roomTypeName')}</div>,
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('roomTypeName')}</div>
   },
   {
     accessorKey: 'roomTypePrice',
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
+        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           Giá
-          <CaretSortIcon className="ml-2 h-4 w-4" />
+          <CaretSortIcon className='ml-2 h-4 w-4' />
         </Button>
       )
     },
@@ -89,13 +77,13 @@ export const columns: ColumnDef<RoomTypeType>[] = [
       const a = rowA.getValue<number>(columnId) ?? 0
       const b = rowB.getValue<number>(columnId) ?? 0
       return a - b
-    },
+    }
   },
   {
     accessorKey: 'roomTypeQuantity',
     header: 'Số lượng',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('roomTypeQuantity') || '-'}</div>,
-    accessorFn: (row) => row.roomTypeQuantity || '',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('roomTypeQuantity') || '-'}</div>,
+    accessorFn: (row) => row.roomTypeQuantity || ''
   },
   {
     id: 'actions',
@@ -111,23 +99,17 @@ export const columns: ColumnDef<RoomTypeType>[] = [
         setRoomTypeDelete(row.original)
       }
       return (
-        <div className="flex gap-3">
-          <CustomTooltip content="Sửa">
-            <PenLine
-              className="h-5 w-5 text-blue-600 hover:cursor-pointer"
-              onClick={openEditRoomType}
-            />
+        <div className='flex gap-3'>
+          <CustomTooltip content='Sửa'>
+            <PenLine className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openEditRoomType} />
           </CustomTooltip>
-          <CustomTooltip content="Xóa">
-            <Trash2
-              className="h-5 w-5 text-red-600 hover:cursor-pointer"
-              onClick={openDeletePartner}
-            />
+          <CustomTooltip content='Xóa'>
+            <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openDeletePartner} />
           </CustomTooltip>
         </div>
       )
-    },
-  },
+    }
+  }
 ]
 
 const PAGE_SIZE = 5
@@ -148,7 +130,7 @@ export default function RoomTypeTable() {
   const [rowSelection, setRowSelection] = useState({})
   const [pagination, setPagination] = useState({
     pageIndex,
-    pageSize: PAGE_SIZE,
+    pageSize: PAGE_SIZE
   })
 
   const table = useReactTable({
@@ -169,14 +151,14 @@ export default function RoomTypeTable() {
       columnFilters,
       columnVisibility,
       rowSelection,
-      pagination,
-    },
+      pagination
+    }
   })
 
   useEffect(() => {
     table.setPagination({
       pageIndex,
-      pageSize: PAGE_SIZE,
+      pageSize: PAGE_SIZE
     })
   }, [table, pageIndex])
 
@@ -186,37 +168,28 @@ export default function RoomTypeTable() {
   }, [myHotel])
 
   return (
-    <RoomTypeTableContext.Provider
-      value={{ roomTypeIdEdit, setRoomTypeIdEdit, roomTypeDelete, setRoomTypeDelete }}
-    >
-      <div className="w-full">
+    <RoomTypeTableContext.Provider value={{ roomTypeIdEdit, setRoomTypeIdEdit, roomTypeDelete, setRoomTypeDelete }}>
+      <div className='w-full'>
         <EditRoomType id={roomTypeIdEdit} setId={setRoomTypeIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeleteRoomType
-          roomTypeDelete={roomTypeDelete}
-          setRoomTypeDelete={setRoomTypeDelete}
-        />
-        <div className="flex items-center gap-2 py-4">
+        <AlertDialogDeleteRoomType roomTypeDelete={roomTypeDelete} setRoomTypeDelete={setRoomTypeDelete} />
+        <div className='flex items-center gap-2 py-4'>
           <Input
-            placeholder="Lọc theo tên"
+            placeholder='Lọc theo tên'
             value={(table.getColumn('roomTypeName')?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn('roomTypeName')?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm flex-1"
+            onChange={(event) => table.getColumn('roomTypeName')?.setFilterValue(event.target.value)}
+            className='max-w-sm flex-1'
           />
           <Input
-            placeholder="Lọc theo giá"
+            placeholder='Lọc theo giá'
             value={(table.getColumn('roomTypePrice')?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn('roomTypePrice')?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm flex-1"
+            onChange={(event) => table.getColumn('roomTypePrice')?.setFilterValue(event.target.value)}
+            className='max-w-sm flex-1'
           />
-          <div className="ml-auto flex items-center gap-2">
+          <div className='ml-auto flex items-center gap-2'>
             <AddRoomType hotelId={hotelId!} />
           </div>
         </div>
-        <div className="rounded-md border">
+        <div className='rounded-md border'>
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -224,9 +197,7 @@ export default function RoomTypeTable() {
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
                     )
                   })}
@@ -238,15 +209,13 @@ export default function RoomTypeTable() {
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <TableCell colSpan={columns.length} className='h-24 text-center'>
                     Không có dữ liệu
                   </TableCell>
                 </TableRow>
@@ -254,16 +223,16 @@ export default function RoomTypeTable() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 pt-4">
-          <div className="text-muted-foreground flex-1 py-4 text-xs">
-            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{' '}
-            <strong>{data.length}</strong> kết quả
+        <div className='flex items-center justify-end space-x-2 pt-4'>
+          <div className='text-muted-foreground flex-1 py-4 text-xs'>
+            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong <strong>{data.length}</strong>{' '}
+            kết quả
           </div>
           <div>
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname="/partner/manage/hotel/room-type"
+              pathname='/partner/manage/hotel/room-type'
             />
           </div>
         </div>

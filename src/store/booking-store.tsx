@@ -33,7 +33,7 @@ const defaultBooking: BookingInfoType = {
   currentRooms: 1,
   roomTypeId: -1,
   roomTypeName: '',
-  price: 0,
+  price: 0
 }
 
 export const useBookingStore = create(
@@ -42,11 +42,11 @@ export const useBookingStore = create(
       booking: defaultBooking,
       setBooking: (data) =>
         set((state) => ({
-          booking: { ...state.booking, ...data },
+          booking: { ...state.booking, ...data }
         })),
       resetBooking: () => set({ booking: defaultBooking }),
       isHydrated: false,
-      setHydrated: () => set({ isHydrated: true }),
+      setHydrated: () => set({ isHydrated: true })
     }),
     {
       name: 'booking-storage',
@@ -60,10 +60,10 @@ export const useBookingStore = create(
           booking: {
             ...state.booking,
             dayStart: new Date(state.booking.dayStart),
-            dayEnd: new Date(state.booking.dayEnd),
-          },
+            dayEnd: new Date(state.booking.dayEnd)
+          }
         }
-      },
+      }
     }
   )
 )

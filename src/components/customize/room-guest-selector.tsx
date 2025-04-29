@@ -17,29 +17,24 @@ interface CounterProps {
 const Counter = ({ label, subtitle, value, minValue, onDecrease, onIncrease }: CounterProps) => {
   const isDisabled = value <= (minValue ?? 0)
   return (
-    <div className="grid grid-cols-[1fr_auto] items-center gap-4 py-2">
+    <div className='grid grid-cols-[1fr_auto] items-center gap-4 py-2'>
       <div>
-        <div className="text-base font-medium">{label}</div>
-        <div className="text-sm text-gray-500">{subtitle}</div>
+        <div className='text-base font-medium'>{label}</div>
+        <div className='text-sm text-gray-500'>{subtitle}</div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className='flex items-center gap-2'>
         <Button
-          variant="outline"
-          size="icon"
+          variant='outline'
+          size='icon'
           onClick={onDecrease}
-          className="h-7 w-7 rounded-full border-gray-500"
+          className='h-7 w-7 rounded-full border-gray-500'
           disabled={isDisabled}
         >
-          <Minus className="h-4 w-4 text-blue-500" />
+          <Minus className='h-4 w-4 text-blue-500' />
         </Button>
-        <div className="w-6 text-center text-xl font-bold">{value}</div>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={onIncrease}
-          className="h-7 w-7 rounded-full border-gray-500"
-        >
-          <Plus className="h-4 w-4 text-blue-500" />
+        <div className='w-6 text-center text-xl font-bold'>{value}</div>
+        <Button variant='outline' size='icon' onClick={onIncrease} className='h-7 w-7 rounded-full border-gray-500'>
+          <Plus className='h-4 w-4 text-blue-500' />
         </Button>
       </div>
     </div>
@@ -63,24 +58,21 @@ const RoomGuestSelector = ({
   child,
   onRoomsChange,
   onAdultsChange,
-  onChildrenChange,
+  onChildrenChange
 }: RoomGuestSelectorProps) => {
   const [open, setOpen] = React.useState(false)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
-          className={cn(
-            'flex !h-15 w-full items-center justify-center gap-2 border px-2 py-1',
-            className
-          )}
+          variant='outline'
+          className={cn('flex !h-15 w-full items-center justify-center gap-2 border px-2 py-1', className)}
         >
-          <div className="flex h-full items-center gap-2 px-2">
-            <UserRound className="!h-6 !w-6 text-gray-500" />
-            <div className="flex flex-col justify-center gap-1 text-left leading-tight">
-              <span className="text-muted-foreground text-[16px]">{rooms} Phòng</span>
-              <span className="text-[15px] font-medium">
+          <div className='flex h-full items-center gap-2 px-2'>
+            <UserRound className='!h-6 !w-6 text-gray-500' />
+            <div className='flex flex-col justify-center gap-1 text-left leading-tight'>
+              <span className='text-muted-foreground text-[16px]'>{rooms} Phòng</span>
+              <span className='text-[15px] font-medium'>
                 {adults} người lớn, {child} trẻ em
               </span>
             </div>
@@ -88,34 +80,34 @@ const RoomGuestSelector = ({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-full rounded-sm p-0 shadow-none" align="center">
-        <Card className="rounded-sm p-0 shadow-none">
-          <CardContent className="w-full px-4.5">
-            <div className="divide-y">
-              <div className="py-1">
+      <PopoverContent className='w-full rounded-sm p-0 shadow-none' align='center'>
+        <Card className='rounded-sm p-0 shadow-none'>
+          <CardContent className='w-full px-4.5'>
+            <div className='divide-y'>
+              <div className='py-1'>
                 <Counter
-                  label="Phòng"
-                  subtitle=""
+                  label='Phòng'
+                  subtitle=''
                   value={rooms}
                   minValue={1}
                   onDecrease={() => onRoomsChange(Math.max(1, rooms - 1))}
                   onIncrease={() => onRoomsChange(rooms + 1)}
                 />
               </div>
-              <div className="py-0">
+              <div className='py-0'>
                 <Counter
-                  label="Người Lớn"
-                  subtitle="Từ 17 tuổi"
+                  label='Người Lớn'
+                  subtitle='Từ 17 tuổi'
                   value={adults}
                   minValue={1}
                   onDecrease={() => onAdultsChange(Math.max(1, adults - 1))}
                   onIncrease={() => onAdultsChange(adults + 1)}
                 />
               </div>
-              <div className="py-0">
+              <div className='py-0'>
                 <Counter
-                  label="Trẻ em"
-                  subtitle="Từ 0 - 16 tuổi"
+                  label='Trẻ em'
+                  subtitle='Từ 0 - 16 tuổi'
                   value={child}
                   minValue={0}
                   onDecrease={() => onChildrenChange(Math.max(0, child - 1))}

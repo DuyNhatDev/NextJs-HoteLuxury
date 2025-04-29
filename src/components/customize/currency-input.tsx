@@ -15,7 +15,7 @@ export default function CurrencyInput({
   onChange,
   placeholder = 'Nhập số tiền',
   currency = '₫',
-  className = '',
+  className = ''
 }: CurrencyInputProps) {
   const [internalValue, setInternalValue] = useState(value)
 
@@ -36,15 +36,15 @@ export default function CurrencyInput({
 
   return (
     <div className={clsx('grid w-full max-w-sm items-center gap-1.5', className)}>
-      <div className="relative">
+      <div className='relative'>
         <Input
-          type="text"
+          type='text'
           placeholder={placeholder}
           className={clsx('pr-10 text-left', className)}
           value={formatCurrency(internalValue)}
           onChange={handleChange}
         />
-        <span className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500 dark:text-gray-400">
+        <span className='absolute inset-y-0 right-3 flex items-center text-sm text-gray-500 dark:text-gray-400'>
           {currency}
         </span>
       </div>

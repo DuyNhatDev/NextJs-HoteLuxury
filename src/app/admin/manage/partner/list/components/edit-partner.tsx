@@ -1,29 +1,13 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import {
-  UpdatePartnerAccountBodySchema,
-  UpdatePartnerAccountBodyType,
-} from '@/schemaValidations/account.schema'
+import { UpdatePartnerAccountBodySchema, UpdatePartnerAccountBodyType } from '@/schemaValidations/account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
 import { useGetAccount, useUpdatePartnerMutation } from '@/queries/useAccount'
 import { handleErrorApi } from '@/lib/utils'
@@ -35,7 +19,7 @@ import UploadImage from '@/components/customize/upload-image'
 export default function EditPartner({
   id,
   setId,
-  onSubmitSuccess,
+  onSubmitSuccess
 }: {
   id?: number | undefined
   setId: (value: number | undefined) => void
@@ -55,13 +39,12 @@ export default function EditPartner({
       gender: 'Nam',
       birthDate: '',
       address: '',
-      roleId: Role.Partner,
-    },
+      roleId: Role.Partner
+    }
   })
   useEffect(() => {
     if (data) {
-      const { fullname, image, email, phoneNumber, birthDate, gender, address, active, roleId } =
-        data.payload.data
+      const { fullname, image, email, phoneNumber, birthDate, gender, address, active, roleId } = data.payload.data
       form.reset({
         fullname: fullname ?? '',
         email: email ?? '',
@@ -71,7 +54,7 @@ export default function EditPartner({
         gender: gender ?? 'Nam',
         address: address ?? '',
         active: active ?? false,
-        roleId: roleId ?? Role.Partner,
+        roleId: roleId ?? Role.Partner
       })
     }
   }, [data, form])
@@ -82,7 +65,7 @@ export default function EditPartner({
       if (file) {
         body = {
           ...body,
-          image: file,
+          image: file
         }
       }
       await updatePartnerMutation.mutateAsync({ id: id!, body })
@@ -94,7 +77,7 @@ export default function EditPartner({
     } catch (error) {
       handleErrorApi({
         error,
-        setError: form.setError,
+        setError: form.setError
       })
     }
   }
@@ -113,24 +96,24 @@ export default function EditPartner({
         }
       }}
     >
-      <DialogContent className="max-h-screen overflow-auto sm:max-w-[600px]">
+      <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>Chỉnh sửa tài khoản đối tác</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
             noValidate
-            className="grid auto-rows-max items-start gap-4 md:gap-8"
-            id="edit-partner-form"
+            className='grid auto-rows-max items-start gap-4 md:gap-8'
+            id='edit-partner-form'
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="grid gap-4 py-4">
+            <div className='grid gap-4 py-4'>
               <FormField
                 control={form.control}
-                name="image"
+                name='image'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="image">Ảnh đại diện</FormLabel>
+                    <FormLabel htmlFor='image'>Ảnh đại diện</FormLabel>
                     <UploadImage
                       value={
                         typeof field.value === 'string'
@@ -148,23 +131,17 @@ export default function EditPartner({
                 )}
               />
 
-              <div className="grid gap-7">
-                <div className="flex w-full gap-4">
+              <div className='grid gap-7'>
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="fullname"
+                    name='fullname'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="fullname">Họ và tên</FormLabel>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='fullname'>Họ và tên</FormLabel>
                           <FormControl>
-                            <Input
-                              id="fullname"
-                              type="text"
-                              className="w-full"
-                              required
-                              {...field}
-                            />
+                            <Input id='fullname' type='text' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -173,19 +150,13 @@ export default function EditPartner({
                   />
                   <FormField
                     control={form.control}
-                    name="phoneNumber"
+                    name='phoneNumber'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="phoneNumber">Số điện thoại</FormLabel>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='phoneNumber'>Số điện thoại</FormLabel>
                           <FormControl>
-                            <Input
-                              id="phoneNumber"
-                              type="phone"
-                              className="w-full"
-                              required
-                              {...field}
-                            />
+                            <Input id='phoneNumber' type='phone' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -194,16 +165,16 @@ export default function EditPartner({
                   />
                 </div>
 
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="birthDate"
+                    name='birthDate'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="birthDate">Ngày sinh</FormLabel>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='birthDate'>Ngày sinh</FormLabel>
                           <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
+                            <Input id='birthDate' type='date' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -212,21 +183,21 @@ export default function EditPartner({
                   />
                   <FormField
                     control={form.control}
-                    name="gender"
+                    name='gender'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="gender">Giới tính</FormLabel>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='gender'>Giới tính</FormLabel>
                           <FormControl>
                             <CustomSelect
                               options={[
                                 { label: 'Nam', value: 'Nam' },
-                                { label: 'Nữ', value: 'Nữ' },
+                                { label: 'Nữ', value: 'Nữ' }
                               ]}
                               value={field.value}
                               onChange={field.onChange}
-                              placeholder="Chọn giới tính"
-                              className="w-full"
+                              placeholder='Chọn giới tính'
+                              className='w-full'
                             />
                           </FormControl>
                           <FormMessage />
@@ -236,33 +207,33 @@ export default function EditPartner({
                   />
                 </div>
 
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="address"
+                    name='address'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel htmlFor="address">Địa chỉ</FormLabel>
+                      <FormItem className='flex-1'>
+                        <FormLabel htmlFor='address'>Địa chỉ</FormLabel>
                         <FormControl>
-                          <Input id="address" type="text" required {...field} />
+                          <Input id='address' type='text' required {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="active"
+                    name='active'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel htmlFor="active">Active</FormLabel>
+                      <FormItem className='flex-1'>
+                        <FormLabel htmlFor='active'>Active</FormLabel>
                         <FormControl>
                           <Switch
                             checked={field.value}
                             onCheckedChange={field.onChange}
-                            className="data-[state=checked]:bg-blue-500"
+                            className='data-[state=checked]:bg-blue-500'
                           />
                         </FormControl>
                         <FormMessage />
@@ -275,10 +246,8 @@ export default function EditPartner({
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="edit-partner-form" className="bg-blue-500 hover:bg-blue-600">
-            {updatePartnerMutation.isPending && (
-              <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-            )}
+          <Button type='submit' form='edit-partner-form' className='bg-blue-500 hover:bg-blue-600'>
+            {updatePartnerMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Lưu
           </Button>
         </DialogFooter>

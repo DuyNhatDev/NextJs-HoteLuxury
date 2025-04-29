@@ -4,7 +4,7 @@ import {
   CreateDestinationBodyType,
   DestinationListResType,
   DestinationResType,
-  UpdateDestinationBodyType,
+  UpdateDestinationBodyType
 } from '@/schemaValidations/destination.schema'
 
 const prefix = '/location'
@@ -20,6 +20,6 @@ const destinationApiRequest = {
     const formData = objectToFormData(body)
     return http.put<DestinationListResType>(`${prefix}/${id}`, formData)
   },
-  deleteDestination: (id: number) => http.delete(`${prefix}/${id}`),
+  deleteDestination: (id: number) => http.delete(`${prefix}/${id}`)
 }
 export default destinationApiRequest

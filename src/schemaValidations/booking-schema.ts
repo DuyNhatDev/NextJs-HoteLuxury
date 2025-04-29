@@ -8,7 +8,7 @@ export const BookingSchema = z.object({
   price: z.number(),
   roomQuantity: z.number(),
   title: z.enum(['Anh', 'Chị'], {
-    message: 'Vui lòng chọn danh xưng',
+    message: 'Vui lòng chọn danh xưng'
   }),
   customerName: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256),
   customerPhone: z
@@ -19,8 +19,8 @@ export const BookingSchema = z.object({
   customerEmail: z.string().email({ message: 'Email không hợp lệ' }),
   note: z.string().optional(),
   paymentMethod: z.enum(['Online', 'Trực tiếp'], {
-    message: 'Vui lòng chọn phương thức thanh toán',
-  }),
+    message: 'Vui lòng chọn phương thức thanh toán'
+  })
 })
 
 export type BookingType = z.infer<typeof BookingSchema>
@@ -28,7 +28,7 @@ export type BookingType = z.infer<typeof BookingSchema>
 export const BookingResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: BookingSchema,
+  data: BookingSchema
 })
 
 export type BookingResType = z.infer<typeof BookingResSchema>

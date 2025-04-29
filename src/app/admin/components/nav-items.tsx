@@ -9,13 +9,13 @@ export const data = {
       items: [
         {
           title: 'Danh sách đối tác',
-          url: '/admin/manage/partner/list',
+          url: '/admin/manage/partner/list'
         },
         {
           title: 'Chờ duyệt',
-          url: '/admin/manage/partner/pending',
-        },
-      ],
+          url: '/admin/manage/partner/pending'
+        }
+      ]
     },
     {
       title: 'Khách sạn',
@@ -24,9 +24,9 @@ export const data = {
       items: [
         {
           title: 'Danh sách khách sạn',
-          url: '/admin/manage/hotel/list',
-        },
-      ],
+          url: '/admin/manage/hotel/list'
+        }
+      ]
     },
     {
       title: 'Người dùng',
@@ -35,9 +35,9 @@ export const data = {
       items: [
         {
           title: 'Danh sách người dùng',
-          url: '/admin/manage/user/list',
-        },
-      ],
+          url: '/admin/manage/user/list'
+        }
+      ]
     },
     {
       title: 'Địa điểm',
@@ -46,9 +46,9 @@ export const data = {
       items: [
         {
           title: 'Danh sách địa điểm',
-          url: '/admin/manage/destination',
-        },
-      ],
+          url: '/admin/manage/destination'
+        }
+      ]
     },
     {
       title: 'Doanh thu',
@@ -57,13 +57,13 @@ export const data = {
       items: [
         {
           title: 'Doanh thu theo khách sạn',
-          url: '#',
+          url: '#'
         },
         {
           title: 'Thống kê hoa hồng',
-          url: '#',
-        },
-      ],
+          url: '#'
+        }
+      ]
     },
     {
       title: 'Cài đặt',
@@ -72,15 +72,15 @@ export const data = {
       items: [
         {
           title: 'Tài khoản',
-          url: '/admin/manage/setting/account',
+          url: '/admin/manage/setting/account'
         },
         {
           title: 'Đổi mật khẩu',
-          url: '/admin/manage/setting/change-password',
-        },
-      ],
-    },
-  ],
+          url: '/admin/manage/setting/change-password'
+        }
+      ]
+    }
+  ]
   // projects: [
   //   {
   //     name: 'Design Engineering',

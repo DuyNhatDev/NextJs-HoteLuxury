@@ -15,5 +15,5 @@ export const useAppStore = create<AppStoreType>((set) => ({
     if (!role) {
       removeTokensFromLocalStorage()
     }
-  },
+  }
 }))

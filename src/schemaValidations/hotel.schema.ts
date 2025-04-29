@@ -13,7 +13,7 @@ export const HotelSchema = z.object({
   hotelImages: z.array(z.string()),
   locationId: z.number(),
   locationName: z.string(),
-  minPrice: z.number(),
+  minPrice: z.number()
 })
 
 export type HotelType = z.infer<typeof HotelSchema>
@@ -21,7 +21,7 @@ export type HotelType = z.infer<typeof HotelSchema>
 export const HotelResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: HotelSchema,
+  data: HotelSchema
 })
 
 export type HotelResType = z.infer<typeof HotelResSchema>
@@ -29,7 +29,7 @@ export type HotelResType = z.infer<typeof HotelResSchema>
 export const HotelListResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: z.array(HotelSchema),
+  data: z.array(HotelSchema)
 })
 
 export type HotelListResType = z.infer<typeof HotelListResSchema>
@@ -48,7 +48,7 @@ export const CreateHotelBodySchema = z.object({
   hotelImage: z.union([z.string(), z.instanceof(File)]),
   hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
   locationId: z.number().optional(),
-  userId: z.number().optional(),
+  userId: z.number().optional()
 })
 
 export type CreateHotelBodyType = z.infer<typeof CreateHotelBodySchema>
@@ -66,7 +66,7 @@ export const UpdateHotelBodySchema = z.object({
   hotelDescription: z.string(),
   locationId: z.number().optional(),
   hotelImage: z.union([z.string(), z.instanceof(File)]),
-  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
+  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional())
 })
 
 export type UpdateHotelBodyType = z.infer<typeof UpdateHotelBodySchema>

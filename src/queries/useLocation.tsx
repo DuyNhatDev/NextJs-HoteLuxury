@@ -5,7 +5,7 @@ export const useGetProvinces = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ['provinces'],
     queryFn: () => locationApiRequest.getProvinces(),
-    enabled,
+    enabled
   })
 }
 
@@ -13,7 +13,7 @@ export const useGetDistricts = (idProvince: string) => {
   return useQuery({
     queryKey: ['districts', idProvince],
     queryFn: () => locationApiRequest.getDistricts(idProvince),
-    enabled: !!idProvince,
+    enabled: !!idProvince
   })
 }
 
@@ -21,7 +21,7 @@ export const useGetWards = (idDistrict: string) => {
   return useQuery({
     queryKey: ['wards', idDistrict],
     queryFn: () => locationApiRequest.getWards(idDistrict),
-    enabled: !!idDistrict,
+    enabled: !!idDistrict
   })
 }
 
@@ -29,6 +29,6 @@ export const useGetCoordinates = (address: string) => {
   return useQuery({
     queryKey: ['coordinates', address],
     queryFn: () => locationApiRequest.getCoordinates(address),
-    enabled: !!address,
+    enabled: !!address
   })
 }

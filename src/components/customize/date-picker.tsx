@@ -26,35 +26,29 @@ export default function DatePickerButton({
   placeholder = 'Chọn ngày',
   className,
   disabled = false,
-  format = 'dd/MM/yyyy',
+  format = 'dd/MM/yyyy'
 }: DatePickerButtonProps) {
   const [open, setOpen] = useState(false)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          disabled={disabled}
-          className={cn('w-[200px] justify-between', className)}
-        >
-          <span className={cn(!value && 'text-gray-400')}>
-            {value ? formatDate(value, format) : placeholder}
-          </span>
-          <CalendarIcon className="ml-2 h-4 w-4 text-gray-500" />
+        <Button variant='outline' disabled={disabled} className={cn('w-[200px] justify-between', className)}>
+          <span className={cn(!value && 'text-gray-400')}>{value ? formatDate(value, format) : placeholder}</span>
+          <CalendarIcon className='ml-2 h-4 w-4 text-gray-500' />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-auto rounded-lg p-4 shadow-md" align="center">
+      <PopoverContent className='w-auto rounded-lg p-4 shadow-md' align='center'>
         <DayPicker
-          mode="single"
+          mode='single'
           selected={value}
           onSelect={(date) => {
             onChange?.(date)
             setOpen(false)
           }}
           locale={vi}
-          captionLayout="dropdown"
+          captionLayout='dropdown'
           defaultMonth={value || new Date()}
         />
       </PopoverContent>

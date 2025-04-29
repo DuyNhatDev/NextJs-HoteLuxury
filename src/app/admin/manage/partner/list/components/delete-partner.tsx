@@ -1,12 +1,21 @@
-import { PartnerItem } from "@/app/admin/manage/partner/list/components/partner-table"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
-import { handleErrorApi } from "@/lib/utils"
-import { useDeletePartnerMutation } from "@/queries/useAccount"
-import { toast } from "sonner"
+import { PartnerItem } from '@/app/admin/manage/partner/list/components/partner-table'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog'
+import { handleErrorApi } from '@/lib/utils'
+import { useDeletePartnerMutation } from '@/queries/useAccount'
+import { toast } from 'sonner'
 
 export default function AlertDialogDeletePartner({
   partnerDelete,
-  setPartnerDelete,
+  setPartnerDelete
 }: {
   partnerDelete: PartnerItem | null
   setPartnerDelete: (value: PartnerItem | null) => void
@@ -20,7 +29,7 @@ export default function AlertDialogDeletePartner({
         toast.success('Xóa thành công')
       } catch (error) {
         handleErrorApi({
-          error,
+          error
         })
       }
     }
@@ -38,13 +47,13 @@ export default function AlertDialogDeletePartner({
         <AlertDialogHeader>
           <AlertDialogTitle>Xóa tài khoản?</AlertDialogTitle>
           <AlertDialogDescription>
-            Tài khoản<span className="rounded px-1 font-bold">{partnerDelete?.fullname}</span>
+            Tài khoản<span className='rounded px-1 font-bold'>{partnerDelete?.fullname}</span>
             sẽ bị xóa vĩnh viễn
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-600" onClick={deletePartner}>
+          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deletePartner}>
             Xóa
           </AlertDialogAction>
         </AlertDialogFooter>

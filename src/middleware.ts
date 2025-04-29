@@ -36,7 +36,7 @@ export function middleware(request: NextRequest) {
     const roleAccess = {
       [Role.Customer]: [...adminPaths, ...partnerPaths],
       [Role.Partner]: [...adminPaths],
-      [Role.Admin]: [...partnerPaths],
+      [Role.Admin]: [...partnerPaths]
     }
     if (roleAccess[role]?.some((path) => pathname.startsWith(path))) {
       return NextResponse.redirect(new URL('/', request.url))
@@ -54,6 +54,6 @@ export const config = {
     '/register',
     '/forgot-password',
     '/reset-password',
-    '/thong-tin-booking/:path*',
-  ],
+    '/thong-tin-booking/:path*'
+  ]
 }

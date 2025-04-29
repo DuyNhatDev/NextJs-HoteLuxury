@@ -6,7 +6,7 @@ import {
   RoomTypeListResType,
   FilterRoomTypeListResType,
   RoomTypeResType,
-  UpdateRoomTypeBodyType,
+  UpdateRoomTypeBodyType
 } from '@/schemaValidations/room-type.schema'
 const prefix = '/room-type'
 const roomTypeApiRequest = {
@@ -22,6 +22,6 @@ const roomTypeApiRequest = {
   },
   deleteRoomType: (id: number) => http.delete(`${prefix}/${id}`),
   getFilterRoomTypeList: (queryParams: FilterRoomTypeParamsType) =>
-    http.get<FilterRoomTypeListResType>(`${prefix}/filter?` + buildQueryParams(queryParams)),
+    http.get<FilterRoomTypeListResType>(`${prefix}/filter?` + buildQueryParams(queryParams))
 }
 export default roomTypeApiRequest

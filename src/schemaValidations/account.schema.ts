@@ -13,7 +13,7 @@ export const AccountSchema = z.object({
   gender: z.enum(['Nam', 'Nữ']),
   password: z.string().optional(),
   isConfirmed: z.boolean(),
-  active: z.boolean(),
+  active: z.boolean()
 })
 
 export type AccountType = z.infer<typeof AccountSchema>
@@ -21,7 +21,7 @@ export type AccountType = z.infer<typeof AccountSchema>
 export const AccountListResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: z.array(AccountSchema),
+  data: z.array(AccountSchema)
 })
 
 export type AccountListResType = z.infer<typeof AccountListResSchema>
@@ -30,7 +30,7 @@ export const AccountResSchema = z
   .object({
     status: z.string(),
     message: z.string(),
-    data: AccountSchema,
+    data: AccountSchema
   })
   .strict()
 
@@ -50,7 +50,7 @@ export const CreatePartnerAccountBodySchema = z
           .max(15, 'Số điện thoại không quá 15 số')
           .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
         z.literal(''),
-        z.undefined(),
+        z.undefined()
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
@@ -63,7 +63,7 @@ export const CreatePartnerAccountBodySchema = z
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
     image: z.union([z.string(), z.instanceof(File)]).optional(),
-    roleId: z.enum([Role.Partner]),
+    roleId: z.enum([Role.Partner])
   })
   .strict()
 
@@ -83,7 +83,7 @@ export const CreateCustomerAccountBodySchema = z
           .max(15, 'Số điện thoại không quá 15 số')
           .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
         z.literal(''),
-        z.undefined(),
+        z.undefined()
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
@@ -96,7 +96,7 @@ export const CreateCustomerAccountBodySchema = z
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
     image: z.union([z.string(), z.instanceof(File)]).optional(),
-    roleId: z.enum([Role.Customer]),
+    roleId: z.enum([Role.Customer])
   })
   .strict()
 
@@ -104,12 +104,7 @@ export type CreateCustomerAccountBodyType = z.infer<typeof CreateCustomerAccount
 
 export const UpdatePartnerAccountBodySchema = z
   .object({
-    fullname: z
-      .string()
-      .trim()
-      .min(1, { message: 'Họ và tên không được để trống' })
-      .max(256)
-      .optional(),
+    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256).optional(),
     email: z.string().optional(),
     gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
     phoneNumber: z
@@ -120,7 +115,7 @@ export const UpdatePartnerAccountBodySchema = z
           .max(15, 'Số điện thoại không quá 15 số')
           .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
         z.literal(''),
-        z.undefined(),
+        z.undefined()
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
@@ -135,7 +130,7 @@ export const UpdatePartnerAccountBodySchema = z
     image: z.union([z.string(), z.instanceof(File)]).optional(),
     isConfirmed: z.boolean().optional(),
     active: z.boolean().optional(),
-    roleId: z.enum([Role.Partner, Role.Admin, Role.Customer]).optional(),
+    roleId: z.enum([Role.Partner, Role.Admin, Role.Customer]).optional()
   })
   .strict()
 
@@ -143,12 +138,7 @@ export type UpdatePartnerAccountBodyType = z.infer<typeof UpdatePartnerAccountBo
 
 export const UpdateCustomerAccountBodySchema = z
   .object({
-    fullname: z
-      .string()
-      .trim()
-      .min(1, { message: 'Họ và tên không được để trống' })
-      .max(256)
-      .optional(),
+    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256).optional(),
     email: z.string().optional(),
     gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
     phoneNumber: z
@@ -159,7 +149,7 @@ export const UpdateCustomerAccountBodySchema = z
           .max(15, 'Số điện thoại không quá 15 số')
           .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
         z.literal(''),
-        z.undefined(),
+        z.undefined()
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
@@ -174,7 +164,7 @@ export const UpdateCustomerAccountBodySchema = z
     image: z.union([z.string(), z.instanceof(File)]).optional(),
     isConfirmed: z.boolean().optional(),
     active: z.boolean().optional(),
-    roleId: z.enum([Role.Partner, Role.Admin, Role.Customer]).optional(),
+    roleId: z.enum([Role.Partner, Role.Admin, Role.Customer]).optional()
   })
   .strict()
 
@@ -182,12 +172,7 @@ export type UpdateCustomerAccountBodyType = z.infer<typeof UpdateCustomerAccount
 
 export const UpdateProfileBodySchema = z
   .object({
-    fullname: z
-      .string()
-      .trim()
-      .min(1, { message: 'Họ và tên không được để trống' })
-      .max(256)
-      .optional(),
+    fullname: z.string().trim().min(1, { message: 'Họ và tên không được để trống' }).max(256).optional(),
     email: z.string().optional(),
     gender: z.enum(['Nam', 'Nữ'], { message: 'Vui lòng chọn giới tính' }).optional(),
     phoneNumber: z
@@ -198,7 +183,7 @@ export const UpdateProfileBodySchema = z
           .max(15, 'Số điện thoại không quá 15 số')
           .regex(/^\d+$/, 'Số điện thoại chỉ được chứa số'),
         z.literal(''),
-        z.undefined(),
+        z.undefined()
       ])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
@@ -210,7 +195,7 @@ export const UpdateProfileBodySchema = z
       .union([z.string().min(1, 'Địa chỉ không được để trống'), z.literal(''), z.undefined()])
       .transform((val) => (val === '' ? undefined : val))
       .optional(),
-    image: z.union([z.string(), z.instanceof(File)]).optional(),
+    image: z.union([z.string(), z.instanceof(File)]).optional()
   })
   .strict()
 
@@ -221,7 +206,7 @@ export const ChangePasswordBody = z
     userId: z.string(),
     oldPassword: z.string().min(6, { message: 'Vui lòng nhập mật khẩu cũ' }).max(100),
     newPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
-    confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100),
+    confirmPassword: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }).max(100)
   })
   .strict()
   .superRefine(({ confirmPassword, newPassword }, ctx) => {
@@ -229,7 +214,7 @@ export const ChangePasswordBody = z
       ctx.addIssue({
         code: 'custom',
         message: 'Mật khẩu mới không khớp',
-        path: ['confirmPassword'],
+        path: ['confirmPassword']
       })
     }
   })

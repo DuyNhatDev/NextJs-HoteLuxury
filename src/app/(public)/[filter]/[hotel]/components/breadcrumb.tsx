@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
 import { generateSlugUrl } from '@/lib/utils'
 import { useFilterStore } from '@/store/filter-store'
@@ -23,7 +23,7 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/" className="text-blue-600 hover:underline">
+            <Link href='/' className='text-blue-600 hover:underline'>
               Trang chủ
             </Link>
           </BreadcrumbLink>
@@ -36,7 +36,7 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
                 setFilter({ filter: locationName })
               }}
               href={`/khach-san-${generateSlugUrl(locationName)}`}
-              className="text-blue-600 hover:underline"
+              className='text-blue-600 hover:underline'
             >
               {locationName}
             </Link>
@@ -44,7 +44,7 @@ export default function BreadcrumbNav({ locationName, hotelName }: BreadcrumbIte
         </BreadcrumbItem>
         <BreadcrumbSeparator>/</BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-gray-500">{hotelName}</BreadcrumbPage>
+          <BreadcrumbPage className='text-gray-500'>{hotelName}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

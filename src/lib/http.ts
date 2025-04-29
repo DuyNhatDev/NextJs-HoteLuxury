@@ -5,7 +5,7 @@ import {
   removeTokensFromLocalStorage,
   setAccessTokenToLocalStorage,
   setRefreshTokenToLocalStorage,
-  setUserIdToLocalStorage,
+  setUserIdToLocalStorage
 } from '@/lib/utils'
 import { LoginResType } from '@/schemaValidations/auth.schema'
 import { redirect } from 'next/navigation'
@@ -31,15 +31,7 @@ export class HttpError extends Error {
     message: string
     [key: string]: any
   }
-  constructor({
-    status,
-    payload,
-    message = 'Lỗi HTTP',
-  }: {
-    status: number
-    payload: any
-    message?: string
-  }) {
+  constructor({ status, payload, message = 'Lỗi HTTP' }: { status: number; payload: any; message?: string }) {
     super(message)
     this.status = status
     this.payload = payload
@@ -49,13 +41,7 @@ export class HttpError extends Error {
 export class EntityError extends HttpError {
   status: typeof ENTITY_ERROR_STATUS
   payload: EntityErrorPayload
-  constructor({
-    status,
-    payload,
-  }: {
-    status: typeof ENTITY_ERROR_STATUS
-    payload: EntityErrorPayload
-  }) {
+  constructor({ status, payload }: { status: typeof ENTITY_ERROR_STATUS; payload: EntityErrorPayload }) {
     super({ status, payload, message: 'Lỗi thực thể' })
     this.status = status
     this.payload = payload
@@ -81,7 +67,7 @@ const request = async <Response>(
     body instanceof FormData
       ? {}
       : {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         }
   if (isClient) {
     const accessToken = getAccessTokenFromLocalStorage()
@@ -89,23 +75,22 @@ const request = async <Response>(
       baseHeaders.Authorization = `Bearer ${accessToken}`
     }
   }
-  const baseUrl =
-    options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl
+  const baseUrl = options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl
 
   const fullUrl = `${baseUrl}/${normalizePath(url)}`
   const res = await fetch(fullUrl, {
     ...options,
     headers: {
       ...baseHeaders,
-      ...options?.headers,
+      ...options?.headers
     } as any,
     body,
-    method,
+    method
   })
   const payload: Response = await res.json()
   const data = {
     status: res.status,
-    payload,
+    payload
   }
   if (!res.ok) {
     if (res.status === ENTITY_ERROR_STATUS) {
@@ -122,8 +107,8 @@ const request = async <Response>(
             method: 'POST',
             body: null,
             headers: {
-              ...baseHeaders,
-            } as any,
+              ...baseHeaders
+            } as any
           })
           try {
             await clientLogoutRequest
@@ -168,7 +153,7 @@ const http = {
   },
   delete<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
     return request<Response>('DELETE', url, { ...options })
-  },
+  }
 }
 
 export default http

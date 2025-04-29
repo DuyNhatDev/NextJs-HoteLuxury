@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { X, File, Upload } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -29,7 +30,7 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
   maxImages,
   className,
   name,
-  accept = 'image/*',
+  accept = 'image/*'
 }) => {
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [inputKey, setInputKey] = useState(Date.now())
@@ -46,7 +47,7 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
       preview: url,
       fileType: `image/${url.split('.').pop() || 'jpeg'}`,
       isDeleting: false,
-      isFromAPI: true,
+      isFromAPI: true
     }))
 
     setFiles(apiFiles)
@@ -73,7 +74,7 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
       fileType: file.type,
       isDeleting: false,
       originFile: file,
-      isFromAPI: false,
+      isFromAPI: false
     }))
 
     const updatedFiles = [...files, ...newFiles]
@@ -126,55 +127,52 @@ export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
 
   return (
     <div className={cn('flex w-full flex-col', className)}>
-      <div className="flex flex-wrap gap-4">
+      <div className='flex flex-wrap gap-4'>
         {(maxImages === undefined || files.length < maxImages) && (
           <button
-            type="button"
-            className="flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed hover:cursor-pointer"
+            type='button'
+            className='flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed hover:cursor-pointer'
           >
-            <label className="flex h-full w-full cursor-pointer items-center justify-center text-sm sm:text-base">
+            <label className='flex h-full w-full cursor-pointer items-center justify-center text-sm sm:text-base'>
               <input
                 key={inputKey}
-                type="file"
+                type='file'
                 accept={accept}
                 multiple
-                className="hidden"
+                className='hidden'
                 name={name}
                 onChange={(e) => e.target.files?.length && handleUpload(e.target.files)}
               />
-              <Upload className="text-muted-foreground h-4 w-4" />
+              <Upload className='text-muted-foreground h-4 w-4' />
             </label>
           </button>
         )}
 
         {files.map((file) => (
-          <div key={file.id} className="relative h-20 w-20 rounded-md sm:h-24 sm:w-24">
+          <div key={file.id} className='relative h-20 w-20 rounded-md sm:h-24 sm:w-24'>
             {file.fileType.startsWith('image/') ? (
-              <Avatar className="aspect-square h-[100px] w-[100px] rounded-md object-cover">
-                <AvatarImage
-                  src={file.preview}
-                  onError={() => console.error('Lỗi tải ảnh:', file.preview)}
-                />
+              <Avatar className='aspect-square h-[100px] w-[100px] rounded-md object-cover'>
+                <AvatarImage src={file.preview} onError={() => console.error('Lỗi tải ảnh:', file.preview)} />
                 <AvatarFallback>Ảnh</AvatarFallback>
               </Avatar>
             ) : (
-              <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-100">
-                <File className="h-8 w-8 text-gray-500 sm:h-10 sm:w-10" />
+              <div className='flex h-full w-full items-center justify-center rounded-md bg-gray-100'>
+                <File className='h-8 w-8 text-gray-500 sm:h-10 sm:w-10' />
               </div>
             )}
             <button
               onClick={() => handleDeleteImage(file.id)}
-              className="absolute top-1 right-1 rounded-full bg-red-200 p-1 text-red-600 hover:bg-red-300"
-              type="button"
+              className='absolute top-1 right-1 rounded-full bg-red-200 p-1 text-red-600 hover:bg-red-300'
+              type='button'
             >
-              <X className="h-2 w-2 sm:h-3 sm:w-3" />
+              <X className='h-2 w-2 sm:h-3 sm:w-3' />
             </button>
           </div>
         ))}
       </div>
 
       {files.length > 0 && (
-        <Button variant="destructive" className="mt-4 w-fit" onClick={handleDeleteAll}>
+        <Button variant='destructive' className='mt-4 w-fit' onClick={handleDeleteAll}>
           Xóa tất cả
         </Button>
       )}

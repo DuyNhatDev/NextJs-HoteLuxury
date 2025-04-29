@@ -6,14 +6,14 @@ export const useGetHotel = (id?: string, enabled: boolean = false) => {
   return useQuery({
     queryKey: ['hotel', id],
     queryFn: () => hotelApiRequest.getHotel(id!),
-    enabled: !!id && enabled,
+    enabled: !!id && enabled
   })
 }
 
 export const useGetHotelList = () => {
   return useQuery({
     queryKey: ['hotels'],
-    queryFn: hotelApiRequest.getHotelList,
+    queryFn: hotelApiRequest.getHotelList
   })
 }
 
@@ -23,22 +23,21 @@ export const useAddHotelMutation = () => {
     mutationFn: hotelApiRequest.addHotel,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['hotels'],
+        queryKey: ['hotels']
       })
-    },
+    }
   })
 }
 
 export const useUpdateHotelMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, body }: { id: number; body: UpdateHotelBodyType }) =>
-      hotelApiRequest.updateHotel(id, body),
+    mutationFn: ({ id, body }: { id: number; body: UpdateHotelBodyType }) => hotelApiRequest.updateHotel(id, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['hotels'],
+        queryKey: ['hotels']
       })
-    },
+    }
   })
 }
 
@@ -48,8 +47,8 @@ export const useDeleteHotelMutation = () => {
     mutationFn: hotelApiRequest.deleteHotel,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['hotels'],
+        queryKey: ['hotels']
       })
-    },
+    }
   })
 }

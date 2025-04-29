@@ -1,4 +1,5 @@
 'use client'
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
@@ -13,7 +14,7 @@ delete (L.Icon.Default.prototype as any)._getIconUrl
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   iconRetinaUrl: markerIcon2x,
-  shadowUrl: markerShadow,
+  shadowUrl: markerShadow
 })
 
 interface MapProps {
@@ -24,12 +25,12 @@ export default function Map({ address }: MapProps) {
   const { data: position, isPending, error } = useGetCoordinates(address)
   if (isPending)
     return (
-      <div className="flex items-center justify-center py-8">
+      <div className='flex items-center justify-center py-8'>
         <Spinner>Đang tải bản đổ</Spinner>
       </div>
     )
   // if (error) return <p className="text-red-500">Lỗi: {(error as Error).message}</p>
-  if (error) return <p className="text-red-500">Lỗi khi tải bản đồ</p>
+  if (error) return <p className='text-red-500'>Lỗi khi tải bản đồ</p>
   if (!position) return null
 
   return (
@@ -40,7 +41,7 @@ export default function Map({ address }: MapProps) {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
       <FullscreenControl />
       <Marker position={position}>
