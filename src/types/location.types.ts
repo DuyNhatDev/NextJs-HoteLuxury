@@ -1,32 +1,32 @@
-export interface Province {
+export type Province = {
   idProvince: string
   name: string
 }
 
-export interface District {
+export type District = {
   idProvince: string
   idDistrict: string
   name: string
 }
 
-export interface Ward {
+export type Ward = {
   idDistrict: string
   idWard: string
   name: string
 }
 
-export interface Location {
+export type Location = {
   province: Province[]
   district: District[]
   ward: Ward[]
 }
 
-export interface SelectLocation {
+export type SelectLocation = {
   id: string
   name: string
 }
 
-export interface Coordinates {
+export type Coordinates = {
   lat: number
   lng: number
 }

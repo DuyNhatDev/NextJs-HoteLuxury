@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow
 })
 
-interface MapProps {
+type MapProps = {
   address: string
 }
 

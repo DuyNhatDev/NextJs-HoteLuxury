@@ -11,7 +11,7 @@ import { generateSlugUrl } from '@/lib/utils'
 import { useFilterStore } from '@/store/filter-store'
 import Link from 'next/link'
 
-interface BreadcrumbItems {
+type BreadcrumbItems = {
   locationName: string
   hotelName: string
 }

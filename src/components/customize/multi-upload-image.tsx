@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
-interface MultiUploadImageProps {
+type MultiUploadImageProps = {
   value?: string[]
   onChange?: (images: string[], files: File[]) => void
   maxImages?: number
@@ -15,7 +15,7 @@ interface MultiUploadImageProps {
   accept?: string
 }
 
-interface UploadedFile {
+type UploadedFile = {
   id: string
   preview: string
   fileType: string
@@ -24,14 +24,14 @@ interface UploadedFile {
   isFromAPI?: boolean
 }
 
-export const MultiUploadImage: React.FC<MultiUploadImageProps> = ({
+export const MultiUploadImage = ({
   value = [],
   onChange,
   maxImages,
   className,
   name,
   accept = 'image/*'
-}) => {
+}: MultiUploadImageProps) => {
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [inputKey, setInputKey] = useState(Date.now())
   const prevValueRef = useRef<string[]>([])

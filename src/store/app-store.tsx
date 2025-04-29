@@ -1,7 +1,7 @@
 import { removeTokensFromLocalStorage } from '@/lib/utils'
 import { RoleType } from '@/types/jwt.types'
 import { create } from 'zustand'
-interface AppStoreType {
+type AppStoreType = {
   isAuth: boolean
   role: RoleType | undefined
   setRole: (role?: RoleType | undefined) => void

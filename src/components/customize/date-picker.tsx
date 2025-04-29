@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { CalendarIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface DatePickerButtonProps {
+type DatePickerButtonProps = {
   value?: Date
   onChange?: (date: Date | undefined) => void
   placeholder?: string

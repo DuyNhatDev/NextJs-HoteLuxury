@@ -11,7 +11,7 @@ import {
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-interface Props {
+type Props = {
   page: number
   pageSize: number
   totalItems?: number

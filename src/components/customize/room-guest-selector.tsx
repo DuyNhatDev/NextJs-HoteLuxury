@@ -5,7 +5,7 @@ import { Minus, Plus, UserRound } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
-interface CounterProps {
+type CounterProps = {
   label: string
   subtitle?: string
   value: number
@@ -41,7 +41,7 @@ const Counter = ({ label, subtitle, value, minValue, onDecrease, onIncrease }: C
   )
 }
 
-interface RoomGuestSelectorProps {
+type RoomGuestSelectorProps = {
   className?: string
   rooms: number
   adults: number

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import clsx from 'clsx'
 
-interface CurrencyInputProps {
+type CurrencyInputProps = {
   value?: number
   onChange?: (value: number) => void
   placeholder?: string

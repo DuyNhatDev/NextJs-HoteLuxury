@@ -21,7 +21,7 @@ import { useBookingStore } from '@/store/booking-store'
 import { generateCode, getAccessTokenFromLocalStorage } from '@/lib/utils'
 import { usePathname, useRouter } from 'next/navigation'
 
-interface RoomTypeTableProps {
+type RoomTypeTableProps = {
   params: FilterRoomTypeParamsType
 }
 

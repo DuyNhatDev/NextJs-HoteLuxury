@@ -127,7 +127,7 @@ export const Rating = ({
   )
 }
 
-interface PartialStarProps {
+type PartialStarProps = {
   fillPercentage: number
   size: number
   className?: string

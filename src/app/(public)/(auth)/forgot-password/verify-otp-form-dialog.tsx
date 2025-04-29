@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { useVerifyForgetPasswordMutation } from '@/queries/useAuth'
 import { LoaderCircle } from 'lucide-react'
 
-interface InputOtpFormDialogProps {
+type InputOtpFormDialogProps = {
   open: boolean
   setOpen: (open: boolean) => void
   email: string

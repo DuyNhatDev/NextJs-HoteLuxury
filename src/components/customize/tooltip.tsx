@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
-interface CustomTooltipProps {
+type CustomTooltipProps = {
   children: React.ReactNode
   content: string
   className?: string

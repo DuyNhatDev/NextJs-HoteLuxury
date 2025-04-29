@@ -2,7 +2,7 @@ import { addDays } from 'date-fns'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface BookingInfoType {
+type BookingInfoType = {
   hotelName: string
   hotelAddress: string
   dayStart: Date
@@ -15,7 +15,7 @@ interface BookingInfoType {
   price: number
 }
 
-interface BookingInfoStoreType {
+type BookingInfoStoreType = {
   booking: BookingInfoType
   setBooking: (data: Partial<BookingInfoType>) => void
   resetBooking: () => void

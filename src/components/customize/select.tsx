@@ -3,12 +3,12 @@
 import React from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-interface Option {
+type Option = {
   label: string
   value: string | number
 }
 
-interface CustomSelectProps {
+type CustomSelectProps = {
   options: Option[]
   value?: string | number
   onChange?: (value: string | number) => void
@@ -17,14 +17,14 @@ interface CustomSelectProps {
   disabled?: boolean
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({
+const CustomSelect = ({
   options,
   value,
   onChange,
   placeholder = 'Select an option',
   className,
   disabled = false
-}) => {
+}: CustomSelectProps) => {
   const handleChange = (val: string) => {
     const selectedOption = options.find((option) => String(option.value) === val)
     onChange?.(selectedOption?.value ?? val)

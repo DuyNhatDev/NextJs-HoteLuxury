@@ -352,7 +352,7 @@ function Calendar({
 }
 Calendar.displayName = 'Calendar'
 
-interface PeriodSelectorProps {
+type PeriodSelectorProps = {
   period: Period
   setPeriod?: (m: Period) => void
   date?: Date | null

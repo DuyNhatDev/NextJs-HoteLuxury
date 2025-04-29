@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useRef } from 'react'
 import clsx from 'clsx'
 
-interface UploadImageProps {
+type UploadImageProps = {
   value?: string | undefined
   onChange: (file: File, previewUrl: string) => void
   className?: string

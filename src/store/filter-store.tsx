@@ -3,7 +3,7 @@ import { addDays } from 'date-fns'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface FilterStoreType {
+type FilterStoreType = {
   filter: FilterType
   setFilter: (data: Partial<FilterType>) => void
   resetFilter: () => void

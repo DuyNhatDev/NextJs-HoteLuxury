@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false })
 
-interface RichTextEditorProps {
+type RichTextEditorProps = {
   value?: string
   onChange: (value: string) => void
   title?: string
 }
 
-const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onChange, title }) => {
+const RichTextEditor = ({ value, onChange, title }: RichTextEditorProps) => {
   const [editorContent, setEditorContent] = useState(value || '')
 
   useEffect(() => {

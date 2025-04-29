@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface PriceStoreType {
+type PriceStoreType = {
   minPrice: number
   setMinPrice: (value: number) => void
 }

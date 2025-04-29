@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { CalendarIcon, Moon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface DateRangePickerProps {
+type DateRangePickerProps = {
   value?: DateRange
   onChange?: (range: DateRange | undefined) => void
   placeholder?: string

@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 
-interface SearchFormProps {
+type SearchFormProps = {
   hotelId: number
 }
 

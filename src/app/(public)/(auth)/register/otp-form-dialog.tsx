@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { LoaderCircle } from 'lucide-react'
 
-interface InputOtpFormDialogProps {
+type InputOtpFormDialogProps = {
   open: boolean
   setOpen: (open: boolean) => void
   email: string
