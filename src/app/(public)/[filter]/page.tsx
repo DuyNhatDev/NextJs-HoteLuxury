@@ -1,7 +1,14 @@
 import FilterForm from '@/app/(public)/[filter]/components/filter-form'
 import SearchForm from '@/app/(public)/[filter]/components/search-form'
+import { notFound } from 'next/navigation'
 
-export default function ListHotelPage() {
+export default async function ListHotelPage({ params }: { params: Promise<{ filter: string }> }) {
+  const { filter } = await params
+  const isValid = filter.startsWith('khach-san-')
+
+  if (!isValid) {
+    notFound()
+  }
   return (
     <div className='flex flex-col'>
       <div className='flex-1'>
