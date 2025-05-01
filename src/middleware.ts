@@ -39,7 +39,7 @@ export function middleware(request: NextRequest) {
       [Role.Admin]: [...partnerPaths]
     }
     if (roleAccess[role]?.some((path) => pathname.startsWith(path))) {
-      return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.redirect(new URL('/forbidden', request.url))
     }
   }
   return NextResponse.next()

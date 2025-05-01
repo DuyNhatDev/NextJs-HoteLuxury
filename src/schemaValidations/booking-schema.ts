@@ -1,6 +1,6 @@
 import z from 'zod'
 
-export const BookingSchema = z.object({
+export const CreateBookingBodySchema = z.object({
   userId: z.number(),
   roomTypeId: z.number(),
   dayStart: z.date(),
@@ -23,12 +23,32 @@ export const BookingSchema = z.object({
   })
 })
 
-export type BookingType = z.infer<typeof BookingSchema>
+export type CreateBookingBodyType = z.infer<typeof CreateBookingBodySchema>
 
-export const BookingResSchema = z.object({
+export const CreateBookingResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: BookingSchema
+  data: CreateBookingBodySchema
 })
 
-export type BookingResType = z.infer<typeof BookingResSchema>
+export type CreateBookingResType = z.infer<typeof CreateBookingResSchema>
+
+export const BookingSchema = CreateBookingBodySchema.extend({
+  bookingId: z.number(),
+  hotelId: z.number(),
+  roomTypeName: z.string(),
+  roomTypeImage: z.string(),
+  status: z.string(),
+  isConfirmed: z.boolean(),
+  isRating: z.boolean()
+})
+
+export type BookingType = z.infer<typeof BookingSchema>
+
+export const BookingListResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: z.array(BookingSchema)
+})
+
+export type BookingListResType = z.infer<typeof BookingListResSchema>

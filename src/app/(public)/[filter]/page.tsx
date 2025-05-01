@@ -1,13 +1,13 @@
 import FilterForm from '@/app/(public)/[filter]/components/filter-form'
 import SearchForm from '@/app/(public)/[filter]/components/search-form'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default async function ListHotelPage({ params }: { params: Promise<{ filter: string }> }) {
   const { filter } = await params
   const isValid = filter.startsWith('khach-san-')
 
   if (!isValid) {
-    notFound()
+    redirect('/not-found')
   }
   return (
     <div className='flex flex-col'>

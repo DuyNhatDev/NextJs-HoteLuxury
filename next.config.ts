@@ -1,23 +1,26 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  experimental: {
+    authInterrupts: true
+  },
   images: {
     remotePatterns: [
       {
         hostname: 'localhost',
-        pathname: '/**',
+        pathname: '/**'
       },
       {
         hostname: 'via.placeholder.com',
-        pathname: '/**',
+        pathname: '/**'
       },
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        pathname: '/**',
-      },
-    ],
-  },
+        pathname: '/**'
+      }
+    ]
+  }
 }
 
 export default nextConfig

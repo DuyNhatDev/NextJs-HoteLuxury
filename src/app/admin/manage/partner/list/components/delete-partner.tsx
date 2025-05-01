@@ -9,8 +9,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
+import { buttonVariants } from '@/components/ui/button'
 import { handleErrorApi } from '@/lib/utils'
 import { useDeletePartnerMutation } from '@/queries/useAccount'
+import { OctagonAlert } from 'lucide-react'
 import { toast } from 'sonner'
 
 export default function AlertDialogDeletePartner({
@@ -44,16 +46,21 @@ export default function AlertDialogDeletePartner({
       }}
     >
       <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Xóa tài khoản?</AlertDialogTitle>
-          <AlertDialogDescription>
+        <AlertDialogHeader className='items-center'>
+          <AlertDialogTitle>
+            <div className='bg-destructive/10 mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full'>
+              <OctagonAlert className='text-destructive h-7 w-7' />
+            </div>
+            Xóa tài khoản?
+          </AlertDialogTitle>
+          <AlertDialogDescription className='text-center text-[15px]'>
             Tài khoản<span className='rounded px-1 font-bold'>{partnerDelete?.fullname}</span>
             sẽ bị xóa vĩnh viễn
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className='mt-2 sm:justify-center'>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deletePartner}>
+          <AlertDialogAction className={buttonVariants({ variant: 'destructive' })} onClick={deletePartner}>
             Xóa
           </AlertDialogAction>
         </AlertDialogFooter>
