@@ -5,8 +5,8 @@ import PendingTab from '@/app/(customer)/dashboard/trips/components/pending-tab'
 import ProgressingTab from '@/app/(customer)/dashboard/trips/components/progressing-tab'
 import UpcomingTab from '@/app/(customer)/dashboard/trips/components/upcoming-tab'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   useGetCanceledBookingList,
   useGetCompletedBookingList,
@@ -14,7 +14,6 @@ import {
   useGetProgressingBookingList,
   useGetUpcomingBookingList
 } from '@/queries/useBooking'
-import { Copy } from 'lucide-react'
 
 export default function TabControl() {
   const { data: pendingListQuery } = useGetPendingBookingList()
@@ -67,7 +66,7 @@ export default function TabControl() {
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className='bg-background data-[state=active]:border-primary h-full rounded-none border-b-2 border-transparent data-[state=active]:shadow-none'
+            className='bg-background data-[state=active]: h-full rounded-none border-b-3 border-transparent data-[state=active]:border-sky-400 data-[state=active]:text-sky-400 data-[state=active]:shadow-none'
           >
             <p className='text-sm'>{tab.name}</p>{' '}
             {!!tab.count && (
@@ -80,7 +79,9 @@ export default function TabControl() {
       </TabsList>
       {tabs.map((tab) => (
         <TabsContent key={tab.value} value={tab.value}>
-          {tab.content}
+          <Card className='rounded'>
+            <CardContent>{tab.content}</CardContent>
+          </Card>
         </TabsContent>
       ))}
     </Tabs>

@@ -6,8 +6,8 @@ type CanceledTabProps = {
 }
 export default function CanceledTab({ data }: CanceledTabProps) {
   return (
-    <div>
-      <h1>Đã hủy</h1>
+    <div className='w-full'>
+      {data.length === 0 ? <p className='text-center text-gray-500'>Chưa có đơn nào</p> : <h1>Đã hủy</h1>}
     </div>
   )
 }
