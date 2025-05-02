@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 const adminPaths = ['/admin']
 const partnerPaths = ['/partner']
-const customerPath = ['/thong-tin-booking']
+const customerPath = ['/thong-tin-booking', '/dashboard']
 const privatePaths = [...adminPaths, ...partnerPaths, ...customerPath]
 const unAuthPaths = ['/login', '/register', '/forgot-password', '/reset-password']
 
@@ -54,6 +54,7 @@ export const config = {
     '/register',
     '/forgot-password',
     '/reset-password',
-    '/thong-tin-booking/:path*'
+    '/thong-tin-booking/:path*',
+    '/dashboard/:path*'
   ]
 }

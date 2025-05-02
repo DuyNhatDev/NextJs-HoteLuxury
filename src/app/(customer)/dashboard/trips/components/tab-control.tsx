@@ -14,6 +14,8 @@ import {
   useGetProgressingBookingList,
   useGetUpcomingBookingList
 } from '@/queries/useBooking'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function TabControl() {
   const { data: pendingListQuery } = useGetPendingBookingList()
@@ -26,6 +28,29 @@ export default function TabControl() {
   const progressingList = progressingListQuery?.payload?.data
   const completedList = completedListQuery?.payload?.data
   const canceledList = canceledListQuery?.payload?.data
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const tabIndexToValue = ['pending', 'upcoming', 'progress', 'completed', 'canceled']
+  const tabValueToIndex = Object.fromEntries(tabIndexToValue.map((v, i) => [v, i]))
+  const typeParam = searchParams.get('type')
+  const initialTab = tabIndexToValue[Number(typeParam)] || 'pending'
+  const [currentTab, setCurrentTab] = useState(initialTab)
+
+  useEffect(() => {
+    const typeParam = searchParams.get('type')
+    const value = tabIndexToValue[Number(typeParam)] || 'pending'
+    setCurrentTab(value)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
+
+  const handleTabChange = (value: string) => {
+    setCurrentTab(value)
+    const index = tabValueToIndex[value]
+    const params = new URLSearchParams(searchParams)
+    params.set('type', String(index))
+    router.replace(`${pathname}?${params.toString()}`)
+  }
   const tabs = [
     {
       name: 'Chờ xác nhận',
@@ -60,7 +85,7 @@ export default function TabControl() {
   ]
 
   return (
-    <Tabs defaultValue={tabs[0].value} className='w-full'>
+    <Tabs value={currentTab} onValueChange={handleTabChange} className='w-full'>
       <TabsList className='bg-background w-full justify-start gap-1 rounded-none px-4'>
         {tabs.map((tab) => (
           <TabsTrigger
@@ -68,7 +93,7 @@ export default function TabControl() {
             value={tab.value}
             className='bg-background data-[state=active]: h-full rounded-none border-b-3 border-transparent data-[state=active]:border-sky-400 data-[state=active]:text-sky-400 data-[state=active]:shadow-none'
           >
-            <p className='text-sm'>{tab.name}</p>{' '}
+            <p className='text-sm'>{tab.name}</p>
             {!!tab.count && (
               <Badge variant='secondary' className='ml-2 rounded-full px-1 py-0 text-xs'>
                 {tab.count}

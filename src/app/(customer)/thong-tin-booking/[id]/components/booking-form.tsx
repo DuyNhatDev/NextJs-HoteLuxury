@@ -16,6 +16,7 @@ import { LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 export default function BookingForm() {
   const router = useRouter()
   const booking = useBookingStore((state) => state.booking)
@@ -64,8 +65,9 @@ export default function BookingForm() {
       const result = await createBookingMutation.mutateAsync(data)
       const url = result.payload.data
       if (url && typeof url === 'string') {
-        console.log(url)
+        window.open(url, '_blank')
       } else {
+        toast.success('Đặt phòng thành công')
         setTimeout(() => {
           router.push('/dashboard/trips')
         }, 1000)
