@@ -207,7 +207,7 @@ export default function ProfileForm() {
                 ) : (
                   <button
                     type='button'
-                    className='text-md bg-transparent px-0 py-1 shadow-none hover:bg-transparent disabled:cursor-not-allowed disabled:text-gray-400'
+                    className='text-md bg-transparent p-0 shadow-none hover:bg-transparent disabled:cursor-not-allowed disabled:text-gray-400'
                     disabled
                   >
                     Chỉnh sửa
