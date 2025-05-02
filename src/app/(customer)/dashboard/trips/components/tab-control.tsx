@@ -57,55 +57,63 @@ export default function TabControl() {
       name: 'Chờ xác nhận',
       value: 'pending',
       content: <PendingTab data={pendingList ?? []} />,
-      count: pendingList?.length
+      count: pendingList?.length,
+      showBadge: true
     },
     {
       name: 'Sắp tới',
       value: 'upcoming',
       content: <UpcomingTab data={upcomingList ?? []} />,
-      count: upcomingList?.length
+      count: upcomingList?.length,
+      showBadge: true
     },
     {
       name: 'Đang thực hiện',
       value: 'progress',
       content: <ProgressingTab data={progressingList ?? []} />,
-      count: progressingList?.length
+      count: progressingList?.length,
+      showBadge: true
     },
     {
       name: 'Đã hoàn thành',
       value: 'completed',
       content: <CompletedTab data={completedList ?? []} />,
-      count: 0
+      count: completedList?.length,
+      showBadge: false
     },
     {
       name: 'Đã hủy',
       value: 'canceled',
       content: <CanceledTab data={canceledList ?? []} />,
-      count: 0
+      count: canceledList?.length,
+      showBadge: false
     }
   ]
 
   return (
     <Tabs value={currentTab} onValueChange={handleTabChange} className='w-full'>
-      <TabsList className='bg-background w-full justify-start gap-1 rounded-none px-4'>
-        {tabs.map((tab) => (
-          <TabsTrigger
-            key={tab.value}
-            value={tab.value}
-            className='bg-background data-[state=active]: h-full rounded-none border-b-3 border-transparent data-[state=active]:border-sky-400 data-[state=active]:text-sky-400 data-[state=active]:shadow-none'
-          >
-            <p className='text-sm'>{tab.name}</p>
-            {!!tab.count && (
-              <Badge
-                variant='secondary'
-                className='ml-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 p-0 text-[10px] text-white'
-              >
-                {tab.count}
-              </Badge>
-            )}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      <div className='overflow-x-auto'>
+        <TabsList className='bg-background w-max min-w-full justify-start gap-1 rounded-none px-4'>
+          {tabs.map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className='bg-background rounded-none border-b-3 border-transparent whitespace-nowrap data-[state=active]:border-sky-400 data-[state=active]:text-sky-400 data-[state=active]:shadow-none'
+            >
+              <p className='text-sm'>{tab.name}</p>
+              {tab.showBadge && !!tab.count && (
+                <Badge
+                  variant='secondary'
+                  className='ml-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 p-0 text-[10px] text-white'
+                >
+                  {tab.count}
+                </Badge>
+              )}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
+
       {tabs.map((tab) => (
         <TabsContent key={tab.value} value={tab.value}>
           {tab.count === 0 ? (

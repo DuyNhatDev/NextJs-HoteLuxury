@@ -18,13 +18,13 @@ export default function CompletedTab({ data }: CompletedTabProps) {
           return (
             <Card
               key={order.bookingId}
-              className='grid w-full transform grid-cols-12 gap-3 rounded border p-3 hover:shadow-lg'
+              className='grid w-full grid-cols-1 gap-3 rounded border p-3 hover:shadow-lg md:grid-cols-12'
             >
               <Link href='#' className='contents'>
-                <div className='relative col-span-2 aspect-[4/3] h-full w-full overflow-hidden'>
+                <div className='relative h-48 w-full overflow-hidden md:col-span-2 md:aspect-[4/3] md:h-auto'>
                   <Image src={order.roomTypeImage} alt={order.hotelName} fill className='object-cover' />
                 </div>
-                <CardContent className='col-span-7 flex flex-col justify-between gap-1 px-0 py-0'>
+                <CardContent className='flex flex-col justify-between gap-1 px-0 py-0 md:col-span-7'>
                   <div className='flex flex-1 flex-col gap-0 px-1'>
                     <p className='line-clamp-2 text-lg'>{order.hotelName}</p>
                     <p className='text-gray-500'>
@@ -39,13 +39,15 @@ export default function CompletedTab({ data }: CompletedTabProps) {
                   </div>
                 </CardContent>
               </Link>
-              <div className='col-span-3 flex items-center justify-end px-3'>
-                <div className='flex flex-col gap-1'>
-                  <p className='text-lg font-semibold text-sky-500'>
-                    {Number(order.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
-                  </p>
-                  <Button variant='outline'>Đặt lại</Button>
-                  <Button className='bg-orange-500 hover:bg-orange-500'>Đánh giá</Button>
+              <div className='flex flex-col items-end justify-end gap-2 px-3 text-right md:col-span-3'>
+                <p className='text-lg font-semibold text-sky-500'>
+                  {Number(order.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                </p>
+                <div className='flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:justify-end'>
+                  <Button variant='outline' className='w-full sm:w-auto'>
+                    Đặt lại
+                  </Button>
+                  <Button className='w-full bg-orange-500 text-white hover:bg-orange-500 sm:w-auto'>Đánh giá</Button>
                 </div>
               </div>
             </Card>
