@@ -112,7 +112,7 @@ export default function ProfileForm() {
               </CardDescription>
             </div>
             <div className='flex items-start justify-start gap-2'>
-              <Avatar className='h-11 w-11' onClick={() => avatarInputRef.current?.click()}>
+              <Avatar className='h-12 w-12' onClick={() => avatarInputRef.current?.click()}>
                 <AvatarImage src={src} className='hover:cursor-pointer' />
                 <AvatarFallback>{getLastTwoInitials(form.getValues('fullname') || '')}</AvatarFallback>
               </Avatar>

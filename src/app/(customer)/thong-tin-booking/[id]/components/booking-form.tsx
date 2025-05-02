@@ -5,19 +5,23 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
-import { getUserIdFromLocalStorage } from '@/lib/utils'
+import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { useGetAccount } from '@/queries/useAccount'
+import { useCreateBookingMutation } from '@/queries/useBooking'
 import { CreateBookingBodySchema, CreateBookingBodyType } from '@/schemaValidations/booking-schema'
 import { useBookingStore } from '@/store/booking-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addDays } from 'date-fns'
 import { LoaderCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 export default function BookingForm() {
+  const router = useRouter()
   const booking = useBookingStore((state) => state.booking)
   const userId = getUserIdFromLocalStorage()
   const { data } = useGetAccount(userId ?? undefined, Boolean(userId))
+  const createBookingMutation = useCreateBookingMutation()
   const form = useForm<CreateBookingBodyType>({
     resolver: zodResolver(CreateBookingBodySchema),
     defaultValues: {
@@ -55,7 +59,23 @@ export default function BookingForm() {
   }, [booking, data, userId, setValue])
 
   const onSubmit = async (data: CreateBookingBodyType) => {
-    console.log(data)
+    if (createBookingMutation.isPending) return
+    try {
+      const result = await createBookingMutation.mutateAsync(data)
+      const url = result.payload.data
+      if (url && typeof url === 'string') {
+        console.log(url)
+      } else {
+        setTimeout(() => {
+          router.push('/dashboard/trips')
+        }, 1000)
+      }
+    } catch (error) {
+      handleErrorApi({
+        error,
+        setError: form.setError
+      })
+    }
   }
   return (
     <Form {...form}>
@@ -211,7 +231,7 @@ export default function BookingForm() {
           </CardContent>
           <CardFooter>
             <Button type='submit' className='w-full bg-orange-400 py-5 text-lg font-semibold hover:bg-orange-400'>
-              {/* {loginMutation.isPending && <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />} */}
+              {createBookingMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
               Yêu cầu đặt phòng
             </Button>
           </CardFooter>

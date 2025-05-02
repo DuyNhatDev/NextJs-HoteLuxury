@@ -1,5 +1,4 @@
 'use client'
-
 import { BookingType } from '@/schemaValidations/booking-schema'
 
 type PendingTabProps = {

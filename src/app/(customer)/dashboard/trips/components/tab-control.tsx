@@ -61,7 +61,7 @@ export default function TabControl() {
 
   return (
     <Tabs defaultValue={tabs[0].value} className='w-full'>
-      <TabsList className='bg-background w-full justify-start gap-1 rounded-none px-3'>
+      <TabsList className='bg-background w-full justify-start gap-1 rounded-none px-4'>
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
