@@ -1,4 +1,5 @@
 'use client'
+import AlertDialogCancelBooking from '@/app/(customer)/dashboard/trips/components/cancel-booking'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { formatDayWithDate, removePhong } from '@/lib/utils'
@@ -6,11 +7,13 @@ import { BookingType } from '@/schemaValidations/booking-schema'
 import { differenceInCalendarDays } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
 type PendingTabProps = {
   data: BookingType[]
 }
 export default function PendingTab({ data }: PendingTabProps) {
+  const [bookingCancel, setBookingCancel] = useState<BookingType | null>(null)
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
@@ -46,13 +49,16 @@ export default function PendingTab({ data }: PendingTabProps) {
                   <p className='text-lg font-semibold text-sky-500'>
                     {Number(order.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                   </p>
-                  <Button variant='outline'>Hủy đơn</Button>
+                  <Button variant='outline' onClick={() => setBookingCancel(order)}>
+                    Hủy đơn
+                  </Button>
                 </div>
               </div>
             </Card>
           )
         })}
       </div>
+      <AlertDialogCancelBooking bookingCancel={bookingCancel} setBookingCancel={setBookingCancel} />
     </div>
   )
 }

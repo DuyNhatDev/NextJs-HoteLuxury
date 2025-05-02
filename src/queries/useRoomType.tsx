@@ -22,9 +22,7 @@ export const useAddRoomTypeMutation = () => {
   return useMutation({
     mutationFn: roomTypeApiRequest.addRoomType,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['room-types']
-      })
+      queryClient.invalidateQueries({ queryKey: ['room-types'] })
     }
   })
 }
@@ -35,9 +33,7 @@ export const useUpdateRoomTypeMutation = () => {
     mutationFn: ({ id, body }: { id: number; body: UpdateRoomTypeBodyType }) =>
       roomTypeApiRequest.updateRoomType(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['room-types']
-      })
+      queryClient.invalidateQueries({ queryKey: ['room-types'] })
     }
   })
 }
@@ -47,9 +43,7 @@ export const useDeleteRoomTypeMutation = () => {
   return useMutation({
     mutationFn: roomTypeApiRequest.deleteRoomType,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['room-types']
-      })
+      queryClient.invalidateQueries({ queryKey: ['room-types'] })
     }
   })
 }

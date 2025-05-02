@@ -22,9 +22,7 @@ export const useAddHotelMutation = () => {
   return useMutation({
     mutationFn: hotelApiRequest.addHotel,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['hotels']
-      })
+      queryClient.invalidateQueries({ queryKey: ['hotels'] })
     }
   })
 }
@@ -34,9 +32,7 @@ export const useUpdateHotelMutation = () => {
   return useMutation({
     mutationFn: ({ id, body }: { id: number; body: UpdateHotelBodyType }) => hotelApiRequest.updateHotel(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['hotels']
-      })
+      queryClient.invalidateQueries({ queryKey: ['hotels'] })
     }
   })
 }
@@ -46,9 +42,7 @@ export const useDeleteHotelMutation = () => {
   return useMutation({
     mutationFn: hotelApiRequest.deleteHotel,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['hotels']
-      })
+      queryClient.invalidateQueries({ queryKey: ['hotels'] })
     }
   })
 }

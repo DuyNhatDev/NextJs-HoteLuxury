@@ -9,6 +9,7 @@ const bookingApiRequest = {
   getUpcoming: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã xác nhận`),
   getProgressing: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đang thực hiện`),
   getCompleted: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã hoàn tất`),
-  getCanceled: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã hủy`)
+  getCanceled: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã hủy`),
+  cancelBooking: (id: number) => http.put(`${prefix}/${id}`, { isConfirmed: true, status: 'Đã hủy' })
 }
 export default bookingApiRequest

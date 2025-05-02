@@ -1,7 +1,6 @@
 'use client'
 import { CircleUser, FileText, Ticket, ChevronDown } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { Button } from '@/components/ui/button'

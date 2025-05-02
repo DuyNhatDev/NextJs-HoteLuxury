@@ -6,7 +6,7 @@ export const useGetDestination = (id?: number, enabled: boolean = false) => {
   return useQuery({
     queryKey: ['destination', id],
     queryFn: () => destinationApiRequest.getDestination(id!),
-    enabled: !!id && enabled,
+    enabled: !!id && enabled
   })
 }
 
@@ -14,7 +14,7 @@ export const useGetDestinationList = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ['destinations'],
     queryFn: destinationApiRequest.getDestinationList,
-    enabled,
+    enabled
   })
 }
 
@@ -23,10 +23,8 @@ export const useAddDestinationMutation = () => {
   return useMutation({
     mutationFn: destinationApiRequest.addDestination,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['destinations'],
-      })
-    },
+      queryClient.invalidateQueries({ queryKey: ['destinations'] })
+    }
   })
 }
 
@@ -36,10 +34,8 @@ export const useUpdateDestinationMutation = () => {
     mutationFn: ({ id, body }: { id: number; body: UpdateDestinationBodyType }) =>
       destinationApiRequest.updateDestination(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['destinations'],
-      })
-    },
+      queryClient.invalidateQueries({ queryKey: ['destinations'] })
+    }
   })
 }
 
@@ -48,9 +44,7 @@ export const useDeleteDestinationMutation = () => {
   return useMutation({
     mutationFn: destinationApiRequest.deleteDestination,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['destinations'],
-      })
-    },
+      queryClient.invalidateQueries({ queryKey: ['destinations'] })
+    }
   })
 }

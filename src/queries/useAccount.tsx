@@ -40,9 +40,7 @@ export const useAddPartnerMutation = () => {
   return useMutation({
     mutationFn: accountApiRequest.addPartner,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['partners']
-      })
+      queryClient.invalidateQueries({ queryKey: ['partners'] })
     }
   })
 }
@@ -52,9 +50,7 @@ export const useAddCustomerMutation = () => {
   return useMutation({
     mutationFn: accountApiRequest.addUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['users']
-      })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
     }
   })
 }
@@ -65,9 +61,7 @@ export const useUpdatePartnerMutation = () => {
     mutationFn: ({ id, body }: { id: number; body: UpdatePartnerAccountBodyType }) =>
       accountApiRequest.updatePartner(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['partners']
-      })
+      queryClient.invalidateQueries({ queryKey: ['partners'] })
     }
   })
 }
@@ -78,9 +72,7 @@ export const useUpdateCustomerMutation = () => {
     mutationFn: ({ id, body }: { id: number; body: UpdateCustomerAccountBodyType }) =>
       accountApiRequest.updateCustomer(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['users']
-      })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
     }
   })
 }
@@ -90,9 +82,7 @@ export const useUpdateProfileMutation = () => {
     mutationFn: ({ id, body }: { id: number; body: UpdateProfileBodyType }) =>
       accountApiRequest.updateProfile(id, body),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ['account', variables.id.toString()]
-      })
+      queryClient.invalidateQueries({ queryKey: ['account', variables.id.toString()] })
     }
   })
 }
@@ -102,9 +92,7 @@ export const useDeletePartnerMutation = () => {
   return useMutation({
     mutationFn: accountApiRequest.deleteAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['partners']
-      })
+      queryClient.invalidateQueries({ queryKey: ['partners'] })
     }
   })
 }
@@ -114,9 +102,7 @@ export const useDeleteUserMutation = () => {
   return useMutation({
     mutationFn: accountApiRequest.deleteAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['users']
-      })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
     }
   })
 }
@@ -126,9 +112,7 @@ export const useRejectPartnerMutation = () => {
   return useMutation({
     mutationFn: accountApiRequest.deleteAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['pending-partners']
-      })
+      queryClient.invalidateQueries({ queryKey: ['pending-partners'] })
     }
   })
 }
@@ -139,9 +123,7 @@ export const useConfirmPartnerMutation = () => {
     mutationFn: ({ id, isConfirmed }: { id: number; isConfirmed: boolean }) =>
       accountApiRequest.confirmPartner(id, isConfirmed),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['pending-partners']
-      })
+      queryClient.invalidateQueries({ queryKey: ['pending-partners'] })
     }
   })
 }
