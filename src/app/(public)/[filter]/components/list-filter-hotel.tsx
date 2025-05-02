@@ -60,7 +60,7 @@ export default function ListFilterHotel({ filterParams }: { filterParams: Filter
                     <CardContent className='col-span-5 flex flex-col justify-between gap-1 px-0 py-0'>
                       <div className='flex flex-1 flex-col gap-2 px-1 py-3'>
                         <div>
-                          <h3 className='mb-1 line-clamp-2 text-lg font-semibold'>{hotel.hotelName}</h3>
+                          <p className='mb-1 line-clamp-2 text-lg font-semibold'>{hotel.hotelName}</p>
                           <Rating
                             rating={hotel.hotelStar || 0}
                             size={22}

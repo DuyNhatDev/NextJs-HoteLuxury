@@ -16,6 +16,7 @@ import {
 } from '@/queries/useBooking'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 export default function TabControl() {
   const { data: pendingListQuery } = useGetPendingBookingList()
@@ -41,7 +42,7 @@ export default function TabControl() {
     const typeParam = searchParams.get('type')
     const value = tabIndexToValue[Number(typeParam)] || 'pending'
     setCurrentTab(value)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   const handleTabChange = (value: string) => {
@@ -74,13 +75,13 @@ export default function TabControl() {
       name: 'Đã hoàn thành',
       value: 'completed',
       content: <CompletedTab data={completedList ?? []} />,
-      count: completedList?.length
+      count: 0
     },
     {
       name: 'Đã hủy',
       value: 'canceled',
       content: <CanceledTab data={canceledList ?? []} />,
-      count: canceledList?.length
+      count: 0
     }
   ]
 
@@ -95,7 +96,10 @@ export default function TabControl() {
           >
             <p className='text-sm'>{tab.name}</p>
             {!!tab.count && (
-              <Badge variant='secondary' className='ml-2 rounded-full px-1 py-0 text-xs'>
+              <Badge
+                variant='secondary'
+                className='ml-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 p-0 text-[10px] text-white'
+              >
                 {tab.count}
               </Badge>
             )}
@@ -104,9 +108,16 @@ export default function TabControl() {
       </TabsList>
       {tabs.map((tab) => (
         <TabsContent key={tab.value} value={tab.value}>
-          <Card className='rounded'>
-            <CardContent>{tab.content}</CardContent>
-          </Card>
+          {tab.count === 0 ? (
+            <Card className='flex min-h-96 items-center justify-center rounded'>
+              <CardContent className='flex flex-col items-center justify-center gap-4'>
+                <Image src='/image/order-empty.png' alt='Ảnh' width={100} height={100} />
+                <p className='text-lg'>Chưa có đơn</p>
+              </CardContent>
+            </Card>
+          ) : (
+            tab.content
+          )}
         </TabsContent>
       ))}
     </Tabs>

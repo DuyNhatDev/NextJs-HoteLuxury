@@ -272,3 +272,15 @@ export const getBreadcrumbPageFromPathName = (pathName: string): string => {
   }
   return pathNameMap[pathName] || pathName
 }
+
+export const formatDayWithDate = (date: Date) => {
+  const day = date.getDay()
+  const shortDay = day === 0 ? 'CN' : `T${day + 1}`
+  return `${shortDay}, ${format(date, 'dd/MM/yyyy')}`
+}
+export const removePhong = (text: string) => {
+  if (text.startsWith('Phòng ')) {
+    return text.slice(6)
+  }
+  return text
+}

@@ -8,7 +8,9 @@ import {
   RoomTypeResType,
   UpdateRoomTypeBodyType
 } from '@/schemaValidations/room-type.schema'
+
 const prefix = '/room-type'
+
 const roomTypeApiRequest = {
   getRoomTypeList: () => http.get<RoomTypeListResType>(`${prefix}`),
   getRoomType: (id: string) => http.get<RoomTypeResType>(`${prefix}/by-hotel-manager/${id}`),

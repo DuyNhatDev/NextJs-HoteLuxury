@@ -6,7 +6,9 @@ import {
   HotelResType,
   UpdateHotelBodyType
 } from '@/schemaValidations/hotel.schema'
+
 const prefix = '/hotel'
+
 const hotelApiRequest = {
   getHotelList: () => http.get<HotelListResType>(`${prefix}`),
   getHotel: (id: string) => http.get<HotelResType>(`${prefix}/${id}`),
