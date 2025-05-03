@@ -37,6 +37,7 @@ export const BookingSchema = CreateBookingBodySchema.extend({
   bookingId: z.number(),
   hotelId: z.number(),
   hotelName: z.string(),
+  locationName: z.string(),
   roomTypeName: z.string(),
   roomTypeImage: z.string(),
   status: z.string(),

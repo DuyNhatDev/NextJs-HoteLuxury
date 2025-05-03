@@ -85,12 +85,12 @@ export default function SearchForm() {
       setOpen(true)
     } else {
       if (!isHotel) {
-        const url = `khach-san-${generateSlugUrl(keyword)}`
+        const url = `/khach-san-${generateSlugUrl(keyword)}`
         router.push(url)
       } else {
         const matchedHotel = findHotelByKeyword(keyword, suggestHotelList)
         if (matchedHotel?.locationName) {
-          const url = `khach-san-${generateSlugUrl(matchedHotel?.locationName)}/${generateSlugUrl(keyword)}-chi-tiet`
+          const url = `/khach-san-${generateSlugUrl(matchedHotel?.locationName)}/${generateSlugUrl(keyword)}-chi-tiet`
           router.push(url)
         }
       }

@@ -80,14 +80,14 @@ export default function SearchForm() {
     } else {
       if (!isHotel) {
         setTimeout(() => {
-          const url = `khach-san-${generateSlugUrl(data.filter)}`
+          const url = `/khach-san-${generateSlugUrl(data.filter)}`
           router.push(url)
         }, 100)
       } else {
         const matchedHotel = findHotelByKeyword(keyword, suggestHotelList)
         if (matchedHotel?.locationName) {
           setTimeout(() => {
-            const url = `khach-san-${generateSlugUrl(matchedHotel?.locationName)}/${generateSlugUrl(keyword)}-chi-tiet`
+            const url = `/khach-san-${generateSlugUrl(matchedHotel?.locationName)}/${generateSlugUrl(keyword)}-chi-tiet`
             router.push(url)
           }, 100)
         }
