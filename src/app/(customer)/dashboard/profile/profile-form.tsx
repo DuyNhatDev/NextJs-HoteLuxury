@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { format as formatDate } from 'date-fns'
 import CustomSelect from '@/components/customize/select'
+import { Camera } from 'lucide-react'
 
 export default function ProfileForm() {
   const userId = getUserIdFromLocalStorage()
@@ -111,10 +112,13 @@ export default function ProfileForm() {
                 Lưu thông tin của Quý khách để đặt dịch vụ nhanh hơn
               </CardDescription>
             </div>
-            <div className='flex items-start justify-start gap-2'>
+            <div className='group relative flex items-start justify-start gap-2 hover:cursor-pointer'>
               <Avatar className='h-12 w-12' onClick={() => avatarInputRef.current?.click()}>
                 <AvatarImage src={src} className='hover:cursor-pointer' />
                 <AvatarFallback>{getLastTwoInitials(form.getValues('fullname') || '')}</AvatarFallback>
+                <div className='absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100'>
+                  <Camera className='text-gray-400' />
+                </div>
               </Avatar>
               <input
                 type='file'
