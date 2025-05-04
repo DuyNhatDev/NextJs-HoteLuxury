@@ -81,7 +81,7 @@ export default function DropdownAvatar() {
               <DropdownMenuItem className='focus:bg-transparent'>
                 <div className='flex flex-col items-center'>
                   <Button
-                    className='mb-2 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
+                    className='mb-2 w-full rounded bg-sky-400 px-4 py-2 text-white hover:bg-sky-500'
                     onClick={() => router.push('/register')}
                   >
                     Đăng ký
