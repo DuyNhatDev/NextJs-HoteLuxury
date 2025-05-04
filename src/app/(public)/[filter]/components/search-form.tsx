@@ -96,7 +96,7 @@ export default function SearchForm() {
   }
 
   return (
-    <div className='flex w-full justify-center px-4'>
+    <div className='flex w-full justify-center px-4 md:px-0'>
       <div className='w-full rounded-sm bg-gray-800/20 p-4'>
         <Form {...form}>
           <form

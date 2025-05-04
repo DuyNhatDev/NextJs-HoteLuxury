@@ -1,5 +1,4 @@
 'use client'
-
 import { FilterParamsSchema, FilterParamsType } from '@/schemaValidations/filter.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { zodResolver } from '@hookform/resolvers/zod'
