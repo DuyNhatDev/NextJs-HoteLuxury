@@ -16,7 +16,7 @@ export default function MainLayout({ children }: Readonly<{ children: React.Reac
             <span className='sr-only'>HoteLuxury</span>
           </Link>
         </nav>
-        <Sheet>
+        {/* <Sheet>
           <SheetTrigger asChild>
             <Button variant='outline' size='icon' className='shrink-0 md:hidden'>
               <Menu className='h-5 w-5' />
@@ -35,7 +35,7 @@ export default function MainLayout({ children }: Readonly<{ children: React.Reac
               </Link>
             </nav>
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
         <div className='ml-auto flex gap-28'>
           <DropdownAvatar />
           <DarkModeToggle />

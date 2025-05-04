@@ -16,12 +16,6 @@ export default async function ListHotelPage({ params }: { params: Promise<{ filt
           <SearchForm />
         </div>
       </div>
-
-      {/* <div className="flex-1">
-          <div className="mx-auto h-full w-full bg-yellow-200 p-4 sm:max-w-xl md:max-w-6xl">
-          </div>
-        </div> */}
-
       <div className='flex-1'>
         <div className='mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl'>
           <FilterForm />

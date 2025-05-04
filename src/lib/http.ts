@@ -63,12 +63,7 @@ const request = async <Response>(
   }
   const baseHeaders: {
     [key: string]: string
-  } =
-    body instanceof FormData
-      ? {}
-      : {
-          'Content-Type': 'application/json'
-        }
+  } = body instanceof FormData ? {} : { 'Content-Type': 'application/json' }
   if (isClient) {
     const accessToken = getAccessTokenFromLocalStorage()
     if (accessToken) {
@@ -80,10 +75,7 @@ const request = async <Response>(
   const fullUrl = `${baseUrl}/${normalizePath(url)}`
   const res = await fetch(fullUrl, {
     ...options,
-    headers: {
-      ...baseHeaders,
-      ...options?.headers
-    } as any,
+    headers: { ...baseHeaders, ...options?.headers } as any,
     body,
     method
   })
