@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { hotelTypeItems, rangePriceItems, starItems } from '@/constants/type'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { getOriginalHotelTypeValueFromSlug, updateURLParams } from '@/lib/utils'
 import ListFilterHotel from '@/app/(public)/[filter]/components/list-filter-hotel'
 
@@ -17,6 +17,7 @@ export default function FilterForm() {
   const filter = useFilterStore((state) => state.filter)
   const searchParams = useSearchParams()
   const router = useRouter()
+  const pathname = usePathname()
   const form = useForm<FilterParamsType>({
     resolver: zodResolver(FilterParamsSchema),
     defaultValues: {
@@ -61,7 +62,9 @@ export default function FilterForm() {
       const cleanedHotelType = (formValues.hotelType ?? []).filter((s): s is string => typeof s === 'string')
       updateURLParams({
         currentParams: searchParams,
-        router,
+        router: {
+          push: (url) => router.push(`${pathname}${url}`)
+        },
         values: {
           hotelStar: cleanedHotelStar,
           hotelType: cleanedHotelType,
@@ -71,7 +74,7 @@ export default function FilterForm() {
     })
 
     return () => subscription.unsubscribe()
-  }, [watch, router, searchParams])
+  }, [watch, router, searchParams, pathname])
 
   return (
     <div className='flex flex-col'>

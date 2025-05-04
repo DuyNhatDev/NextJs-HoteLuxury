@@ -17,6 +17,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { updateURLParams } from '@/lib/utils'
 
 export default function TabControl() {
   const { data: pendingListQuery } = useGetPendingBookingList()
@@ -48,9 +49,15 @@ export default function TabControl() {
   const handleTabChange = (value: string) => {
     setCurrentTab(value)
     const index = tabValueToIndex[value]
-    const params = new URLSearchParams(searchParams)
-    params.set('type', String(index))
-    router.replace(`${pathname}?${params.toString()}`)
+    updateURLParams({
+      currentParams: searchParams,
+      router: {
+        push: (url) => router.push(`${pathname}${url}`)
+      },
+      values: {
+        type: String(index)
+      }
+    })
   }
   const tabs = [
     {
