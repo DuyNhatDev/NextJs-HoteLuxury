@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForgotPasswordMutation } from '@/queries/useAuth'
 import { handleErrorApi } from '@/lib/utils'
-import InputOtpFormDialog from '@/app/(public)/(auth)/forgot-password/verify-otp-form-dialog'
+import InputOtpFormDialog from '@/app/(auth)/forgot-password/verify-otp-form-dialog'
 
 export default function ForgetPasswordForm() {
   const router = useRouter()

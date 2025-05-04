@@ -1,4 +1,4 @@
-import RefreshToken from '@/app/(public)/(auth)/refresh-token/refresh-token'
+import RefreshToken from '@/app/(auth)/refresh-token/refresh-token'
 import { Suspense } from 'react'
 
 export default function RefreshTokenPage() {

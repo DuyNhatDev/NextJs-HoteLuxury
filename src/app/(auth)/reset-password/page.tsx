@@ -1,4 +1,4 @@
-import ResetPasswordForm from '@/app/(public)/(auth)/reset-password/reset-password-form'
+import ResetPasswordForm from '@/app/(auth)/reset-password/reset-password-form'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 

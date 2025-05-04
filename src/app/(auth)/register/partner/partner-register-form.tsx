@@ -4,14 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
 import { usePartnerRegisterMutation } from '@/queries/useAuth'
@@ -21,7 +14,7 @@ import { Label } from '@/components/ui/label'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/queries/useLocation'
 import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/customize/combobox'
-import InputOtpFormDialog from '@/app/(public)/(auth)/register/partner/otp-form-dialog'
+import InputOtpFormDialog from '@/app/(auth)/register/partner/otp-form-dialog'
 import Link from 'next/link'
 import 'react-day-picker/dist/style.css'
 import { PartnerRegisterBodySchema, PartnerRegisterBodyType } from '@/schemaValidations/auth.schema'
@@ -53,14 +46,14 @@ export default function PartnerRegisterForm() {
       phoneNumber: '',
       birthDate: '',
       address: '',
-      roleId: Role.Partner,
-    },
+      roleId: Role.Partner
+    }
   })
   const onSubmit = async (data: PartnerRegisterBodyType) => {
     const fullAddress = `${data.address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedProvince.name}`
     const body = {
       ...data,
-      address: fullAddress,
+      address: fullAddress
     }
     if (partnerRegisterMutation.isPending) return
     try {
@@ -71,46 +64,44 @@ export default function PartnerRegisterForm() {
     } catch (error: any) {
       handleErrorApi({
         error,
-        setError: form.setError,
+        setError: form.setError
       })
     }
   }
   return (
     <>
-      <Card className="mx-auto my-4 max-w-xl min-w-96 rounded-sm">
-        <CardHeader className="relative flex w-full items-center px-4">
+      <Card className='mx-auto my-4 max-w-xl min-w-96 rounded-sm'>
+        <CardHeader className='relative flex w-full items-center px-4'>
           {/* <ArrowLeft className="absolute left-5 cursor-pointer" onClick={() => router.back()} /> */}
-          <CardTitle className="mx-auto text-2xl font-bold text-blue-900">
-            Đăng Ký Đối Tác
-          </CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className='mx-auto text-2xl font-bold text-blue-900'>Đăng Ký Đối Tác</CardTitle>
+          <CardDescription className='text-center'>
             Vui lòng điền đầy đủ thông tin để đăng ký trở thành đối tác của HoteLuxury
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form
-              className="w-full max-w-[600px] flex-shrink-0 space-y-2"
+              className='w-full max-w-[600px] flex-shrink-0 space-y-2'
               noValidate
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <div className="grid gap-7">
-                <div className="flex w-full gap-4">
+              <div className='grid gap-7'>
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="fullname"
+                    name='fullname'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="fullname">
-                            Họ và tên <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='fullname'>
+                            Họ và tên <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
-                              id="fullname"
-                              placeholder="Ví dụ: Nguyen Van A"
-                              type="text"
-                              className="w-full"
+                              id='fullname'
+                              placeholder='Ví dụ: Nguyen Van A'
+                              type='text'
+                              className='w-full'
                               required
                               {...field}
                             />
@@ -122,19 +113,19 @@ export default function PartnerRegisterForm() {
                   />
                   <FormField
                     control={form.control}
-                    name="email"
+                    name='email'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="email">
-                            Email <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='email'>
+                            Email <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
-                              id="email"
-                              placeholder="Ví dụ: example@gmail.com"
-                              type="email"
-                              className="w-full"
+                              id='email'
+                              placeholder='Ví dụ: example@gmail.com'
+                              type='email'
+                              className='w-full'
                               required
                               {...field}
                             />
@@ -146,24 +137,18 @@ export default function PartnerRegisterForm() {
                   />
                 </div>
 
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="phoneNumber"
+                    name='phoneNumber'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="phoneNumber">
-                            Số điện thoại <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='phoneNumber'>
+                            Số điện thoại <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input
-                              id="phoneNumber"
-                              type="phone"
-                              className="w-full"
-                              required
-                              {...field}
-                            />
+                            <Input id='phoneNumber' type='phone' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -172,15 +157,15 @@ export default function PartnerRegisterForm() {
                   />
                   <FormField
                     control={form.control}
-                    name="birthDate"
+                    name='birthDate'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="birthDate">
-                            Ngày sinh <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='birthDate'>
+                            Ngày sinh <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input id="birthDate" type="date" required {...field} />
+                            <Input id='birthDate' type='date' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -190,23 +175,23 @@ export default function PartnerRegisterForm() {
 
                   <FormField
                     control={form.control}
-                    name="gender"
+                    name='gender'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="grid gap-2">
-                          <FormLabel htmlFor="gender">
-                            Giới tính <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='gender'>
+                            Giới tính <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <CustomSelect
                               options={[
                                 { label: 'Nam', value: 'Nam' },
-                                { label: 'Nữ', value: 'Nữ' },
+                                { label: 'Nữ', value: 'Nữ' }
                               ]}
                               value={field.value}
                               onChange={field.onChange}
-                              placeholder="Chọn giới tính"
-                              className="w-full"
+                              placeholder='Chọn giới tính'
+                              className='w-full'
                             />
                           </FormControl>
                           <FormMessage />
@@ -215,14 +200,14 @@ export default function PartnerRegisterForm() {
                     )}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-2">
+                <div className='grid grid-cols-2 gap-4'>
+                  <div className='flex flex-col gap-2'>
                     <Label>
-                      Tỉnh/Thành phố <span className="text-red-500">*</span>
+                      Tỉnh/Thành phố <span className='text-red-500'>*</span>
                     </Label>
                     <Combobox
                       items={provinces.map((p) => ({ value: p.idProvince, label: p.name }))}
-                      placeholder="Chọn tỉnh/thành phố"
+                      placeholder='Chọn tỉnh/thành phố'
                       onChange={(id) => {
                         const selected = provinces.find((p) => p.idProvince === id)
                         setSelectedProvince({ id: String(id), name: selected?.name || '' })
@@ -230,17 +215,17 @@ export default function PartnerRegisterForm() {
                         setSelectedWard({ id: '', name: '' })
                       }}
                       value={selectedProvince.id}
-                      className="w-full"
+                      className='w-full'
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className='flex flex-col gap-2'>
                     <Label>
-                      Quận/Huyện <span className="text-red-500">*</span>
+                      Quận/Huyện <span className='text-red-500'>*</span>
                     </Label>
                     <Combobox
                       items={districts.map((d) => ({ value: d.idDistrict, label: d.name }))}
-                      placeholder="Chọn quận/huyện"
+                      placeholder='Chọn quận/huyện'
                       onChange={(id) => {
                         const selected = districts.find((d) => d.idDistrict === id)
                         setSelectedDistrict({ id: String(id), name: selected?.name || '' })
@@ -248,38 +233,38 @@ export default function PartnerRegisterForm() {
                       }}
                       disabled={!selectedProvince.id}
                       value={selectedDistrict.id}
-                      className="w-full"
+                      className='w-full'
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className='flex flex-col gap-2'>
                     <Label>
-                      Phường/Xã <span className="text-red-500">*</span>
+                      Phường/Xã <span className='text-red-500'>*</span>
                     </Label>
                     <Combobox
                       items={wards.map((w) => ({ value: w.idWard, label: w.name }))}
-                      placeholder="Chọn phường/xã"
+                      placeholder='Chọn phường/xã'
                       onChange={(id) => {
                         const selected = wards.find((w) => w.idWard === id)
                         setSelectedWard({ id: String(id), name: selected?.name || '' })
                       }}
                       disabled={!selectedDistrict.id}
                       value={selectedWard.id}
-                      className="w-full"
+                      className='w-full'
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className='flex flex-col gap-2'>
                     <FormField
                       control={form.control}
-                      name="address"
+                      name='address'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="address">
-                            Số nhà, tên đường <span className="text-red-500">*</span>
+                          <FormLabel htmlFor='address'>
+                            Số nhà, tên đường <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input id="address" type="text" required {...field} />
+                            <Input id='address' type='text' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -288,17 +273,17 @@ export default function PartnerRegisterForm() {
                   </div>
                 </div>
 
-                <div className="flex w-full gap-4">
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
-                    name="password"
+                    name='password'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="relative grid gap-2">
-                          <FormLabel htmlFor="password">
-                            Mật khẩu <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='relative grid gap-2'>
+                          <FormLabel htmlFor='password'>
+                            Mật khẩu <span className='text-red-500'>*</span>
                           </FormLabel>
-                          <PasswordInput id="password" required {...field} />
+                          <PasswordInput id='password' required {...field} />
                           <FormMessage />
                         </div>
                       </FormItem>
@@ -306,15 +291,15 @@ export default function PartnerRegisterForm() {
                   />
                   <FormField
                     control={form.control}
-                    name="confirmPassword"
+                    name='confirmPassword'
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <div className="relative grid gap-2">
-                          <FormLabel htmlFor="confirmPassword">
-                            Nhập lại mật khẩu <span className="text-red-500">*</span>
+                      <FormItem className='flex-1'>
+                        <div className='relative grid gap-2'>
+                          <FormLabel htmlFor='confirmPassword'>
+                            Nhập lại mật khẩu <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
-                            <PasswordInput id="confirmPassword" required {...field} />
+                            <PasswordInput id='confirmPassword' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>
@@ -322,15 +307,13 @@ export default function PartnerRegisterForm() {
                     )}
                   />
                 </div>
-                <Button type="submit" className="mt-2 w-full bg-orange-500 hover:bg-orange-600">
-                  {partnerRegisterMutation.isPending && (
-                    <LoaderCircle className="mr-2 h-5 w-5 animate-spin" />
-                  )}
+                <Button type='submit' className='mt-2 w-full bg-orange-500 hover:bg-orange-600'>
+                  {partnerRegisterMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
                   Đăng ký
                 </Button>
-                <div className="flex items-center justify-center">
-                  <span className="px-2 text-sm text-gray-500">Bạn đã có tài khoản?</span>
-                  <Link href="/login" className="cursor-pointer text-sm text-blue-700 underline">
+                <div className='flex items-center justify-center'>
+                  <span className='px-2 text-sm text-gray-500'>Bạn đã có tài khoản?</span>
+                  <Link href='/login' className='cursor-pointer text-sm text-blue-700 underline'>
                     Đăng nhập
                   </Link>
                 </div>
