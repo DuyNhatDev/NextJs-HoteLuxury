@@ -254,7 +254,7 @@ const SliderThumbItem = forwardRef<
       ref={ref}
       onClick={() => onThumbClick(index)}
       className={cn(
-        'bg-background flex !h-[90px] min-w-0 shrink-0 grow-0 basis-1/10 p-1',
+        'bg-background flex !h-[90px] min-w-0 shrink-0 grow-0 basis-1/6 p-1 md:basis-1/8 lg:basis-1/9 xl:basis-1/10',
         `${orientation === 'vertical' ? 'pb-1' : 'pr-1'}`,
         className
       )}

@@ -73,16 +73,17 @@ export default function HotelInfo() {
       <div className='mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl'>
         <div className='flex'>
           {/* Map */}
-          <div className='flex-1 px-1'>
-            <div className='w-ful mx-auto sm:max-w-xl md:max-w-6xl'>
+          <div className='hidden flex-1 px-1 md:block'>
+            <div className='mx-auto w-full sm:max-w-xl md:max-w-6xl'>
               <Map address={hotelData?.hotelAddress ?? ''} />
             </div>
           </div>
+
           {/* Thông tin khách sạn */}
           <div className='flex-3'>
             <div className='mx-auto h-full w-full sm:max-w-xl md:max-w-6xl'>
               {/* Thông tin */}
-              <div className='flex items-start justify-between gap-4'>
+              <div className='flex flex-col items-start justify-between gap-4 md:flex-row'>
                 <div className='flex flex-4 flex-col items-start justify-start gap-2 px-3'>
                   <h1 className='text-xl font-bold text-blue-900'>{hotelData?.hotelName}</h1>
                   <div className='flex items-center'>
@@ -95,14 +96,14 @@ export default function HotelInfo() {
                       disabled={true}
                     />
                   </div>
-                  <div className='flex items-center text-gray-500'>
+                  <div className='hidden items-center text-gray-500 md:flex'>
                     <MapPin className='mr-1 h-4 w-4 text-red-500' />
                     <span className='text-sm'>{hotelData?.hotelAddress}</span>
                   </div>
                   <div></div>
                 </div>
 
-                <div className='flex flex-1 flex-col items-end justify-start px-3'>
+                <div className='hidden flex-1 flex-col items-end justify-start px-3 md:flex'>
                   <p className='text-sm'>Giá chỉ từ</p>
                   <p className='text-lg font-semibold text-sky-500'>
                     {Number(minPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
@@ -147,6 +148,15 @@ export default function HotelInfo() {
                   </CarouselThumbsContainer>
                 </Carousel>
               )}
+              {/* Map */}
+              <div className='my-3 flex items-center text-gray-500 md:hidden'>
+                <MapPin className='mr-1 h-4 w-4 text-red-500' />
+                <span className='text-sm'>{hotelData?.hotelAddress}</span>
+              </div>
+              <div className='block px-2 md:hidden'>
+                <Map address={hotelData?.hotelAddress ?? ''} />
+              </div>
+
               {/* Mô tả */}
               <div className='border-gray-20 m-2 rounded border p-3'>
                 <h4 className='mb-2 text-lg font-semibold'>Mô tả:</h4>

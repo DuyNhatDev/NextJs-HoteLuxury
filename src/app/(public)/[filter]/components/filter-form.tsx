@@ -14,8 +14,7 @@ import { getOriginalHotelTypeValueFromSlug, updateURLParams } from '@/lib/utils'
 import ListFilterHotel from '@/app/(public)/[filter]/components/list-filter-hotel'
 import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import Link from 'next/link'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 
 export default function FilterForm() {
   const filter = useFilterStore((state) => state.filter)
@@ -92,7 +91,7 @@ export default function FilterForm() {
     return () => subscription.unsubscribe()
   }, [watch, router, searchParams, pathname])
 
-  const renderFilterFormContent = (
+  const FilterFormContent = () => (
     <Form {...form}>
       <form className='flex w-full flex-col gap-3' noValidate>
         <FormField
@@ -234,12 +233,14 @@ export default function FilterForm() {
                 <SheetHeader className='p-0'>
                   <SheetTitle>Bộ lọc khách sạn</SheetTitle>
                 </SheetHeader>
-                {renderFilterFormContent}
+                <FilterFormContent />
               </SheetContent>
             </Sheet>
           </div>
         ) : (
-          <div className='col-span-1 rounded border p-4'>{renderFilterFormContent}</div>
+          <div className='col-span-1 rounded border p-4'>
+            <FilterFormContent />
+          </div>
         )}
 
         <div className={isMobile ? 'col-span-4 px-5' : 'col-span-3'}>
