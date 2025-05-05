@@ -65,8 +65,6 @@ export default function AutoPagination({
       .fill(0)
       .map((_, index) => {
         const pageNumber = index + 1
-
-        // Điều kiện render ...
         if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
           return renderDotAfter()
         } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {

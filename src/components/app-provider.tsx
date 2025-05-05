@@ -32,7 +32,7 @@ export default function AppProvider({ children }: { children: React.ReactNode })
     <QueryClientProvider client={queryClient}>
       {children}
       <RefreshToken />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   )
 }
