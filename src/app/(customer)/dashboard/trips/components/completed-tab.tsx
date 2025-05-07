@@ -7,11 +7,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { useState } from 'react'
+import CreateRatingDialog from '@/app/(customer)/dashboard/trips/components/create-rating-dialog'
 
 type CompletedTabProps = {
   data: BookingType[]
 }
 export default function CompletedTab({ data }: CompletedTabProps) {
+  const [openRating, setOpenRating] = useState(false)
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
@@ -56,7 +59,17 @@ export default function CompletedTab({ data }: CompletedTabProps) {
                   </p>
                   <div className='flex gap-2'>
                     {/* <Button variant='outline'>Đặt lại</Button> */}
-                    <Button className='bg-orange-600 hover:bg-orange-600'>Đánh giá</Button>
+                    {!order.isRating && (
+                      <Button
+                        className='bg-orange-600 hover:bg-orange-600'
+                        onClick={() => {
+                          setOpenRating(true)
+                        }}
+                      >
+                        Đánh giá
+                      </Button>
+                    )}
+                    <CreateRatingDialog open={openRating} setOpen={setOpenRating} booking={order} />
                   </div>
                 </div>
               </CardFooter>

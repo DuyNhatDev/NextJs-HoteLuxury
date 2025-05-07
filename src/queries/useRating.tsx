@@ -1,10 +1,14 @@
 import ratingApiRequest from '@/apiRequests/rating'
 import { CreateRatingBodyType } from '@/schemaValidations/rating.schema'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useCreateRatingMutation = () => {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, body }: { id: number; body: CreateRatingBodyType }) => ratingApiRequest.createRating(id, body)
+    mutationFn: ({ id, body }: { id: number; body: CreateRatingBodyType }) => ratingApiRequest.createRating(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['completed-bookings'] })
+    }
   })
 }
 

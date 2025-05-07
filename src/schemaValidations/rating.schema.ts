@@ -2,9 +2,9 @@ import z from 'zod'
 
 export const CreateRatingBodySchema = z.object({
   hotelId: z.number(),
-  ratingStar: z.number(),
+  ratingStar: z.number().min(0).max(10),
   ratingDescription: z.string().optional(),
-  ratingImages: z.union([z.string(), z.instanceof(File)]).optional(),
+  ratingImages: z.array(z.union([z.string(), z.instanceof(File)])).optional(),
   ratingDate: z.date()
 })
 
