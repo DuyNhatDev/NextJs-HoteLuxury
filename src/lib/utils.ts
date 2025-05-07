@@ -61,11 +61,11 @@ export const setRefreshTokenToLocalStorage = (value: string) => {
 export const setUserIdToLocalStorage = (value: string) => {
   return isBrowser && localStorage.setItem('userId', value)
 }
-export const getUserIdFromLocalStorage = () => {
-  return isBrowser ? localStorage.getItem('userId') : null
-}
 export const setHotelIdToLocalStorage = (value: string) => {
   return isBrowser && localStorage.setItem('hotelId', value)
+}
+export const getUserIdFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem('userId') : null
 }
 export const getHotelIdFromLocalStorage = () => {
   return isBrowser ? localStorage.getItem('hotelId') : null
@@ -284,3 +284,4 @@ export const removePhong = (text: string) => {
   }
   return text
 }
+

@@ -24,7 +24,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách đơn',
-          url: '/partner/manage/order/list'
+          url: '/partner/manage/order/confirmed'
         },
         {
           title: 'Chờ xác nhận',

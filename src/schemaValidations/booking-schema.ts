@@ -56,16 +56,18 @@ export const BookingListResSchema = z.object({
 export type BookingListResType = z.infer<typeof BookingListResSchema>
 
 export const BookingParamsSchema = z.object({
-  hotelId: z.number(),
-  dayStart: z.date(),
-  dayEnd: z.date(),
-  customerName: z.string(),
-  customerPhone: z.string(),
-  customerEmail: z.string(),
-  paymentMethod: z.enum(['Online', 'Trực tiếp'], {
-    message: 'Vui lòng chọn phương thức thanh toán'
-  }),
-  isConfirmed: z.boolean(),
-  status: z.string()
+  hotelId: z.number().optional(),
+  dayStart: z.date().optional(),
+  dayEnd: z.date().optional(),
+  customerName: z.string().optional(),
+  customerPhone: z.string().optional(),
+  customerEmail: z.string().optional(),
+  paymentMethod: z
+    .enum(['Online', 'Trực tiếp'], {
+      message: 'Vui lòng chọn phương thức thanh toán'
+    })
+    .optional(),
+  isConfirmed: z.boolean().optional(),
+  status: z.string().optional()
 })
 export type BookingParamsType = z.infer<typeof BookingParamsSchema>

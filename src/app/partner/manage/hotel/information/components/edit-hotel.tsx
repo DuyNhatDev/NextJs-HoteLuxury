@@ -7,7 +7,7 @@ import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { handleErrorApi } from '@/lib/utils'
+import { getHotelIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
 import UploadImage from '@/components/customize/upload-image'
@@ -18,18 +18,16 @@ import Combobox from '@/components/customize/combobox'
 import { useGetDestinationList } from '@/queries/useDestination'
 import RichTextEditor from '@/components/customize/rich-text-editor'
 
-export default function EditHotel({
-  open,
-  setOpen,
-  id
-}: {
+type EditHotelProps = {
   open: boolean
   setOpen: (value: boolean) => void
-  id?: number | undefined
-}) {
+}
+
+export default function EditHotel({ open, setOpen }: EditHotelProps) {
   const [file, setFile] = useState<File | null>(null)
   const [files, setFiles] = useState<File[]>([])
-  const { data } = useGetHotel(String(id), Boolean(id))
+  const hotelId = getHotelIdFromLocalStorage()
+  const { data } = useGetHotel(String(hotelId), Boolean(hotelId))
   const destinationsQueries = useGetDestinationList(open)
   const destinations = destinationsQueries.data?.payload?.data || []
   const updateHotelMutation = useUpdateHotelMutation()
@@ -92,7 +90,7 @@ export default function EditHotel({
         hotelImage: file ?? data.hotelImage,
         hotelImages: mergedImages
       }
-      await updateHotelMutation.mutateAsync({ id: id!, body })
+      await updateHotelMutation.mutateAsync({ id: Number(hotelId)!, body })
       toast.success('Cập nhật thành công')
       reset()
     } catch (error) {

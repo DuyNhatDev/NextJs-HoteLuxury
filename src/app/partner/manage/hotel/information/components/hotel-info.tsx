@@ -22,7 +22,6 @@ import EditHotel from '@/app/partner/manage/hotel/information/components/edit-ho
 export default function HotelInformation() {
   const { data } = useGetHotelList()
   const myHotel: HotelType | undefined = data?.payload?.data[0]
-  const [id, setId] = useState<number | undefined>()
   const [openEdit, setOpenEdit] = useState(false)
   if (!myHotel) {
     return <AddHotel />
@@ -35,13 +34,12 @@ export default function HotelInformation() {
     <div className='px-10 py-6'>
       <div className='space-y-6'>
         <div className='flex items-center justify-between'>
-          {openEdit && id && <EditHotel open={openEdit} setOpen={setOpenEdit} id={id} />}
+          {openEdit && <EditHotel open={openEdit} setOpen={setOpenEdit} />}
           <h2 className='text-3xl font-bold'>{hotelName}</h2>
           <CustomTooltip content='Sửa'>
             <PenLine
               className='h-5 w-5 text-blue-600 hover:cursor-pointer'
               onClick={() => {
-                setId(hotelId)
                 setOpenEdit(true)
               }}
             />

@@ -1,5 +1,5 @@
 'use client'
-import AlertDialogCancelBooking from '@/app/(customer)/dashboard/trips/components/cancel-booking'
+import AlertDialogCancelBooking from '@/app/(customer)/dashboard/trips/components/cancel-booking-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
