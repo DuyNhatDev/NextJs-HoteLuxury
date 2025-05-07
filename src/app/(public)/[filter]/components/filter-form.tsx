@@ -54,8 +54,10 @@ export default function FilterForm() {
   const watchedValues = watch()
 
   useEffect(() => {
-    if (watchedValues.hotelName) {
+    if (watchedValues.hotelName !== '') {
       setIsFocus(true)
+    } else {
+      setIsFocus(false)
     }
   }, [watchedValues.hotelName])
 
@@ -76,7 +78,6 @@ export default function FilterForm() {
       hotelType: originHotelType,
       minPrice
     })
-    console.log('1')
   }, [filter, reset, searchParams])
 
   useEffect(() => {
