@@ -26,8 +26,7 @@ export default function HotelInformation() {
   if (!myHotel) {
     return <AddHotel />
   }
-  const { hotelName, hotelPhoneNumber, hotelStar, hotelDescription, hotelAddress, hotelImage, hotelImages, hotelId } =
-    myHotel
+  const { hotelName, hotelPhoneNumber, hotelStar, hotelDescription, hotelAddress, hotelImage, hotelImages } = myHotel
   const imageList = [hotelImage, ...hotelImages]
 
   return (

@@ -23,6 +23,7 @@ export default function FilterForm() {
   const pathname = usePathname()
   const [hotelQuantity, setHotelQuantity] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  const [isFocus, setIsFocus] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +54,12 @@ export default function FilterForm() {
   const watchedValues = watch()
 
   useEffect(() => {
+    if (watchedValues.hotelName) {
+      setIsFocus(true)
+    }
+  }, [watchedValues.hotelName])
+
+  useEffect(() => {
     const hotelStar = searchParams.get('hotelStar')?.split(',') ?? []
     const hotelType = searchParams.get('hotelType')?.split(',') ?? []
     const minPrice = searchParams.get('minPrice') ?? ''
@@ -69,23 +76,24 @@ export default function FilterForm() {
       hotelType: originHotelType,
       minPrice
     })
+    console.log('1')
   }, [filter, reset, searchParams])
 
   useEffect(() => {
-    const subscription = watch((formValues) => {
-      const cleanedHotelStar = (formValues.hotelStar ?? []).filter((s): s is string => typeof s === 'string')
-      const cleanedHotelType = (formValues.hotelType ?? []).filter((s): s is string => typeof s === 'string')
-      updateURLParams({
-        currentParams: searchParams,
-        router: {
-          push: (url) => router.push(`${pathname}${url}`)
-        },
-        values: {
-          hotelStar: cleanedHotelStar,
-          hotelType: cleanedHotelType,
-          minPrice: formValues.minPrice ?? ''
-        }
-      })
+    const subscription = watch((formValues, { name }) => {
+      if (['hotelStar', 'hotelType', 'minPrice'].includes(name || '')) {
+        updateURLParams({
+          currentParams: searchParams,
+          router: {
+            push: (url) => router.push(`${pathname}${url}`)
+          },
+          values: {
+            hotelStar: (formValues.hotelStar ?? []).filter((s): s is string => typeof s === 'string'),
+            hotelType: (formValues.hotelType ?? []).filter((s): s is string => typeof s === 'string'),
+            minPrice: formValues.minPrice ?? ''
+          }
+        })
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -105,6 +113,7 @@ export default function FilterForm() {
                   placeholder='Nhập tên khách sạn'
                   className='bg-background h-11 rounded-sm'
                   autoComplete='off'
+                  autoFocus={isFocus}
                   {...field}
                 />
               </FormControl>
