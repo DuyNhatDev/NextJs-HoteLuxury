@@ -78,7 +78,6 @@ export default function HotelInfo() {
               <Map address={hotelData?.hotelAddress ?? ''} />
             </div>
           </div>
-
           {/* Thông tin khách sạn */}
           <div className='flex-3'>
             <div className='mx-auto h-full w-full sm:max-w-xl md:max-w-6xl'>
@@ -102,7 +101,6 @@ export default function HotelInfo() {
                   </div>
                   <div></div>
                 </div>
-
                 <div className='hidden flex-1 flex-col items-end justify-start px-3 md:flex'>
                   <p className='text-sm'>Giá chỉ từ</p>
                   <p className='text-lg font-semibold text-sky-500'>
@@ -121,7 +119,6 @@ export default function HotelInfo() {
                 <Carousel className='mt-2 p-2'>
                   <CarouselPrevious className='absolute top-1/3 left-10 h-7 w-7 -translate-y-1/3 opacity-50' />
                   <CarouselNext className='absolute top-1/3 right-10 h-7 w-7 -translate-y-1/3 opacity-50' />
-
                   <CarouselMainContainer className='h-[500px]'>
                     {imageList.map((img, index) => (
                       <SliderMainItem key={index} className='bg-transparent'>
@@ -156,7 +153,6 @@ export default function HotelInfo() {
               <div className='block px-2 md:hidden'>
                 <Map address={hotelData?.hotelAddress ?? ''} />
               </div>
-
               {/* Mô tả */}
               <div className='border-gray-20 m-2 rounded border p-3'>
                 <h4 className='mb-2 text-lg font-semibold'>Mô tả:</h4>

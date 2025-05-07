@@ -1,5 +1,11 @@
 import http from '@/lib/http'
-import { CreateBookingResType, CreateBookingBodyType, BookingListResType } from '@/schemaValidations/booking-schema'
+import { buildQueryParams } from '@/lib/utils'
+import {
+  CreateBookingResType,
+  CreateBookingBodyType,
+  BookingListResType,
+  BookingParamsType
+} from '@/schemaValidations/booking-schema'
 
 const prefix = '/booking'
 
@@ -10,6 +16,8 @@ const bookingApiRequest = {
   getProgressing: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đang thực hiện`),
   getCompleted: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã hoàn tất`),
   getCanceled: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã hủy`),
-  cancelBooking: (id: number) => http.put(`${prefix}/${id}`, { isConfirmed: true, status: 'Đã hủy' })
+  cancelBooking: (id: number) => http.put(`${prefix}/${id}`, { isConfirmed: true, status: 'Đã hủy' }),
+  getBookingListByPartner: (queryParams: BookingParamsType) =>
+    http.get<BookingListResType>(`${prefix}/by-partner` + buildQueryParams(queryParams))
 }
 export default bookingApiRequest

@@ -27,13 +27,17 @@ export const data = {
           url: '/partner/manage/order/list'
         },
         {
-          title: 'Chờ duyệt',
+          title: 'Chờ xác nhận',
           url: '/partner/manage/order/pending'
+        },
+        {
+          title: 'Đã hủy',
+          url: '/partner/manage/order/canceled'
         }
       ]
     },
     {
-      title: 'Đanh giá phản hồi',
+      title: 'Đánh giá phản hồi',
       url: '#',
       icon: MessageCircleMore,
       items: [

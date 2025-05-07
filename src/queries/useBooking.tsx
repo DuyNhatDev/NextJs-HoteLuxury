@@ -1,4 +1,5 @@
 import bookingApiRequest from '@/apiRequests/booking'
+import { BookingParamsType } from '@/schemaValidations/booking-schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useCreateBookingMutation = () => {
@@ -46,5 +47,12 @@ export const useCancelBookingMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['pending-bookings'] })
       queryClient.invalidateQueries({ queryKey: ['canceled-bookings'] })
     }
+  })
+}
+
+export const useGetBookingList = (queryParams: BookingParamsType) => {
+  return useQuery({
+    queryFn: () => bookingApiRequest.getBookingListByPartner(queryParams),
+    queryKey: ['booking-list', queryParams]
   })
 }
