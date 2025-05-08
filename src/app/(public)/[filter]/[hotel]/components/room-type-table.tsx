@@ -1,7 +1,7 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useGetFilterRoomTypeList } from '@/queries/useRoomType'
 import { FilterRoomTypeParamsType } from '@/schemaValidations/room-type.schema'
 import { usePriceStore } from '@/store/price-store'
@@ -21,19 +21,21 @@ import {
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import AlertDialogLogin from '@/app/(public)/[filter]/[hotel]/components/alert-login'
 
 type RoomTypeTableProps = {
   params: FilterRoomTypeParamsType
 }
 
 export default function RoomTypeTable({ params }: RoomTypeTableProps) {
+  const isLoggedIn = getAccessTokenFromLocalStorage()
   const router = useRouter()
-  const pathname = usePathname()
   const setMinPrice = usePriceStore((state) => state.setMinPrice)
   const setBooking = useBookingStore((state) => state.setBooking)
   const roomTypeFilterListQuery = useGetFilterRoomTypeList(params)
   const roomTypeList = roomTypeFilterListQuery.data?.payload?.data || []
   const price = roomTypeFilterListQuery.data?.payload?.minPrice || 0
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setMinPrice(price)
@@ -41,10 +43,8 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
 
   const handleBooking = (roomTypeId: number, roomTypeName: string, price: number) => {
     setBooking({ roomTypeId, roomTypeName, price })
-    const isLoggedIn = getAccessTokenFromLocalStorage()
-    const currentUrl = pathname
     if (!isLoggedIn) {
-      router.push(`/login?callbackUrl=${encodeURIComponent(currentUrl)}`)
+      setOpen(true)
     } else {
       const id = `${params.hotelId}${roomTypeId}${generateCode()}`
       const url = `/thong-tin-booking/${id}`
@@ -200,6 +200,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
           )
         })}
       </div>
+      <AlertDialogLogin open={open} setOpen={setOpen} />
     </>
   )
 }
