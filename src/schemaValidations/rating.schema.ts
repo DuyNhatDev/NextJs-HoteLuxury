@@ -19,6 +19,8 @@ export const RatingSchema = CreateRatingBodySchema.extend({
   })
 })
 
+export type RatingType = z.infer<typeof RatingSchema>
+
 export const RatingResSchema = z.object({
   status: z.string(),
   message: z.string(),

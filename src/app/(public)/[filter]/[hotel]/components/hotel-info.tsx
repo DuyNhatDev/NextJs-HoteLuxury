@@ -17,14 +17,16 @@ import { useGetFilterHotelList } from '@/queries/useFilter'
 import { useGetHotel } from '@/queries/useHotel'
 import { HotelType } from '@/schemaValidations/hotel.schema'
 import { useFilterStore } from '@/store/filter-store'
-import { MapPin } from 'lucide-react'
+import { ChevronDown, MapPin } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import SearchForm from '@/app/(public)/[filter]/[hotel]/components/search-form'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { usePriceStore } from '@/store/price-store'
 import dynamic from 'next/dynamic'
 import { useBookingStore } from '@/store/booking-store'
 import ListRating from '@/app/(public)/[filter]/[hotel]/components/list-rating'
+import { Badge } from '@/components/ui/badge'
+import CustomTooltip from '@/components/customize/tooltip'
 const Map = dynamic(() => import('@/components/customize/map'), {
   ssr: false
 })
@@ -47,13 +49,16 @@ export default function HotelInfo() {
   const imageList = [hotelData?.hotelImage, ...(hotelData?.hotelImages ?? [])].filter(
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
+  const [rating, setRating] = useState({ total: 0, average: 0 })
   const roomTypeRef = useRef<HTMLDivElement>(null)
+  const ratingRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setBooking({ hotelName: hotelData?.hotelName, hotelAddress: hotelData?.hotelAddress })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hotelData?.hotelName, hotelData?.hotelAddress])
-  const handleScroll = () => {
+
+  const handleRoomTypeScroll = () => {
     const headerHeight = 56
     const element = roomTypeRef.current
     if (element) {
@@ -64,7 +69,17 @@ export default function HotelInfo() {
       })
     }
   }
-
+  const handleRatingScroll = () => {
+    const headerHeight = 56
+    const element = ratingRef.current
+    if (element) {
+      const offsetTop = element.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({
+        top: offsetTop - headerHeight,
+        behavior: 'smooth'
+      })
+    }
+  }
   return (
     <div className='flex flex-col'>
       <div className='mx-auto h-full w-full py-4 sm:max-w-xl md:max-w-6xl'>
@@ -86,7 +101,8 @@ export default function HotelInfo() {
               <div className='flex flex-col items-start justify-between gap-4 md:flex-row'>
                 <div className='flex flex-4 flex-col items-start justify-start gap-2 px-3'>
                   <h1 className='text-xl font-bold text-blue-900'>{hotelData?.hotelName}</h1>
-                  <div className='flex items-center'>
+
+                  <div className='flex items-center gap-2'>
                     <Rating
                       rating={hotelData?.hotelStar || 0}
                       size={20}
@@ -95,12 +111,20 @@ export default function HotelInfo() {
                       showEmpty={true}
                       disabled={true}
                     />
+                    <CustomTooltip content='Click để xem đánh giá'>
+                      <div className='hover:cursor-pointer' onClick={handleRatingScroll}>
+                        <div className='flex items-center gap-2'>
+                          <Badge className='rounded bg-green-600 text-[14px] font-semibold'>{rating.average}</Badge>
+                          <p className='text-gray-500'>| {rating.total} đánh giá</p>
+                          <ChevronDown className='h-4 w-4 text-gray-500' />
+                        </div>
+                      </div>
+                    </CustomTooltip>
                   </div>
                   <div className='hidden items-center text-gray-500 md:flex'>
                     <MapPin className='mr-1 h-4 w-4 text-red-500' />
                     <span className='text-sm'>{hotelData?.hotelAddress}</span>
                   </div>
-                  <div></div>
                 </div>
                 <div className='hidden flex-1 flex-col items-end justify-start px-3 md:flex'>
                   <p className='text-sm'>Giá chỉ từ</p>
@@ -109,7 +133,7 @@ export default function HotelInfo() {
                   </p>
                   <Button
                     className='text-md h-12 w-full bg-orange-400 font-bold text-white hover:bg-orange-400'
-                    onClick={handleScroll}
+                    onClick={handleRoomTypeScroll}
                   >
                     Đặt ngay
                   </Button>
@@ -167,8 +191,13 @@ export default function HotelInfo() {
                 <h2 className='py-2 font-semibold text-blue-900'>Bảng giá {hotelData?.hotelName}</h2>
                 {hotelId && <SearchForm hotelId={hotelId} />}
               </div>
-              <div className='p-2'>
-                <ListRating hotelId={hotelData?.hotelId ?? 0} hotelName={hotelData?.hotelName ?? ''} />
+              {/* Danh sách đánh giá */}
+              <div className='p-2' ref={ratingRef}>
+                <ListRating
+                  hotelId={hotelData?.hotelId ?? 0}
+                  hotelName={hotelData?.hotelName ?? ''}
+                  onSetRating={setRating}
+                />
               </div>
             </div>
           </div>

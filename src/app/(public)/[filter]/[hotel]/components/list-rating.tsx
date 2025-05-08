@@ -5,26 +5,38 @@ import { Badge } from '@/components/ui/badge'
 import { formatDate, getLastTwoInitials } from '@/lib/utils'
 import { useGetRatingList } from '@/queries/useRating'
 import { Rating } from '@mui/material'
+import { useEffect } from 'react'
 
 type ListRatingProps = {
   hotelId: number
   hotelName: string
+  onSetRating: ({ total, average }: { total: number; average: number }) => void
 }
-export default function ListRating({ hotelId, hotelName }: ListRatingProps) {
+export default function ListRating({ hotelId, hotelName, onSetRating }: ListRatingProps) {
   const listRatingQuery = useGetRatingList(hotelId)
   const listRating = listRatingQuery?.data?.payload?.data || []
   const listImage = listRatingQuery?.data?.payload?.allRatingImagesArray || []
-  const totalRatings = listRating.length
+  const totalRating = listRating.length
   const averageRating =
-    totalRatings > 0 ? listRating.reduce((sum, rating) => sum + (rating.ratingStar || 0), 0) / totalRatings : 0
+    totalRating > 0
+      ? parseFloat((listRating.reduce((sum, rating) => sum + (rating.ratingStar || 0), 0) / totalRating).toFixed(1))
+      : 0
+  useEffect(() => {
+    if (averageRating > 0) {
+      onSetRating({
+        total: totalRating,
+        average: averageRating
+      })
+    }
+  }, [totalRating, averageRating, onSetRating])
 
   return (
-    <div>
+    <div className='w-full'>
       <h2 className='py-2 font-semibold text-blue-900'>Đánh giá của khách hàng về {hotelName}</h2>
       <div className='flex items-center gap-2'>
         <Rating name='average-rating' value={averageRating / 2} precision={0.5} readOnly size='large' />
         <Badge className='rounded-sm bg-green-600 px-3 py-1 text-lg font-normal'>{averageRating.toFixed(1)}/10</Badge>
-        <p className='text-lg text-gray-500'>| {totalRatings} đánh giá</p>
+        <p className='text-lg text-gray-500'>| {totalRating} đánh giá</p>
       </div>
       <div className='mt-1 py-2'>{listImage.length > 0 && <Gallery images={listImage} maxLength={9} />}</div>
       <p className='mt-3 font-semibold'>Đánh giá gần đây</p>
