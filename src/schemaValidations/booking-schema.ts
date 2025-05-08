@@ -34,6 +34,7 @@ export const CreateBookingResSchema = z.object({
 export type CreateBookingResType = z.infer<typeof CreateBookingResSchema>
 
 export const BookingSchema = CreateBookingBodySchema.extend({
+  bookingCode: z.string(),
   bookingId: z.number(),
   hotelId: z.number(),
   hotelName: z.string(),
@@ -42,6 +43,7 @@ export const BookingSchema = CreateBookingBodySchema.extend({
   roomTypeImage: z.string(),
   status: z.string(),
   isConfirmed: z.boolean(),
+  createdAt: z.date(),
   isRating: z.boolean()
 })
 

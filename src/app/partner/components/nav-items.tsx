@@ -24,16 +24,16 @@ export const data = {
       items: [
         {
           title: 'Danh sách đơn',
-          url: '/partner/manage/order/confirmed'
-        },
-        {
-          title: 'Chờ xác nhận',
-          url: '/partner/manage/order/pending'
-        },
-        {
-          title: 'Đã hủy',
-          url: '/partner/manage/order/canceled'
+          url: '/partner/manage/order/list'
         }
+        // {
+        //   title: 'Chờ xác nhận',
+        //   url: '/partner/manage/order/pending'
+        // },
+        // {
+        //   title: 'Đã hủy',
+        //   url: '/partner/manage/order/canceled'
+        // }
       ]
     },
     {

@@ -11,6 +11,7 @@ export const CreateRatingBodySchema = z.object({
 export type CreateRatingBodyType = z.infer<typeof CreateRatingBodySchema>
 
 export const RatingSchema = CreateRatingBodySchema.extend({
+  ratingId: z.number(),
   userId: z.object({
     userId: z.number(),
     fullname: z.string(),

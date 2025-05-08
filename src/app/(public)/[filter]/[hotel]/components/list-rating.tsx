@@ -1,7 +1,69 @@
-export default function ListRating() {
+'use client'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { formatDate, getLastTwoInitials } from '@/lib/utils'
+import { useGetRatingList } from '@/queries/useRating'
+import { Rating } from '@mui/material'
+import Image from 'next/image'
+
+type ListRatingProps = {
+  hotelId: number
+  hotelName: string
+}
+export default function ListRating({ hotelId, hotelName }: ListRatingProps) {
+  const listRatingQuery = useGetRatingList(hotelId)
+  const listRating = listRatingQuery?.data?.payload?.data || []
+  const totalRatings = listRating.length
+  const averageRating =
+    totalRatings > 0 ? listRating.reduce((sum, rating) => sum + (rating.ratingStar || 0), 0) / totalRatings : 0
+
   return (
     <div>
-      <h1>List Rating</h1>
+      <h2 className='py-2 font-semibold text-blue-900'>Đánh giá của khách hàng về {hotelName}</h2>
+      <div className='flex items-center gap-2'>
+        <Rating name='average-rating' value={averageRating / 2} precision={0.5} readOnly size='large' />
+        <Badge className='rounded-sm bg-green-600 px-3 py-1 text-lg font-normal'>{averageRating.toFixed(1)}/10</Badge>
+        <p className='text-lg text-gray-500'>| {totalRatings} đánh giá</p>
+      </div>
+      <div className='py-4'>
+        {listRating.map((rating, index) => (
+          <div
+            key={rating.ratingId}
+            className={`grid grid-cols-10 gap-4 py-3 ${
+              index !== listRating.length - 1 ? 'border-b border-gray-300' : ''
+            }`}
+          >
+            <div className='col-span-3'>
+              <div className='flex items-center gap-2'>
+                <Avatar className='h-9 w-9'>
+                  <AvatarImage src={rating.userId.image} />
+                  <AvatarFallback>{getLastTwoInitials(rating.userId.fullname)}</AvatarFallback>
+                </Avatar>
+                <div className='flex flex-col gap-0'>
+                  <p className='font-semibold'>{rating.userId.fullname}</p>
+                  <p className='text-sm text-gray-500'>{formatDate(String(rating.ratingDate))}</p>
+                </div>
+              </div>
+            </div>
+            <div className='col-span-7'>
+              <div className='flex flex-col gap-1'>
+                <div className='flex gap-1'>
+                  <Rating name='read-only' value={rating.ratingStar / 2} precision={0.5} readOnly size='small' />
+                  <Badge className='rounded-sm bg-green-600 text-xs font-normal'>{rating.ratingStar}/10</Badge>
+                </div>
+                <p className='font-normal'>{rating.ratingDescription}</p>
+                <div className='mt-1 flex gap-2'>
+                  {(rating?.ratingImages ?? []).map((image, index) => (
+                    <div key={index} className='relative aspect-square w-20 overflow-hidden rounded'>
+                      <Image src={image as string} alt={`Rating image ${index + 1}`} fill className='object-cover' />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

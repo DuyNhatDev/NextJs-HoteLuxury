@@ -24,6 +24,7 @@ import { useEffect, useRef } from 'react'
 import { usePriceStore } from '@/store/price-store'
 import dynamic from 'next/dynamic'
 import { useBookingStore } from '@/store/booking-store'
+import ListRating from '@/app/(public)/[filter]/[hotel]/components/list-rating'
 const Map = dynamic(() => import('@/components/customize/map'), {
   ssr: false
 })
@@ -165,6 +166,9 @@ export default function HotelInfo() {
               <div className='p-2' ref={roomTypeRef}>
                 <h2 className='py-2 font-semibold text-blue-900'>Bảng giá {hotelData?.hotelName}</h2>
                 {hotelId && <SearchForm hotelId={hotelId} />}
+              </div>
+              <div className='p-2'>
+                <ListRating hotelId={hotelData?.hotelId ?? 0} hotelName={hotelData?.hotelName ?? ''} />
               </div>
             </div>
           </div>
