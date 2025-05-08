@@ -54,6 +54,7 @@
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "leaflet.fullscreen": "^4.0.0",
+    "lightgallery": "^2.8.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.476.0",
     "next": "15.2.0",

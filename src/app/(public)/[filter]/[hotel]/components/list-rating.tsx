@@ -1,10 +1,10 @@
 'use client'
+import Gallery from '@/components/customize/gallery'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { formatDate, getLastTwoInitials } from '@/lib/utils'
 import { useGetRatingList } from '@/queries/useRating'
 import { Rating } from '@mui/material'
-import Image from 'next/image'
 
 type ListRatingProps = {
   hotelId: number
@@ -13,6 +13,7 @@ type ListRatingProps = {
 export default function ListRating({ hotelId, hotelName }: ListRatingProps) {
   const listRatingQuery = useGetRatingList(hotelId)
   const listRating = listRatingQuery?.data?.payload?.data || []
+  const listImage = listRatingQuery?.data?.payload?.allRatingImagesArray || []
   const totalRatings = listRating.length
   const averageRating =
     totalRatings > 0 ? listRating.reduce((sum, rating) => sum + (rating.ratingStar || 0), 0) / totalRatings : 0
@@ -25,6 +26,8 @@ export default function ListRating({ hotelId, hotelName }: ListRatingProps) {
         <Badge className='rounded-sm bg-green-600 px-3 py-1 text-lg font-normal'>{averageRating.toFixed(1)}/10</Badge>
         <p className='text-lg text-gray-500'>| {totalRatings} đánh giá</p>
       </div>
+      <div className='mt-1 py-2'>{listImage.length > 0 && <Gallery images={listImage} maxLength={9} />}</div>
+      <p className='mt-3 font-semibold'>Đánh giá gần đây</p>
       <div className='py-4'>
         {listRating.map((rating, index) => (
           <div
@@ -53,11 +56,11 @@ export default function ListRating({ hotelId, hotelName }: ListRatingProps) {
                 </div>
                 <p className='font-normal'>{rating.ratingDescription}</p>
                 <div className='mt-1 flex gap-2'>
-                  {(rating?.ratingImages ?? []).map((image, index) => (
-                    <div key={index} className='relative aspect-square w-20 overflow-hidden rounded'>
-                      <Image src={image as string} alt={`Rating image ${index + 1}`} fill className='object-cover' />
+                  {Array.isArray(rating?.ratingImages) && rating.ratingImages.length > 0 && (
+                    <div className='mt-1'>
+                      <Gallery images={rating.ratingImages as string[]} />
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>

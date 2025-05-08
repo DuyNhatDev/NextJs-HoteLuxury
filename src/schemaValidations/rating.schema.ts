@@ -30,6 +30,7 @@ export type RatingResType = z.infer<typeof RatingResSchema>
 export const RatingListResSchema = z.object({
   status: z.string(),
   message: z.string(),
+  allRatingImagesArray: z.array(z.string()),
   data: z.array(RatingSchema)
 })
 
