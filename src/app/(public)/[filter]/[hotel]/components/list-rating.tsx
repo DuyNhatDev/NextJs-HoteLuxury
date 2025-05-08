@@ -2,10 +2,11 @@
 import Gallery from '@/components/customize/gallery'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { formatDate, getLastTwoInitials } from '@/lib/utils'
 import { useGetRatingList } from '@/queries/useRating'
 import { Rating } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type ListRatingProps = {
   hotelId: number
@@ -21,14 +22,19 @@ export default function ListRating({ hotelId, hotelName, onSetRating }: ListRati
     totalRating > 0
       ? parseFloat((listRating.reduce((sum, rating) => sum + (rating.ratingStar || 0), 0) / totalRating).toFixed(1))
       : 0
+  const [visibleCount, setVisibleCount] = useState(10)
+  const visibleRatingList = listRating.slice(0, visibleCount)
+  const ratingRemaining = Math.max(listRating.length - visibleCount, 0)
+  
   useEffect(() => {
     if (averageRating > 0) {
-      onSetRating({
-        total: totalRating,
-        average: averageRating
-      })
+      onSetRating({ total: totalRating, average: averageRating })
     }
   }, [totalRating, averageRating, onSetRating])
+
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 10)
+  }
 
   return (
     <div className='w-full'>
@@ -41,7 +47,7 @@ export default function ListRating({ hotelId, hotelName, onSetRating }: ListRati
       <div className='mt-1 py-2'>{listImage.length > 0 && <Gallery images={listImage} maxLength={9} />}</div>
       <p className='mt-3 font-semibold'>Đánh giá gần đây</p>
       <div className='py-4'>
-        {listRating.map((rating, index) => (
+        {visibleRatingList.map((rating, index) => (
           <div
             key={rating.ratingId}
             className={`grid grid-cols-10 gap-4 py-3 ${
@@ -79,6 +85,18 @@ export default function ListRating({ hotelId, hotelName, onSetRating }: ListRati
           </div>
         ))}
       </div>
+
+      {ratingRemaining > 0 && (
+        <div className='mt-4 flex justify-center'>
+          <Button
+            variant='outline'
+            onClick={handleShowMore}
+            className='border-blue-60 border-blue-700 text-blue-700 hover:text-blue-700'
+          >
+            Xem thêm {ratingRemaining} nhận xét
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
