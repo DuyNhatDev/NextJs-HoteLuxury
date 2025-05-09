@@ -36,6 +36,7 @@ export const hotelTypeItems = [
   { value: 'Căn hộ', label: 'Căn hộ' },
   { value: 'Nhà nghỉ', label: 'Nhà nghỉ' }
 ] as const
+
 export const rangePriceItems = [
   { label: 'Tất cả', value: '' },
   { label: 'Dưới 500.000', value: '0-500000' },
@@ -44,3 +45,15 @@ export const rangePriceItems = [
   { label: 'Từ 2.000.000 - 5.000.000', value: '2000000-5000000' },
   { label: 'Trên 5.000.000', value: '5000000-100000000' }
 ] as const
+
+export const bookingStatusItems = [
+  { label: 'Đã thanh toán', value: 'Đã thanh toán' },
+  { label: 'Chưa thanh toán', value: 'Chưa thanh toán' },
+  { label: 'Đã hết phòng', value: 'Đã hết phòng' },
+  { label: 'Đã hủy', value: 'Đã hủy' }
+]
+
+export const bookingConfirmItems = [
+  { label: 'Đã xác nhận', value: true },
+  { label: 'Chưa xác nhận', value: false }
+]

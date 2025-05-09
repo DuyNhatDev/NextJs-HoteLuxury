@@ -5,13 +5,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 type Option = {
   label: string
-  value: string | number
+  value: string | number | boolean
 }
 
 type CustomSelectProps = {
   options: Option[]
-  value?: string | number
-  onChange?: (value: string | number) => void
+  value?: string | number | boolean
+  onChange?: (value: string | number | boolean) => void
   placeholder?: string
   className?: string
   disabled?: boolean
@@ -27,7 +27,16 @@ const CustomSelect = ({
 }: CustomSelectProps) => {
   const handleChange = (val: string) => {
     const selectedOption = options.find((option) => String(option.value) === val)
-    onChange?.(selectedOption?.value ?? val)
+
+    if (selectedOption) {
+      if (typeof selectedOption.value === 'boolean') {
+        onChange?.(selectedOption.value)
+      } else if (typeof selectedOption.value === 'number') {
+        onChange?.(Number(selectedOption.value))
+      } else {
+        onChange?.(selectedOption.value)
+      }
+    }
   }
 
   return (
@@ -37,7 +46,7 @@ const CustomSelect = ({
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
-          <SelectItem key={option.value} value={String(option.value)}>
+          <SelectItem key={String(option.value)} value={String(option.value)}>
             {option.label}
           </SelectItem>
         ))}

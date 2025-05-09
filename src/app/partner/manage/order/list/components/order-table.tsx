@@ -1,46 +1,177 @@
 'use client'
-import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useGetBookingList } from '@/queries/useBooking'
+import { createContext, useEffect, useState } from 'react'
+import orderTableColumns, { OrderItem } from '@/app/partner/manage/order/list/components/order-table-column'
+import { useSearchParams } from 'next/navigation'
+import {
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState
+} from '@tanstack/react-table'
+import AutoPagination from '@/components/customize/auto-pagination'
+import { Input } from '@/components/ui/input'
+import CustomSelect from '@/components/customize/select'
+import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
-import { format, parseISO } from 'date-fns'
+import { RotateCcw } from 'lucide-react'
+
+export const OrderTableContext = createContext<{
+  orderAction: OrderItem | null
+  setOrderAction: (value: OrderItem | null) => void
+}>({
+  orderAction: null,
+  setOrderAction: (value: OrderItem | null) => {}
+})
+
+const PAGE_SIZE = 10
 export default function OrderTable() {
+  const searchParam = useSearchParams()
+  const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
+  const pageIndex = page - 1
+  const [orderAction, setOrderAction] = useState<OrderItem | null>(null)
   const orderListQuery = useGetBookingList({})
-  const orderList = orderListQuery?.data?.payload?.data || []
+  const data = orderListQuery?.data?.payload?.data || []
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
+  const [pagination, setPagination] = useState({
+    pageIndex,
+    pageSize: PAGE_SIZE
+  })
+
+  const table = useReactTable({
+    data,
+    columns: orderTableColumns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
+    autoResetPageIndex: false,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      pagination
+    }
+  })
+
+  useEffect(() => {
+    table.setPagination({
+      pageIndex,
+      pageSize: PAGE_SIZE
+    })
+  }, [table, pageIndex])
+
   return (
-    <div className='w-full'>
-      <div className='overflow-x-auto rounded-md border'>
-        <Table className='mw-full border-collapse'>
-          <TableHeader>
-            <TableRow>
-              <TableHead className='w-[16.66%]'>Tên khách hàng</TableHead>
-              <TableHead className='w-[16.66%]'>Số điện thoại</TableHead>
-              <TableHead className='w-[16.66%]'>Ngày đặt</TableHead>
-              <TableHead className='w-[16.66%]'>Trạng thái</TableHead>
-              <TableHead className='w-[16.66%]'>Xác nhận</TableHead>
-              <TableHead className='w-[16.66%]'>Thao tác</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {orderList.map((order) => (
-              <TableRow key={order.bookingId}>
-                <TableCell className='w-[16.66%] break-words'>{order.customerName}</TableCell>
-                <TableCell className='w-[16.66%] break-words'>{order.customerPhone}</TableCell>
-                <TableCell className='w-[16.66%] break-words'>
-                  {format(parseISO(String(order.createdAt)), 'dd/MM/yyyy HH:mm')}
-                </TableCell>
-                <TableCell className='w-[16.66%] break-words'>{order.status}</TableCell>
-                <TableCell className='w-[16.66%] break-words'>
-                  {order.isConfirmed ? 'Đã xác nhận' : 'Chưa xác nhận'}
-                </TableCell>
-                <TableCell className='w-[16.66%] break-words'>
-                  <Button>Xác nhận</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+    <OrderTableContext.Provider value={{ orderAction, setOrderAction }}>
+      <div className='w-full'>
+        <div className='flex items-center gap-2 py-4'>
+          <Input
+            placeholder='Tên khách hàng'
+            value={(table.getColumn('customerName')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('customerName')?.setFilterValue(event.target.value)}
+            className='max-w-sm flex-1'
+          />
+          <Input
+            placeholder='Số điện thoại'
+            value={(table.getColumn('customerPhone')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('customerPhone')?.setFilterValue(event.target.value)}
+            className='max-w-sm flex-1'
+          />
+          <CustomSelect
+            placeholder='Trạng thái'
+            options={bookingStatusItems}
+            value={(table.getColumn('status')?.getFilterValue() as string) ?? ''}
+            onChange={(value) => table.getColumn('status')?.setFilterValue(value)}
+            className='max-w-sm flex-1'
+          />
+
+          <CustomSelect
+            placeholder='Xác nhận'
+            options={bookingConfirmItems}
+            value={
+              table.getColumn('isConfirmed')?.getFilterValue() !== undefined
+                ? String(table.getColumn('isConfirmed')?.getFilterValue())
+                : ''
+            }
+            onChange={(value) => table.getColumn('isConfirmed')?.setFilterValue(value)}
+            className='max-w-sm flex-1'
+          />
+          <Button
+            variant='outline'
+            onClick={() => {
+              table.getColumn('customerName')?.setFilterValue('')
+              table.getColumn('customerPhone')?.setFilterValue('')
+              table.getColumn('status')?.setFilterValue('')
+              table.getColumn('isConfirmed')?.setFilterValue('')
+            }}
+            className='font-medium'
+          >
+           <RotateCcw />
+          </Button>
+        </div>
+        <div className='rounded-md border'>
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      </TableHead>
+                    )
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={orderTableColumns.length} className='h-24 text-center'>
+                    Không có dữ liệu
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className='flex items-center justify-end space-x-2 pt-4'>
+          <div className='text-muted-foreground flex-1 py-4 text-xs'>
+            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong <strong>{data.length}</strong>{' '}
+            kết quả
+          </div>
+          <div>
+            <AutoPagination
+              page={table.getState().pagination.pageIndex + 1}
+              pageSize={table.getPageCount()}
+              pathname='/partner/manage/order/list'
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </OrderTableContext.Provider>
   )
 }
