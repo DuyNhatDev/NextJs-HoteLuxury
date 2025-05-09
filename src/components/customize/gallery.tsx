@@ -22,7 +22,7 @@ export default function Gallery({ images, maxLength = 5 }: GalleryProps) {
         if (isHidden) {
           return (
             <a href={src} key={index} className='hidden'>
-              <img src={src} alt={`img-${index}`} />
+              <img src={src} alt='' />
             </a>
           )
         }
@@ -40,11 +40,7 @@ export default function Gallery({ images, maxLength = 5 }: GalleryProps) {
         }
         return (
           <a data-src={src} key={index}>
-            <img
-              src={src}
-              className='h-16 w-16 cursor-pointer rounded object-cover sm:h-20 sm:w-20'
-              alt={`img-${index}`}
-            />
+            <img src={src} className='h-16 w-16 cursor-pointer rounded object-cover sm:h-20 sm:w-20' alt='' />
           </a>
         )
       })}
