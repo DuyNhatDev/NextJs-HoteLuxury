@@ -21,6 +21,7 @@ import CustomSelect from '@/components/customize/select'
 import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
+import { DatePickerWithRange } from '@/components/customize/date-picker-with-range'
 
 export const OrderTableContext = createContext<{
   orderAction: OrderItem | null
@@ -69,6 +70,13 @@ export default function OrderTable() {
     }
   })
 
+  const handleReset = () => {
+    table.getColumn('customerName')?.setFilterValue('')
+    table.getColumn('customerPhone')?.setFilterValue('')
+    table.getColumn('status')?.setFilterValue('')
+    table.getColumn('isConfirmed')?.setFilterValue('')
+  }
+
   useEffect(() => {
     table.setPagination({
       pageIndex,
@@ -111,17 +119,8 @@ export default function OrderTable() {
             onChange={(value) => table.getColumn('isConfirmed')?.setFilterValue(value)}
             className='max-w-sm flex-1'
           />
-          <Button
-            variant='outline'
-            onClick={() => {
-              table.getColumn('customerName')?.setFilterValue('')
-              table.getColumn('customerPhone')?.setFilterValue('')
-              table.getColumn('status')?.setFilterValue('')
-              table.getColumn('isConfirmed')?.setFilterValue('')
-            }}
-            className='font-medium'
-          >
-           <RotateCcw />
+          <Button variant='outline' onClick={handleReset}>
+            <RotateCcw />
           </Button>
         </div>
         <div className='rounded-md border'>

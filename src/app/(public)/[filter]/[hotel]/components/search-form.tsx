@@ -1,6 +1,6 @@
 'use client'
 import RoomTypeTable from '@/app/(public)/[filter]/[hotel]/components/room-type-table'
-import DateRangePicker from '@/components/customize/date-range-picker'
+import CustomDateRangePicker from '@/components/customize/date-range-picker'
 import RoomGuestSelector from '@/components/customize/room-guest-selector'
 import { Button } from '@/components/ui/button'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -82,7 +82,7 @@ export default function SearchForm({ hotelId }: SearchFormProps) {
                   name='dayStart'
                   render={() => (
                     <FormItem className='w-full'>
-                      <DateRangePicker
+                      <CustomDateRangePicker
                         className='w-full'
                         value={{ from: dayStart, to: dayEnd }}
                         onChange={(range: DateRange | undefined) => {

@@ -19,6 +19,7 @@ export default function PendingTab({ data }: PendingTabProps) {
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
         {data.map((order) => {
+          const isPayment = order.status === 'Đã thanh toán'
           const hotelUrl = `/khach-san-${generateSlugUrl(order?.locationName)}/${generateSlugUrl(order?.hotelName)}-chi-tiet`
           return (
             <Card key={order.bookingId} className='w-full transform gap-0 rounded border p-0 hover:shadow-lg'>
@@ -47,6 +48,10 @@ export default function PendingTab({ data }: PendingTabProps) {
                       )} · ${differenceInCalendarDays(new Date(order.dayEnd), new Date(order.dayStart))} đêm`}
                     </p>
                     <p className='m-0 text-gray-500'>Số lượng: {order.roomQuantity} phòng</p>
+                    <div className='flex items-center gap-2'>
+                      <p className='m-0 text-gray-500'>Trạng thái: </p>
+                      <Badge className={isPayment ? 'bg-green-500' : 'bg-amber-400'}>{order.status}</Badge>
+                    </div>
                   </div>
                 </Link>
               </CardContent>
@@ -57,9 +62,13 @@ export default function PendingTab({ data }: PendingTabProps) {
                     <span className='text-sm font-normal text-gray-500'>Thành tiền: </span>{' '}
                     {Number(order.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                   </p>
-                  <Button variant='outline' onClick={() => setBookingCancel(order)}>
+                  <button
+                    disabled={isPayment}
+                    className='group text-md rounded border border-gray-300 px-2 py-1 shadow-none hover:cursor-pointer enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400'
+                    onClick={() => setBookingCancel(order)}
+                  >
                     Hủy đơn
-                  </Button>
+                  </button>
                 </div>
               </CardFooter>
             </Card>

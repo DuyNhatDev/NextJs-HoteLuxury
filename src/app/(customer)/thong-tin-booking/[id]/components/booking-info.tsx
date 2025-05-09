@@ -32,7 +32,7 @@ export default function BookingInfo() {
         </div>
         <div className='my-2 flex items-center text-gray-500'>
           <CircleAlert className='mr-2 h-4 w-4' />
-          <span>Không thể hoàn hoặc hủy thay đổi</span>
+          <span>Không thể hoàn hoặc thay đổi</span>
         </div>
       </CardContent>
       <CardFooter className='border-t px-0 py-2'>

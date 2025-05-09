@@ -19,7 +19,7 @@ type DateRangePickerProps = {
   format?: string
 }
 
-export default function DateRangePicker({
+export default function CustomDateRangePicker({
   value,
   onChange,
   placeholder = 'Chọn khoảng ngày',

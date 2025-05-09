@@ -1,5 +1,5 @@
 'use client'
-import DateRangePicker from '@/components/customize/date-range-picker'
+import CustomDateRangePicker from '@/components/customize/date-range-picker'
 import RoomGuestSelector from '@/components/customize/room-guest-selector'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -236,7 +236,7 @@ export default function SearchForm() {
                 name='dayStart'
                 render={() => (
                   <FormItem className='w-full'>
-                    <DateRangePicker
+                    <CustomDateRangePicker
                       className='w-full'
                       value={{ from: dayStart, to: dayEnd }}
                       onChange={(range: DateRange | undefined) => {
