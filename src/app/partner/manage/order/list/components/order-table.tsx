@@ -21,7 +21,9 @@ import CustomSelect from '@/components/customize/select'
 import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
-import { DatePickerWithRange } from '@/components/customize/date-picker-with-range'
+import DateRangePicker from '@/components/customize/date-picker-with-range'
+import { endOfDay, startOfDay } from 'date-fns'
+import { DateRange } from 'react-day-picker'
 
 export const OrderTableContext = createContext<{
   orderAction: OrderItem | null
@@ -37,7 +39,9 @@ export default function OrderTable() {
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
   const [orderAction, setOrderAction] = useState<OrderItem | null>(null)
-  const orderListQuery = useGetBookingList({})
+  const [filterStart, setFilterStart] = useState<Date>(startOfDay(new Date()))
+  const [filterEnd, setFilterDayEnd] = useState<Date>(endOfDay(new Date()))
+  const orderListQuery = useGetBookingList({ filterStart, filterEnd })
   const data = orderListQuery?.data?.payload?.data || []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -75,6 +79,8 @@ export default function OrderTable() {
     table.getColumn('customerPhone')?.setFilterValue('')
     table.getColumn('status')?.setFilterValue('')
     table.getColumn('isConfirmed')?.setFilterValue('')
+    setFilterStart(startOfDay(new Date()))
+    setFilterDayEnd(endOfDay(new Date()))
   }
 
   useEffect(() => {
@@ -87,6 +93,17 @@ export default function OrderTable() {
   return (
     <OrderTableContext.Provider value={{ orderAction, setOrderAction }}>
       <div className='w-full'>
+        <div className='flex items-center gap-2'>
+          <p className='text-sm'>Ngày đặt phòng:</p>
+          <DateRangePicker
+            value={{ from: filterStart, to: filterEnd }}
+            onChange={(range: DateRange | undefined) => {
+              if (range?.from) setFilterStart(range.from)
+              if (range?.to) setFilterDayEnd(range.to)
+            }}
+            className='bg-transparent'
+          />
+        </div>
         <div className='flex items-center gap-2 py-4'>
           <Input
             placeholder='Tên khách hàng'

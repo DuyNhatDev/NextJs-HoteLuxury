@@ -9,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button'
 import { CalendarIcon, Moon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 type DateRangePickerProps = {
   value?: DateRange
@@ -27,6 +28,7 @@ export default function CustomDateRangePicker({
   disabled = false
 }: DateRangePickerProps) {
   const [open, setOpen] = useState(false)
+  const isMobile = useIsMobile()
 
   const defaultRange: DateRange = {
     from: new Date(),
@@ -118,7 +120,10 @@ export default function CustomDateRangePicker({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className='w-auto rounded-lg p-4 shadow-md' align='center'>
+      <PopoverContent
+        className={`w-auto rounded-lg p-4 shadow-md ${isMobile ? 'max-h-[500px] overflow-y-auto' : ''}`}
+        align='center'
+      >
         <DayPicker
           mode='range'
           selected={internalRange}
@@ -127,6 +132,9 @@ export default function CustomDateRangePicker({
           captionLayout='dropdown'
           defaultMonth={internalRange?.from || new Date()}
           numberOfMonths={2}
+          classNames={{
+            months: isMobile ? 'flex flex-col gap-4' : 'flex'
+          }}
           disabled={{ before: new Date() }}
         />
       </PopoverContent>

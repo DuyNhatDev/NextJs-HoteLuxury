@@ -1,7 +1,6 @@
 'use client'
 import AlertDialogCancelBooking from '@/app/(customer)/dashboard/trips/components/alert-cancel-booking'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { formatDayWithDate, generateSlugUrl, removePhong } from '@/lib/utils'
 import { BookingType } from '@/schemaValidations/booking-schema'

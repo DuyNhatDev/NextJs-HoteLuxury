@@ -18,6 +18,6 @@ const bookingApiRequest = {
   getCanceled: () => http.get<BookingListResType>(`${prefix}?bookingStatus=Đã hủy`),
   cancelBooking: (id: number) => http.put(`${prefix}/${id}`, { isConfirmed: true, status: 'Đã hủy' }),
   getBookingListByPartner: (queryParams: BookingParamsType) =>
-    http.get<BookingListResType>(`${prefix}/by-partner` + buildQueryParams(queryParams))
+    http.get<BookingListResType>(`${prefix}/by-partner?` + buildQueryParams(queryParams))
 }
 export default bookingApiRequest
