@@ -115,7 +115,10 @@ export default function CustomDateRangePicker({
               )}
             </>
           ) : (
-            <span className='text-sm text-gray-400'>{placeholder}</span>
+            <>
+              <CalendarIcon className='!h-4 !w-4 text-gray-500' />
+              <span className='text-sm text-gray-400'>{placeholder}</span>
+            </>
           )}
         </Button>
       </PopoverTrigger>
