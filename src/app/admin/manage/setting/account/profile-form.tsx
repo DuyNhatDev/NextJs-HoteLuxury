@@ -1,5 +1,5 @@
 'use client'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { useEffect, useRef, useState } from 'react'
@@ -14,7 +14,7 @@ import { format as formatDate } from 'date-fns'
 import CustomSelect from '@/components/customize/select'
 import { Camera } from 'lucide-react'
 
-export default function ProfileForm() {
+export default function AdminProfileForm() {
   const userId = getUserIdFromLocalStorage()
   const { data } = useGetAccount(userId ?? undefined, Boolean(userId))
   const updateProfileMutation = useUpdateProfileMutation()
@@ -107,10 +107,7 @@ export default function ProfileForm() {
         <Card className='gap-0 rounded'>
           <CardHeader className='flex flex-row items-center justify-between border-b-8 border-gray-200 pb-4'>
             <div className='flex flex-col'>
-              <CardTitle className='text-2xl font-bold text-blue-900'>Thông tin cá nhân</CardTitle>
-              <CardDescription className='text-[16px] text-gray-500'>
-                Lưu thông tin của Quý khách để đặt dịch vụ nhanh hơn
-              </CardDescription>
+              <CardTitle className='text-2xl font-bold text-blue-900'>Thông tin Admin</CardTitle>
             </div>
             <div className='group relative flex items-start justify-start gap-2 hover:cursor-pointer'>
               <Avatar className='h-12 w-12' onClick={() => avatarInputRef.current?.click()}>
