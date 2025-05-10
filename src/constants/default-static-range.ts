@@ -7,7 +7,10 @@ import {
   addMonths,
   startOfWeek,
   endOfWeek,
-  isSameDay
+  isSameDay,
+  startOfYear,
+  endOfYear,
+  subYears
 } from 'date-fns'
 
 type DateRange = {
@@ -25,6 +28,8 @@ const defineds = {
   endOfWeek: endOfWeek(new Date()),
   startOfLastWeek: startOfWeek(addDays(new Date(), -7)),
   endOfLastWeek: endOfWeek(addDays(new Date(), -7)),
+  startOfNextWeek: startOfWeek(addDays(new Date(), 7)),
+  endOfNextWeek: endOfWeek(addDays(new Date(), 7)),
   startOfToday: startOfDay(new Date()),
   endOfToday: endOfDay(new Date()),
   startOfYesterday: startOfDay(addDays(new Date(), -1)),
@@ -35,12 +40,18 @@ const defineds = {
   endOfMonth: endOfMonth(new Date()),
   startOfLastMonth: startOfMonth(addMonths(new Date(), -1)),
   endOfLastMonth: endOfMonth(addMonths(new Date(), -1)),
+  startOfNextMonth: startOfMonth(addMonths(new Date(), 1)),
+  endOfNextMonth: endOfMonth(addMonths(new Date(), 1)),
   startOfLast3Days: startOfDay(addDays(new Date(), -3)),
   endOfLast3Days: endOfDay(addDays(new Date(), -1)),
   startOfNext3Days: startOfDay(addDays(new Date(), 1)),
   endOfNext3Days: endOfDay(addDays(new Date(), 3)),
+  startOfLastYear: startOfYear(subYears(new Date(), 1)),
+  endOfLastYear: endOfYear(subYears(new Date(), 1)),
   startOfThisYear: startOfDay(new Date(new Date().getFullYear(), 0, 1)),
   endOfThisYear: endOfDay(new Date(new Date().getFullYear(), 11, 31)),
+  startOfNextYear: startOfDay(new Date(new Date().getFullYear() + 1, 0, 1)),
+  endOfNextYear: endOfDay(new Date(new Date().getFullYear() + 1, 11, 31)),
   startOfQuarter1: startOfMonth(new Date(new Date().getFullYear(), 0)),
   endOfQuarter1: endOfMonth(new Date(new Date().getFullYear(), 2)),
   startOfQuarter2: startOfMonth(new Date(new Date().getFullYear(), 3)),
@@ -133,6 +144,13 @@ export const defaultStaticRangesVi = createStaticRanges([
     })
   },
   {
+    label: 'Tuần sau',
+    range: () => ({
+      startDate: defineds.startOfNextWeek,
+      endDate: defineds.endOfNextWeek
+    })
+  },
+  {
     label: 'Tháng này',
     range: () => ({
       startDate: defineds.startOfMonth,
@@ -147,10 +165,31 @@ export const defaultStaticRangesVi = createStaticRanges([
     })
   },
   {
+    label: 'Tháng sau',
+    range: () => ({
+      startDate: defineds.startOfNextMonth,
+      endDate: defineds.endOfNextMonth
+    })
+  },
+  {
     label: 'Năm nay',
     range: () => ({
       startDate: defineds.startOfThisYear,
       endDate: defineds.endOfThisYear
+    })
+  },
+  {
+    label: 'Năm trước',
+    range: () => ({
+      startDate: defineds.startOfLastYear,
+      endDate: defineds.endOfLastYear
+    })
+  },
+  {
+    label: 'Năm sau',
+    range: () => ({
+      startDate: defineds.startOfNextYear,
+      endDate: defineds.endOfNextYear
     })
   },
   ...definedsByMonth,
