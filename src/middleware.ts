@@ -31,12 +31,20 @@ export function middleware(request: NextRequest) {
       url.searchParams.set('redirect', pathname)
       return NextResponse.redirect(url)
     }
-    // 2.3 Vào không đúng role, redirect về trang chủ
+
+    // 2.3 Vào không đúng role
     const role = decodeToken(refreshToken).roleId
+    if (pathname === '/' && refreshToken) {
+      if (role === Role.Partner) {
+        return NextResponse.redirect(new URL('/partner/dashboard', request.url))
+      } else if (role === Role.Admin) {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+      }
+    }
     const roleAccess = {
       [Role.Customer]: [...adminPaths, ...partnerPaths],
-      [Role.Partner]: [...adminPaths],
-      [Role.Admin]: [...partnerPaths]
+      [Role.Partner]: [...adminPaths, ...customerPath],
+      [Role.Admin]: [...partnerPaths, ...customerPath]
     }
     if (roleAccess[role]?.some((path) => pathname.startsWith(path))) {
       return NextResponse.redirect(new URL('/forbidden', request.url))
