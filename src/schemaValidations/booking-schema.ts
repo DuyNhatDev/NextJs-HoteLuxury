@@ -79,3 +79,10 @@ export const BookingParamsSchema = z.object({
   status: z.string().optional()
 })
 export type BookingParamsType = z.infer<typeof BookingParamsSchema>
+
+export const UpdateBookingResSchema = z.object({
+  status: z.string(),
+  message: z.string()
+})
+
+export type UpdateBookingResType = z.infer<typeof UpdateBookingResSchema>

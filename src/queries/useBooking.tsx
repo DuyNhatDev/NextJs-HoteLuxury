@@ -56,3 +56,38 @@ export const useGetBookingList = (queryParams: BookingParamsType) => {
     queryKey: ['booking-list', queryParams]
   })
 }
+export const useCheckBooking = (id: number) => {
+  return useQuery({
+    queryFn: () => bookingApiRequest.checkBooking(id),
+    queryKey: ['check-booking', id]
+  })
+}
+
+export const useConfirmBookingMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: bookingApiRequest.confirmBooking,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['booking-list'] })
+    }
+  })
+}
+
+export const useRejectBookingMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: bookingApiRequest.rejectBooking,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['booking-list'] })
+    }
+  })
+}
+export const useConfirmPaymentBookingMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: bookingApiRequest.confirmPaymentBooking,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['booking-list'] })
+    }
+  })
+}
