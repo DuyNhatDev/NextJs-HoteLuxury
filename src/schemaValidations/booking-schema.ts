@@ -65,6 +65,8 @@ export const BookingParamsSchema = z.object({
   filterEnd: z.date().optional(),
   checkInStart: z.date().optional(),
   checkInEnd: z.date().optional(),
+  checkOutStart: z.date().optional(),
+  checkOutEnd: z.date().optional(),
   customerName: z.string().optional(),
   customerPhone: z.string().optional(),
   customerEmail: z.string().optional(),

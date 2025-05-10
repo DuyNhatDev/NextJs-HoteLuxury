@@ -29,26 +29,38 @@ const defineds = {
   endOfToday: endOfDay(new Date()),
   startOfYesterday: startOfDay(addDays(new Date(), -1)),
   endOfYesterday: endOfDay(addDays(new Date(), -1)),
+  startOfTomorrow: startOfDay(addDays(new Date(), 1)),
+  endOfTomorrow: endOfDay(addDays(new Date(), 1)),
   startOfMonth: startOfMonth(new Date()),
   endOfMonth: endOfMonth(new Date()),
   startOfLastMonth: startOfMonth(addMonths(new Date(), -1)),
   endOfLastMonth: endOfMonth(addMonths(new Date(), -1)),
   startOfLast3Days: startOfDay(addDays(new Date(), -3)),
   endOfLast3Days: endOfDay(addDays(new Date(), -1)),
+  startOfNext3Days: startOfDay(addDays(new Date(), 1)),
+  endOfNext3Days: endOfDay(addDays(new Date(), 3)),
   startOfThisYear: startOfDay(new Date(new Date().getFullYear(), 0, 1)),
-  endOfThisYear: endOfDay(new Date(new Date().getFullYear(), 11, 31))
+  endOfThisYear: endOfDay(new Date(new Date().getFullYear(), 11, 31)),
+  startOfQuarter1: startOfMonth(new Date(new Date().getFullYear(), 0)),
+  endOfQuarter1: endOfMonth(new Date(new Date().getFullYear(), 2)),
+  startOfQuarter2: startOfMonth(new Date(new Date().getFullYear(), 3)),
+  endOfQuarter2: endOfMonth(new Date(new Date().getFullYear(), 5)),
+  startOfQuarter3: startOfMonth(new Date(new Date().getFullYear(), 6)),
+  endOfQuarter3: endOfMonth(new Date(new Date().getFullYear(), 8)),
+  startOfQuarter4: startOfMonth(new Date(new Date().getFullYear(), 9)),
+  endOfQuarter4: endOfMonth(new Date(new Date().getFullYear(), 11))
 }
 
-// const definedsByMonth = Array.from({ length: 12 }, (_, i) => {
-//   const monthIndex = i
-//   return {
-//     label: `Tháng ${i + 1}`,
-//     range: () => ({
-//       startDate: startOfMonth(new Date(new Date().getFullYear(), monthIndex)),
-//       endDate: endOfMonth(new Date(new Date().getFullYear(), monthIndex))
-//     })
-//   }
-// })
+const definedsByMonth = Array.from({ length: 12 }, (_, i) => {
+  const monthIndex = i
+  return {
+    label: `Tháng ${i + 1}`,
+    range: () => ({
+      startDate: startOfMonth(new Date(new Date().getFullYear(), monthIndex)),
+      endDate: endOfMonth(new Date(new Date().getFullYear(), monthIndex))
+    })
+  }
+})
 
 const staticRangeHandler = {
   isSelected(this: any, range: DateRange): boolean {
@@ -85,11 +97,25 @@ export const defaultStaticRangesVi = createStaticRanges([
       endDate: defineds.endOfYesterday
     })
   },
+  //   {
+  //     label: '3 ngày trước',
+  //     range: () => ({
+  //       startDate: defineds.startOfLast3Days,
+  //       endDate: defineds.endOfLast3Days
+  //     })
+  //   },
+  //   {
+  //     label: '3 ngày sau',
+  //     range: () => ({
+  //       startDate: defineds.startOfNext3Days,
+  //       endDate: defineds.endOfNext3Days
+  //     })
+  //   },
   {
-    label: '3 ngày trước',
+    label: 'Ngày mai',
     range: () => ({
-      startDate: defineds.startOfLast3Days,
-      endDate: defineds.endOfLast3Days
+      startDate: defineds.startOfTomorrow,
+      endDate: defineds.endOfTomorrow
     })
   },
   {
@@ -126,6 +152,34 @@ export const defaultStaticRangesVi = createStaticRanges([
       startDate: defineds.startOfThisYear,
       endDate: defineds.endOfThisYear
     })
+  },
+  ...definedsByMonth,
+  {
+    label: 'Quý 1',
+    range: () => ({
+      startDate: defineds.startOfQuarter1,
+      endDate: defineds.endOfQuarter1
+    })
+  },
+  {
+    label: 'Quý 2',
+    range: () => ({
+      startDate: defineds.startOfQuarter2,
+      endDate: defineds.endOfQuarter2
+    })
+  },
+  {
+    label: 'Quý 3',
+    range: () => ({
+      startDate: defineds.startOfQuarter3,
+      endDate: defineds.endOfQuarter3
+    })
+  },
+  {
+    label: 'Quý 4',
+    range: () => ({
+      startDate: defineds.startOfQuarter4,
+      endDate: defineds.endOfQuarter4
+    })
   }
-  //   ...definedsByMonth
 ])

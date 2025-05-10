@@ -47,16 +47,26 @@ export default function OrderTable() {
     endDate: undefined,
     key: 'selection' as const
   })
+  const [checkOutRange, setCheckOutRange] = useState<State | undefined>({
+    startDate: undefined,
+    endDate: undefined,
+    key: 'selection' as const
+  })
   const orderListQuery = useGetBookingList({
     filterStart: createdRange?.startDate,
     filterEnd: createdRange?.endDate,
     checkInStart: checkInRange?.startDate,
-    checkInEnd: checkInRange?.endDate
+    checkInEnd: checkInRange?.endDate,
+    checkOutStart: checkOutRange?.startDate,
+    checkOutEnd: checkOutRange?.endDate
   })
   const data = orderListQuery?.data?.payload?.data || []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    isConfirmed: false,
+    dayEnd: false
+  })
   const [rowSelection, setRowSelection] = useState({})
   const [pagination, setPagination] = useState({
     pageIndex,
@@ -100,6 +110,11 @@ export default function OrderTable() {
       endDate: undefined,
       key: 'selection'
     })
+    setCheckOutRange({
+      startDate: undefined,
+      endDate: undefined,
+      key: 'selection'
+    })
   }
 
   useEffect(() => {
@@ -112,23 +127,32 @@ export default function OrderTable() {
   return (
     <OrderTableContext.Provider value={{ orderAction, setOrderAction }}>
       <div className='w-full'>
-        <div className='flex items-center gap-6'>
+        <div className='flex items-center justify-between gap-6'>
           <div className='flex items-center gap-2'>
-            <p className='text-sm'>Ngày đặt phòng:</p>
+            <p className='text-sm'>Đặt phòng:</p>
             <ReactDateRange
               value={createdRange}
               onChange={(newRange) => setCreatedRange(newRange!)}
               className='bg-transparent'
-              placeholder='Chọn ngày nhận phòng'
+              placeholder='Chọn ngày đặt phòng'
             />
           </div>
           <div className='flex items-center gap-2'>
-            <p className='text-sm'>Ngày nhận phòng:</p>
+            <p className='text-sm'>Nhận phòng:</p>
             <ReactDateRange
               value={checkInRange}
               onChange={(newRange) => setCheckInRange(newRange!)}
               className='bg-transparent'
               placeholder='Chọn ngày nhận phòng'
+            />
+          </div>
+          <div className='flex items-center gap-2'>
+            <p className='text-sm'>Trả phòng:</p>
+            <ReactDateRange
+              value={checkOutRange}
+              onChange={(newRange) => setCheckOutRange(newRange!)}
+              className='bg-transparent'
+              placeholder='Chọn ngày trả phòng'
             />
           </div>
         </div>

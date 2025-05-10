@@ -11,7 +11,7 @@ export type OrderItem = BookingListResType['data'][0]
 const orderTableColumns: ColumnDef<OrderItem>[] = [
   {
     accessorKey: 'customerName',
-    header: 'Tên',
+    header: 'Tên khách hàng',
     cell: ({ row }) => <div className='capitalize'>{row.getValue('customerName')}</div>
   },
   {
@@ -29,6 +29,26 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
     }
   },
   {
+    accessorKey: 'dayStart',
+    header: 'Ngày nhận - Ngày trả',
+    cell: ({ row }) => {
+      const checkIn = row.getValue('dayStart')
+      const checkOut = row.getValue('dayEnd')
+      const formattedCheckIn = checkIn ? format(parseISO(String(checkIn)), 'dd/MM/yyyy') : ''
+      const formattedCheckOut = checkOut ? format(parseISO(String(checkOut)), 'dd/MM/yyyy') : ''
+
+      return (
+        <div>
+          {formattedCheckIn} - {formattedCheckOut}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: 'dayEnd',
+    enableHiding: false
+  },
+  {
     accessorKey: 'status',
     header: 'Trạng thái',
     cell: ({ row }) => <div>{row.getValue('status')}</div>,
@@ -43,7 +63,8 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
     },
     filterFn: (row, columnId, filterValue) => {
       return row.getValue(columnId) === filterValue
-    }
+    },
+    enableHiding: false
   },
   {
     id: 'actions',
