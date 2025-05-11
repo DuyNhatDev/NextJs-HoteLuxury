@@ -11,6 +11,8 @@ export const HotelSchema = z.object({
   hotelAddress: z.string(),
   hotelImage: z.string(),
   hotelImages: z.array(z.string()),
+  ratingAverage: z.number(),
+  ratingQuantity: z.number(),
   locationId: z.number(),
   locationName: z.string(),
   minPrice: z.number()

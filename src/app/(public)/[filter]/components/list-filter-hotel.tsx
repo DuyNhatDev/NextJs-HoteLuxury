@@ -66,13 +66,23 @@ export default function ListFilterHotel({ filterParams, onSetHotelQuantity }: Li
                       <div className='flex flex-1 flex-col gap-2 px-1 py-3'>
                         <div>
                           <p className='mb-1 line-clamp-2 text-lg font-semibold'>{hotel.hotelName}</p>
-                          <Rating
-                            rating={hotel.hotelStar || 0}
-                            size={22}
-                            variant='yellow'
-                            showText={false}
-                            disabled={true}
-                          />
+                          <div className='flex items-center gap-2'>
+                            <Rating
+                              rating={hotel.hotelStar || 0}
+                              size={22}
+                              variant='yellow'
+                              showText={false}
+                              disabled={true}
+                            />
+                            {hotel.ratingQuantity !== 0 && (
+                              <>
+                                <Badge className='rounded bg-green-600 text-xs font-semibold'>
+                                  {hotel.ratingAverage}
+                                </Badge>
+                                <p className='text-gray-500 text-sm'>| {hotel.ratingQuantity} đánh giá</p>
+                              </>
+                            )}
+                          </div>
                         </div>
 
                         <div className='space-y-2'>

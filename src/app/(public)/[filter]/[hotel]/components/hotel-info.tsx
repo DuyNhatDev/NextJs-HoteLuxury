@@ -49,7 +49,6 @@ export default function HotelInfo() {
   const imageList = [hotelData?.hotelImage, ...(hotelData?.hotelImages ?? [])].filter(
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
-  const [rating, setRating] = useState({ total: 0, average: 0 })
   const roomTypeRef = useRef<HTMLDivElement>(null)
   const ratingRef = useRef<HTMLDivElement>(null)
 
@@ -114,8 +113,8 @@ export default function HotelInfo() {
                     <CustomTooltip content='Click để xem đánh giá'>
                       <div className='hover:cursor-pointer' onClick={handleRatingScroll}>
                         <div className='flex items-center gap-2'>
-                          <Badge className='rounded bg-green-600 text-[14px] font-semibold'>{rating.average}</Badge>
-                          <p className='text-gray-500'>| {rating.total} đánh giá</p>
+                          <Badge className='rounded bg-green-600 text-[14px] font-semibold'>{hotelData?.ratingAverage}</Badge>
+                          <p className='text-gray-500'>| {hotelData?.ratingQuantity} đánh giá</p>
                           <ChevronDown className='h-4 w-4 text-gray-500' />
                         </div>
                       </div>
@@ -196,7 +195,8 @@ export default function HotelInfo() {
                 <ListRating
                   hotelId={hotelData?.hotelId ?? 0}
                   hotelName={hotelData?.hotelName ?? ''}
-                  onSetRating={setRating}
+                  averageRating={hotelData?.ratingAverage ?? 0}
+                  totalRating={hotelData?.ratingQuantity ?? 0}
                 />
               </div>
             </div>

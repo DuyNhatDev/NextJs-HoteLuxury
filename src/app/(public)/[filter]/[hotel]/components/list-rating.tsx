@@ -11,26 +11,16 @@ import { useEffect, useState } from 'react'
 type ListRatingProps = {
   hotelId: number
   hotelName: string
-  onSetRating: ({ total, average }: { total: number; average: number }) => void
+  averageRating: number
+  totalRating: number
 }
-export default function ListRating({ hotelId, hotelName, onSetRating }: ListRatingProps) {
+export default function ListRating({ hotelId, hotelName, averageRating, totalRating }: ListRatingProps) {
   const listRatingQuery = useGetRatingList(hotelId)
   const listRating = listRatingQuery?.data?.payload?.data || []
   const listImage = listRatingQuery?.data?.payload?.allRatingImagesArray || []
-  const totalRating = listRating.length
-  const averageRating =
-    totalRating > 0
-      ? parseFloat((listRating.reduce((sum, rating) => sum + (rating.ratingStar || 0), 0) / totalRating).toFixed(1))
-      : 0
   const [visibleCount, setVisibleCount] = useState(10)
   const visibleRatingList = listRating.slice(0, visibleCount)
   const ratingRemaining = Math.max(listRating.length - visibleCount, 0)
-  
-  useEffect(() => {
-    if (averageRating > 0) {
-      onSetRating({ total: totalRating, average: averageRating })
-    }
-  }, [totalRating, averageRating, onSetRating])
 
   const handleShowMore = () => {
     setVisibleCount((prev) => prev + 10)
@@ -40,7 +30,6 @@ export default function ListRating({ hotelId, hotelName, onSetRating }: ListRati
     <div className='w-full'>
       <h2 className='py-2 font-semibold text-blue-900'>Đánh giá của khách hàng về {hotelName}</h2>
       <div className='flex items-center gap-2'>
-        <Rating name='average-rating' value={averageRating / 2} precision={0.5} readOnly size='large' />
         <Badge className='rounded-sm bg-green-600 px-3 py-1 text-lg font-normal'>{averageRating.toFixed(1)}/10</Badge>
         <p className='text-lg text-gray-500'>| {totalRating} đánh giá</p>
       </div>
@@ -60,17 +49,14 @@ export default function ListRating({ hotelId, hotelName, onSetRating }: ListRati
                   <AvatarImage src={rating.userId.image} />
                   <AvatarFallback>{getLastTwoInitials(rating.userId.fullname)}</AvatarFallback>
                 </Avatar>
-                <div className='flex flex-col gap-0'>
-                  <p className='font-semibold'>{rating.userId.fullname}</p>
-                  <p className='text-sm text-gray-500'>{formatDate(String(rating.ratingDate))}</p>
-                </div>
+                <p className='font-semibold'>{rating.userId.fullname}</p>
               </div>
             </div>
             <div className='col-span-7'>
               <div className='flex flex-col gap-1'>
                 <div className='flex gap-1'>
-                  <Rating name='read-only' value={rating.ratingStar / 2} precision={0.5} readOnly size='small' />
                   <Badge className='rounded-sm bg-green-600 text-xs font-normal'>{rating.ratingStar}/10</Badge>
+                  <p className='text-sm text-gray-500'>{formatDate(String(rating.ratingDate))}</p>
                 </div>
                 <p className='font-normal'>{rating.ratingDescription}</p>
                 <div className='mt-1 flex gap-2'>
