@@ -102,7 +102,7 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
           )}
           {isConfirmed && status === 'Chưa thanh toán' && (
             <CustomTooltip content='Thanh toán'>
-              <CreditCard className='h-5 w-5 text-gray-300 hover:cursor-pointer' onClick={openOrderPayment} />
+              <CreditCard className='h-5 w-5 text-gray-500 hover:cursor-pointer' onClick={openOrderPayment} />
             </CustomTooltip>
           )}
         </div>

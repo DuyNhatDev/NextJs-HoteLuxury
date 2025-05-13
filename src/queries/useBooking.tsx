@@ -83,7 +83,7 @@ export const useRejectBookingMutation = () => {
     }
   })
 }
-export const useConfirmPaymentBookingMutation = () => {
+export const usePaymentBookingMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: bookingApiRequest.confirmPaymentBooking,

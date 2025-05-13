@@ -17,7 +17,6 @@ type CancelBookingProps = {
 
 export default function AlertDialogCheckBooking({ bookingCheck, setBookingCheck }: CancelBookingProps) {
   const checkBookingQuery = useCheckBooking(bookingCheck?.bookingId ?? 0, Boolean(bookingCheck?.bookingId))
-
   const res = checkBookingQuery.data?.payload?.status
   const isAvailable = res === 'OK'
   const message = isAvailable ? 'Còn đủ phòng' : 'Đã hết phòng'
@@ -25,7 +24,6 @@ export default function AlertDialogCheckBooking({ bookingCheck, setBookingCheck 
     isAvailable ? 'bg-green-500/10' : 'bg-destructive/10'
   }`
   const iconClass = `h-7 w-7 ${isAvailable ? 'text-green-500' : 'text-destructive'}`
-
   const IconComponent = isAvailable ? BadgeCheck : OctagonAlert
 
   return (

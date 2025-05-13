@@ -9,23 +9,23 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useConfirmBookingMutation } from '@/queries/useBooking'
+import { usePaymentBookingMutation } from '@/queries/useBooking'
 import { BookingType } from '@/schemaValidations/booking-schema'
 import { Info } from 'lucide-react'
 import { toast } from 'sonner'
 
-type ConfirmBookingProps = {
-  bookingConfirm: BookingType | null
-  setBookingConfirm: (value: BookingType | null) => void
+type PaymentBookingProps = {
+  bookingPayment: BookingType | null
+  setBookingPayment: (value: BookingType | null) => void
 }
-export default function AlertDialogConfirmBooking({ bookingConfirm, setBookingConfirm }: ConfirmBookingProps) {
-  const { mutateAsync } = useConfirmBookingMutation()
+export default function AlertDialogPaymentBooking({ bookingPayment, setBookingPayment }: PaymentBookingProps) {
+  const { mutateAsync } = usePaymentBookingMutation()
   const confirmBooking = async () => {
-    if (bookingConfirm) {
+    if (bookingPayment) {
       try {
-        await mutateAsync(bookingConfirm.bookingId)
-        setBookingConfirm(null)
-        toast.success('Xác nhận thành công')
+        await mutateAsync(bookingPayment.bookingId)
+        setBookingPayment(null)
+        toast.success('Thanh toán thành công')
       } catch (error) {
         handleErrorApi({
           error
@@ -35,10 +35,10 @@ export default function AlertDialogConfirmBooking({ bookingConfirm, setBookingCo
   }
   return (
     <AlertDialog
-      open={Boolean(bookingConfirm)}
+      open={Boolean(bookingPayment)}
       onOpenChange={(value) => {
         if (!value) {
-          setBookingConfirm(null)
+          setBookingPayment(null)
         }
       }}
     >
@@ -48,9 +48,10 @@ export default function AlertDialogConfirmBooking({ bookingConfirm, setBookingCo
             <div className='mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-blue-400/10'>
               <Info className='h-7 w-7 text-blue-400' />
             </div>
-            <p>Xác nhận cho đơn {bookingConfirm?.bookingCode}</p>
-            <p className='text-center'>Khách hàng: {bookingConfirm?.customerName}</p>
+            <p>Thanh toán cho đơn {bookingPayment?.bookingCode}</p>
+            <p className='text-center'>Khách hàng: {bookingPayment?.customerName}</p>
           </AlertDialogTitle>
+
           <AlertDialogDescription>Hành động này không thể hoàn tác</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className='mt-2 sm:justify-center'>

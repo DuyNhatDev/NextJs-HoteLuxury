@@ -24,6 +24,8 @@ import { RotateCcw } from 'lucide-react'
 import ReactDateRange, { State } from '@/components/customize/react-date-range'
 import AlertDialogCheckBooking from '@/app/partner/manage/order/list/components/alert-check-order'
 import AlertDialogConfirmBooking from '@/app/partner/manage/order/list/components/alert-confirm-order'
+import AlertDialogRejectBooking from '@/app/partner/manage/order/list/components/alert-reject-order'
+import AlertDialogPaymentBooking from '@/app/partner/manage/order/list/components/alert-payment-order'
 
 export const OrderTableContext = createContext<{
   orderView: OrderItem | null
@@ -164,6 +166,8 @@ export default function OrderTable() {
       <div className='w-full'>
         <AlertDialogCheckBooking bookingCheck={orderCheck} setBookingCheck={setOrderCheck} />
         <AlertDialogConfirmBooking bookingConfirm={orderConfirm} setBookingConfirm={setOrderConfirm} />
+        <AlertDialogRejectBooking bookingReject={orderReject} setBookingReject={setOrderReject} />
+        <AlertDialogPaymentBooking bookingPayment={orderPayment} setBookingPayment={setOrderPayment} />
         <div className='flex items-center justify-between gap-6'>
           <div className='flex items-center gap-2'>
             <p className='text-sm'>Đặt phòng:</p>
