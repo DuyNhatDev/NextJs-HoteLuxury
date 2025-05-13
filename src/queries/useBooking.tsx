@@ -56,10 +56,11 @@ export const useGetBookingList = (queryParams: BookingParamsType) => {
     queryKey: ['booking-list', queryParams]
   })
 }
-export const useCheckBooking = (id: number) => {
+export const useCheckBooking = (id: number, enabled: boolean = false) => {
   return useQuery({
-    queryFn: () => bookingApiRequest.checkBooking(id),
-    queryKey: ['check-booking', id]
+    queryFn: () => bookingApiRequest.checkBooking(id!),
+    queryKey: ['check-booking', id],
+    enabled: !!id && enabled
   })
 }
 

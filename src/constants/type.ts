@@ -57,3 +57,11 @@ export const bookingConfirmItems = [
   { label: 'Đã xác nhận', value: true },
   { label: 'Chưa xác nhận', value: false }
 ]
+
+export enum OrderAction {
+  VIEW = 'VIEW',
+  CHECK = 'CHECK',
+  CONFIRM = 'CONFIRM',
+  REJECT = 'REJECT',
+  PAYMENT = 'PAYMENT'
+}

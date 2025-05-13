@@ -7,7 +7,6 @@ import CustomTooltip from '@/components/customize/tooltip'
 import { CircleHelp, CircleX, Eye, FileCheck } from 'lucide-react'
 
 export type OrderItem = BookingListResType['data'][0]
-
 const orderTableColumns: ColumnDef<OrderItem>[] = [
   {
     accessorKey: 'customerName',
@@ -71,24 +70,37 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setOrderAction } = useContext(OrderTableContext)
+      const { setOrderView, setOrderCheck, setOrderConfirm, setOrderReject, setOrderPayment } =
+        useContext(OrderTableContext)
 
-      const openActionOrder = () => {
-        setOrderAction(row.original)
+      const openOrderView = () => {
+        setOrderView(row.original)
+      }
+      const openOrderCheck = () => {
+        setOrderCheck(row.original)
+      }
+      const openOrderConfirm = () => {
+        setOrderConfirm(row.original)
+      }
+      const openOrderReject = () => {
+        setOrderReject(row.original)
+      }
+      const openOrderPayment = () => {
+        setOrderPayment(row.original)
       }
       return (
         <div className='flex gap-3'>
           <CustomTooltip content='Xem chi tiết'>
-            <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openActionOrder} />
+            <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openOrderView} />
           </CustomTooltip>
           <CustomTooltip content='Kiểm tra'>
-            <CircleHelp className='h-5 w-5 text-yellow-600 hover:cursor-pointer' onClick={openActionOrder} />
+            <CircleHelp className='h-5 w-5 text-yellow-600 hover:cursor-pointer' onClick={openOrderCheck} />
           </CustomTooltip>
           <CustomTooltip content='Xác nhận'>
-            <FileCheck className='h-5 w-5 text-green-600 hover:cursor-pointer' onClick={openActionOrder} />
+            <FileCheck className='h-5 w-5 text-green-600 hover:cursor-pointer' onClick={openOrderConfirm} />
           </CustomTooltip>
           <CustomTooltip content='Từ chối'>
-            <CircleX className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openActionOrder} />
+            <CircleX className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openOrderReject} />
           </CustomTooltip>
         </div>
       )

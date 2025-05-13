@@ -22,13 +22,31 @@ import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
 import ReactDateRange, { State } from '@/components/customize/react-date-range'
+import AlertDialogCheckBooking from '@/app/partner/manage/order/list/components/alert-check-booking'
 
 export const OrderTableContext = createContext<{
-  orderAction: OrderItem | null
-  setOrderAction: (value: OrderItem | null) => void
+  
+  orderView: OrderItem | null
+  setOrderView: (value: OrderItem | null) => void
+  orderCheck: OrderItem | null
+  setOrderCheck: (value: OrderItem | null) => void
+  orderConfirm: OrderItem | null
+  setOrderConfirm: (value: OrderItem | null) => void
+  orderReject: OrderItem | null
+  setOrderReject: (value: OrderItem | null) => void
+  orderPayment: OrderItem | null
+  setOrderPayment: (value: OrderItem | null) => void
 }>({
-  orderAction: null,
-  setOrderAction: (value: OrderItem | null) => {}
+  orderView: null,
+  setOrderView: (value: OrderItem | null) => {},
+  orderCheck: null,
+  setOrderCheck: (value: OrderItem | null) => {},
+  orderConfirm: null,
+  setOrderConfirm: (value: OrderItem | null) => {},
+  orderReject: null,
+  setOrderReject: (value: OrderItem | null) => {},
+  orderPayment: null,
+  setOrderPayment: (value: OrderItem | null) => {}
 })
 
 const PAGE_SIZE = 10
@@ -36,7 +54,11 @@ export default function OrderTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [orderAction, setOrderAction] = useState<OrderItem | null>(null)
+  const [orderView, setOrderView] = useState<OrderItem | null>(null)
+  const [orderCheck, setOrderCheck] = useState<OrderItem | null>(null)
+  const [orderConfirm, setOrderConfirm] = useState<OrderItem | null>(null)
+  const [orderReject, setOrderReject] = useState<OrderItem | null>(null)
+  const [orderPayment, setOrderPayment] = useState<OrderItem | null>(null)
   const [createdRange, setCreatedRange] = useState<State | undefined>({
     startDate: undefined,
     endDate: undefined,
@@ -125,8 +147,22 @@ export default function OrderTable() {
   }, [table, pageIndex])
 
   return (
-    <OrderTableContext.Provider value={{ orderAction, setOrderAction }}>
+    <OrderTableContext.Provider
+      value={{
+        orderView,
+        setOrderView,
+        orderCheck,
+        setOrderCheck,
+        orderConfirm,
+        setOrderConfirm,
+        orderReject,
+        setOrderReject,
+        orderPayment,
+        setOrderPayment
+      }}
+    >
       <div className='w-full'>
+        <AlertDialogCheckBooking bookingCheck={orderCheck} setBookingCheck={setOrderCheck} />
         <div className='flex items-center justify-between gap-6'>
           <div className='flex items-center gap-2'>
             <p className='text-sm'>Đặt phòng:</p>
