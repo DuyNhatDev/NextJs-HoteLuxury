@@ -22,10 +22,10 @@ import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
 import ReactDateRange, { State } from '@/components/customize/react-date-range'
-import AlertDialogCheckBooking from '@/app/partner/manage/order/list/components/alert-check-booking'
+import AlertDialogCheckBooking from '@/app/partner/manage/order/list/components/alert-check-order'
+import AlertDialogConfirmBooking from '@/app/partner/manage/order/list/components/alert-confirm-order'
 
 export const OrderTableContext = createContext<{
-  
   orderView: OrderItem | null
   setOrderView: (value: OrderItem | null) => void
   orderCheck: OrderItem | null
@@ -163,6 +163,7 @@ export default function OrderTable() {
     >
       <div className='w-full'>
         <AlertDialogCheckBooking bookingCheck={orderCheck} setBookingCheck={setOrderCheck} />
+        <AlertDialogConfirmBooking bookingConfirm={orderConfirm} setBookingConfirm={setOrderConfirm} />
         <div className='flex items-center justify-between gap-6'>
           <div className='flex items-center gap-2'>
             <p className='text-sm'>Đặt phòng:</p>

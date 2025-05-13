@@ -4,7 +4,7 @@ import { format, parseISO } from 'date-fns'
 import { useContext } from 'react'
 import { OrderTableContext } from '@/app/partner/manage/order/list/components/order-table'
 import CustomTooltip from '@/components/customize/tooltip'
-import { CircleHelp, CircleX, Eye, FileCheck } from 'lucide-react'
+import { CircleHelp, CircleX, CreditCard, Eye, FileCheck } from 'lucide-react'
 
 export type OrderItem = BookingListResType['data'][0]
 const orderTableColumns: ColumnDef<OrderItem>[] = [
@@ -73,39 +73,41 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
       const { setOrderView, setOrderCheck, setOrderConfirm, setOrderReject, setOrderPayment } =
         useContext(OrderTableContext)
 
-      const openOrderView = () => {
-        setOrderView(row.original)
-      }
-      const openOrderCheck = () => {
-        setOrderCheck(row.original)
-      }
-      const openOrderConfirm = () => {
-        setOrderConfirm(row.original)
-      }
-      const openOrderReject = () => {
-        setOrderReject(row.original)
-      }
-      const openOrderPayment = () => {
-        setOrderPayment(row.original)
-      }
+      const openOrderView = () => setOrderView(row.original)
+      const openOrderCheck = () => setOrderCheck(row.original)
+      const openOrderConfirm = () => setOrderConfirm(row.original)
+      const openOrderReject = () => setOrderReject(row.original)
+      const openOrderPayment = () => setOrderPayment(row.original)
+
+      const isConfirmed = row.original.isConfirmed
+      const status = row.original.status
+
       return (
         <div className='flex gap-3'>
           <CustomTooltip content='Xem chi tiết'>
             <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openOrderView} />
           </CustomTooltip>
-          <CustomTooltip content='Kiểm tra'>
-            <CircleHelp className='h-5 w-5 text-yellow-600 hover:cursor-pointer' onClick={openOrderCheck} />
-          </CustomTooltip>
-          <CustomTooltip content='Xác nhận'>
-            <FileCheck className='h-5 w-5 text-green-600 hover:cursor-pointer' onClick={openOrderConfirm} />
-          </CustomTooltip>
-          <CustomTooltip content='Từ chối'>
-            <CircleX className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openOrderReject} />
-          </CustomTooltip>
+          {!isConfirmed && (
+            <>
+              <CustomTooltip content='Kiểm tra'>
+                <CircleHelp className='h-5 w-5 text-yellow-600 hover:cursor-pointer' onClick={openOrderCheck} />
+              </CustomTooltip>
+              <CustomTooltip content='Xác nhận'>
+                <FileCheck className='h-5 w-5 text-green-600 hover:cursor-pointer' onClick={openOrderConfirm} />
+              </CustomTooltip>
+              <CustomTooltip content='Từ chối'>
+                <CircleX className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openOrderReject} />
+              </CustomTooltip>
+            </>
+          )}
+          {isConfirmed && status === 'Chưa thanh toán' && (
+            <CustomTooltip content='Thanh toán'>
+              <CreditCard className='h-5 w-5 text-gray-300 hover:cursor-pointer' onClick={openOrderPayment} />
+            </CustomTooltip>
+          )}
         </div>
       )
     }
   }
 ]
-
 export default orderTableColumns
