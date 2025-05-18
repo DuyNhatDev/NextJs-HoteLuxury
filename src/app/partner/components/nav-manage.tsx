@@ -67,7 +67,7 @@ export function NavManage({
         if (hasOnlyOneSubItem) {
           const subItem = item.items[0]
           return (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem key={item.title} className='px-2'>
               <SidebarMenuButton tooltip={item.title} asChild>
                 <Link href={subItem.url} className={subItem.isActive ? 'bg-accent' : ''}>
                   {item.icon && <item.icon />}
@@ -79,7 +79,7 @@ export function NavManage({
         }
         return (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
-            <SidebarMenuItem>
+            <SidebarMenuItem className='px-2'>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
