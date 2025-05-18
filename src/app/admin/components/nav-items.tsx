@@ -9,11 +9,11 @@ export const data = {
       items: [
         {
           title: 'Danh sách đối tác',
-          url: '/admin/manage/partner/list'
+          url: '/admin/partner/list'
         },
         {
           title: 'Chờ duyệt',
-          url: '/admin/manage/partner/pending'
+          url: '/admin/partner/pending'
         }
       ]
     },
@@ -24,7 +24,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách khách sạn',
-          url: '/admin/manage/hotel/list'
+          url: '/admin/hotel/list'
         }
       ]
     },
@@ -35,7 +35,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách người dùng',
-          url: '/admin/manage/user/list'
+          url: '/admin/user/list'
         }
       ]
     },
@@ -46,7 +46,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách địa điểm',
-          url: '/admin/manage/destination'
+          url: '/admin/destination'
         }
       ]
     },
@@ -72,11 +72,11 @@ export const data = {
       items: [
         {
           title: 'Tài khoản',
-          url: '/admin/manage/setting/account'
+          url: '/admin/setting/account'
         },
         {
           title: 'Đổi mật khẩu',
-          url: '/admin/manage/setting/change-password'
+          url: '/admin/setting/change-password'
         }
       ]
     }

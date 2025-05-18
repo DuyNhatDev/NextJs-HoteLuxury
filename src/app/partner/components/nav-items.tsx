@@ -1,4 +1,4 @@
-import { Hotel, Settings, ReceiptText, MessageCircleMore } from 'lucide-react'
+import { Hotel, Settings, ReceiptText, MessageCircleMore, CalendarDays } from 'lucide-react'
 
 export const data = {
   navManage: [
@@ -9,11 +9,11 @@ export const data = {
       items: [
         {
           title: 'Thông tin khách sạn',
-          url: '/partner/manage/hotel/information'
+          url: '/partner/hotel/information'
         },
         {
           title: 'Danh sách loại phòng',
-          url: '/partner/manage/hotel/room-type'
+          url: '/partner/hotel/room-type'
         }
       ]
     },
@@ -23,8 +23,19 @@ export const data = {
       icon: ReceiptText,
       items: [
         {
-          title: 'Danh sách đơn',
-          url: '/partner/manage/order'
+          title: 'Đơn đặt phòng',
+          url: '/partner/order'
+        }
+      ]
+    },
+    {
+      title: 'Lịch hẹn',
+      url: '#',
+      icon: CalendarDays,
+      items: [
+        {
+          title: 'Lịch hẹn',
+          url: '/partner/schedule'
         }
       ]
     },
@@ -35,7 +46,7 @@ export const data = {
       items: [
         {
           title: 'Danh sách phản hồi',
-          url: '/partner/manage/feedback'
+          url: '/partner/feedback'
         }
       ]
     },
@@ -46,14 +57,13 @@ export const data = {
       items: [
         {
           title: 'Tài khoản',
-          url: '/partner/manage/setting/account'
+          url: '/partner/setting/account'
         },
         {
           title: 'Đổi mật khẩu',
-          url: '/partner/manage/setting/change-password'
+          url: '/partner/setting/change-password'
         }
       ]
     }
   ]
-  
 }
