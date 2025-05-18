@@ -24,16 +24,8 @@ export const data = {
       items: [
         {
           title: 'Danh sách đơn',
-          url: '/partner/manage/order/list'
+          url: '/partner/manage/order'
         }
-        // {
-        //   title: 'Chờ xác nhận',
-        //   url: '/partner/manage/order/pending'
-        // },
-        // {
-        //   title: 'Đã hủy',
-        //   url: '/partner/manage/order/canceled'
-        // }
       ]
     },
     {
@@ -63,16 +55,5 @@ export const data = {
       ]
     }
   ]
-  // projects: [
-  //   {
-  //     name: 'Design Engineering',
-  //     url: '#',
-  //     icon: Frame,
-  //   },
-  //   {
-  //     name: 'Sales & Marketing',
-  //     url: '#',
-  //     icon: PieChart,
-  //   },
-  // ],
+  
 }

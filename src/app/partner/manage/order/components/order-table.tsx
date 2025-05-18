@@ -2,7 +2,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useGetBookingList } from '@/queries/useBooking'
 import { createContext, useEffect, useState } from 'react'
-import orderTableColumns, { OrderItem } from '@/app/partner/manage/order/list/components/order-table-column'
+import orderTableColumns, { OrderItem } from '@/app/partner/manage/order/components/order-table-column'
 import { useSearchParams } from 'next/navigation'
 import {
   ColumnFiltersState,
@@ -22,10 +22,11 @@ import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
 import ReactDateRange, { State } from '@/components/customize/react-date-range'
-import AlertDialogCheckBooking from '@/app/partner/manage/order/list/components/alert-check-order'
-import AlertDialogConfirmBooking from '@/app/partner/manage/order/list/components/alert-confirm-order'
-import AlertDialogRejectBooking from '@/app/partner/manage/order/list/components/alert-reject-order'
-import AlertDialogPaymentBooking from '@/app/partner/manage/order/list/components/alert-payment-order'
+import AlertDialogCheckBooking from '@/app/partner/manage/order/components/alert-check-order'
+import AlertDialogConfirmBooking from '@/app/partner/manage/order/components/alert-confirm-order'
+import AlertDialogRejectBooking from '@/app/partner/manage/order/components/alert-reject-order'
+import AlertDialogPaymentBooking from '@/app/partner/manage/order/components/alert-payment-order'
+import { endOfDay, startOfDay } from 'date-fns'
 
 export const OrderTableContext = createContext<{
   orderView: OrderItem | null
@@ -62,8 +63,8 @@ export default function OrderTable() {
   const [orderReject, setOrderReject] = useState<OrderItem | null>(null)
   const [orderPayment, setOrderPayment] = useState<OrderItem | null>(null)
   const [createdRange, setCreatedRange] = useState<State | undefined>({
-    startDate: undefined,
-    endDate: undefined,
+    startDate: startOfDay(new Date()),
+    endDate: endOfDay(new Date()),
     key: 'selection' as const
   })
   const [checkInRange, setCheckInRange] = useState<State | undefined>({

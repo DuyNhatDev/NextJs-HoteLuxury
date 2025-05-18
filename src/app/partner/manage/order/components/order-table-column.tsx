@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { BookingListResType } from '@/schemaValidations/booking-schema'
 import { format, parseISO } from 'date-fns'
 import { useContext } from 'react'
-import { OrderTableContext } from '@/app/partner/manage/order/list/components/order-table'
+import { OrderTableContext } from '@/app/partner/manage/order/components/order-table'
 import CustomTooltip from '@/components/customize/tooltip'
 import { CircleHelp, CircleX, CreditCard, Eye, FileCheck } from 'lucide-react'
 

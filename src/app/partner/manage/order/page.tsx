@@ -1,4 +1,4 @@
-import OrderTable from '@/app/partner/manage/order/list/components/order-table'
+import OrderTable from '@/app/partner/manage/order/components/order-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense } from 'react'
 

@@ -20,7 +20,7 @@ type DateRange = {
 
 type CustomRange = {
   label: string
-  range: () => { startDate: Date; endDate: Date }
+  range: () => { startDate?: Date; endDate?: Date }
 }
 
 const defineds = {
@@ -94,6 +94,13 @@ export function createStaticRanges(ranges: CustomRange[]) {
 }
 
 export const defaultStaticRangesVi = createStaticRanges([
+  // {
+  //   label: 'Tất cả',
+  //   range: () => ({
+  //     startDate: undefined,
+  //     endDate: undefined
+  //   })
+  // },
   {
     label: 'Hôm nay',
     range: () => ({
