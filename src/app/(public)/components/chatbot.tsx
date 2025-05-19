@@ -1,17 +1,23 @@
 'use client'
 import { Chat } from '@/components/ui/chat'
 import { useChatMutation } from '@/queries/useChat'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { MessageCircleMore, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { generateRandom9DigitNumber } from '@/lib/utils'
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
   const [hasAsked, setHasAsked] = useState(false)
+  const [sessionId, setSessionId] = useState('')
   const [messages, setMessages] = useState<{ id: string; role: string; content: string }[]>([])
   const [input, setInput] = useState('')
-  const mutation = useChatMutation()
+  const chatMutation = useChatMutation()
+
+  useEffect(() => {
+    setSessionId(generateRandom9DigitNumber())
+  }, [])
 
   const sendMessage = async (content: string) => {
     if (!hasAsked) setHasAsked(true)
@@ -25,7 +31,7 @@ export default function ChatBot() {
     setInput('')
 
     try {
-      const res = await mutation.mutateAsync({ question: content })
+      const res = await chatMutation.mutateAsync({ question: content, sessionId })
       const aiMessage = {
         id: String(Date.now() + 1),
         role: 'assistant',
@@ -61,7 +67,7 @@ export default function ChatBot() {
   }
 
   const stop = () => {
-    mutation.reset()
+    chatMutation.reset()
   }
 
   return (
@@ -96,10 +102,10 @@ export default function ChatBot() {
             input={input}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
-            isGenerating={mutation.isPending}
+            isGenerating={chatMutation.isPending}
             stop={stop}
             setMessages={setMessages}
-            className={hasAsked ? 'py-3 pl-3' : 'px-3'}
+            className={hasAsked ? 'py-3 pl-3 pr-1' : 'px-3'}
             append={append}
             suggestions={['Làm sao để đặt phòng?', 'Có thể hủy phòng được không?', 'Khách sạn rẻ nhất?']}
           />
