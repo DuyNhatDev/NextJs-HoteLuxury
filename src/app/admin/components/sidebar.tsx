@@ -8,7 +8,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenuButton,
-  SidebarRail,
+  SidebarRail
 } from '@/components/ui/sidebar'
 import { NavManage } from '@/app/admin/components/nav-manage'
 import { NavUser } from '@/app/admin/components/nav-user'
@@ -17,17 +17,17 @@ import { data } from '@/app/admin/components/nav-items'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible='icon' {...props}>
       <SidebarHeader>
         <SidebarMenuButton
-          size="lg"
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          size='lg'
+          className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
         >
-          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-            <ShieldUser className="size-4" />
+          <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+            <ShieldUser className='size-4' />
           </div>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">Admin</span>
+          <div className='grid flex-1 text-left text-sm leading-tight'>
+            <span className='truncate font-semibold'>Admin</span>
             {/* <span className="truncate text-xs">{activeTeam.plan}</span> */}
           </div>
         </SidebarMenuButton>

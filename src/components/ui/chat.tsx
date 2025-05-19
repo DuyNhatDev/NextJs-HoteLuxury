@@ -164,12 +164,7 @@ export function Chat({
   )
 
   return (
-    <ChatContainer
-      className={cn(
-        'flex h-[390px] flex-col',
-        className
-      )}
-    >
+    <ChatContainer className={cn('flex h-[390px] flex-col', className)}>
       {isEmpty && append && suggestions ? (
         <PromptSuggestions label='Câu hỏi phổ biến ✨' append={append} suggestions={suggestions} />
       ) : null}
@@ -290,6 +285,3 @@ function createFileList(files: File[] | FileList): FileList {
   }
   return dataTransfer.files
 }
-
-
-

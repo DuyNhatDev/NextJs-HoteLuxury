@@ -79,7 +79,7 @@ export default function ListFilterHotel({ filterParams, onSetHotelQuantity }: Li
                                 <Badge className='rounded bg-green-600 text-xs font-semibold'>
                                   {hotel.ratingAverage}
                                 </Badge>
-                                <p className='text-gray-500 text-sm'>| {hotel.ratingQuantity} đánh giá</p>
+                                <p className='text-sm text-gray-500'>| {hotel.ratingQuantity} đánh giá</p>
                               </>
                             )}
                           </div>

@@ -173,4 +173,3 @@ function withClass(Tag: keyof JSX.IntrinsicElements, classes: string) {
 }
 
 export default MarkdownRenderer
-

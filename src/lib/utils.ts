@@ -291,4 +291,3 @@ export const generateRandom9DigitNumber = (): string => {
   const combined = (timestampPart + randomPart) % 1_000_000_000
   return combined.toString().padStart(9, '0')
 }
-

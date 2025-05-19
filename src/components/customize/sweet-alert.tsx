@@ -59,7 +59,7 @@ export default function CustomAlert({
         }
       })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
 
   return null

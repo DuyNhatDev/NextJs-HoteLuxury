@@ -12,7 +12,7 @@ export default function SchedulePage() {
           </CardHeader>
           <CardContent>
             <Suspense>
-             <ScheduleTable/>
+              <ScheduleTable />
             </Suspense>
           </CardContent>
         </Card>

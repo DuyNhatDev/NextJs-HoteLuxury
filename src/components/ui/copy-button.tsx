@@ -32,4 +32,3 @@ export function CopyButton({ content, copyMessage }: CopyButtonProps) {
     </Button>
   )
 }
-

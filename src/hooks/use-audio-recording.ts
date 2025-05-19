@@ -86,4 +86,3 @@ export function useAudioRecording({ transcribeAudio, onTranscriptionComplete }: 
     stopRecording
   }
 }
-

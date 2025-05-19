@@ -113,7 +113,9 @@ export default function HotelInfo() {
                     <CustomTooltip content='Click để xem đánh giá'>
                       <div className='hover:cursor-pointer' onClick={handleRatingScroll}>
                         <div className='flex items-center gap-2'>
-                          <Badge className='rounded bg-green-600 text-[14px] font-semibold'>{hotelData?.ratingAverage}</Badge>
+                          <Badge className='rounded bg-green-600 text-[14px] font-semibold'>
+                            {hotelData?.ratingAverage}
+                          </Badge>
                           <p className='text-gray-500'>| {hotelData?.ratingQuantity} đánh giá</p>
                           <ChevronDown className='h-4 w-4 text-gray-500' />
                         </div>

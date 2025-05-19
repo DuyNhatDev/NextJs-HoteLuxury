@@ -65,22 +65,21 @@ export const Rating = ({
     setHoverRating(null)
   }
 
- const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-   if (!disabled) {
-     const rect = event.currentTarget.getBoundingClientRect()
-     const x = event.clientX - rect.left
-     const isHalf = x < rect.width / 2
-     const starIndex = parseInt(event.currentTarget.dataset.starIndex || '0')
-     const newRating = isHalf ? starIndex - 0.5 : starIndex
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!disabled) {
+      const rect = event.currentTarget.getBoundingClientRect()
+      const x = event.clientX - rect.left
+      const isHalf = x < rect.width / 2
+      const starIndex = parseInt(event.currentTarget.dataset.starIndex || '0')
+      const newRating = isHalf ? starIndex - 0.5 : starIndex
 
-     setCurrentRating(newRating)
-     setHoverRating(null)
-     if (onRatingChange) {
-       onRatingChange(newRating)
-     }
-   }
- }
-
+      setCurrentRating(newRating)
+      setHoverRating(null)
+      if (onRatingChange) {
+        onRatingChange(newRating)
+      }
+    }
+  }
 
   const displayRating = disabled ? computedRating : (hoverRating ?? currentRating)
   const fullStars = Math.floor(displayRating)

@@ -355,4 +355,3 @@ function ToolCall({ toolInvocations }: Pick<ChatMessageProps, 'toolInvocations'>
     </div>
   )
 }
-

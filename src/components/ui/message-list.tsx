@@ -22,4 +22,3 @@ export function MessageList({ messages, showTimeStamps = true, isTyping = false,
     </div>
   )
 }
-

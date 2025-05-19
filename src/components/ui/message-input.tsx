@@ -179,7 +179,7 @@ export function MessageInput({
             onPaste={onPaste}
             onKeyDown={onKeyDown}
             className={cn(
-              'border-input !h-14 bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:border-primary z-10 w-full grow resize-none rounded-xl border p-3 pr-24 text-sm transition-[border] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+              'border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:border-primary z-10 !h-14 w-full grow resize-none rounded-xl border p-3 pr-24 text-sm transition-[border] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
               showFileList && 'pb-16',
               className
             )}
@@ -415,4 +415,3 @@ function RecordingControls({
 
   return null
 }
-

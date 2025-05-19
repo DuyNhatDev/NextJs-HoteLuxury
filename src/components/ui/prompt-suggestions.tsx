@@ -22,4 +22,3 @@ export function PromptSuggestions({ label, append, suggestions }: PromptSuggesti
     </div>
   )
 }
-

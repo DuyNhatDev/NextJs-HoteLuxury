@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react'
 
 // Configuration constants for the audio analyzer
 const AUDIO_CONFIG = {
@@ -12,8 +12,8 @@ const AUDIO_CONFIG = {
   COLOR: {
     MIN_INTENSITY: 100, // Minimum gray value (darker)
     MAX_INTENSITY: 255, // Maximum gray value (brighter)
-    INTENSITY_RANGE: 155, // MAX_INTENSITY - MIN_INTENSITY
-  },
+    INTENSITY_RANGE: 155 // MAX_INTENSITY - MIN_INTENSITY
+  }
 } as const
 
 interface AudioVisualizerProps {
@@ -22,11 +22,7 @@ interface AudioVisualizerProps {
   onClick: () => void
 }
 
-export function AudioVisualizer({
-  stream,
-  isRecording,
-  onClick,
-}: AudioVisualizerProps) {
+export function AudioVisualizer({ stream, isRecording, onClick }: AudioVisualizerProps) {
   // Refs for managing audio context and animation
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -79,11 +75,11 @@ export function AudioVisualizer({
       }
     }
 
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
     // Initial setup
     handleResize()
 
-    return () => window.removeEventListener("resize", handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   // Initialize audio context and start visualization
@@ -102,15 +98,14 @@ export function AudioVisualizer({
 
       draw()
     } catch (error) {
-      console.error("Error starting visualization:", error)
+      console.error('Error starting visualization:', error)
     }
   }
 
   // Calculate the color intensity based on bar height
   const getBarColor = (normalizedHeight: number) => {
     const intensity =
-      Math.floor(normalizedHeight * AUDIO_CONFIG.COLOR.INTENSITY_RANGE) +
-      AUDIO_CONFIG.COLOR.MIN_INTENSITY
+      Math.floor(normalizedHeight * AUDIO_CONFIG.COLOR.INTENSITY_RANGE) + AUDIO_CONFIG.COLOR.MIN_INTENSITY
     return `rgb(${intensity}, ${intensity}, ${intensity})`
   }
 
@@ -135,7 +130,7 @@ export function AudioVisualizer({
     if (!isRecording) return
 
     const canvas = canvasRef.current
-    const ctx = canvas?.getContext("2d")
+    const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx || !analyserRef.current) return
 
     const dpr = window.devicePixelRatio || 1
@@ -165,19 +160,9 @@ export function AudioVisualizer({
       // Draw each frequency bar
       for (let i = 0; i < bufferLength; i++) {
         const normalizedHeight = frequencyData[i] / 255 // Convert to 0-1 range
-        const barHeight = Math.max(
-          AUDIO_CONFIG.MIN_BAR_HEIGHT,
-          normalizedHeight * centerY
-        )
+        const barHeight = Math.max(AUDIO_CONFIG.MIN_BAR_HEIGHT, normalizedHeight * centerY)
 
-        drawBar(
-          ctx,
-          x,
-          centerY,
-          barWidth,
-          barHeight,
-          getBarColor(normalizedHeight)
-        )
+        drawBar(ctx, x, centerY, barWidth, barHeight, getBarColor(normalizedHeight))
 
         x += barWidth + AUDIO_CONFIG.BAR_SPACING
       }
@@ -189,10 +174,10 @@ export function AudioVisualizer({
   return (
     <div
       ref={containerRef}
-      className="h-full w-full cursor-pointer rounded-lg bg-background/80 backdrop-blur"
+      className='bg-background/80 h-full w-full cursor-pointer rounded-lg backdrop-blur'
       onClick={onClick}
     >
-      <canvas ref={canvasRef} className="h-full w-full" />
+      <canvas ref={canvasRef} className='h-full w-full' />
     </div>
   )
 }

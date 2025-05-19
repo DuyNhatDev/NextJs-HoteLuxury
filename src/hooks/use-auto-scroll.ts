@@ -64,4 +64,3 @@ export function useAutoScroll(dependencies: React.DependencyList) {
     handleTouchStart
   }
 }
-

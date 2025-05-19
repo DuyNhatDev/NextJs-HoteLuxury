@@ -31,4 +31,3 @@ export function useCopyToClipboard({ text, copyMessage = 'Copied to clipboard!' 
 
   return { isCopied, handleCopy }
 }
-
