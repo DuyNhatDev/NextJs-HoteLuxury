@@ -166,7 +166,7 @@ export function Chat({
   return (
     <ChatContainer
       className={cn(
-        'flex max-h-[390px] flex-col',
+        'flex h-[390px] flex-col',
         className
       )}
     >
@@ -184,7 +184,6 @@ export function Chat({
         <div className='flex-1' />
       )}
 
-      {/* Luôn ở dưới cùng */}
       <ChatForm
         className='bg-background sticky bottom-0 pt-2'
         isPending={isGenerating || isTyping}

@@ -285,3 +285,10 @@ export const removePhong = (text: string) => {
   return text
 }
 
+export const generateRandom9DigitNumber = (): string => {
+  const timestampPart = Date.now() % 1_000_000_000
+  const randomPart = Math.floor(Math.random() * 1_000_000_000)
+  const combined = (timestampPart + randomPart) % 1_000_000_000
+  return combined.toString().padStart(9, '0')
+}
+

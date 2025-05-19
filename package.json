@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,mdx}\""
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -111,3 +112,4 @@
     "typescript": "^5"
   }
 }
+

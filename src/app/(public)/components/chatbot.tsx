@@ -8,11 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
+  const [hasAsked, setHasAsked] = useState(false)
   const [messages, setMessages] = useState<{ id: string; role: string; content: string }[]>([])
   const [input, setInput] = useState('')
   const mutation = useChatMutation()
 
   const sendMessage = async (content: string) => {
+    if (!hasAsked) setHasAsked(true)
     const userMessage = {
       id: String(Date.now()),
       role: 'user',
@@ -97,13 +99,9 @@ export default function ChatBot() {
             isGenerating={mutation.isPending}
             stop={stop}
             setMessages={setMessages}
-            className='py-3 pl-3'
+            className={hasAsked ? 'py-3 pl-3' : 'px-3 pt-6'}
             append={append}
-            suggestions={[
-              'Làm sao để đặt phòng?',
-              'Có thể hủy phòng được không?',
-              'Khách sạn rẻ nhất?'
-            ]}
+            suggestions={['Làm sao để đặt phòng?', 'Có thể hủy phòng được không?', 'Khách sạn rẻ nhất?']}
           />
         </div>
       )}
