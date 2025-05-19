@@ -166,7 +166,9 @@ export function Chat({
   return (
     <ChatContainer className={cn('flex h-[390px] flex-col', className)}>
       {isEmpty && append && suggestions ? (
-        <PromptSuggestions label='Câu hỏi phổ biến ✨' append={append} suggestions={suggestions} />
+        <div className='flex h-full w-full items-center justify-center'>
+          <PromptSuggestions label='Câu hỏi phổ biến ✨' append={append} suggestions={suggestions} />
+        </div>
       ) : null}
 
       {messages.length > 0 ? (

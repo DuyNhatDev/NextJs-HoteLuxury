@@ -87,7 +87,7 @@ export default function ChatBot() {
                 </Avatar>
                 <div className='ring-background absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-green-500 ring-[2px]'></div>
               </div>
-              <p className='text-xl font-bold'>Chatbot</p>
+              <p className='text-xl font-bold'>ChatBot</p>
             </div>
             <X className='cursor-pointer' onClick={() => setIsOpen(false)} />
           </div>
@@ -99,7 +99,7 @@ export default function ChatBot() {
             isGenerating={mutation.isPending}
             stop={stop}
             setMessages={setMessages}
-            className={hasAsked ? 'py-3 pl-3' : 'px-3 pt-6'}
+            className={hasAsked ? 'py-3 pl-3' : 'px-3'}
             append={append}
             suggestions={['Làm sao để đặt phòng?', 'Có thể hủy phòng được không?', 'Khách sạn rẻ nhất?']}
           />
