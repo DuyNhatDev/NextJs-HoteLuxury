@@ -1,38 +1,26 @@
-"use client"
+'use client'
 
-import {
-  forwardRef,
-  useCallback,
-  useRef,
-  useState,
-  type ReactElement,
-} from "react"
-import { ArrowDown, ThumbsDown, ThumbsUp } from "lucide-react"
+import { forwardRef, useCallback, useRef, useState, type ReactElement } from 'react'
+import { ArrowDown, ThumbsDown, ThumbsUp } from 'lucide-react'
 
-import { cn } from "@/lib/utils"
-import { useAutoScroll } from "@/hooks/use-auto-scroll"
-import { Button } from "@/components/ui/button"
-import { type Message } from "@/components/ui/chat-message"
-import { CopyButton } from "@/components/ui/copy-button"
-import { MessageInput } from "@/components/ui/message-input"
-import { MessageList } from "@/components/ui/message-list"
-import { PromptSuggestions } from "@/components/ui/prompt-suggestions"
+import { cn } from '@/lib/utils'
+import { useAutoScroll } from '@/hooks/use-auto-scroll'
+import { Button } from '@/components/ui/button'
+import { type Message } from '@/components/ui/chat-message'
+import { CopyButton } from '@/components/ui/copy-button'
+import { MessageInput } from '@/components/ui/message-input'
+import { MessageList } from '@/components/ui/message-list'
+import { PromptSuggestions } from '@/components/ui/prompt-suggestions'
 
 interface ChatPropsBase {
-  handleSubmit: (
-    event?: { preventDefault?: () => void },
-    options?: { experimental_attachments?: FileList }
-  ) => void
+  handleSubmit: (event?: { preventDefault?: () => void }, options?: { experimental_attachments?: FileList }) => void
   messages: Array<Message>
   input: string
   className?: string
   handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement>
   isGenerating: boolean
   stop?: () => void
-  onRateResponse?: (
-    messageId: string,
-    rating: "thumbs-up" | "thumbs-down"
-  ) => void
+  onRateResponse?: (messageId: string, rating: 'thumbs-up' | 'thumbs-down') => void
   setMessages?: (messages: any[]) => void
   transcribeAudio?: (blob: Blob) => Promise<string>
 }
@@ -43,7 +31,7 @@ interface ChatPropsWithoutSuggestions extends ChatPropsBase {
 }
 
 interface ChatPropsWithSuggestions extends ChatPropsBase {
-  append: (message: { role: "user"; content: string }) => void
+  append: (message: { role: 'user'; content: string }) => void
   suggestions: string[]
 }
 
@@ -61,11 +49,11 @@ export function Chat({
   className,
   onRateResponse,
   setMessages,
-  transcribeAudio,
+  transcribeAudio
 }: ChatProps) {
   const lastMessage = messages.at(-1)
   const isEmpty = messages.length === 0
-  const isTyping = lastMessage?.role === "user"
+  const isTyping = lastMessage?.role === 'user'
 
   const messagesRef = useRef(messages)
   messagesRef.current = messages
@@ -77,9 +65,7 @@ export function Chat({
     if (!setMessages) return
 
     const latestMessages = [...messagesRef.current]
-    const lastAssistantMessage = latestMessages.findLast(
-      (m) => m.role === "assistant"
-    )
+    const lastAssistantMessage = latestMessages.findLast((m) => m.role === 'assistant')
 
     if (!lastAssistantMessage) return
 
@@ -87,49 +73,43 @@ export function Chat({
     let updatedMessage = { ...lastAssistantMessage }
 
     if (lastAssistantMessage.toolInvocations) {
-      const updatedToolInvocations = lastAssistantMessage.toolInvocations.map(
-        (toolInvocation) => {
-          if (toolInvocation.state === "call") {
-            needsUpdate = true
-            return {
-              ...toolInvocation,
-              state: "result",
-              result: {
-                content: "Tool execution was cancelled",
-                __cancelled: true, // Special marker to indicate cancellation
-              },
-            } as const
-          }
-          return toolInvocation
+      const updatedToolInvocations = lastAssistantMessage.toolInvocations.map((toolInvocation) => {
+        if (toolInvocation.state === 'call') {
+          needsUpdate = true
+          return {
+            ...toolInvocation,
+            state: 'result',
+            result: {
+              content: 'Tool execution was cancelled',
+              __cancelled: true // Special marker to indicate cancellation
+            }
+          } as const
         }
-      )
+        return toolInvocation
+      })
 
       if (needsUpdate) {
         updatedMessage = {
           ...updatedMessage,
-          toolInvocations: updatedToolInvocations,
+          toolInvocations: updatedToolInvocations
         }
       }
     }
 
     if (lastAssistantMessage.parts && lastAssistantMessage.parts.length > 0) {
       const updatedParts = lastAssistantMessage.parts.map((part: any) => {
-        if (
-          part.type === "tool-invocation" &&
-          part.toolInvocation &&
-          part.toolInvocation.state === "call"
-        ) {
+        if (part.type === 'tool-invocation' && part.toolInvocation && part.toolInvocation.state === 'call') {
           needsUpdate = true
           return {
             ...part,
             toolInvocation: {
               ...part.toolInvocation,
-              state: "result",
+              state: 'result',
               result: {
-                content: "Tool execution was cancelled",
-                __cancelled: true,
-              },
-            },
+                content: 'Tool execution was cancelled',
+                __cancelled: true
+              }
+            }
           }
         }
         return part
@@ -138,15 +118,13 @@ export function Chat({
       if (needsUpdate) {
         updatedMessage = {
           ...updatedMessage,
-          parts: updatedParts,
+          parts: updatedParts
         }
       }
     }
 
     if (needsUpdate) {
-      const messageIndex = latestMessages.findIndex(
-        (m) => m.id === lastAssistantMessage.id
-      )
+      const messageIndex = latestMessages.findIndex((m) => m.id === lastAssistantMessage.id)
       if (messageIndex !== -1) {
         latestMessages[messageIndex] = updatedMessage
         setMessages(latestMessages)
@@ -158,61 +136,57 @@ export function Chat({
     (message: Message) => ({
       actions: onRateResponse ? (
         <>
-          <div className="border-r pr-1">
-            <CopyButton
-              content={message.content}
-              copyMessage="Copied response to clipboard!"
-            />
+          <div className='border-r pr-1'>
+            <CopyButton content={message.content} copyMessage='Copied response to clipboard!' />
           </div>
           <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => onRateResponse(message.id, "thumbs-up")}
+            size='icon'
+            variant='ghost'
+            className='h-6 w-6'
+            onClick={() => onRateResponse(message.id, 'thumbs-up')}
           >
-            <ThumbsUp className="h-4 w-4" />
+            <ThumbsUp className='h-4 w-4' />
           </Button>
           <Button
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6"
-            onClick={() => onRateResponse(message.id, "thumbs-down")}
+            size='icon'
+            variant='ghost'
+            className='h-6 w-6'
+            onClick={() => onRateResponse(message.id, 'thumbs-down')}
           >
-            <ThumbsDown className="h-4 w-4" />
+            <ThumbsDown className='h-4 w-4' />
           </Button>
         </>
       ) : (
-        <CopyButton
-          content={message.content}
-          copyMessage="Copied response to clipboard!"
-        />
-      ),
+        <CopyButton content={message.content} copyMessage='Copied response to clipboard!' />
+      )
     }),
     [onRateResponse]
   )
 
   return (
-    <ChatContainer className={className}>
+    <ChatContainer
+      className={cn(
+        'flex max-h-[390px] flex-col',
+        className
+      )}
+    >
       {isEmpty && append && suggestions ? (
-        <PromptSuggestions
-          label="Try these prompts ✨"
-          append={append}
-          suggestions={suggestions}
-        />
+        <PromptSuggestions label='Câu hỏi phổ biến ✨' append={append} suggestions={suggestions} />
       ) : null}
 
       {messages.length > 0 ? (
-        <ChatMessages messages={messages}>
-          <MessageList
-            messages={messages}
-            isTyping={isTyping}
-            messageOptions={messageOptions}
-          />
-        </ChatMessages>
-      ) : null}
+        <div className='flex-1 overflow-auto'>
+          <ChatMessages messages={messages}>
+            <MessageList messages={messages} isTyping={isTyping} messageOptions={messageOptions} />
+          </ChatMessages>
+        </div>
+      ) : (
+        <div className='flex-1' />
+      )}
 
+      {/* Luôn ở dưới cùng */}
       <ChatForm
-        className="mt-auto"
+        className='bg-background sticky bottom-0 pt-2'
         isPending={isGenerating || isTyping}
         handleSubmit={handleSubmit}
       >
@@ -232,43 +206,35 @@ export function Chat({
     </ChatContainer>
   )
 }
-Chat.displayName = "Chat"
+Chat.displayName = 'Chat'
 
 export function ChatMessages({
   messages,
-  children,
+  children
 }: React.PropsWithChildren<{
   messages: Message[]
 }>) {
-  const {
-    containerRef,
-    scrollToBottom,
-    handleScroll,
-    shouldAutoScroll,
-    handleTouchStart,
-  } = useAutoScroll([messages])
+  const { containerRef, scrollToBottom, handleScroll, shouldAutoScroll, handleTouchStart } = useAutoScroll([messages])
 
   return (
     <div
-      className="grid grid-cols-1 overflow-y-auto pb-4"
+      className='grid grid-cols-1 overflow-y-auto pb-4'
       ref={containerRef}
       onScroll={handleScroll}
       onTouchStart={handleTouchStart}
     >
-      <div className="max-w-full [grid-column:1/1] [grid-row:1/1]">
-        {children}
-      </div>
+      <div className='[grid-column:1/1] [grid-row:1/1] max-w-full'>{children}</div>
 
       {!shouldAutoScroll && (
-        <div className="pointer-events-none flex flex-1 items-end justify-end [grid-column:1/1] [grid-row:1/1]">
-          <div className="sticky bottom-0 left-0 flex w-full justify-end">
+        <div className='pointer-events-none [grid-column:1/1] [grid-row:1/1] flex flex-1 items-end justify-end'>
+          <div className='sticky bottom-0 left-0 flex w-full justify-end'>
             <Button
               onClick={scrollToBottom}
-              className="pointer-events-auto h-8 w-8 rounded-full ease-in-out animate-in fade-in-0 slide-in-from-bottom-1"
-              size="icon"
-              variant="ghost"
+              className='animate-in fade-in-0 slide-in-from-bottom-1 pointer-events-auto h-8 w-8 rounded-full ease-in-out'
+              size='icon'
+              variant='ghost'
             >
-              <ArrowDown className="h-4 w-4" />
+              <ArrowDown className='h-4 w-4' />
             </Button>
           </div>
         </div>
@@ -277,27 +243,17 @@ export function ChatMessages({
   )
 }
 
-export const ChatContainer = forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={cn("grid max-h-full w-full grid-rows-[1fr_auto]", className)}
-      {...props}
-    />
-  )
-})
-ChatContainer.displayName = "ChatContainer"
+export const ChatContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => {
+    return <div ref={ref} className={cn('grid max-h-full w-full grid-rows-[1fr_auto]', className)} {...props} />
+  }
+)
+ChatContainer.displayName = 'ChatContainer'
 
 interface ChatFormProps {
   className?: string
   isPending: boolean
-  handleSubmit: (
-    event?: { preventDefault?: () => void },
-    options?: { experimental_attachments?: FileList }
-  ) => void
+  handleSubmit: (event?: { preventDefault?: () => void }, options?: { experimental_attachments?: FileList }) => void
   children: (props: {
     files: File[] | null
     setFiles: React.Dispatch<React.SetStateAction<File[] | null>>
@@ -326,7 +282,7 @@ export const ChatForm = forwardRef<HTMLFormElement, ChatFormProps>(
     )
   }
 )
-ChatForm.displayName = "ChatForm"
+ChatForm.displayName = 'ChatForm'
 
 function createFileList(files: File[] | FileList): FileList {
   const dataTransfer = new DataTransfer()
@@ -335,3 +291,6 @@ function createFileList(files: File[] | FileList): FileList {
   }
   return dataTransfer.files
 }
+
+
+

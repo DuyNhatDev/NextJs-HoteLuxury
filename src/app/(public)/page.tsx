@@ -3,7 +3,6 @@ import SearchForm from '@/app/(public)/components/search-form'
 import { DestinationType } from '@/schemaValidations/destination.schema'
 import Image from 'next/image'
 import DestinationList from '@/app/(public)/components/destination-list'
-import ChatBox from '@/app/(public)/components/chatbox'
 
 export default async function Home() {
   let destinationList: DestinationType[] = []

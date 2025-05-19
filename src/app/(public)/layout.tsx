@@ -1,4 +1,4 @@
-import ChatBox from '@/app/(public)/components/chatbox'
+import ChatBot from '@/app/(public)/components/chatbot'
 import Footer from '@/app/(public)/components/footer'
 import Header from '@/app/(public)/components/header'
 
@@ -9,7 +9,7 @@ export default function MainLayout({ children }: Readonly<{ children: React.Reac
       <main className='flex flex-1 flex-col gap-4 md:gap-8'>{children}</main>
       <Footer />
       <div className='fixed right-5 bottom-5 z-50'>
-        <ChatBox />
+        <ChatBot />
       </div>
     </div>
   )

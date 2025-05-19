@@ -10,7 +10,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { FilePreview } from '@/components/ui/file-preview'
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer'
 
-const chatBubbleVariants = cva('group/message relative break-words rounded-lg p-3 text-sm sm:max-w-[70%]', {
+const chatBubbleVariants = cva('group/message relative break-words rounded-xl p-2 text-sm sm:max-w-[70%]', {
   variants: {
     isUser: {
       true: 'bg-blue-500 text-primary-foreground',
