@@ -35,6 +35,7 @@ export default function EditRoomType({
     defaultValues: {
       roomTypeName: '',
       roomTypePrice: 0,
+      roomTypeWeekendPrice: 0,
       roomTypeQuantity: 0,
       adultQuantity: 0,
       childQuantity: 0,
@@ -48,6 +49,7 @@ export default function EditRoomType({
       const {
         roomTypeName,
         roomTypePrice,
+        roomTypeWeekendPrice,
         roomTypeQuantity,
         adultQuantity,
         childQuantity,
@@ -58,6 +60,7 @@ export default function EditRoomType({
       form.reset({
         roomTypeName: roomTypeName ?? '',
         roomTypePrice: Number(roomTypePrice) ?? 0,
+        roomTypeWeekendPrice: Number(roomTypeWeekendPrice) ?? 0,
         roomTypeQuantity: roomTypeQuantity ?? 0,
         adultQuantity: adultQuantity ?? 0,
         childQuantity: childQuantity ?? 0,
@@ -199,7 +202,7 @@ export default function EditRoomType({
                       <FormItem className='flex-1'>
                         <div className='grid gap-2'>
                           <FormLabel htmlFor='roomTypePrice'>
-                            Giá phòng <span className='text-red-500'>*</span>
+                            Giá cơ bản <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <CurrencyInput
@@ -214,6 +217,30 @@ export default function EditRoomType({
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name='roomTypeWeekendPrice'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='roomTypeWeekendPrice'>
+                            {`Giá cuối tuần (T6, T7, CN)`} <span className='text-red-500'>*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <CurrencyInput
+                              value={field.value}
+                              onChange={field.onChange}
+                              currency='VNĐ'
+                              className='w-full'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
                     name='roomTypeQuantity'
@@ -242,8 +269,6 @@ export default function EditRoomType({
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
                     name='adultQuantity'

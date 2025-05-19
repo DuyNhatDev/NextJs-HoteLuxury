@@ -145,7 +145,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
 
                 <TableCell className='w-[23.32%] border text-center align-top'>
                   <p className='mt-2 w-full text-lg font-semibold whitespace-normal text-sky-500'>
-                    {Number(rt.roomTypePrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                    {Number(rt.totalPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                   </p>
                 </TableCell>
 
@@ -153,7 +153,7 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
                   <div className='mt-2 inline-block w-full text-center whitespace-normal'>
                     <Button
                       className='w-full rounded-t rounded-b-none bg-orange-400 py-2 text-[15px] font-bold whitespace-normal text-white hover:bg-orange-400'
-                      onClick={() => handleBooking(rt.roomTypeId, rt.roomTypeName, rt.roomTypePrice)}
+                      onClick={() => handleBooking(rt.roomTypeId, rt.roomTypeName, rt.totalPrice)}
                     >
                       Yêu cầu đặt
                     </Button>
@@ -186,12 +186,12 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
               </CardContent>
               <CardFooter className='flex justify-between'>
                 <p className='text-lg font-semibold text-sky-500'>
-                  {Number(rt.roomTypePrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                  {Number(rt.totalPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                 </p>
 
                 <Button
                   className='rounded bg-orange-400 py-2 text-[15px] font-bold text-white hover:bg-orange-500'
-                  onClick={() => handleBooking(rt.roomTypeId, rt.roomTypeName, rt.roomTypePrice)}
+                  onClick={() => handleBooking(rt.roomTypeId, rt.roomTypeName, rt.totalPrice)}
                 >
                   Đặt {params.currentRooms} phòng
                 </Button>

@@ -27,6 +27,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
       hotelId: hotelId ?? undefined,
       roomTypeName: '',
       roomTypePrice: 0,
+      roomTypeWeekendPrice: 0,
       roomTypeQuantity: 0,
       adultQuantity: 0,
       childQuantity: 0,
@@ -172,7 +173,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                       <FormItem className='flex-1'>
                         <div className='grid gap-2'>
                           <FormLabel htmlFor='roomTypePrice'>
-                            Giá phòng <span className='text-red-500'>*</span>
+                            Giá cơ bản <span className='text-red-500'>*</span>
                           </FormLabel>
                           <FormControl>
                             <CurrencyInput
@@ -187,6 +188,30 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name='roomTypeWeekendPrice'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='roomTypeWeekendPrice'>
+                            {`Giá cuối tuần (T6, T7, CN)`} <span className='text-red-500'>*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <CurrencyInput
+                              value={field.value}
+                              onChange={field.onChange}
+                              currency='VNĐ'
+                              className='w-full'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className='flex w-full gap-4'>
                   <FormField
                     control={form.control}
                     name='roomTypeQuantity'
@@ -215,8 +240,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className='flex w-full gap-4'>
+
                   <FormField
                     control={form.control}
                     name='adultQuantity'

@@ -66,13 +66,30 @@ export const columns: ColumnDef<RoomTypeType>[] = [
     accessorKey: 'roomTypePrice',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Giá
-          <CaretSortIcon className='ml-2 h-4 w-4' />
+        <Button variant='ghost' className='!px-0' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Giá cơ bản
+          <CaretSortIcon className='h-4 w-4' />
         </Button>
       )
     },
     cell: ({ row }) => <div>{formatCurrency(row.getValue('roomTypePrice'))}</div>,
+    sortingFn: (rowA, rowB, columnId) => {
+      const a = rowA.getValue<number>(columnId) ?? 0
+      const b = rowB.getValue<number>(columnId) ?? 0
+      return a - b
+    }
+  },
+  {
+    accessorKey: 'roomTypeWeekendPrice',
+    header: ({ column }) => {
+      return (
+        <Button variant='ghost' className='!px-0' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Giá cuối tuần
+          <CaretSortIcon className='h-4 w-4' />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>{formatCurrency(row.getValue('roomTypeWeekendPrice'))}</div>,
     sortingFn: (rowA, rowB, columnId) => {
       const a = rowA.getValue<number>(columnId) ?? 0
       const b = rowB.getValue<number>(columnId) ?? 0
@@ -180,9 +197,15 @@ export default function RoomTypeTable() {
             className='max-w-sm flex-1'
           />
           <Input
-            placeholder='Lọc theo giá'
+            placeholder='Lọc theo giá cơ bản'
             value={(table.getColumn('roomTypePrice')?.getFilterValue() as string) ?? ''}
             onChange={(event) => table.getColumn('roomTypePrice')?.setFilterValue(event.target.value)}
+            className='max-w-sm flex-1'
+          />
+          <Input
+            placeholder='Lọc theo giá cuối tuần'
+            value={(table.getColumn('roomTypeWeekendPrice')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('roomTypeWeekendPrice')?.setFilterValue(event.target.value)}
             className='max-w-sm flex-1'
           />
           <div className='ml-auto flex items-center gap-2'>
