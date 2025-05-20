@@ -5,6 +5,7 @@ import RefreshToken from '@/components/refresh-token'
 import { useEffect, useRef } from 'react'
 import { decodeToken, getAccessTokenFromLocalStorage, removeTokensFromLocalStorage } from '@/lib/utils'
 import { useAppStore } from '@/store/app-store'
+import { generateSocketInstance } from '@/lib/socket'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,6 +17,7 @@ const queryClient = new QueryClient({
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {
   const setRole = useAppStore((state) => state.setRole)
+  const setSocket = useAppStore((state) => state.setSocket)
   const count = useRef(0)
 
   useEffect(() => {
@@ -27,10 +29,11 @@ export default function AppProvider({ children }: { children: React.ReactNode })
       if (accessToken) {
         const role = decodeToken(accessToken).roleId
         setRole(role)
+        setSocket(generateSocketInstance(accessToken))
       }
       count.current++
     }
-  }, [setRole])
+  }, [setRole, setSocket])
   return (
     <QueryClientProvider client={queryClient}>
       {children}

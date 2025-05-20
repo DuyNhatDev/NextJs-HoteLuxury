@@ -13,6 +13,7 @@ import Link from 'next/link'
 export default function DropdownAvatar() {
   const role = useAppStore((state) => state.role)
   const setRole = useAppStore((state) => state.setRole)
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket)
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
   const userId = getUserIdFromLocalStorage()
@@ -25,6 +26,7 @@ export default function DropdownAvatar() {
     try {
       await logoutMutation.mutateAsync()
       setRole()
+      disconnectSocket()
       router.push('/')
     } catch (error: any) {
       handleErrorApi({

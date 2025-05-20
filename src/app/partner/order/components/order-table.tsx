@@ -27,6 +27,9 @@ import AlertDialogConfirmBooking from '@/app/partner/order/components/alert-conf
 import AlertDialogRejectBooking from '@/app/partner/order/components/alert-reject-order'
 import AlertDialogPaymentBooking from '@/app/partner/order/components/alert-payment-order'
 import { endOfDay, startOfDay } from 'date-fns'
+import { useAppStore } from '@/store/app-store'
+import { CreateBookingResType } from '@/schemaValidations/booking-schema'
+import { toast } from 'sonner'
 
 export const OrderTableContext = createContext<{
   orderView: OrderItem | null
@@ -55,6 +58,8 @@ export const OrderTableContext = createContext<{
 const PAGE_SIZE = 10
 export default function OrderTable() {
   const searchParam = useSearchParams()
+  const socket = useAppStore((state) => state.socket)
+  //console.log(socket)
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
   const [orderView, setOrderView] = useState<OrderItem | null>(null)
@@ -77,7 +82,7 @@ export default function OrderTable() {
     endDate: undefined,
     key: 'selection' as const
   })
-  const orderListQuery = useGetBookingList({
+  const { data, refetch } = useGetBookingList({
     filterStart: createdRange?.startDate,
     filterEnd: createdRange?.endDate,
     checkInStart: checkInRange?.startDate,
@@ -85,7 +90,7 @@ export default function OrderTable() {
     checkOutStart: checkOutRange?.startDate,
     checkOutEnd: checkOutRange?.endDate
   })
-  const data = orderListQuery?.data?.payload?.data || []
+  const listOrder = data?.payload?.data || []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
@@ -99,7 +104,7 @@ export default function OrderTable() {
   })
 
   const table = useReactTable({
-    data,
+    data: listOrder,
     columns: orderTableColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -148,6 +153,35 @@ export default function OrderTable() {
       pageSize: PAGE_SIZE
     })
   }, [table, pageIndex])
+
+  useEffect(() => {
+    if (socket?.connected) {
+      onConnect()
+    }
+
+    function onConnect() {
+      console.log(socket?.id)
+    }
+
+    function onDisconnect() {
+      console.log('disconnect')
+    }
+
+    function onNewBooking(data: CreateBookingResType['data']) {
+      const { customerName, roomQuantity } = data
+      toast.success(`Khách hàng ${customerName} vừa đặt ${roomQuantity} phòng`)
+      refetch()
+    }
+    socket?.on('new-booking', onNewBooking)
+    socket?.on('connect', onConnect)
+    socket?.on('disconnect', onDisconnect)
+
+    return () => {
+      socket?.off('connect', onConnect)
+      socket?.off('disconnect', onDisconnect)
+      socket?.off('new-booking', onNewBooking)
+    }
+  }, [refetch, socket])
 
   return (
     <OrderTableContext.Provider
@@ -271,8 +305,8 @@ export default function OrderTable() {
         </div>
         <div className='flex items-center justify-end space-x-2 pt-4'>
           <div className='text-muted-foreground flex-1 py-4 text-xs'>
-            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong <strong>{data.length}</strong>{' '}
-            kết quả
+            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{' '}
+            <strong>{listOrder.length}</strong> kết quả
           </div>
           <div>
             <AutoPagination

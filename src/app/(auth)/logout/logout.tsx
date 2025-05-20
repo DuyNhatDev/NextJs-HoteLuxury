@@ -9,6 +9,7 @@ export default function Logout() {
   const { mutateAsync } = useLogoutMutation()
   const router = useRouter()
   const setRole = useAppStore((state) => state.setRole)
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket)
   const searchParams = useSearchParams()
   const accessTokenFromUrl = searchParams.get('accessToken')
   const refreshTokenFromUrl = searchParams.get('refreshToken')
@@ -25,11 +26,12 @@ export default function Logout() {
           ref.current = null
         }, 1000)
         setRole()
+        disconnectSocket()
         router.push('/login')
       })
     } else {
       router.push('/')
     }
-  }, [mutateAsync, router, accessTokenFromUrl, refreshTokenFromUrl, setRole])
+  }, [mutateAsync, router, accessTokenFromUrl, refreshTokenFromUrl, setRole, disconnectSocket])
   return null
 }

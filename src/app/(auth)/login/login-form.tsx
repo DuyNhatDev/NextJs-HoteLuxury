@@ -23,6 +23,7 @@ import Image from 'next/image'
 import { PasswordInput } from '@/components/ui/password-input'
 import authApiRequest from '@/apiRequests/auth'
 import { useAppStore } from '@/store/app-store'
+import { generateSocketInstance } from '@/lib/socket'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -30,6 +31,7 @@ export default function LoginForm() {
   const clearTokens = searchParams.get('clearTokens')
   const callbackUrl = searchParams.get('callbackUrl')
   const setRole = useAppStore((state) => state.setRole)
+  const setSocket = useAppStore((state) => state.setSocket)
   const loginMutation = useLoginMutation()
   const loginByGoogleMutation = useLoginByGoogleMutation()
   const form = useForm<LoginBodyType>({
@@ -52,6 +54,7 @@ export default function LoginForm() {
       const result = await loginMutation.mutateAsync(data)
       const role = result.payload.roleId
       setRole(role)
+      setSocket(generateSocketInstance(result.payload.access_token))
       if (role === 'R1') {
         router.push('/admin/dashboard')
       } else if (role === 'R2') {
@@ -78,6 +81,7 @@ export default function LoginForm() {
       const result = await loginByGoogleMutation.mutateAsync(data)
       const role = result.payload.roleId
       setRole(role)
+      setSocket(generateSocketInstance(result.payload.access_token))
       if (role === 'R1') {
         router.push('/admin/dashboard')
       } else if (role === 'R2') {

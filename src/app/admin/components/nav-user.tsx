@@ -20,6 +20,7 @@ import { useGetAccount } from '@/queries/useAccount'
 export function NavUser() {
   const { isMobile } = useSidebar()
   const setRole = useAppStore((state) => state.setRole)
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket)
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
   const userId = getUserIdFromLocalStorage()
@@ -32,6 +33,7 @@ export function NavUser() {
     try {
       await logoutMutation.mutateAsync()
       setRole()
+      disconnectSocket()
       router.push('/login')
     } catch (error: any) {
       handleErrorApi({
