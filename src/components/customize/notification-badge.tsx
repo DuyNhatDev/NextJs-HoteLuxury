@@ -37,7 +37,7 @@ export default function NotificationBadge({ notifications }: NotificationBadgePr
               <Bell className='!h-5 !w-5' />
             </Button>
             <span className='bg-destructive absolute top-0 right-0 flex h-[14px] min-w-[14px] translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full px-1 text-[9px] leading-none text-white'>
-              {/* {unreadCount} */}45
+              {unreadCount}
             </span>
           </div>
         </div>
