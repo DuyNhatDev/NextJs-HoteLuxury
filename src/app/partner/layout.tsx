@@ -1,5 +1,5 @@
+import Notification from '@/app/partner/components/notification'
 import { AppSidebar } from '@/app/partner/components/sidebar'
-import NotificationBadge from '@/components/customize/notification-badge'
 import DarkModeToggle from '@/components/dark-mode-toggle'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
@@ -19,12 +19,7 @@ export default function PartnerLayout({
           </div>
           <div className='flex items-center gap-10'>
             <div className='mt-1'>
-              <NotificationBadge
-                notifications={[
-                  { id: '1', title: 'Đơn hàng mới', description: 'Bạn có 1 đơn hàng mới', read: false },
-                  { id: '2', title: 'Tin nhắn từ Admin', description: 'Vui lòng xác nhận thông tin', read: false }
-                ]}
-              />
+              <Notification />
             </div>
             <DarkModeToggle className='h-7 w-7' />
           </div>

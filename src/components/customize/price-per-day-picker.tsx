@@ -123,7 +123,7 @@
 //             onSelectDate(date ?? undefined)
 //           }}
 //           placeholder='Chọn ngày'
-//           granularity='day' 
+//           granularity='day'
 //           className='w-[200px]'
 //         />
 

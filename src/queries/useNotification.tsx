@@ -1,26 +1,26 @@
 import notificationApiRequest from '@/apiRequests/notification'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-export const useNotificationList = () => {
+export const useGetNotificationList = () => {
   return useQuery({
     queryFn: () => notificationApiRequest.getNotificationList(),
     queryKey: ['notification-list']
   })
 }
 
-export const useReadNotificationMutation = () => {
+export const useMarkAsReadNotificationMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: notificationApiRequest.readNotification,
+    mutationFn: notificationApiRequest.markAsReadNotification,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notification-list'] })
     }
   })
 }
-export const useReadAllNotificationMutation = () => {
+export const useMarkReadAllNotificationMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: notificationApiRequest.readAllNotification,
+    mutationFn: notificationApiRequest.markReadAllNotification,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notification-list'] })
     }

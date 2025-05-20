@@ -44,8 +44,10 @@ export default function DropdownAvatar() {
               <AvatarImage src={avatar || '/image/no-avatar.png'} />
               <AvatarFallback>{getLastTwoInitials(name)}</AvatarFallback>
             </Avatar>
-            <span className='text-lg font-medium text-white'>{name || 'Tài khoản'}</span>
-            <ChevronDown className='text-white' />
+            <div className='group flex cursor-pointer items-center'>
+              <span className='text-lg font-medium text-white group-hover:text-blue-600'>{name || 'Tài khoản'}</span>
+              <ChevronDown className='text-white group-hover:text-blue-600' />
+            </div>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='center' className='rounded'>

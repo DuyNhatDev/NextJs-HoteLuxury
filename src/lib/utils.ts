@@ -6,7 +6,8 @@ import { twMerge } from 'tailwind-merge'
 import { jwtDecode } from 'jwt-decode'
 import authApiRequest from '@/apiRequests/auth'
 import { TokenPayload } from '@/types/jwt.types'
-import { format, parseISO } from 'date-fns'
+import { differenceInCalendarDays, format, isThisYear, isToday, parseISO } from 'date-fns'
+import { vi } from 'date-fns/locale'
 import { slugify } from '@whthduck/slugify-vi'
 import queryString from 'query-string'
 export const handleErrorApi = ({
@@ -290,4 +291,29 @@ export const generateRandom9DigitNumber = (): string => {
   const randomPart = Math.floor(Math.random() * 1_000_000_000)
   const combined = (timestampPart + randomPart) % 1_000_000_000
   return combined.toString().padStart(9, '0')
+}
+
+export const formatNotificationTime = (dateInput: Date | string): string => {
+  const date = typeof dateInput === 'string' ? parseISO(dateInput) : dateInput
+  if (isToday(date)) {
+    return format(date, 'HH:mm')
+  }
+  const daysDiff = differenceInCalendarDays(new Date(), date)
+  if (daysDiff <= 7) {
+    const weekdayMap: Record<number, string> = {
+      0: 'CN',
+      1: 'Th 2',
+      2: 'Th 3',
+      3: 'Th 4',
+      4: 'Th 5',
+      5: 'Th 6',
+      6: 'Th 7'
+    }
+    const weekday = weekdayMap[date.getDay()]
+    return `${weekday} Lúc ${format(date, 'HH:mm')}`
+  }
+  if (isThisYear(date)) {
+    return format(date, "d 'THG' M 'Lúc' HH:mm", { locale: vi })
+  }
+  return format(date, "d 'THG' M, yyyy 'Lúc' HH:mm", { locale: vi })
 }
