@@ -1,4 +1,5 @@
 import { AppSidebar } from '@/app/partner/components/sidebar'
+import NotificationBadge from '@/components/customize/notification-badge'
 import DarkModeToggle from '@/components/dark-mode-toggle'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
@@ -16,6 +17,13 @@ export default function PartnerLayout({
             <SidebarTrigger className='-ml-1 h-8 w-8' />
             <Separator orientation='vertical' className='mr-2 h-4' />
           </div>
+          {/* <NotificationBadge
+            notifications={[
+              { id: '1', title: 'Đơn hàng mới', description: 'Bạn có 1 đơn hàng mới', read: false },
+              { id: '2', title: 'Tin nhắn từ Admin', description: 'Vui lòng xác nhận thông tin', read: false }
+              // ...
+            ]}
+          /> */}
           <DarkModeToggle className='h-7 w-7' />
         </header>
         <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>

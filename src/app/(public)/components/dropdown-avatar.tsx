@@ -39,11 +39,12 @@ export default function DropdownAvatar() {
     <div className='relative flex items-center gap-2'>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className='flex cursor-pointer items-center'>
+          <div className='flex cursor-pointer items-center gap-1.5'>
             <Avatar className='h-9 w-9'>
               <AvatarImage src={avatar || '/image/no-avatar.png'} />
               <AvatarFallback>{getLastTwoInitials(name)}</AvatarFallback>
             </Avatar>
+            <span className='text-lg font-medium text-white'>{name || 'Tài khoản'}</span>
             <ChevronDown className='text-white' />
           </div>
         </DropdownMenuTrigger>
@@ -103,7 +104,6 @@ export default function DropdownAvatar() {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className='text-sm font-medium text-white'>{name || ''}</span>
     </div>
   )
 }

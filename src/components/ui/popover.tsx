@@ -16,7 +16,8 @@ function PopoverTrigger({ ...props }: React.ComponentProps<typeof PopoverPrimiti
 function PopoverContent({
   className,
   align = 'center',
-  sideOffset = 4,
+  sideOffset = 0,
+  children,
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Content>) {
   return (
@@ -30,7 +31,10 @@ function PopoverContent({
           className
         )}
         {...props}
-      />
+      >
+        {children}
+        <PopoverPrimitive.Arrow className='fill-popover stroke-border' strokeWidth={1} width={16} height={8} />
+      </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   )
 }

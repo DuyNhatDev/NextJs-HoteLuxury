@@ -33,7 +33,10 @@ function DropdownMenuContent({
           className
         )}
         {...props}
-      />
+      >
+        {props.children}
+        <DropdownMenuPrimitive.Arrow className='fill-popover stroke-border' strokeWidth={1} width={16} height={8} />
+      </DropdownMenuPrimitive.Content>
     </DropdownMenuPrimitive.Portal>
   )
 }

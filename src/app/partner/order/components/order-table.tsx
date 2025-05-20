@@ -59,7 +59,6 @@ const PAGE_SIZE = 10
 export default function OrderTable() {
   const searchParam = useSearchParams()
   const socket = useAppStore((state) => state.socket)
-  //console.log(socket)
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
   const [orderView, setOrderView] = useState<OrderItem | null>(null)
