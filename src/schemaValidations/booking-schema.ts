@@ -49,6 +49,14 @@ export const BookingSchema = CreateBookingBodySchema.extend({
 
 export type BookingType = z.infer<typeof BookingSchema>
 
+export const BookingResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: BookingSchema
+})
+
+export type BookingResType = z.infer<typeof BookingResSchema>
+
 export const BookingListResSchema = z.object({
   status: z.string(),
   message: z.string(),

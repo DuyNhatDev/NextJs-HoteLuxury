@@ -50,6 +50,14 @@ export const useCancelBookingMutation = () => {
   })
 }
 
+export const useGetDetailBooking = (id?: number, enabled: boolean = false) => {
+  return useQuery({
+    queryKey: ['detail-booking', id],
+    queryFn: () => bookingApiRequest.getDetailBooking(id!),
+    enabled: !!id && enabled
+  })
+}
+
 export const useGetBookingList = (queryParams: BookingParamsType) => {
   return useQuery({
     queryFn: () => bookingApiRequest.getBookingListByPartner(queryParams),

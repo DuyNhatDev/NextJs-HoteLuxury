@@ -30,10 +30,11 @@ import { endOfDay, startOfDay } from 'date-fns'
 import { useAppStore } from '@/store/app-store'
 import { CreateBookingResType } from '@/schemaValidations/booking-schema'
 import { toast } from 'sonner'
+import DetailBookingDialog from '@/app/partner/order/components/detail-booking'
 
 export const OrderTableContext = createContext<{
-  orderView: OrderItem | null
-  setOrderView: (value: OrderItem | null) => void
+  orderIdView: number | undefined
+  setOrderIdView: (value: number) => void
   orderCheck: OrderItem | null
   setOrderCheck: (value: OrderItem | null) => void
   orderConfirm: OrderItem | null
@@ -43,8 +44,8 @@ export const OrderTableContext = createContext<{
   orderPayment: OrderItem | null
   setOrderPayment: (value: OrderItem | null) => void
 }>({
-  orderView: null,
-  setOrderView: (value: OrderItem | null) => {},
+  orderIdView: undefined,
+  setOrderIdView: (value: number | undefined) => {},
   orderCheck: null,
   setOrderCheck: (value: OrderItem | null) => {},
   orderConfirm: null,
@@ -61,7 +62,7 @@ export default function OrderTable() {
   const socket = useAppStore((state) => state.socket)
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [orderView, setOrderView] = useState<OrderItem | null>(null)
+  const [orderIdView, setOrderIdView] = useState<number | undefined>()
   const [orderCheck, setOrderCheck] = useState<OrderItem | null>(null)
   const [orderConfirm, setOrderConfirm] = useState<OrderItem | null>(null)
   const [orderReject, setOrderReject] = useState<OrderItem | null>(null)
@@ -185,8 +186,8 @@ export default function OrderTable() {
   return (
     <OrderTableContext.Provider
       value={{
-        orderView,
-        setOrderView,
+        orderIdView,
+        setOrderIdView,
         orderCheck,
         setOrderCheck,
         orderConfirm,
@@ -198,6 +199,7 @@ export default function OrderTable() {
       }}
     >
       <div className='w-full'>
+        <DetailBookingDialog id={orderIdView} setId={setOrderIdView} />
         <AlertDialogCheckBooking bookingCheck={orderCheck} setBookingCheck={setOrderCheck} />
         <AlertDialogConfirmBooking bookingConfirm={orderConfirm} setBookingConfirm={setOrderConfirm} />
         <AlertDialogRejectBooking bookingReject={orderReject} setBookingReject={setOrderReject} />

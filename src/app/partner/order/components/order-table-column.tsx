@@ -70,10 +70,10 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setOrderView, setOrderCheck, setOrderConfirm, setOrderReject, setOrderPayment } =
+      const { setOrderIdView, setOrderCheck, setOrderConfirm, setOrderReject, setOrderPayment } =
         useContext(OrderTableContext)
 
-      const openOrderView = () => setOrderView(row.original)
+      const openOrderView = () => setOrderIdView(row.original.bookingId)
       const openOrderCheck = () => setOrderCheck(row.original)
       const openOrderConfirm = () => setOrderConfirm(row.original)
       const openOrderReject = () => setOrderReject(row.original)
