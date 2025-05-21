@@ -304,7 +304,7 @@ export default function OrderTable() {
             </TableBody>
           </Table>
         </div>
-        <div className='flex items-center justify-end space-x-2 pt-4'>
+        <div className='flex items-center justify-end space-x-2 pt-1'>
           <div className='text-muted-foreground flex-1 py-4 text-xs'>
             Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{' '}
             <strong>{listOrder.length}</strong> kết quả
@@ -313,7 +313,7 @@ export default function OrderTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname='/partner/order/list'
+              pathname='/partner/order'
             />
           </div>
         </div>

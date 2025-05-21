@@ -5,6 +5,7 @@ import { useContext } from 'react'
 import { OrderTableContext } from '@/app/partner/order/components/order-table'
 import CustomTooltip from '@/components/customize/tooltip'
 import { CircleHelp, CircleX, CreditCard, Eye, FileCheck } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 export type OrderItem = BookingListResType['data'][0]
 const orderTableColumns: ColumnDef<OrderItem>[] = [
@@ -50,7 +51,44 @@ const orderTableColumns: ColumnDef<OrderItem>[] = [
   {
     accessorKey: 'status',
     header: 'Trạng thái',
-    cell: ({ row }) => <div>{row.getValue('status')}</div>,
+    cell: ({ row }) => {
+      const status = row.getValue('status') as string
+      const statusColorMap = {
+        'Đã thanh toán': {
+          bg: 'bg-emerald-600/10 dark:bg-emerald-600/20 hover:bg-emerald-600/10',
+          text: 'text-emerald-500',
+          dot: 'bg-emerald-500'
+        },
+        'Chưa thanh toán': {
+          bg: 'bg-amber-600/10 dark:bg-amber-600/20 hover:bg-amber-600/10',
+          text: 'text-amber-500',
+          dot: 'bg-amber-500'
+        },
+        'Đã hủy': {
+          bg: 'bg-red-600/10 dark:bg-red-600/20 hover:bg-red-600/10',
+          text: 'text-red-500',
+          dot: 'bg-red-500'
+        },
+        'Đã hết phòng': {
+          bg: 'bg-gray-600/10 dark:bg-gray-600/20 hover:bg-gray-600/10',
+          text: 'text-gray-500',
+          dot: 'bg-gray-500'
+        }
+      } as const
+
+      type StatusType = keyof typeof statusColorMap
+
+      const color: {
+        bg: string
+        text: string
+        dot: string
+      } = statusColorMap[status as StatusType] || {
+        bg: 'bg-gray-600/10 dark:bg-gray-600/20 hover:bg-gray-600/10',
+        text: 'text-gray-500',
+        dot: 'bg-gray-500'
+      }
+      return <Badge className={`${color.bg} ${color.text} rounded-full shadow-none`}>{status}</Badge>
+    },
     filterFn: 'includesString'
   },
   {
