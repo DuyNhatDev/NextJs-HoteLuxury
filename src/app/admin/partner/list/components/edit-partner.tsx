@@ -246,7 +246,7 @@ export default function EditPartner({
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='edit-partner-form' className='bg-blue-500 hover:bg-blue-600'>
+          <Button type='submit' form='edit-partner-form' className=''>
             {updatePartnerMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Lưu
           </Button>

@@ -182,7 +182,7 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='edit-hotel-form' className='bg-blue-500 hover:bg-blue-600'>
+          <Button type='submit' form='edit-hotel-form' className=''>
             {createRatingMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Gửi đánh giá
           </Button>

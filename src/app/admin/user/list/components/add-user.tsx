@@ -308,7 +308,7 @@ export default function AddUser() {
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='add-user-form' className='bg-blue-500 hover:bg-blue-600'>
+          <Button type='submit' form='add-user-form' className=''>
             {addUserMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Thêm
           </Button>

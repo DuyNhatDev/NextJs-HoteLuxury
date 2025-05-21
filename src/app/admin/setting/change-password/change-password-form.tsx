@@ -100,7 +100,7 @@ export default function ChangePasswordForm() {
                 <Button variant='outline' size='sm' type='reset'>
                   Hủy
                 </Button>
-                <Button className='bg-blue-500 hover:bg-blue-600' size='sm' type='submit'>
+                <Button className='' size='sm' type='submit'>
                   Lưu
                 </Button>
               </div>

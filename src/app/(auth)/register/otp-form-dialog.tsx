@@ -92,7 +92,7 @@ export default function InputOtpFormDialog({ open, setOpen, email, token }: Inpu
                     </FormItem>
                   )}
                 />
-                <Button type='submit' className='w-full bg-blue-500 hover:bg-blue-600'>
+                <Button type='submit' className='w-full'>
                   {verifyAccountMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
                   Xác nhận
                 </Button>

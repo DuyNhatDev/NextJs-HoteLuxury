@@ -80,7 +80,7 @@ export default function ResetPasswordForm() {
                     </FormItem>
                   )}
                 />
-                <Button type='submit' className='w-full bg-blue-500 hover:bg-blue-600'>
+                <Button type='submit' className='w-full'>
                   {resetPasswordMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
                   Xác nhận
                 </Button>

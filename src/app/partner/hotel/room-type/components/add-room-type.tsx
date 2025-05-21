@@ -322,7 +322,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='add-room-type-form' className='bg-blue-500 hover:bg-blue-600'>
+          <Button type='submit' form='add-room-type-form' className=''>
             {addRoomTypeMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Thêm
           </Button>

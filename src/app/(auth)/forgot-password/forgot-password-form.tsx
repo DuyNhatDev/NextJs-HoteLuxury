@@ -69,7 +69,7 @@ export default function ForgetPasswordForm() {
                     </FormItem>
                   )}
                 />
-                <Button type='submit' className='w-full bg-blue-500 hover:bg-blue-600'>
+                <Button type='submit' className='w-full'>
                   {forgotPasswordMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
                   Gửi yêu cầu
                 </Button>
