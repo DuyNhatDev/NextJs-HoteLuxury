@@ -34,10 +34,14 @@ export default function Notification() {
       console.log('disconnect')
     }
 
-    function onNewBooking(data: CreateBookingResType['data']) {
+    function onNewBooking() {
+      refetch()
+    }
+    function onCancelBooking() {
       refetch()
     }
     socket?.on('new-booking', onNewBooking)
+    socket?.on('cancel-booking', onCancelBooking)
     socket?.on('connect', onConnect)
     socket?.on('disconnect', onDisconnect)
 
@@ -45,6 +49,7 @@ export default function Notification() {
       socket?.off('connect', onConnect)
       socket?.off('disconnect', onDisconnect)
       socket?.off('new-booking', onNewBooking)
+      socket?.off('cancel-booking', onNewBooking)
     }
   }, [refetch, socket])
 

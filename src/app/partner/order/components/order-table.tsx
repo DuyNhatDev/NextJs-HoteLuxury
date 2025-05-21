@@ -172,7 +172,13 @@ export default function OrderTable() {
       toast.success(`Khách hàng ${customerName} vừa đặt ${roomQuantity} phòng`)
       refetch()
     }
+    function onCancelBooking(data: { customerName: string; bookingCode: string }) {
+      const { customerName, bookingCode } = data
+      toast.info(`Khách hàng ${customerName} vừa hủy đơn ${bookingCode}`)
+      refetch()
+    }
     socket?.on('new-booking', onNewBooking)
+    socket?.on('cancel-booking', onCancelBooking)
     socket?.on('connect', onConnect)
     socket?.on('disconnect', onDisconnect)
 
@@ -180,6 +186,7 @@ export default function OrderTable() {
       socket?.off('connect', onConnect)
       socket?.off('disconnect', onDisconnect)
       socket?.off('new-booking', onNewBooking)
+      socket?.off('cancel-booking', onNewBooking)
     }
   }, [refetch, socket])
 
