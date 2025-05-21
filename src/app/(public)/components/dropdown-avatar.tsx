@@ -9,6 +9,7 @@ import { useLogoutMutation } from '@/queries/useAuth'
 import { useGetAccount } from '@/queries/useAccount'
 import { useAppStore } from '@/store/app-store'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export default function DropdownAvatar() {
   const role = useAppStore((state) => state.role)
@@ -53,24 +54,25 @@ export default function DropdownAvatar() {
         <DropdownMenuContent align='center' className='rounded'>
           {role ? (
             <>
-              <DropdownMenuItem className='rounded focus:bg-transparent focus:text-blue-500'>
-                <Link href='/dashboard/profile' className='flex items-center'>
+              <Link href='/dashboard/profile'>
+                <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
                   <CircleUser className='mr-2 h-4 w-4' />
                   Hồ sơ của tôi
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='rounded focus:bg-transparent focus:text-blue-500'>
-                <Link href='/dashboard/trips' className='flex items-center'>
+                </DropdownMenuItem>
+              </Link>
+              <Link href='/dashboard/trips'>
+                <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
                   <FileText className='mr-2 h-4 w-4' />
                   Đơn của tôi
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='rounded focus:bg-transparent focus:text-blue-500'>
-                <Link href='/dashboard/voucher' className='flex items-center'>
+                </DropdownMenuItem>
+              </Link>
+              <Link href='/dashboard/voucher'>
+                <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
                   <Ticket className='mr-2 h-4 w-4' />
                   Voucher của tôi
-                </Link>
-              </DropdownMenuItem>
+                </DropdownMenuItem>
+              </Link>
+
               <DropdownMenuItem className='focus:bg-transparent'>
                 <Button
                   variant='outline'

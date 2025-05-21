@@ -47,10 +47,10 @@ export default function PendingTab({ data }: PendingTabProps) {
                       )} · ${differenceInCalendarDays(new Date(order.dayEnd), new Date(order.dayStart))} đêm`}
                     </p>
                     <p className='m-0 text-gray-500'>Số lượng: {order.roomQuantity} phòng</p>
-                    <div className='flex items-center gap-2'>
+                    {/* <div className='flex items-center gap-2'>
                       <p className='m-0 text-gray-500'>Trạng thái: </p>
                       <Badge className={isPayment ? 'bg-green-500' : 'bg-amber-400'}>{order.status}</Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
               </CardContent>
