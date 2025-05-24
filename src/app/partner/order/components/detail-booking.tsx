@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useGetDetailBooking } from '@/queries/useBooking'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import React from 'react'
+import { Fragment } from 'react'
 import { format, parseISO } from 'date-fns'
 import { formatDayWithDate } from '@/lib/utils'
 
@@ -76,10 +76,10 @@ export default function DetailBookingDialog({ id, setId }: DetailBookingDialogPr
               <h3 className='mb-3 text-base font-semibold'>{section.title}</h3>
               <div className='grid grid-cols-2 gap-x-4 gap-y-2'>
                 {section.items.map(([label, value], idx) => (
-                  <React.Fragment key={idx}>
+                  <Fragment key={idx}>
                     <div className='font-medium text-gray-600'>{label}:</div>
                     <div className='font-medium'>{value}</div>
-                  </React.Fragment>
+                  </Fragment>
                 ))}
               </div>
             </div>

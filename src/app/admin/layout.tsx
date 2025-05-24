@@ -19,8 +19,8 @@ export default function AdminLayout({
           <DarkModeToggle className='h-7 w-7' />
         </header>
 
-        <div className='flex-1 overflow-y-auto px-4 py-0'>
-          <div className='bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min'>{children}</div>
+        <div className='flex-1 overflow-y-auto px-3 py-0'>
+          <div className='bg-muted/40 min-h-[100vh] flex-1 rounded-xl md:min-h-min'>{children}</div>
         </div>
       </SidebarInset>
     </SidebarProvider>

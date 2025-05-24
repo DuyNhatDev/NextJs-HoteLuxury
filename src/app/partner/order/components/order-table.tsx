@@ -312,7 +312,7 @@ export default function OrderTable() {
           </Table>
         </div>
         <div className='flex items-center justify-end space-x-2 pt-1'>
-          <div className='text-muted-foreground flex-1 py-4 text-xs'>
+          <div className='text-muted-foreground flex-1 py-2 text-xs'>
             Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{' '}
             <strong>{listOrder.length}</strong> kết quả
           </div>

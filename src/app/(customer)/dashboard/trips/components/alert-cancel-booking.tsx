@@ -25,7 +25,7 @@ export default function AlertDialogCancelBooking({ bookingCancel, setBookingCanc
       try {
         await mutateAsync(bookingCancel.bookingId)
         setBookingCancel(null)
-        toast.success('Từ chối thành công')
+        toast.success('Hủy đơn thành công')
       } catch (error) {
         handleErrorApi({
           error
