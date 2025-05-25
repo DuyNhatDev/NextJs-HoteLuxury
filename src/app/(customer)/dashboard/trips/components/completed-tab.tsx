@@ -1,7 +1,7 @@
 'use client'
 import { BookingType } from '@/schemaValidations/booking-schema'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { formatDayWithDate, generateSlugUrl, removePhong } from '@/lib/utils'
+import { formatDayWithDate, generateSlugUrl, removePhong, removePrefixBK } from '@/lib/utils'
 import { differenceInCalendarDays } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,12 +9,14 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import CreateRatingDialog from '@/app/(customer)/dashboard/trips/components/create-rating-dialog'
+import { useOrderStore } from '@/store/order-store'
 
 type CompletedTabProps = {
   data: BookingType[]
 }
 export default function CompletedTab({ data }: CompletedTabProps) {
   const [openRating, setOpenRating] = useState(false)
+  const setBookingId = useOrderStore((state) => state.setBookingId)
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
@@ -35,7 +37,11 @@ export default function CompletedTab({ data }: CompletedTabProps) {
               </CardHeader>
 
               <CardContent className='grid grid-cols-1 gap-3 border-b px-3 py-3 md:grid-cols-12'>
-                <Link href='#' className='contents'>
+                <Link
+                  href={`/dashboard/trips/${removePrefixBK(order.bookingCode)}`}
+                  className='contents'
+                  onClick={() => setBookingId(order.bookingId)}
+                >
                   <div className='relative h-48 w-full overflow-hidden md:col-span-2 md:aspect-[4/3] md:h-auto'>
                     <Image src={order.roomTypeImage} alt={order.hotelName} fill className='object-cover' />
                   </div>

@@ -1,4 +1,5 @@
 'use client'
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,10 +11,19 @@ import {
 import { getBreadcrumbPageFromPathName } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function BreadcrumbNav() {
   const pathname = usePathname()
-  const breadcrumbPage = pathname.split('/').filter(Boolean).at(-1) || ''
+  const [breadcrumbPage, setBreadcrumbPage] = useState('')
+
+  useEffect(() => {
+    const page = pathname.split('/').filter(Boolean)[1] || ''
+    setBreadcrumbPage(page)
+  }, [pathname])
+
+  if (!breadcrumbPage) return null
+
   return (
     <Breadcrumb>
       <BreadcrumbList>

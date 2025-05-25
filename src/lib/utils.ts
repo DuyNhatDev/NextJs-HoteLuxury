@@ -317,3 +317,8 @@ export const formatNotificationTime = (dateInput: Date | string): string => {
   }
   return format(date, "d 'THG' M, yyyy 'Lúc' HH:mm", { locale: vi })
 }
+
+export const removePrefixBK = (input: string): string => {
+  if (!input) return ''
+  return input.replace(/^BK/, '')
+}
