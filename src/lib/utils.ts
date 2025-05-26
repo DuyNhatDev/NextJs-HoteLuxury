@@ -254,8 +254,8 @@ export const extractHotelName = (slug?: string): string => {
   return slug.replace('chi-tiet', '').replace(/-/g, ' ').trim()
 }
 
-export const isValidDate = (value?: string | number | Date): boolean => {
-  return !!value && !isNaN(new Date(value).getTime())
+export const isDate = (value: any): value is Date => {
+  return value instanceof Date && !isNaN(value.getTime())
 }
 
 export const buildQueryParams = (params: Record<string, any>) => {
@@ -264,7 +264,7 @@ export const buildQueryParams = (params: Record<string, any>) => {
     if (value === null || value === undefined || value === '') return
     if (Array.isArray(value)) {
       formattedParams[key] = value.join(',')
-    } else if (isValidDate(value)) {
+    } else if (isDate(value)) {
       formattedParams[key] = formatDateToString(value)
     } else {
       formattedParams[key] = value
@@ -349,4 +349,8 @@ export const isValidFullUrl = (url: string): boolean => {
   } catch (err) {
     return false
   }
+}
+
+export const isValidDate = (value?: string | number | Date): boolean => {
+  return !!value && !isNaN(new Date(value).getTime())
 }
