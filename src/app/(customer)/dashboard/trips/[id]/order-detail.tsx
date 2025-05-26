@@ -1,8 +1,7 @@
 'use client'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { formatDayWithDate, generateSlugUrl, isDate, isValidDate, removePhong, removePrefixBK } from '@/lib/utils'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { formatDayWithDate, generateSlugUrl, removePhong } from '@/lib/utils'
 import { useGetDetailBooking } from '@/queries/useBooking'
 import { useOrderStore } from '@/store/order-store'
 import { differenceInCalendarDays, format, parseISO } from 'date-fns'
@@ -52,7 +51,6 @@ export default function OrderDetail() {
                 </Badge>
               </Link>
             </div>
-            {/* <p className='text-sm text-sky-500'>ĐÃ HOÀN THÀNH</p> */}
           </div>
 
           <div className='grid grid-cols-1 gap-3 border-b px-3 py-3 md:grid-cols-12'>
@@ -76,20 +74,7 @@ export default function OrderDetail() {
                 <span className='text-sm font-normal text-gray-500'>Thành tiền: </span>{' '}
                 {Number(data.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
               </p>
-              <div className='flex gap-2'>
-                {/* <Button variant='outline'>Đặt lại</Button> */}
-                {/* {!data.isRating && (
-                  <Button
-                    className='bg-orange-600 hover:bg-orange-600'
-                    onClick={() => {
-                      setOpenRating(true)
-                    }}
-                  >
-                    Đánh giá
-                  </Button>
-                )}
-                <CreateRatingDialog open={openRating} setOpen={setOpenRating} booking={data} /> */}
-              </div>
+              <div className='flex gap-2'></div>
             </div>
           </div>
         </div>
