@@ -57,7 +57,7 @@ export const LoginBodySchema = z
 
 export type LoginBodyType = z.infer<typeof LoginBodySchema>
 
-export const LoginByGoogleBodySchema = z.object({
+export const GoogleAccountSchema = z.object({
   email: z.string(),
   email_verified: z.boolean(),
   family_name: z.string(),
@@ -67,7 +67,7 @@ export const LoginByGoogleBodySchema = z.object({
   sub: z.string()
 })
 
-export type LoginByGoogleBodyType = z.infer<typeof LoginByGoogleBodySchema>
+export type GoogleAccountBodyType = z.infer<typeof GoogleAccountSchema>
 
 export const LoginResSchema = z.object({
   status: z.string(),

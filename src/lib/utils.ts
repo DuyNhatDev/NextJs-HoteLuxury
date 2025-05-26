@@ -327,3 +327,13 @@ export const removePrefixBK = (input: string): string => {
 export const isValidDate = (value?: string | number | Date): boolean => {
   return !!value && !isNaN(new Date(value).getTime())
 }
+
+export const isValidFullUrl = (url: string): boolean => {
+  try {
+    const parsed = new URL(url)
+    const allowedProtocols = ['http:', 'https:', 'ftp:', 'file:', 'mailto:', 'tel:', 'ws:', 'wss:', 'data:', 'blob:']
+    return allowedProtocols.includes(parsed.protocol)
+  } catch (err) {
+    return false
+  }
+}

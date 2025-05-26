@@ -1,5 +1,4 @@
 'use client'
-
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
@@ -9,6 +8,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useGetCoordinates } from '@/queries/useLocation'
 import { Spinner } from '@/components/ui/spinner'
 import FullscreenControl from '@/components/customize/map-control'
+import { Coordinates } from '@/types/location.types'
 delete (L.Icon.Default.prototype as any)._getIconUrl
 
 L.Icon.Default.mergeOptions({
@@ -22,16 +22,19 @@ type MapProps = {
 }
 
 export default function Map({ address }: MapProps) {
-  const { data: position, isPending, error } = useGetCoordinates(address)
+  const { data, isPending } = useGetCoordinates(address)
+  const coordinate = data?.payload
   if (isPending)
     return (
       <div className='flex items-center justify-center py-8'>
-        <Spinner>Đang tải bản đổ</Spinner>
+        <Spinner>Đang tải bản đồ</Spinner>
       </div>
     )
-  // if (error) return <p className="text-red-500">Lỗi: {(error as Error).message}</p>
-  if (error) return <p className='text-red-500'>Lỗi khi tải bản đồ</p>
-  if (!position) return null
+  if (!coordinate || coordinate.length === 0) return <p className='text-red-500'>Lỗi khi tải bản đồ</p>
+  const position: Coordinates = {
+    lat: parseFloat(coordinate[0].lat),
+    lng: parseFloat(coordinate[0].lon)
+  }
 
   return (
     <MapContainer

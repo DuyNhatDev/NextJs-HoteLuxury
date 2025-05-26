@@ -5,12 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import {
-  CredentialResType,
-  LoginBodySchema,
-  LoginBodyType,
-  LoginByGoogleBodyType
-} from '@/schemaValidations/auth.schema'
+import { CredentialResType, LoginBodySchema, LoginBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
@@ -75,7 +70,7 @@ export default function LoginForm() {
   }
   const handleSuccess = async (credentialResponse: CredentialResType) => {
     const gg_resp = await authApiRequest.getUserInfoFromGoogle(credentialResponse.access_token)
-    const data: LoginByGoogleBodyType = await gg_resp.json()
+    const data = gg_resp.payload
     if (loginByGoogleMutation.isPending) return
     try {
       const result = await loginByGoogleMutation.mutateAsync(data)

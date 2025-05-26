@@ -30,3 +30,12 @@ export type Coordinates = {
   lat: number
   lng: number
 }
+
+export type CoordinatesResType = {
+  place_id: number
+  licence: string
+  osm_type: string
+  osm_id: number
+  lat: string
+  lon: string
+}

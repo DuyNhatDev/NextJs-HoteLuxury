@@ -1,6 +1,7 @@
 import envConfig from '@/config'
 import {
   getAccessTokenFromLocalStorage,
+  isValidFullUrl,
   normalizePath,
   removeTokensFromLocalStorage,
   setAccessTokenToLocalStorage,
@@ -50,21 +51,26 @@ export class EntityError extends HttpError {
 }
 
 let clientLogoutRequest: null | Promise<any> = null
+
 const isClient = typeof window !== 'undefined'
+
 const request = async <Response>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   url: string,
   options?: CustomOptions | undefined
 ) => {
   let body: FormData | string | undefined = undefined
+
   if (options?.body instanceof FormData) {
     body = options.body
   } else if (options?.body) {
     body = JSON.stringify(options.body)
   }
+
   const baseHeaders: {
     [key: string]: string
   } = body instanceof FormData ? {} : { 'Content-Type': 'application/json' }
+
   if (isClient) {
     const accessToken = getAccessTokenFromLocalStorage()
     if (accessToken) {
@@ -72,7 +78,7 @@ const request = async <Response>(
     }
   }
   const baseUrl = options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl
-  const fullUrl = `${baseUrl}/${normalizePath(url)}`
+  const fullUrl = isValidFullUrl(url) ? url : `${baseUrl}/${normalizePath(url)}`
   const res = await fetch(fullUrl, {
     ...options,
     headers: { ...baseHeaders, ...options?.headers } as any,
@@ -84,6 +90,7 @@ const request = async <Response>(
     status: res.status,
     payload
   }
+
   if (!res.ok) {
     if (res.status === ENTITY_ERROR_STATUS) {
       throw new EntityError(
@@ -119,6 +126,7 @@ const request = async <Response>(
       throw new HttpError(data)
     }
   }
+
   if (isClient) {
     const normalizeUrl = normalizePath(url)
     if (normalizeUrl === 'api/auth/login' || normalizeUrl === 'api/auth/login-by-google') {

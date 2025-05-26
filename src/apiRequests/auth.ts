@@ -2,8 +2,8 @@ import http from '@/lib/http'
 import {
   ForgotPasswordBodyType,
   ForgotPasswordResType,
+  GoogleAccountBodyType,
   LoginBodyType,
-  LoginByGoogleBodyType,
   LoginResType,
   LogoutBodyType,
   PartnerRegisterBodyType,
@@ -32,17 +32,14 @@ const authApiRequest = {
     http.post<LoginResType>('/api/auth/login', body, {
       baseUrl: ''
     }),
-  sLoginByGoogle: (body: LoginByGoogleBodyType) => http.post<LoginResType>('/auth/google-sign-in', body),
-  loginByGoogle: (body: LoginByGoogleBodyType) =>
+  sLoginByGoogle: (body: GoogleAccountBodyType) => http.post<LoginResType>('/auth/google-sign-in', body),
+  loginByGoogle: (body: GoogleAccountBodyType) =>
     http.post<LoginResType>('/api/auth/login-by-google', body, {
       baseUrl: ''
     }),
   getUserInfoFromGoogle: (accessToken: string) =>
-    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
+    http.get<GoogleAccountBodyType>('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${accessToken}` }
     }),
   sLogout: (
     body: LogoutBodyType & {
