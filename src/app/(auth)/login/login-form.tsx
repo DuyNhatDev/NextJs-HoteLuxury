@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { CredentialResType, LoginBodySchema, LoginBodyType } from '@/schemaValidations/auth.schema'
+import { CredentialResType, LoginBodySchema, LoginBodyType, LoginResType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleErrorApi } from '@/lib/utils'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
@@ -43,24 +43,28 @@ export default function LoginForm() {
     }
   }, [clearTokens, setRole])
 
+  const handleLogin = (result: LoginResType) => {
+    const role = result.roleId
+    setRole(role)
+    setSocket(generateSocketInstance(result.access_token))
+    if (role === 'R1') {
+      router.push('/admin/dashboard')
+    } else if (role === 'R2') {
+      router.push('/partner/dashboard')
+    } else {
+      if (callbackUrl) {
+        router.push(callbackUrl)
+      } else {
+        router.push('/')
+      }
+    }
+  }
+
   const onSubmit = async (data: LoginBodyType) => {
     if (loginMutation.isPending) return
     try {
       const result = await loginMutation.mutateAsync(data)
-      const role = result.payload.roleId
-      setRole(role)
-      setSocket(generateSocketInstance(result.payload.access_token))
-      if (role === 'R1') {
-        router.push('/admin/dashboard')
-      } else if (role === 'R2') {
-        router.push('/partner/dashboard')
-      } else {
-        if (callbackUrl) {
-          router.push(callbackUrl)
-        } else {
-          router.push('/')
-        }
-      }
+      handleLogin(result.payload)
     } catch (error: any) {
       handleErrorApi({
         error,
@@ -68,32 +72,21 @@ export default function LoginForm() {
       })
     }
   }
+
   const handleSuccess = async (credentialResponse: CredentialResType) => {
     const gg_resp = await authApiRequest.getUserInfoFromGoogle(credentialResponse.access_token)
     const data = gg_resp.payload
     if (loginByGoogleMutation.isPending) return
     try {
       const result = await loginByGoogleMutation.mutateAsync(data)
-      const role = result.payload.roleId
-      setRole(role)
-      setSocket(generateSocketInstance(result.payload.access_token))
-      if (role === 'R1') {
-        router.push('/admin/dashboard')
-      } else if (role === 'R2') {
-        router.push('/partner/dashboard')
-      } else {
-        if (callbackUrl) {
-          router.push(callbackUrl)
-        } else {
-          router.push('/')
-        }
-      }
+      handleLogin(result.payload)
     } catch (error: any) {
       handleErrorApi({
         error
       })
     }
   }
+  
   const handleLoginByGoogle = useGoogleLogin({
     onSuccess: (credentialResponse: any) => {
       if (credentialResponse) {
@@ -106,6 +99,7 @@ export default function LoginForm() {
       toast('Đăng nhập thất bại')
     }
   })
+
   return (
     <Card className='mx-auto max-w-sm min-w-96'>
       <CardHeader className='relative flex w-full items-center px-4'>
