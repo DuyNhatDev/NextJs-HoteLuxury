@@ -1,16 +1,29 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type OrderStoreType = {
+type Order = {
   bookingId: number
-  setBookingId: (value: number) => void
+  status: string
+}
+
+type OrderStoreType = {
+  order: Order
+  setOrder: (data: Partial<Order>) => void
+}
+
+const defaultOrder: Order = {
+  bookingId: 0,
+  status: ''
 }
 
 export const useOrderStore = create<OrderStoreType>()(
   persist(
     (set) => ({
-      bookingId: 0,
-      setBookingId: (value) => set({ bookingId: value })
+      order: defaultOrder,
+      setOrder: (data) =>
+        set((state) => ({
+          order: { ...state.order, ...data }
+        }))
     }),
     {
       name: 'order-storage'

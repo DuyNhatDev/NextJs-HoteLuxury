@@ -179,8 +179,9 @@ export const formatProvince = (province: string): string => {
   return province.replace(/^(Tỉnh|Thành phố)\s+/i, '').trim()
 }
 
-export const generateSlugUrl = (name: string) => {
-  return `${slugify(name)}`
+export const generateSlugUrl = (name?: string) => {
+  if (!name) return ''
+  return slugify(name)
 }
 
 export type ParamsObject = Record<string, string | string[] | undefined>
@@ -321,4 +322,8 @@ export const formatNotificationTime = (dateInput: Date | string): string => {
 export const removePrefixBK = (input: string): string => {
   if (!input) return ''
   return input.replace(/^BK/, '')
+}
+
+export const isValidDate = (value?: string | number | Date): boolean => {
+  return !!value && !isNaN(new Date(value).getTime())
 }

@@ -2,8 +2,9 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { formatDayWithDate, generateSlugUrl, removePhong } from '@/lib/utils'
+import { formatDayWithDate, generateSlugUrl, removePhong, removePrefixBK } from '@/lib/utils'
 import { BookingType } from '@/schemaValidations/booking-schema'
+import { useOrderStore } from '@/store/order-store'
 import { differenceInCalendarDays } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,6 +13,7 @@ type CanceledTabProps = {
   data: BookingType[]
 }
 export default function CanceledTab({ data }: CanceledTabProps) {
+  const setOrder = useOrderStore((state) => state.setOrder)
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
@@ -19,7 +21,7 @@ export default function CanceledTab({ data }: CanceledTabProps) {
           const hotelUrl = `/khach-san-${generateSlugUrl(order?.locationName)}/${generateSlugUrl(order?.hotelName)}-chi-tiet`
           return (
             <Card key={order.bookingId} className='w-full transform gap-0 rounded border p-0 hover:shadow-lg'>
-              <CardHeader className='flex flex-row justify-between border-b p-3'>
+              <CardHeader className='flex flex-row items-center justify-between border-b p-3'>
                 <div className='flex gap-2'>
                   <p className='text-[16px] font-semibold'>{order.hotelName}</p>
                   <Link href={hotelUrl}>
@@ -32,7 +34,11 @@ export default function CanceledTab({ data }: CanceledTabProps) {
               </CardHeader>
 
               <CardContent className='grid grid-cols-1 gap-3 border-b px-3 py-3 md:grid-cols-12'>
-                <Link href='#' className='contents'>
+                <Link
+                  href={`/dashboard/trips/${removePrefixBK(order.bookingCode)}`}
+                  className='contents'
+                  onClick={() => setOrder({ bookingId: order.bookingId, status: 'ĐÃ HỦY' })}
+                >
                   <div className='relative h-48 w-full overflow-hidden md:col-span-2 md:aspect-[4/3] md:h-auto'>
                     <Image src={order.roomTypeImage} alt={order.hotelName} fill className='object-cover' />
                   </div>

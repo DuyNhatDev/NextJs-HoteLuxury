@@ -16,7 +16,7 @@ type CompletedTabProps = {
 }
 export default function CompletedTab({ data }: CompletedTabProps) {
   const [openRating, setOpenRating] = useState(false)
-  const setBookingId = useOrderStore((state) => state.setBookingId)
+  const setOrder = useOrderStore((state) => state.setOrder)
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
@@ -24,7 +24,7 @@ export default function CompletedTab({ data }: CompletedTabProps) {
           const hotelUrl = `/khach-san-${generateSlugUrl(order?.locationName)}/${generateSlugUrl(order?.hotelName)}-chi-tiet`
           return (
             <Card key={order.bookingId} className='w-full transform gap-0 rounded border p-0 hover:shadow-lg'>
-              <CardHeader className='flex flex-row justify-between border-b p-3'>
+              <CardHeader className='flex flex-row items-center justify-between border-b p-3'>
                 <div className='flex gap-2'>
                   <p className='text-[16px] font-semibold'>{order.hotelName}</p>
                   <Link href={hotelUrl}>
@@ -40,7 +40,7 @@ export default function CompletedTab({ data }: CompletedTabProps) {
                 <Link
                   href={`/dashboard/trips/${removePrefixBK(order.bookingCode)}`}
                   className='contents'
-                  onClick={() => setBookingId(order.bookingId)}
+                  onClick={() => setOrder({ bookingId: order.bookingId, status: 'ĐÃ HOÀN THÀNH' })}
                 >
                   <div className='relative h-48 w-full overflow-hidden md:col-span-2 md:aspect-[4/3] md:h-auto'>
                     <Image src={order.roomTypeImage} alt={order.hotelName} fill className='object-cover' />
