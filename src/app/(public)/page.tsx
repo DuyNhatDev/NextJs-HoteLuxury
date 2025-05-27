@@ -3,6 +3,7 @@ import SearchForm from '@/app/(public)/components/search-form'
 import { DestinationType } from '@/schemaValidations/destination.schema'
 import Image from 'next/image'
 import DestinationList from '@/app/(public)/components/destination-list'
+import PricePerDayPicker from '@/components/customize/price-per-day-picker'
 
 export default async function Home() {
   let destinationList: DestinationType[] = []
@@ -33,6 +34,7 @@ export default async function Home() {
         <h2 className='mb-3 text-center text-2xl font-bold'>Điểm đến yêu thích</h2>
         <DestinationList destinations={destinationList} />
       </section>
+      {/* <PricePerDayPicker /> */}
     </div>
   )
 }
