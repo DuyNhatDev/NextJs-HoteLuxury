@@ -1,9 +1,9 @@
 'use client'
 
 import AddHotel from '@/app/partner/hotel/information/components/add.hotel'
-import { Rating } from '@/components/customize/rating'
+import { Rating } from '@/components/custom/rating'
 import { useGetHotelList } from '@/hooks/queries/useHotel'
-import { HotelType } from '@/schemaValidations/hotel.schema'
+import { HotelType } from '@/schemas/hotel.schema'
 import Image from 'next/image'
 import {
   Carousel,
@@ -13,9 +13,9 @@ import {
   CarouselThumbsContainer,
   SliderMainItem,
   SliderThumbItem
-} from '@/components/customize/carousel'
+} from '@/components/custom/carousel'
 import { MapPin, PenLine, Phone } from 'lucide-react'
-import CustomTooltip from '@/components/customize/tooltip'
+import CustomTooltip from '@/components/custom/tooltip'
 import { useState } from 'react'
 import EditHotel from '@/app/partner/hotel/information/components/edit-hotel'
 

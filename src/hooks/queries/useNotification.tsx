@@ -1,4 +1,4 @@
-import notificationApiRequest from '@/apiRequests/notification'
+import notificationApiRequest from '@/api/notification'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetNotificationList = () => {

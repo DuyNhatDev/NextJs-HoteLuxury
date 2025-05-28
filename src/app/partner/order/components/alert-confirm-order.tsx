@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
 import { useConfirmBookingMutation } from '@/hooks/queries/useBooking'
-import { BookingType } from '@/schemaValidations/booking-schema'
+import { BookingType } from '@/schemas/booking-schema'
 import { Info } from 'lucide-react'
 import { toast } from 'sonner'
 

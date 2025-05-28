@@ -11,7 +11,7 @@ import {
 import { buttonVariants } from '@/components/ui/button'
 import { handleErrorApi, removePhong } from '@/lib/utils'
 import { useCancelBookingMutation } from '@/hooks/queries/useBooking'
-import { BookingType } from '@/schemaValidations/booking-schema'
+import { BookingType } from '@/schemas/booking-schema'
 import { toast } from 'sonner'
 
 type CancelBookingProps = {

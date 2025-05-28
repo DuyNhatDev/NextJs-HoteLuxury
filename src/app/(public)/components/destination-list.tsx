@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useFilterStore } from '@/store/filter-store'
 import { generateSlugUrl } from '@/lib/utils'
-import { DestinationType } from '@/schemaValidations/destination.schema'
+import { DestinationType } from '@/schemas/destination.schema'
 
 export default function DestinationList({ destinations }: { destinations: DestinationType[] }) {
   const setFilter = useFilterStore((state) => state.setFilter)

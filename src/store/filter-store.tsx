@@ -1,4 +1,4 @@
-import { FilterType } from '@/schemaValidations/filter.schema'
+import { FilterType } from '@/schemas/filter.schema'
 import { addDays } from 'date-fns'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'

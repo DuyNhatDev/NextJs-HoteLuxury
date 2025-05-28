@@ -1,5 +1,5 @@
 import http from '@/lib/http'
-import { NotificationListResType } from '@/schemaValidations/notification.schema'
+import { NotificationListResType } from '@/schemas/notification.schema'
 
 const prefix = '/notification'
 

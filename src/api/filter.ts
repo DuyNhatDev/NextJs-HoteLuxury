@@ -1,11 +1,6 @@
 import http from '@/lib/http'
 import { buildQueryParams } from '@/lib/utils'
-import {
-  FilterListResType,
-  FilterParamsType,
-  SuggestListResType,
-  SuggestParamsType
-} from '@/schemaValidations/filter.schema'
+import { FilterListResType, FilterParamsType, SuggestListResType, SuggestParamsType } from '@/schemas/filter.schema'
 
 const filterApiRequest = {
   getSuggestList: (queryParams: SuggestParamsType) =>

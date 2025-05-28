@@ -1,5 +1,5 @@
 'use client'
-import { BookingType } from '@/schemaValidations/booking-schema'
+import { BookingType } from '@/schemas/booking-schema'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { formatDayWithDate, generateSlugUrl, removePhong, removePrefixBK } from '@/lib/utils'
 import { differenceInCalendarDays } from 'date-fns'

@@ -7,7 +7,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useGetCoordinates } from '@/hooks/queries/useLocation'
 import { Spinner } from '@/components/ui/spinner'
-import FullscreenControl from '@/components/customize/map-control'
+import FullscreenControl from '@/components/custom/map-control'
 import { Coordinates } from '@/types/location.types'
 delete (L.Icon.Default.prototype as any)._getIconUrl
 

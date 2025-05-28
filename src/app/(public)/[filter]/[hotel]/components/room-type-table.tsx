@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useGetFilterRoomTypeList } from '@/hooks/queries/useRoomType'
-import { FilterRoomTypeParamsType } from '@/schemaValidations/room-type.schema'
+import { FilterRoomTypeParamsType } from '@/schemas/room-type.schema'
 import { usePriceStore } from '@/store/price-store'
 import { useBookingStore } from '@/store/booking-store'
 import { generateCode, getAccessTokenFromLocalStorage } from '@/lib/utils'
@@ -17,7 +17,7 @@ import {
   CarouselPrevious,
   CarouselThumbsContainer,
   SliderMainItem
-} from '@/components/customize/carousel'
+} from '@/components/custom/carousel'
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'

@@ -2,7 +2,7 @@
 import { Bell, Check, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
-import { NotificationType } from '@/schemaValidations/notification.schema'
+import { NotificationType } from '@/schemas/notification.schema'
 import { formatNotificationTime } from '@/lib/utils'
 import { useState } from 'react'
 

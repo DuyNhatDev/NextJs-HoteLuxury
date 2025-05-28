@@ -1,4 +1,4 @@
-import { HotelSchema } from '@/schemaValidations/hotel.schema'
+import { HotelSchema } from '@/schemas/hotel.schema'
 import z from 'zod'
 
 export const SuggestParamsSchema = z.object({

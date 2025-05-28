@@ -1,11 +1,6 @@
 import http from '@/lib/http'
 import { objectToFormData } from '@/lib/utils'
-import {
-  CreateHotelBodyType,
-  HotelListResType,
-  HotelResType,
-  UpdateHotelBodyType
-} from '@/schemaValidations/hotel.schema'
+import { CreateHotelBodyType, HotelListResType, HotelResType, UpdateHotelBodyType } from '@/schemas/hotel.schema'
 
 const prefix = '/hotel'
 

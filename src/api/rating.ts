@@ -1,6 +1,6 @@
 import http from '@/lib/http'
 import { objectToFormData } from '@/lib/utils'
-import { CreateRatingBodyType, RatingListResType, RatingResType } from '@/schemaValidations/rating.schema'
+import { CreateRatingBodyType, RatingListResType, RatingResType } from '@/schemas/rating.schema'
 
 const prefix = '/rating'
 

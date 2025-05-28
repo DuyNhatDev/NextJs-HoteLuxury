@@ -1,9 +1,5 @@
-import authApiRequest from '@/apiRequests/auth'
-import {
-  ResetPasswordBodyType,
-  VerifyAccountBodyType,
-  VerifyForgotPasswordBodyType
-} from '@/schemaValidations/auth.schema'
+import authApiRequest from '@/api/auth'
+import { ResetPasswordBodyType, VerifyAccountBodyType, VerifyForgotPasswordBodyType } from '@/schemas/auth.schema'
 import { useMutation } from '@tanstack/react-query'
 
 export const useRegisterMutation = () => {

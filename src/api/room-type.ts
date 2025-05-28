@@ -7,7 +7,7 @@ import {
   FilterRoomTypeListResType,
   RoomTypeResType,
   UpdateRoomTypeBodyType
-} from '@/schemaValidations/room-type.schema'
+} from '@/schemas/room-type.schema'
 
 const prefix = '/room-type'
 

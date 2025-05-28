@@ -1,6 +1,6 @@
-import destinationApiRequest from '@/apiRequests/destination'
+import destinationApiRequest from '@/api/destination'
 import SearchForm from '@/app/(public)/components/search-form'
-import { DestinationType } from '@/schemaValidations/destination.schema'
+import { DestinationType } from '@/schemas/destination.schema'
 import Image from 'next/image'
 import DestinationList from '@/app/(public)/components/destination-list'
 export default async function Home() {

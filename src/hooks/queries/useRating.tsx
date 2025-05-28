@@ -1,5 +1,5 @@
-import ratingApiRequest from '@/apiRequests/rating'
-import { CreateRatingBodyType } from '@/schemaValidations/rating.schema'
+import ratingApiRequest from '@/api/rating'
+import { CreateRatingBodyType } from '@/schemas/rating.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useCreateRatingMutation = () => {

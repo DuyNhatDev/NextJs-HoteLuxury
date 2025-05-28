@@ -1,9 +1,9 @@
-import accountApiRequest from '@/apiRequests/account'
+import accountApiRequest from '@/api/account'
 import {
   UpdatePartnerAccountBodyType,
   UpdateProfileBodyType,
   UpdateCustomerAccountBodyType
-} from '@/schemaValidations/account.schema'
+} from '@/schemas/account.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetAccount = (id?: string, enabled: boolean = false) => {

@@ -9,13 +9,13 @@ import {
   CarouselThumbsContainer,
   SliderMainItem,
   SliderThumbItem
-} from '@/components/customize/carousel'
-import { Rating } from '@/components/customize/rating'
+} from '@/components/custom/carousel'
+import { Rating } from '@/components/custom/rating'
 import { Button } from '@/components/ui/button'
 import { extractHotelName } from '@/lib/utils'
 import { useGetFilterHotelList } from '@/hooks/queries/useFilter'
 import { useGetHotel } from '@/hooks/queries/useHotel'
-import { HotelType } from '@/schemaValidations/hotel.schema'
+import { HotelType } from '@/schemas/hotel.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { ChevronDown, MapPin } from 'lucide-react'
 import { useParams } from 'next/navigation'
@@ -26,8 +26,8 @@ import dynamic from 'next/dynamic'
 import { useBookingStore } from '@/store/booking-store'
 import ListRating from '@/app/(public)/[filter]/[hotel]/components/list-rating'
 import { Badge } from '@/components/ui/badge'
-import CustomTooltip from '@/components/customize/tooltip'
-const Map = dynamic(() => import('@/components/customize/map'), {
+import CustomTooltip from '@/components/custom/tooltip'
+const Map = dynamic(() => import('@/components/custom/map'), {
   ssr: false
 })
 

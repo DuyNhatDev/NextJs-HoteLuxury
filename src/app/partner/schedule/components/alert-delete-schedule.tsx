@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
 import { useDeleteScheduleMutation } from '@/hooks/queries/useSchedule'
-import { ScheduleType } from '@/schemaValidations/schedule.schema'
+import { ScheduleType } from '@/schemas/schedule.schema'
 import { Info } from 'lucide-react'
 import { toast } from 'sonner'
 

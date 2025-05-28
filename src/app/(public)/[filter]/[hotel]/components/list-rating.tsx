@@ -1,5 +1,5 @@
 'use client'
-import Gallery from '@/components/customize/gallery'
+import Gallery from '@/components/custom/gallery'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

@@ -18,17 +18,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import AutoPagination from '@/components/customize/auto-pagination'
+import AutoPagination from '@/components/custom/auto-pagination'
 import { formatCurrency, getLastTwoInitials } from '@/lib/utils'
 import { PenLine, Trash2 } from 'lucide-react'
-import CustomTooltip from '@/components/customize/tooltip'
-import { RoomTypeListResType, RoomTypeType } from '@/schemaValidations/room-type.schema'
+import CustomTooltip from '@/components/custom/tooltip'
+import { RoomTypeListResType, RoomTypeType } from '@/schemas/room-type.schema'
 import { useGetRoomTypeList } from '@/hooks/queries/useRoomType'
 import AddRoomType from '@/app/partner/hotel/room-type/components/add-room-type'
 import EditRoomType from '@/app/partner/hotel/room-type/components/edit-room-type'
 import AlertDialogDeleteRoomType from '@/app/partner/hotel/room-type/components/delete-room-type'
 import { useGetHotelList } from '@/hooks/queries/useHotel'
-import { HotelType } from '@/schemaValidations/hotel.schema'
+import { HotelType } from '@/schemas/hotel.schema'
 
 export type RoomTypeItem = RoomTypeListResType['data'][0]
 

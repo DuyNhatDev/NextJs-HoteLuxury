@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
-import { ChangePasswordBody, ChangePasswordBodyType } from '@/schemaValidations/account.schema'
+import { ChangePasswordBody, ChangePasswordBodyType } from '@/schemas/account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { useChangePasswordMutation } from '@/hooks/queries/useAccount'

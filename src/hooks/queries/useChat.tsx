@@ -1,4 +1,4 @@
-import chatApiRequest from '@/apiRequests/chat'
+import chatApiRequest from '@/api/chat'
 import { useMutation } from '@tanstack/react-query'
 
 export const useChatMutation = () => {

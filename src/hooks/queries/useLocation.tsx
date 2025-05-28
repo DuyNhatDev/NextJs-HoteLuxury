@@ -1,4 +1,4 @@
-import locationApiRequest from '@/apiRequests/location'
+import locationApiRequest from '@/api/location'
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetProvinces = (enabled: boolean = true) => {

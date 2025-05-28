@@ -1,5 +1,5 @@
-import bookingApiRequest from '@/apiRequests/booking'
-import { BookingParamsType } from '@/schemaValidations/booking-schema'
+import bookingApiRequest from '@/api/booking'
+import { BookingParamsType } from '@/schemas/booking-schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useCreateBookingMutation = () => {

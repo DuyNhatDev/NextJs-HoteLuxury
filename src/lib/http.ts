@@ -9,7 +9,7 @@ import {
   setRefreshTokenToLocalStorage,
   setUserIdToLocalStorage
 } from '@/lib/utils'
-import { LoginResType } from '@/schemaValidations/auth.schema'
+import { LoginResType } from '@/schemas/auth.schema'
 import { redirect } from 'next/navigation'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {

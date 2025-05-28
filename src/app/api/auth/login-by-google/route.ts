@@ -1,7 +1,7 @@
-import { LoginByGoogleBodyType } from '@/schemaValidations/auth.schema'
+import { LoginByGoogleBodyType } from '@/schemas/auth.schema'
 import { cookies } from 'next/headers'
 import { HttpError } from '@/lib/http'
-import authApiRequest from '@/apiRequests/auth'
+import authApiRequest from '@/api/auth'
 import { decodeToken } from '@/lib/utils'
 
 export async function POST(request: Request) {

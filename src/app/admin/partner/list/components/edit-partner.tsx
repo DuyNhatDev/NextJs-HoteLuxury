@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { UpdatePartnerAccountBodySchema, UpdatePartnerAccountBodyType } from '@/schemaValidations/account.schema'
+import { UpdatePartnerAccountBodySchema, UpdatePartnerAccountBodyType } from '@/schemas/account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -13,8 +13,8 @@ import { useGetAccount, useUpdatePartnerMutation } from '@/hooks/queries/useAcco
 import { handleErrorApi } from '@/lib/utils'
 import { Role } from '@/constants/type'
 import { toast } from 'sonner'
-import CustomSelect from '@/components/customize/select'
-import UploadImage from '@/components/customize/upload-image'
+import CustomSelect from '@/components/custom/select'
+import UploadImage from '@/components/custom/upload-image'
 
 export default function EditPartner({
   id,

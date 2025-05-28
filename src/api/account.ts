@@ -9,7 +9,7 @@ import {
   UpdatePartnerAccountBodyType,
   UpdateProfileBodyType,
   UpdateCustomerAccountBodyType
-} from '@/schemaValidations/account.schema'
+} from '@/schemas/account.schema'
 
 const prefix = '/user'
 

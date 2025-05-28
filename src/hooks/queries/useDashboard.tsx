@@ -1,4 +1,4 @@
-import dashboardApiRequest from '@/apiRequests/dashboard'
+import dashboardApiRequest from '@/api/dashboard'
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetPartnerDashboard = (param: string) => {

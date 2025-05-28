@@ -1,5 +1,5 @@
 'use client'
-import NotificationBadge from '@/components/customize/notification-badge'
+import NotificationBadge from '@/components/custom/notification-badge'
 import { handleErrorApi } from '@/lib/utils'
 import {
   useDeleteAllNotificationMutation,
@@ -8,7 +8,7 @@ import {
   useMarkAsReadNotificationMutation,
   useMarkReadAllNotificationMutation
 } from '@/hooks/queries/useNotification'
-import { CreateBookingResType } from '@/schemaValidations/booking-schema'
+import { CreateBookingResType } from '@/schemas/booking-schema'
 import { useAppStore } from '@/store/app-store'
 import { useEffect } from 'react'
 

@@ -1,9 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { format, parseISO } from 'date-fns'
 import { useContext } from 'react'
-import CustomTooltip from '@/components/customize/tooltip'
+import CustomTooltip from '@/components/custom/tooltip'
 import { Trash2 } from 'lucide-react'
-import { ScheduleListResType } from '@/schemaValidations/schedule.schema'
+import { ScheduleListResType } from '@/schemas/schedule.schema'
 import { ScheduleTableContext } from '@/app/partner/schedule/components/schedule-table'
 
 export type ScheduleItem = ScheduleListResType['data'][0]

@@ -9,12 +9,12 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
-import { MultiUploadImage } from '@/components/customize/multi-upload-image'
-import RichTextEditor from '@/components/customize/rich-text-editor'
-import UploadImage from '@/components/customize/upload-image'
-import { CreateRoomTypeBodySchema, CreateRoomTypeBodyType } from '@/schemaValidations/room-type.schema'
+import { MultiUploadImage } from '@/components/custom/multi-upload-image'
+import RichTextEditor from '@/components/custom/rich-text-editor'
+import UploadImage from '@/components/custom/upload-image'
+import { CreateRoomTypeBodySchema, CreateRoomTypeBodyType } from '@/schemas/room-type.schema'
 import { useAddRoomTypeMutation } from '@/hooks/queries/useRoomType'
-import CurrencyInput from '@/components/customize/currency-input'
+import CurrencyInput from '@/components/custom/currency-input'
 
 export default function AddRoomType({ hotelId }: { hotelId: number }) {
   const [file, setFile] = useState<File | null>(null)

@@ -9,12 +9,12 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
-import UploadImage from '@/components/customize/upload-image'
-import { UpdateRoomTypeBodySchema, UpdateRoomTypeBodyType } from '@/schemaValidations/room-type.schema'
+import UploadImage from '@/components/custom/upload-image'
+import { UpdateRoomTypeBodySchema, UpdateRoomTypeBodyType } from '@/schemas/room-type.schema'
 import { useGetRoomType, useUpdateRoomTypeMutation } from '@/hooks/queries/useRoomType'
-import { MultiUploadImage } from '@/components/customize/multi-upload-image'
-import CurrencyInput from '@/components/customize/currency-input'
-import RichTextEditor from '@/components/customize/rich-text-editor'
+import { MultiUploadImage } from '@/components/custom/multi-upload-image'
+import CurrencyInput from '@/components/custom/currency-input'
+import RichTextEditor from '@/components/custom/rich-text-editor'
 
 export default function EditRoomType({
   id,

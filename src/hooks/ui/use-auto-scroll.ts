@@ -65,7 +65,6 @@ import { useEffect, useRef, useState } from 'react'
 //   }
 // }
 
-
 const ACTIVATION_THRESHOLD = 50
 
 export function useAutoScroll(dependencies: React.DependencyList) {

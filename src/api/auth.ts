@@ -16,7 +16,7 @@ import {
   VerifyAccountResType,
   VerifyForgotPasswordBodyType,
   VerifyForgotPasswordResType
-} from '@/schemaValidations/auth.schema'
+} from '@/schemas/auth.schema'
 
 const authApiRequest = {
   refreshTokenRequest: null as Promise<{

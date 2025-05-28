@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
-import { DateTimePicker } from '@/components/customize/date-time-picker'
-import CurrencyInput from '@/components/customize/currency-input'
+import { DateTimePicker } from '@/components/custom/date-time-picker'
+import CurrencyInput from '@/components/custom/currency-input'
 
 type DatePrice = {
   date: Date
@@ -86,7 +86,7 @@ export default function PricePerDayPicker({ value, onChange }: PricePerDayPicker
     setOriginalDate(null)
     setPrice(0)
   }
-  
+
   const handleEdit = (index: number) => {
     const item = value[index]
     setSelectedDate(item.date)

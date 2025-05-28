@@ -1,6 +1,6 @@
 import http from '@/lib/http'
 import { buildQueryParams } from '@/lib/utils'
-import { ScheduleListResType, ScheduleParamsType } from '@/schemaValidations/schedule.schema'
+import { ScheduleListResType, ScheduleParamsType } from '@/schemas/schedule.schema'
 
 const prefix = '/schedule'
 

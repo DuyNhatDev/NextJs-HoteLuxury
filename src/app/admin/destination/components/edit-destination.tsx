@@ -9,8 +9,8 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
-import UploadImage from '@/components/customize/upload-image'
-import { UpdateDestinationBodySchema, UpdateDestinationBodyType } from '@/schemaValidations/destination.schema'
+import UploadImage from '@/components/custom/upload-image'
+import { UpdateDestinationBodySchema, UpdateDestinationBodyType } from '@/schemas/destination.schema'
 import { useGetDestination, useUpdateDestinationMutation } from '@/hooks/queries/useDestination'
 
 export default function EditDestination({

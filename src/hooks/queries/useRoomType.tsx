@@ -1,5 +1,5 @@
-import roomTypeApiRequest from '@/apiRequests/room-type'
-import { FilterRoomTypeParamsType, UpdateRoomTypeBodyType } from '@/schemaValidations/room-type.schema'
+import roomTypeApiRequest from '@/api/room-type'
+import { FilterRoomTypeParamsType, UpdateRoomTypeBodyType } from '@/schemas/room-type.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetRoomType = (id?: string, enabled: boolean = false) => {

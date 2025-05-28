@@ -5,7 +5,7 @@ import {
   DestinationListResType,
   DestinationResType,
   UpdateDestinationBodyType
-} from '@/schemaValidations/destination.schema'
+} from '@/schemas/destination.schema'
 
 const prefix = '/location'
 

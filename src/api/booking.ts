@@ -7,7 +7,7 @@ import {
   BookingParamsType,
   UpdateBookingResType,
   BookingResType
-} from '@/schemaValidations/booking-schema'
+} from '@/schemas/booking-schema'
 
 const prefix = '/booking'
 

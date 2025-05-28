@@ -1,5 +1,5 @@
-import scheduleApiRequest from '@/apiRequests/schedule'
-import { ScheduleParamsType } from '@/schemaValidations/schedule.schema'
+import scheduleApiRequest from '@/api/schedule'
+import { ScheduleParamsType } from '@/schemas/schedule.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetScheduleList = (queryParams: ScheduleParamsType) => {

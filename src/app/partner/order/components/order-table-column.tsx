@@ -1,9 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { BookingListResType } from '@/schemaValidations/booking-schema'
+import { BookingListResType } from '@/schemas/booking-schema'
 import { format, parseISO } from 'date-fns'
 import { useContext } from 'react'
 import { OrderTableContext } from '@/app/partner/order/components/order-table'
-import CustomTooltip from '@/components/customize/tooltip'
+import CustomTooltip from '@/components/custom/tooltip'
 import { CircleHelp, CircleX, CreditCard, Eye, FileCheck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
