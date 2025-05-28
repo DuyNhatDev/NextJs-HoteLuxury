@@ -1,6 +1,6 @@
 'use client'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useGetAccount } from '@/queries/useAccount'
+import { useGetAccount } from '@/hooks/queries/useAccount'
 import { Label } from '@/components/ui/label'
 import { formatDate } from '@/lib/utils'
 export default function DetailPartner({

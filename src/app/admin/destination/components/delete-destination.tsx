@@ -10,7 +10,7 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useDeleteDestinationMutation } from '@/queries/useDestination'
+import { useDeleteDestinationMutation } from '@/hooks/queries/useDestination'
 import { toast } from 'sonner'
 
 export default function AlertDialogDeleteDestination({

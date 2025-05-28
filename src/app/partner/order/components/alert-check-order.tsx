@@ -6,7 +6,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
-import { useCheckBooking } from '@/queries/useBooking'
+import { useCheckBooking } from '@/hooks/queries/useBooking'
 import { BookingType } from '@/schemaValidations/booking-schema'
 import { BadgeCheck, OctagonAlert } from 'lucide-react'
 

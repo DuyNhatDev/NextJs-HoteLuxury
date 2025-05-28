@@ -23,11 +23,11 @@ import { formatCurrency, getLastTwoInitials } from '@/lib/utils'
 import { PenLine, Trash2 } from 'lucide-react'
 import CustomTooltip from '@/components/customize/tooltip'
 import { RoomTypeListResType, RoomTypeType } from '@/schemaValidations/room-type.schema'
-import { useGetRoomTypeList } from '@/queries/useRoomType'
+import { useGetRoomTypeList } from '@/hooks/queries/useRoomType'
 import AddRoomType from '@/app/partner/hotel/room-type/components/add-room-type'
 import EditRoomType from '@/app/partner/hotel/room-type/components/edit-room-type'
 import AlertDialogDeleteRoomType from '@/app/partner/hotel/room-type/components/delete-room-type'
-import { useGetHotelList } from '@/queries/useHotel'
+import { useGetHotelList } from '@/hooks/queries/useHotel'
 import { HotelType } from '@/schemaValidations/hotel.schema'
 
 export type RoomTypeItem = RoomTypeListResType['data'][0]

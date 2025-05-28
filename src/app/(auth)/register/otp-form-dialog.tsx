@@ -7,7 +7,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { VerifyAccountBodySchema, VerifyAccountBodyType } from '@/schemaValidations/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useVerifyAccountMutation } from '@/queries/useAuth'
+import { useVerifyAccountMutation } from '@/hooks/queries/useAuth'
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'

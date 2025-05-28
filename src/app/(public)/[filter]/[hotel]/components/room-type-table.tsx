@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useGetFilterRoomTypeList } from '@/queries/useRoomType'
+import { useGetFilterRoomTypeList } from '@/hooks/queries/useRoomType'
 import { FilterRoomTypeParamsType } from '@/schemaValidations/room-type.schema'
 import { usePriceStore } from '@/store/price-store'
 import { useBookingStore } from '@/store/booking-store'

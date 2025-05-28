@@ -1,5 +1,5 @@
 'use client'
-import { useCreateRatingMutation } from '@/queries/useRating'
+import { useCreateRatingMutation } from '@/hooks/queries/useRating'
 import { CreateRatingBodySchema, CreateRatingBodyType } from '@/schemaValidations/rating.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'

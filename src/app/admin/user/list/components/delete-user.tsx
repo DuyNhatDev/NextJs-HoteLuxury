@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { buttonVariants } from '@/components/ui/button'
 import { handleErrorApi } from '@/lib/utils'
-import { useDeleteUserMutation } from '@/queries/useAccount'
+import { useDeleteUserMutation } from '@/hooks/queries/useAccount'
 import { OctagonAlert } from 'lucide-react'
 import { toast } from 'sonner'
 

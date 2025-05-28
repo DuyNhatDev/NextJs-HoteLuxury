@@ -11,7 +11,7 @@ import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import UploadImage from '@/components/customize/upload-image'
 import { CreateDestinationBodySchema, CreateDestinationBodyType } from '@/schemaValidations/destination.schema'
-import { useAddDestinationMutation } from '@/queries/useDestination'
+import { useAddDestinationMutation } from '@/hooks/queries/useDestination'
 
 export default function AddDestination() {
   const [file, setFile] = useState<File | null>(null)

@@ -9,7 +9,7 @@ import { ForgotPasswordBodySchema, ForgotPasswordBodyType } from '@/schemaValida
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForgotPasswordMutation } from '@/queries/useAuth'
+import { useForgotPasswordMutation } from '@/hooks/queries/useAuth'
 import { handleErrorApi } from '@/lib/utils'
 import InputOtpFormDialog from '@/app/(auth)/forgot-password/verify-otp-form-dialog'
 

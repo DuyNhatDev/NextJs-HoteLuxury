@@ -1,6 +1,6 @@
 'use client'
 import { Chat } from '@/components/ui/chat'
-import { useChatMutation } from '@/queries/useChat'
+import { useChatMutation } from '@/hooks/queries/useChat'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { MessageCircleMore, X } from 'lucide-react'

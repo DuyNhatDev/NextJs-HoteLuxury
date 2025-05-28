@@ -11,7 +11,7 @@ import { handleErrorApi } from '@/lib/utils'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useRegisterMutation } from '@/queries/useAuth'
+import { useRegisterMutation } from '@/hooks/queries/useAuth'
 import InputOtpFormDialog from '@/app/(auth)/register/otp-form-dialog'
 import { PasswordInput } from '@/components/ui/password-input'
 

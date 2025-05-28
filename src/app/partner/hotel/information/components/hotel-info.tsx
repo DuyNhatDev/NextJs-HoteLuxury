@@ -2,7 +2,7 @@
 
 import AddHotel from '@/app/partner/hotel/information/components/add.hotel'
 import { Rating } from '@/components/customize/rating'
-import { useGetHotelList } from '@/queries/useHotel'
+import { useGetHotelList } from '@/hooks/queries/useHotel'
 import { HotelType } from '@/schemaValidations/hotel.schema'
 import Image from 'next/image'
 import {

@@ -12,10 +12,10 @@ import { toast } from 'sonner'
 import CustomSelect from '@/components/customize/select'
 import UploadImage from '@/components/customize/upload-image'
 import { UpdateHotelBodySchema, UpdateHotelBodyType } from '@/schemaValidations/hotel.schema'
-import { useGetHotel, useUpdateHotelMutation } from '@/queries/useHotel'
+import { useGetHotel, useUpdateHotelMutation } from '@/hooks/queries/useHotel'
 import { MultiUploadImage } from '@/components/customize/multi-upload-image'
 import Combobox from '@/components/customize/combobox'
-import { useGetDestinationList } from '@/queries/useDestination'
+import { useGetDestinationList } from '@/hooks/queries/useDestination'
 import RichTextEditor from '@/components/customize/rich-text-editor'
 
 type EditHotelProps = {

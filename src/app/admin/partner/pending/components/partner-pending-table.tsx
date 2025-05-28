@@ -19,7 +19,7 @@ import { AccountListResType, AccountType } from '@/schemaValidations/account.sch
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/customize/auto-pagination'
-import { useGetPartnerPendingList } from '@/queries/useAccount'
+import { useGetPartnerPendingList } from '@/hooks/queries/useAccount'
 import { Check, View, X } from 'lucide-react'
 import CustomTooltip from '@/components/customize/tooltip'
 import DetailPartner from '@/app/admin/partner/pending/components/detail-partner'

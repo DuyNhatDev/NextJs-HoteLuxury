@@ -10,7 +10,7 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useRejectPartnerMutation } from '@/queries/useAccount'
+import { useRejectPartnerMutation } from '@/hooks/queries/useAccount'
 import { toast } from 'sonner'
 
 export default function AlertDialogRejectPartner({

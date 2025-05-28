@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
 import ReactDateRange, { State } from '@/components/customize/react-date-range'
-import { useGetScheduleList } from '@/queries/useSchedule'
+import { useGetScheduleList } from '@/hooks/queries/useSchedule'
 import scheduleTableColumns, { ScheduleItem } from '@/app/partner/schedule/components/schedule-table-column'
 import AlertDialogDeleteSchedule from '@/app/partner/schedule/components/alert-delete-schedule'
 

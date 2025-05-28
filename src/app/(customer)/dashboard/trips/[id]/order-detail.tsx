@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { formatDayWithDate, generateSlugUrl, removePhong } from '@/lib/utils'
-import { useGetDetailBooking } from '@/queries/useBooking'
+import { useGetDetailBooking } from '@/hooks/queries/useBooking'
 import { useOrderStore } from '@/store/order-store'
 import { differenceInCalendarDays, format, parseISO } from 'date-fns'
 import { ChevronLeft } from 'lucide-react'

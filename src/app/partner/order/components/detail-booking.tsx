@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { useGetDetailBooking } from '@/queries/useBooking'
+import { useGetDetailBooking } from '@/hooks/queries/useBooking'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Fragment } from 'react'
 import { format, parseISO } from 'date-fns'

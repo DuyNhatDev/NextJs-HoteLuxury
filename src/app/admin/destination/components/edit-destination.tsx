@@ -11,7 +11,7 @@ import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import UploadImage from '@/components/customize/upload-image'
 import { UpdateDestinationBodySchema, UpdateDestinationBodyType } from '@/schemaValidations/destination.schema'
-import { useGetDestination, useUpdateDestinationMutation } from '@/queries/useDestination'
+import { useGetDestination, useUpdateDestinationMutation } from '@/hooks/queries/useDestination'
 
 export default function EditDestination({
   id,

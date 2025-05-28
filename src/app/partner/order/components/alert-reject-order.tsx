@@ -9,7 +9,7 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useRejectBookingMutation } from '@/queries/useBooking'
+import { useRejectBookingMutation } from '@/hooks/queries/useBooking'
 import { BookingType } from '@/schemaValidations/booking-schema'
 import { Info } from 'lucide-react'
 import { toast } from 'sonner'

@@ -1,7 +1,7 @@
 'use client'
 import Chart from '@/app/partner/dashboard/components/chart'
 import Statistic from '@/app/partner/dashboard/components/statistic'
-import { useGetPartnerDashboard } from '@/queries/useDashboard'
+import { useGetPartnerDashboard } from '@/hooks/queries/useDashboard'
 
 export default function PartnerDashboard() {
   const { data } = useGetPartnerDashboard('tháng')

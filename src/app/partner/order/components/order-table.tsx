@@ -1,6 +1,6 @@
 'use client'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useGetBookingList } from '@/queries/useBooking'
+import { useGetBookingList } from '@/hooks/queries/useBooking'
 import { createContext, useEffect, useState } from 'react'
 import orderTableColumns, { OrderItem } from '@/app/partner/order/components/order-table-column'
 import { useSearchParams } from 'next/navigation'

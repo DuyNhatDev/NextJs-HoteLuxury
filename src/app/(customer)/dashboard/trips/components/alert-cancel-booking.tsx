@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { buttonVariants } from '@/components/ui/button'
 import { handleErrorApi, removePhong } from '@/lib/utils'
-import { useCancelBookingMutation } from '@/queries/useBooking'
+import { useCancelBookingMutation } from '@/hooks/queries/useBooking'
 import { BookingType } from '@/schemaValidations/booking-schema'
 import { toast } from 'sonner'
 

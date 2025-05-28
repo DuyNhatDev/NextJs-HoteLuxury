@@ -4,7 +4,7 @@ import { forwardRef, useCallback, useRef, useState, type ReactElement } from 're
 import { ArrowDown, ThumbsDown, ThumbsUp } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { useAutoScroll } from '@/hooks/use-auto-scroll'
+import { useAutoScroll } from '@/hooks/ui/use-auto-scroll'
 import { Button } from '@/components/ui/button'
 import { type Message } from '@/components/ui/chat-message'
 import { CopyButton } from '@/components/ui/copy-button'

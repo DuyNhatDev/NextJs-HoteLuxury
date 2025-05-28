@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { formatDate, getLastTwoInitials } from '@/lib/utils'
-import { useGetRatingList } from '@/queries/useRating'
+import { useGetRatingList } from '@/hooks/queries/useRating'
 import { Rating } from '@mui/material'
 import { useEffect, useState } from 'react'
 

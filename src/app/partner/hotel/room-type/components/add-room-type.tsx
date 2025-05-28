@@ -13,7 +13,7 @@ import { MultiUploadImage } from '@/components/customize/multi-upload-image'
 import RichTextEditor from '@/components/customize/rich-text-editor'
 import UploadImage from '@/components/customize/upload-image'
 import { CreateRoomTypeBodySchema, CreateRoomTypeBodyType } from '@/schemaValidations/room-type.schema'
-import { useAddRoomTypeMutation } from '@/queries/useRoomType'
+import { useAddRoomTypeMutation } from '@/hooks/queries/useRoomType'
 import CurrencyInput from '@/components/customize/currency-input'
 
 export default function AddRoomType({ hotelId }: { hotelId: number }) {

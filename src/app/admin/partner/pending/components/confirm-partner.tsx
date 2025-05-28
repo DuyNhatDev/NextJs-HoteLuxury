@@ -10,7 +10,7 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useConfirmPartnerMutation } from '@/queries/useAccount'
+import { useConfirmPartnerMutation } from '@/hooks/queries/useAccount'
 import { toast } from 'sonner'
 
 export default function AlertDialogConfirmPartner({

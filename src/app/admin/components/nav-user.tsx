@@ -13,9 +13,9 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { useAppStore } from '@/store/app-store'
 import { useRouter } from 'next/navigation'
-import { useLogoutMutation } from '@/queries/useAuth'
+import { useLogoutMutation } from '@/hooks/queries/useAuth'
 import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
-import { useGetAccount } from '@/queries/useAccount'
+import { useGetAccount } from '@/hooks/queries/useAccount'
 
 export function NavUser() {
   const { isMobile } = useSidebar()

@@ -11,7 +11,7 @@ import { handleErrorApi } from '@/lib/utils'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { useLoginByGoogleMutation, useLoginMutation } from '@/queries/useAuth'
+import { useLoginByGoogleMutation, useLoginMutation } from '@/hooks/queries/useAuth'
 import { toast } from 'sonner'
 import { useGoogleLogin } from '@react-oauth/google'
 import Image from 'next/image'
@@ -86,7 +86,7 @@ export default function LoginForm() {
       })
     }
   }
-  
+
   const handleLoginByGoogle = useGoogleLogin({
     onSuccess: (credentialResponse: any) => {
       if (credentialResponse) {

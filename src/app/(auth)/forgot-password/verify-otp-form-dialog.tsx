@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { handleErrorApi } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { useVerifyForgetPasswordMutation } from '@/queries/useAuth'
+import { useVerifyForgetPasswordMutation } from '@/hooks/queries/useAuth'
 import { LoaderCircle } from 'lucide-react'
 
 type InputOtpFormDialogProps = {

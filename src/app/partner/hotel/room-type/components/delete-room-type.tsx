@@ -10,7 +10,7 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useDeleteRoomTypeMutation } from '@/queries/useRoomType'
+import { useDeleteRoomTypeMutation } from '@/hooks/queries/useRoomType'
 import { toast } from 'sonner'
 
 export default function AlertDialogDeleteRoomType({

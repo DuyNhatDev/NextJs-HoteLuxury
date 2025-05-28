@@ -7,7 +7,7 @@ import {
   useGetNotificationList,
   useMarkAsReadNotificationMutation,
   useMarkReadAllNotificationMutation
-} from '@/queries/useNotification'
+} from '@/hooks/queries/useNotification'
 import { CreateBookingResType } from '@/schemaValidations/booking-schema'
 import { useAppStore } from '@/store/app-store'
 import { useEffect } from 'react'

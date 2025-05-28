@@ -13,7 +13,7 @@ import {
   useGetPendingBookingList,
   useGetProgressingBookingList,
   useGetUpcomingBookingList
-} from '@/queries/useBooking'
+} from '@/hooks/queries/useBooking'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
