@@ -1,11 +1,11 @@
-import { LoginByGoogleBodyType } from '@/schemas/auth.schema'
+import { GoogleAccountBodyType } from '@/schemas/auth.schema'
 import { cookies } from 'next/headers'
 import { HttpError } from '@/lib/http'
 import authApiRequest from '@/api/auth'
 import { decodeToken } from '@/lib/utils'
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as LoginByGoogleBodyType
+  const body = (await request.json()) as GoogleAccountBodyType
   const cookieStore = await cookies()
   try {
     const { payload } = await authApiRequest.sLoginByGoogle(body)

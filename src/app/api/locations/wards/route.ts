@@ -5,9 +5,9 @@ import { HttpError } from '@/lib/http'
 
 const filePath = path.join(process.cwd(), 'src', 'data', 'location.json')
 
-export async function GET(req: Request) {
+export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(request.url)
     const parentId = searchParams.get('parentId')
     if (!parentId) {
       return Response.json({ error: 'Thiếu parentId' }, { status: 400 })
