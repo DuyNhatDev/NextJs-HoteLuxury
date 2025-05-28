@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
 import { DateTimePicker } from '@/components/customize/date-time-picker'
@@ -20,10 +20,10 @@ export default function PricePerDayPicker({ value, onChange }: PricePerDayPicker
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [price, setPrice] = useState<number>(0)
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [originalDate, setOriginalDate] = useState<Date | null>(null)
 
-  const isSameDate = (d1: Date, d2: Date) => {
-    return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()
-  }
+  const isSameDate = (d1: Date, d2: Date) =>
+    d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()
 
   const findDateIndex = (date: Date): number => {
     return value.findIndex((d) => isSameDate(d.date, date))
@@ -34,18 +34,24 @@ export default function PricePerDayPicker({ value, onChange }: PricePerDayPicker
       setSelectedDate(null)
       setPrice(0)
       setEditingIndex(null)
+      setOriginalDate(null)
       return
     }
 
     setSelectedDate(date)
-    const index = findDateIndex(date)
 
-    if (index !== -1) {
-      setPrice(value[index].price)
-      setEditingIndex(index)
-    } else {
-      setPrice(0)
-      setEditingIndex(null)
+    // Nếu không trong chế độ sửa thì mới set giá từ dữ liệu
+    if (editingIndex === null) {
+      const index = findDateIndex(date)
+      if (index !== -1) {
+        setPrice(value[index].price)
+        setEditingIndex(index)
+        setOriginalDate(value[index].date)
+      } else {
+        setPrice(0)
+        setEditingIndex(null)
+        setOriginalDate(null)
+      }
     }
   }
 
@@ -53,26 +59,38 @@ export default function PricePerDayPicker({ value, onChange }: PricePerDayPicker
     if (!selectedDate) return
     if (price === 0) return alert('Bạn phải nhập giá')
 
-    const index = findDateIndex(selectedDate)
+    const isDuplicateDate = value.some((item, i) => isSameDate(item.date, selectedDate) && i !== editingIndex)
 
-    if (index !== -1) {
-      const newData = value.map((item, i) =>
-        i === index ? { ...item, price: Number(price), date: selectedDate } : item
-      )
+    if (isDuplicateDate) {
+      alert('Ngày này đã tồn tại trong danh sách. Vui lòng chọn ngày khác.')
+      return
+    }
+
+    if (editingIndex !== null) {
+      // Đang chỉnh sửa
+      const newData = [...value]
+      newData[editingIndex] = {
+        date: selectedDate,
+        price: Number(price)
+      }
       onChange(newData)
     } else {
+      // Thêm mới
       const newData = [...value, { date: selectedDate, price: Number(price) }]
       onChange(newData)
     }
 
+    // Reset
     setEditingIndex(null)
     setSelectedDate(null)
+    setOriginalDate(null)
     setPrice(0)
   }
-
+  
   const handleEdit = (index: number) => {
     const item = value[index]
     setSelectedDate(item.date)
+    setOriginalDate(item.date)
     setPrice(item.price)
     setEditingIndex(index)
   }
@@ -85,6 +103,7 @@ export default function PricePerDayPicker({ value, onChange }: PricePerDayPicker
     if (editingIndex !== null && isSameDate(value[editingIndex].date, dateToDelete)) {
       setEditingIndex(null)
       setSelectedDate(null)
+      setOriginalDate(null)
       setPrice(0)
     }
   }
@@ -109,6 +128,7 @@ export default function PricePerDayPicker({ value, onChange }: PricePerDayPicker
             onClick={() => {
               setEditingIndex(null)
               setSelectedDate(null)
+              setOriginalDate(null)
               setPrice(0)
             }}
           >

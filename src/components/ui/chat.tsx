@@ -171,12 +171,20 @@ export function Chat({
         </div>
       ) : null}
 
-      {messages.length > 0 ? (
+      {/* {messages.length > 0 ? (
         <div className='flex-1 overflow-auto'>
           <ChatMessages messages={messages}>
             <MessageList messages={messages} isTyping={isTyping} messageOptions={messageOptions} />
           </ChatMessages>
         </div>
+      ) : (
+        <div className='flex-1' />
+      )} */}
+
+      {messages.length > 0 ? (
+        <ChatMessages messages={messages}>
+          <MessageList messages={messages} isTyping={isTyping} messageOptions={messageOptions} />
+        </ChatMessages>
       ) : (
         <div className='flex-1' />
       )}
@@ -214,7 +222,8 @@ export function ChatMessages({
 
   return (
     <div
-      className='grid grid-cols-1 overflow-y-auto pb-4'
+      // className='grid grid-cols-1 overflow-y-auto pb-4'
+      className='flex min-h-0 flex-1 flex-col overflow-y-auto pb-4'
       ref={containerRef}
       onScroll={handleScroll}
       onTouchStart={handleTouchStart}
