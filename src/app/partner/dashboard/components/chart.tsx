@@ -16,7 +16,7 @@ export default function Chart({ data }: ChartProps) {
   }))
 
   return (
-    <div className='flex items-center justify-evenly gap-5 p-6'>
+    <div className='flex items-center justify-evenly gap-5 p-3'>
       <PartnerRevenueChart chartData={revenueData} />
       <PartnerBookingChart chartData={bookingsData} />
     </div>

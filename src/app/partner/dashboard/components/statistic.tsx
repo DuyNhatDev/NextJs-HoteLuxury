@@ -6,7 +6,7 @@ type StatisticProps = {
 export default function Statistic({ data }: StatisticProps) {
   return (
     <div className='flex items-center justify-evenly gap-5 p-6'>
-      <Card className='h-[150px] w-[190px] items-center gap-3 bg-blue-500'>
+      <Card className='h-[130px] w-[190px] items-center gap-3 bg-blue-500 p-2'>
         <CardHeader>
           <CardTitle>Số lượt đặt</CardTitle>
         </CardHeader>
@@ -15,7 +15,7 @@ export default function Statistic({ data }: StatisticProps) {
         </CardContent>
       </Card>
 
-      <Card className='h-[150px] w-[190px] items-center gap-3 bg-green-500'>
+      <Card className='h-[130px] w-[190px] items-center gap-3 bg-green-500 p-2'>
         <CardHeader>
           <CardTitle>Điểm số</CardTitle>
         </CardHeader>
@@ -26,7 +26,7 @@ export default function Statistic({ data }: StatisticProps) {
           </div>
         </CardContent>
       </Card>
-      <Card className='h-[150px] w-[190px] items-center gap-3 bg-yellow-500'>
+      <Card className='h-[130px] w-[190px] items-center gap-3 bg-yellow-500 p-2'>
         <CardHeader>
           <CardTitle>Đặt nhiều nhất</CardTitle>
         </CardHeader>
@@ -39,7 +39,7 @@ export default function Statistic({ data }: StatisticProps) {
           ))}
         </CardContent>
       </Card>
-      <Card className='h-[150px] w-[190px] items-center gap-3 bg-orange-500'>
+      <Card className='h-[130px] w-[190px] items-center gap-3 bg-orange-500 p-2'>
         <CardHeader>
           <CardTitle>Đặt ít nhất</CardTitle>
         </CardHeader>
@@ -52,7 +52,7 @@ export default function Statistic({ data }: StatisticProps) {
           ))}
         </CardContent>
       </Card>
-      <Card className='h-[150px] w-[190px] items-center gap-3 bg-red-500'>
+      <Card className='h-[130px] w-[190px] items-center gap-3 bg-red-500 p-2'>
         <CardHeader>
           <CardTitle>Số lượt hủy</CardTitle>
         </CardHeader>
