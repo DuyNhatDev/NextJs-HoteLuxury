@@ -3,9 +3,9 @@ import { getAccessTokenFromLocalStorage, getRefreshTokenFromLocalStorage } from 
 import { useLogoutMutation } from '@/hooks/queries/useAuth'
 import { useAppStore } from '@/store/app-store'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 
-export default function Logout() {
+const LogoutComponent = () => {
   const { mutateAsync } = useLogoutMutation()
   const router = useRouter()
   const setRole = useAppStore((state) => state.setRole)
@@ -27,11 +27,18 @@ export default function Logout() {
         }, 1000)
         setRole()
         disconnectSocket()
-        router.push('/login')
       })
-    } else {
+    } else if (accessTokenFromUrl !== getAccessTokenFromLocalStorage()) {
       router.push('/')
     }
   }, [mutateAsync, router, accessTokenFromUrl, refreshTokenFromUrl, setRole, disconnectSocket])
   return null
+}
+
+export default function Logout() {
+  return (
+    <Suspense>
+      <LogoutComponent />
+    </Suspense>
+  )
 }

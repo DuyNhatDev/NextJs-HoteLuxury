@@ -2,14 +2,16 @@ import { Role } from '@/constants/type'
 import { decodeToken } from '@/lib/utils'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+
 const adminPaths = ['/admin']
 const partnerPaths = ['/partner']
 const customerPath = ['/thong-tin-booking', '/dashboard']
 const privatePaths = [...adminPaths, ...partnerPaths, ...customerPath]
 const unAuthPaths = ['/login', '/register', '/forgot-password', '/reset-password']
+const loginPath = ['/login']
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
   const accessToken = request.cookies.get('accessToken')?.value
   const refreshToken = request.cookies.get('refreshToken')?.value
   // 1. Chưa đăng nhập thì không cho vào private paths
@@ -22,6 +24,9 @@ export function middleware(request: NextRequest) {
   if (refreshToken) {
     // 2.1 Nếu cố tình vào trang login sẽ redirect về trang chủ
     if (unAuthPaths.some((path) => pathname.startsWith(path))) {
+      if (loginPath.some((path) => pathname.startsWith(path)) && searchParams.get('accessToken')) {
+        return NextResponse.next()
+      }
       return NextResponse.redirect(new URL('/', request.url))
     }
     // 2.2 Access token hết hạn
