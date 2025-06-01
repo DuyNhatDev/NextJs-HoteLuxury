@@ -1,3 +1,4 @@
+'use client'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -7,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
+import { isBrowser } from '@/lib/utils'
 import { Info } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -19,8 +21,12 @@ export default function AlertDialogLogin({ open, setOpen }: Props) {
   const pathname = usePathname()
 
   const handleLogin = async () => {
-    const currentUrl = pathname
-    router.push(`/login?callbackUrl=${encodeURIComponent(currentUrl)}`)
+    if (isBrowser) {
+      const currentUrl = pathname
+      sessionStorage.setItem('prevPath', currentUrl)
+      sessionStorage.setItem('prevScrollY', String(window.scrollY))
+    }
+    router.push(`/login`)
   }
 
   return (

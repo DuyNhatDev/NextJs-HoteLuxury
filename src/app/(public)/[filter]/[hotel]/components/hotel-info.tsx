@@ -57,6 +57,17 @@ export default function HotelInfo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hotelData?.hotelName, hotelData?.hotelAddress])
 
+  useEffect(() => {
+    const scrollY = sessionStorage.getItem('prevScrollY')
+    if (scrollY) {
+      setTimeout(() => {
+        window.scrollTo({ top: parseInt(scrollY), behavior: 'smooth' })
+        sessionStorage.removeItem('prevScrollY')
+        sessionStorage.removeItem('prevPath')
+      }, 300)
+    }
+  }, [])
+
   const handleRoomTypeScroll = () => {
     const headerHeight = 56
     const element = roomTypeRef.current

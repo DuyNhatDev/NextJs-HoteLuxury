@@ -24,7 +24,6 @@ export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const clearTokens = searchParams.get('clearTokens')
-  const callbackUrl = searchParams.get('callbackUrl')
   const setRole = useAppStore((state) => state.setRole)
   const setSocket = useAppStore((state) => state.setSocket)
   const loginMutation = useLoginMutation()
@@ -44,6 +43,7 @@ export default function LoginForm() {
   }, [clearTokens, setRole])
 
   const handleLogin = (result: LoginResType) => {
+    const prevPath = sessionStorage.getItem('prevPath')
     const role = result.roleId
     setRole(role)
     setSocket(generateSocketInstance(result.access_token))
@@ -52,8 +52,8 @@ export default function LoginForm() {
     } else if (role === 'R2') {
       router.push('/partner/dashboard')
     } else {
-      if (callbackUrl) {
-        router.push(callbackUrl)
+      if (prevPath) {
+        router.push(prevPath)
       } else {
         router.push('/')
       }

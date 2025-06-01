@@ -11,7 +11,7 @@ import { vi } from 'date-fns/locale'
 import { slugify } from '@whthduck/slugify-vi'
 import queryString from 'query-string'
 
-const isBrowser = typeof window !== 'undefined'
+export const isBrowser = typeof window !== 'undefined'
 
 export const handleErrorApi = ({
   error,
