@@ -286,7 +286,8 @@ export const getBreadcrumbPageFromPathName = (pathName: string): string => {
   const pathNameMap: Record<string, string> = {
     profile: 'Hồ sơ của tôi',
     trips: 'Đơn của tôi',
-    voucher: 'Voucher của tôi'
+    voucher: 'Voucher của tôi',
+    points: 'LuxuryPoint'
   }
   return pathNameMap[pathName] || pathName
 }

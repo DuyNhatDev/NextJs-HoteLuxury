@@ -1,5 +1,5 @@
 'use client'
-import { CircleUser, FileText, Ticket, ChevronDown } from 'lucide-react'
+import { CircleUser, FileText, Ticket, ChevronDown, Gift } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getLastTwoInitials, getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
@@ -9,7 +9,6 @@ import { useLogoutMutation } from '@/hooks/queries/useAuth'
 import { useGetAccount } from '@/hooks/queries/useAccount'
 import { useAppStore } from '@/store/app-store'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export default function DropdownAvatar() {
   const role = useAppStore((state) => state.role)
@@ -21,6 +20,29 @@ export default function DropdownAvatar() {
   const { data } = useGetAccount(userId!, true)
   const avatar = data?.payload?.data?.image ?? ''
   const name = data?.payload?.data?.fullname ?? ''
+
+  const dropdownItems = [
+    {
+      href: '/dashboard/profile',
+      icon: CircleUser,
+      label: 'Hồ sơ của tôi'
+    },
+    {
+      href: '/dashboard/trips',
+      icon: FileText,
+      label: 'Đơn của tôi'
+    },
+    {
+      href: '/dashboard/voucher',
+      icon: Ticket,
+      label: 'Voucher của tôi'
+    },
+    {
+      href: '/dashboard/points',
+      icon: Gift,
+      label: 'LuxuryPoint'
+    }
+  ]
 
   const handleLogout = async () => {
     if (logoutMutation.isPending) return
@@ -54,25 +76,14 @@ export default function DropdownAvatar() {
         <DropdownMenuContent align='center' className='rounded'>
           {role ? (
             <>
-              <Link href='/dashboard/profile'>
-                <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
-                  <CircleUser className='mr-2 h-4 w-4' />
-                  Hồ sơ của tôi
-                </DropdownMenuItem>
-              </Link>
-              <Link href='/dashboard/trips'>
-                <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
-                  <FileText className='mr-2 h-4 w-4' />
-                  Đơn của tôi
-                </DropdownMenuItem>
-              </Link>
-              <Link href='/dashboard/voucher'>
-                <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
-                  <Ticket className='mr-2 h-4 w-4' />
-                  Voucher của tôi
-                </DropdownMenuItem>
-              </Link>
-
+              {dropdownItems.map(({ href, icon: Icon, label }) => (
+                <Link key={href} href={href}>
+                  <DropdownMenuItem className='gap-0 rounded focus:bg-transparent focus:text-blue-500'>
+                    <Icon className='mr-2 h-4 w-4' />
+                    {label}
+                  </DropdownMenuItem>
+                </Link>
+              ))}
               <DropdownMenuItem className='focus:bg-transparent'>
                 <Button
                   variant='outline'
