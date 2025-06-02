@@ -13,7 +13,8 @@ export const AccountSchema = z.object({
   gender: z.enum(['Nam', 'Nữ']),
   password: z.string().optional(),
   isConfirmed: z.boolean(),
-  active: z.boolean()
+  active: z.boolean(),
+  point: z.number()
 })
 
 export type AccountType = z.infer<typeof AccountSchema>

@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
-import { isBrowser } from '@/lib/utils'
+import { isClient } from '@/lib/utils'
 import { Info } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -21,7 +21,7 @@ export default function AlertDialogLogin({ open, setOpen }: Props) {
   const pathname = usePathname()
 
   const handleLogin = async () => {
-    if (isBrowser) {
+    if (isClient) {
       const currentUrl = pathname
       sessionStorage.setItem('prevPath', currentUrl)
       sessionStorage.setItem('prevScrollY', String(window.scrollY))

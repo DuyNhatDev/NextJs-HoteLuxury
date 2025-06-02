@@ -17,7 +17,7 @@ export default function DropdownAvatar() {
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
   const userId = getUserIdFromLocalStorage()
-  const { data } = useGetAccount(userId!, true)
+  const { data } = useGetAccount(userId ?? undefined, Boolean(userId))
   const avatar = data?.payload?.data?.image ?? ''
   const name = data?.payload?.data?.fullname ?? ''
 

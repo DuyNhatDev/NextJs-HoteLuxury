@@ -3,7 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import RefreshToken from '@/components/refresh-token'
 import { useEffect, useRef } from 'react'
-import { decodeToken, getAccessTokenFromLocalStorage, removeTokensFromLocalStorage } from '@/lib/utils'
+import { decodeToken, getAccessTokenFromLocalStorage, removeItemsFromLocalStorage } from '@/lib/utils'
 import { useAppStore } from '@/store/app-store'
 import { generateSocketInstance } from '@/lib/socket'
 
@@ -24,7 +24,7 @@ export default function AppProvider({ children }: { children: React.ReactNode })
     if (count.current === 0) {
       const accessToken = getAccessTokenFromLocalStorage()
       if (accessToken === 'undefined') {
-        removeTokensFromLocalStorage()
+        removeItemsFromLocalStorage()
       }
       if (accessToken) {
         const role = decodeToken(accessToken).roleId

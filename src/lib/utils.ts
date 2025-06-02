@@ -11,7 +11,7 @@ import { vi } from 'date-fns/locale'
 import { slugify } from '@whthduck/slugify-vi'
 import queryString from 'query-string'
 
-export const isBrowser = typeof window !== 'undefined'
+export const isClient = typeof window !== 'undefined'
 
 export const handleErrorApi = ({
   error,
@@ -51,39 +51,39 @@ export const normalizePath = (path: string) => {
 }
 
 export const getAccessTokenFromLocalStorage = () => {
-  return isBrowser ? localStorage.getItem('accessToken') : null
+  return isClient ? localStorage.getItem('accessToken') : null
 }
 
 export const getRefreshTokenFromLocalStorage = () => {
-  return isBrowser ? localStorage.getItem('refreshToken') : null
+  return isClient ? localStorage.getItem('refreshToken') : null
 }
 
 export const setAccessTokenToLocalStorage = (value: string) => {
-  return isBrowser && localStorage.setItem('accessToken', value)
+  return isClient && localStorage.setItem('accessToken', value)
 }
 
 export const setRefreshTokenToLocalStorage = (value: string) => {
-  return isBrowser && localStorage.setItem('refreshToken', value)
+  return isClient && localStorage.setItem('refreshToken', value)
 }
 
 export const setUserIdToLocalStorage = (value: string) => {
-  return isBrowser && localStorage.setItem('userId', value)
+  return isClient && localStorage.setItem('userId', value)
 }
 
 export const setHotelIdToLocalStorage = (value: string) => {
-  return isBrowser && localStorage.setItem('hotelId', value)
+  return isClient && localStorage.setItem('hotelId', value)
 }
 
 export const getUserIdFromLocalStorage = () => {
-  return isBrowser ? localStorage.getItem('userId') : null
+  return isClient ? localStorage.getItem('userId') : null
 }
 
 export const getHotelIdFromLocalStorage = () => {
-  return isBrowser ? localStorage.getItem('hotelId') : null
+  return isClient ? localStorage.getItem('hotelId') : null
 }
 
-export const removeTokensFromLocalStorage = () => {
-  if (isBrowser) {
+export const removeItemsFromLocalStorage = () => {
+  if (isClient) {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('userId')
@@ -103,7 +103,7 @@ export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuc
   const decodedRefreshToken = decodeToken(refreshToken)
   const now = new Date().getTime() / 1000 - 1
   if (decodedRefreshToken.exp <= now) {
-    removeTokensFromLocalStorage()
+    removeItemsFromLocalStorage()
     return param?.onError && param.onError()
   }
   if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {

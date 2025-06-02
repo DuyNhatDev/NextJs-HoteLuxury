@@ -1,4 +1,4 @@
-import { removeTokensFromLocalStorage } from '@/lib/utils'
+import { removeItemsFromLocalStorage } from '@/lib/utils'
 import { RoleType } from '@/types/jwt.types'
 import { create } from 'zustand'
 import type { Socket } from 'socket.io-client'
@@ -17,7 +17,7 @@ export const useAppStore = create<AppStoreType>((set) => ({
   setRole: (role?: RoleType | undefined) => {
     set({ role, isAuth: Boolean(role) })
     if (!role) {
-      removeTokensFromLocalStorage()
+      removeItemsFromLocalStorage()
     }
   },
   socket: undefined as Socket | undefined,

@@ -30,6 +30,14 @@ export default function BookingInfo() {
           <ReceiptText className='mr-2 h-4 w-4' />
           <span>{`${booking.adultQuantity} người lớn · ${booking.childQuantity} trẻ em`}</span>
         </div>
+
+        <div className='border-t my-3'></div>
+
+        <div className='my-2 flex flex-col items-center'>
+          <p className='font-semibold text-blue-900'>Bạn có mã khuyến mãi?</p>
+          <p className='font-semibold text-blue-900'>Bạn có mã khuyến mãi?</p>
+
+        </div>
         <div className='my-2 flex items-center text-gray-500'>
           <CircleAlert className='mr-2 h-4 w-4' />
           <span>Không thể hoàn hoặc thay đổi</span>

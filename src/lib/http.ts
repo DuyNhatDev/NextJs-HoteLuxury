@@ -1,9 +1,10 @@
 import envConfig from '@/config'
 import {
   getAccessTokenFromLocalStorage,
+  isClient,
   isValidFullUrl,
   normalizePath,
-  removeTokensFromLocalStorage,
+  removeItemsFromLocalStorage,
   setAccessTokenToLocalStorage,
   setHotelIdToLocalStorage,
   setRefreshTokenToLocalStorage,
@@ -51,8 +52,6 @@ export class EntityError extends HttpError {
 }
 
 let clientLogoutRequest: null | Promise<any> = null
-
-const isClient = typeof window !== 'undefined'
 
 const request = async <Response>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
@@ -113,7 +112,7 @@ const request = async <Response>(
             await clientLogoutRequest
           } catch (error) {
           } finally {
-            removeTokensFromLocalStorage()
+            removeItemsFromLocalStorage()
             clientLogoutRequest = null
             location.href = '/login'
           }
@@ -138,7 +137,7 @@ const request = async <Response>(
         setHotelIdToLocalStorage(String(hotelId))
       }
     } else if (normalizeUrl === 'api/auth/logout') {
-      removeTokensFromLocalStorage()
+      removeItemsFromLocalStorage()
     }
   }
   return data
