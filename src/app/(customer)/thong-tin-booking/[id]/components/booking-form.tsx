@@ -35,7 +35,10 @@ export default function BookingForm() {
       customerName: '',
       customerEmail: '',
       customerPhone: '',
-      note: ''
+      note: '',
+      point: 0,
+      voucherCode: '',
+      finalPrice: 0
     }
   })
 
@@ -48,7 +51,10 @@ export default function BookingForm() {
       setValue('dayEnd', booking.dayEnd)
       setValue('roomQuantity', booking.currentRooms)
       setValue('price', Number(booking.price))
-      setValue('note', '')
+      setValue('note', ''),
+      setValue('point', 0),
+      setValue('voucherCode', ''),
+      setValue('finalPrice', Number(booking.price))
     }
 
     if (data) {

@@ -20,7 +20,10 @@ export const CreateBookingBodySchema = z.object({
   note: z.string().optional(),
   paymentMethod: z.enum(['Online', 'Trực tiếp'], {
     message: 'Vui lòng chọn phương thức thanh toán'
-  })
+  }),
+  point: z.number().optional(),
+  voucherCode: z.string().optional(),
+  finalPrice: z.number()
 })
 
 export type CreateBookingBodyType = z.infer<typeof CreateBookingBodySchema>
