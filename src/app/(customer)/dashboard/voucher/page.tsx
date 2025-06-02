@@ -1,7 +1,5 @@
+import VoucherList from '@/app/(customer)/dashboard/voucher/voucher-list'
+
 export default function VoucherPage() {
-  return (
-    <div>
-      <h1>My Voucher</h1>
-    </div>
-  )
+  return <VoucherList />
 }

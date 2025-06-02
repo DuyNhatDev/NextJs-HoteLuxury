@@ -14,10 +14,10 @@ export default function PointHistory() {
   return (
     <Card className='gap-3 rounded py-5'>
       <CardHeader className='gap-0'>
-        <CardTitle className='bg-gray-50 p-3 text-lg font-bold text-sky-500'>
+        <CardTitle className='p-3 text-lg font-bold text-sky-500'>
           <span className='text-3xl'>{point}</span> điểm khả dụng
         </CardTitle>
-        {pointHistory.length === 0 && <p className='font-normal text-blue-900'>Quý khách chưa có hoạt động nào!</p>}
+        {pointHistory.length === 0 && <p className='font-normal text-gray-500'>Quý khách chưa có hoạt động nào!</p>}
       </CardHeader>
       <CardContent>
         <p className='text-lg font-semibold'>Lịch sử điểm</p>
@@ -27,7 +27,7 @@ export default function PointHistory() {
               <p className='text-lg'>
                 {item.isPlus ? '+' : '-'} {item.point}
               </p>
-              <p className='text-sm'>{item.description}</p>
+              <p className='text-sm text-gray-500'>{item.description}</p>
             </div>
             <p className='text-sm'>{format(parseISO(String(item.createdAt)), 'HH:mm dd/MM/yyyy')}</p>
           </div>

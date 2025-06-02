@@ -4,7 +4,7 @@ export const VoucherSchema = z.object({
   voucherId: z.number(),
   code: z.string(),
   description: z.string(),
-  discountType: z.string(),
+  discountType: z.enum(['percentage', 'fixed']),
   discountValue: z.number(),
   minOrderValue: z.number(),
   quantity: z.number(),
