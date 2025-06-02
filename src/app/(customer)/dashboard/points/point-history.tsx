@@ -12,9 +12,9 @@ export default function PointHistory() {
   const { data } = useGetPointHistory()
   const pointHistory = data?.payload?.data || []
   return (
-    <Card className='gap-3 rounded py-5'>
+    <Card className='gap-2 rounded py-5'>
       <CardHeader className='gap-0'>
-        <CardTitle className='p-3 text-lg font-bold text-sky-500'>
+        <CardTitle className='px-3 text-lg font-bold text-sky-500'>
           <span className='text-3xl'>{point}</span> điểm khả dụng
         </CardTitle>
         {pointHistory.length === 0 && <p className='font-normal text-gray-500'>Quý khách chưa có hoạt động nào!</p>}
@@ -22,7 +22,7 @@ export default function PointHistory() {
       <CardContent>
         <p className='text-lg font-semibold'>Lịch sử điểm</p>
         {pointHistory.map((item) => (
-          <div key={item.pointHistoryId} className='flex items-center justify-between p-2'>
+          <div key={item.pointHistoryId} className='flex items-center my-3 justify-between p-2 border'>
             <div className='flex flex-col items-start'>
               <p className='text-lg'>
                 {item.isPlus ? '+' : '-'} {item.point}

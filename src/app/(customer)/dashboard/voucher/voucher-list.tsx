@@ -8,7 +8,7 @@ export default function VoucherList() {
   const { data } = useGetListVoucher()
   const listVoucher = data?.payload?.data || []
   return (
-    <Card className='gap-3 rounded py-3'>
+    <Card className='gap-0 rounded py-3'>
       <CardHeader className='gap-0'>
         <CardTitle className='p-3 text-xl font-bold text-sky-500'>
           Voucher của tôi
@@ -23,7 +23,7 @@ export default function VoucherList() {
           const minValue = voucher.minOrderValue
           const value = voucher.discountValue
           return (
-            <div key={voucher.voucherId} className='mb-4 flex items-center gap-2 border p-2'>
+            <div key={voucher.voucherId} className='my-3 flex items-center gap-2 border p-2'>
               <div className='relative h-26 w-36 overflow-hidden'>
                 <Image
                   src={isFixed ? '/image/fixed-voucher.png' : '/image/percentage-voucher.png'}
