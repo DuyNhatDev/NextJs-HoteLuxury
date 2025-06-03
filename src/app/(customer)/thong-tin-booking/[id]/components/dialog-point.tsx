@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useBookingStore } from '@/store/booking-store'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 type DialogPoint = {
@@ -14,6 +14,10 @@ export default function DialogPoint({ point }: DialogPoint) {
   const setBooking = useBookingStore((state) => state.setBooking)
   const [open, setOpen] = useState(false)
   const [selectedPoint, setSelectedPoint] = useState('0')
+
+  useEffect(() => {
+    setBooking({ point: Number(selectedPoint) })
+  }, [selectedPoint, setBooking])
 
   const handleApply = () => {
     const numPoint = Number(selectedPoint)
@@ -38,11 +42,11 @@ export default function DialogPoint({ point }: DialogPoint) {
       }}
     >
       <DialogTrigger asChild>
-        <p
+        <span
           className={`text-blue-400 underline hover:cursor-pointer ${Number(selectedPoint) > 0 ? 'text-lg' : 'text-[15px]'}`}
         >
           {Number(selectedPoint) > 0 ? selectedPoint : 'Nhập số điểm?'}
-        </p>
+        </span>
       </DialogTrigger>
       <DialogContent className='p-4'>
         <DialogHeader className='-mx-4 border-b pb-3 pl-4'>

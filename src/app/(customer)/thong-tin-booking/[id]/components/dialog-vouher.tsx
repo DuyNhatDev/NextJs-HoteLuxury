@@ -2,27 +2,39 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { useCalculateFinalPriceBookingMutation } from '@/hooks/queries/useBooking'
 import { useGetSuitableVoucher } from '@/hooks/queries/useVoucher'
+import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
 import { useBookingStore } from '@/store/booking-store'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
 export default function DialogVoucher() {
+  const userId = getUserIdFromLocalStorage()
   const booking = useBookingStore((state) => state.booking)
   const setBooking = useBookingStore((state) => state.setBooking)
   const { data } = useGetSuitableVoucher(booking.price)
+  const { mutateAsync } = useCalculateFinalPriceBookingMutation()
   const vouchers = data?.payload?.data || []
   const [open, setOpen] = useState(false)
   const [selectedCode, setSelectedCode] = useState('')
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (!selectedCode) {
       toast.info('Vui lòng chọn hoặc nhập mã khuyến mãi')
       return
     } else {
-      setBooking({ voucherCode: selectedCode })
-      setOpen(false)
+      try {
+        await mutateAsync({ userId: Number(userId), price: String(booking.price), voucherCode: selectedCode })
+        setBooking({ voucherCode: selectedCode })
+        setOpen(false)
+      } catch (error) {
+        handleErrorApi({
+          error
+        })
+        setSelectedCode('')
+      }
     }
   }
   return (
@@ -33,9 +45,9 @@ export default function DialogVoucher() {
       }}
     >
       <DialogTrigger asChild>
-        <p className={`text-blue-400 underline hover:cursor-pointer ${selectedCode ? 'text-lg' : 'text-[15px]'}`}>
+        <span className={`text-blue-400 underline hover:cursor-pointer ${selectedCode ? 'text-lg' : 'text-[15px]'}`}>
           {selectedCode || 'Chọn hoặc nhập mã khuyến mãi?'}
-        </p>
+        </span>
       </DialogTrigger>
       <DialogContent className='p-4'>
         <DialogHeader className='-mx-4 border-b pb-3 pl-4'>
@@ -50,7 +62,7 @@ export default function DialogVoucher() {
           />
           <Button onClick={handleApply}>Áp dụng</Button>
         </div>
-        {vouchers.length > 0 && <p className='mt-4 font-semibold'>Voucher khả dụng</p>}
+        {vouchers.length > 0 && <p className='  4 font-semibold'>Voucher khả dụng</p>}
         {vouchers.map((voucher) => {
           const { code, discountValue, minOrderValue, quantity, discountType } = voucher
           const isFixed = discountType === 'fixed'
@@ -58,7 +70,7 @@ export default function DialogVoucher() {
           return (
             <div
               key={voucher.voucherId}
-              className={`mt-2 flex items-end justify-between gap-2 border p-2 hover:cursor-pointer sm:items-center ${
+              className={`flex items-end justify-between gap-2 border p-2 hover:cursor-pointer sm:items-center ${
                 isSelected ? 'border-blue-500 bg-blue-50' : ''
               }`}
               onClick={() => {

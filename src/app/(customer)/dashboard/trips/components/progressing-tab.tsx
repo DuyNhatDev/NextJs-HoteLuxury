@@ -57,7 +57,7 @@ export default function ProgressingTab({ data }: ProgressingTabProps) {
                 <div className='flex flex-col items-end gap-1'>
                   <p className='text-lg font-semibold text-sky-500'>
                     <span className='text-sm font-normal text-gray-500'>Thành tiền: </span>{' '}
-                    {Number(order.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                    {Number(order.finalPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                   </p>
                 </div>
               </CardFooter>

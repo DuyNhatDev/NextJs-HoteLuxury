@@ -110,7 +110,12 @@ export type CalculateFinalPriceBookingType = z.infer<typeof CalculateFinalPriceB
 export const CalculateFinalPriceBookingResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: z.number()
+  data: z.object({
+    price: z.number(),
+    voucherDiscount: z.number(),
+    pointDiscount: z.number(),
+    finalPrice: z.number()
+  })
 })
 
 export type CalculateFinalPriceBookingResType = z.infer<typeof CalculateFinalPriceBookingResSchema>

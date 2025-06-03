@@ -52,16 +52,20 @@ export default function BookingForm() {
 
   useEffect(() => {
     if (booking) {
+      const { roomTypeId, dayStart, dayEnd, currentRooms, price, point, voucherCode, finalPrice } = booking
       setValue('userId', Number(userId))
-      setValue('roomTypeId', booking.roomTypeId)
-      setValue('dayStart', booking.dayStart)
-      setValue('dayEnd', booking.dayEnd)
-      setValue('roomQuantity', booking.currentRooms)
-      setValue('price', Number(booking.price))
-      setValue('point', 0)
-      setValue('voucherCode', '')
-      setValue('finalPrice', Number(booking.price))
+      setValue('roomTypeId', roomTypeId)
+      setValue('dayStart', dayStart)
+      setValue('dayEnd', dayEnd)
+      setValue('roomQuantity', currentRooms)
+      setValue('price', Number(price))
+      setValue('point', point)
+      setValue('voucherCode', voucherCode)
+      setValue('finalPrice', finalPrice)
     }
+  }, [booking, userId, setValue])
+
+  useEffect(() => {
     if (data) {
       const { fullname, email, phoneNumber, gender } = data.payload.data
       const title = gender === 'Nam' ? 'Anh' : 'Chị'
@@ -70,8 +74,7 @@ export default function BookingForm() {
       setValue('customerEmail', email || '')
       setValue('customerPhone', phoneNumber || '')
     }
-  }, [booking, data, userId, setValue])
-
+  }, [data, setValue])
   const onSubmit = async (data: CreateBookingBodyType) => {
     if (createBookingMutation.isPending) return
     try {

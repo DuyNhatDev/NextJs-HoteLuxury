@@ -22,7 +22,7 @@ export default function PointHistory() {
       <CardContent>
         <p className='text-lg font-semibold'>Lịch sử điểm</p>
         {pointHistory.map((item) => (
-          <div key={item.pointHistoryId} className='flex items-center my-3 justify-between p-2 border'>
+          <div key={item.pointHistoryId} className='my-3 flex items-center justify-between border p-2'>
             <div className='flex flex-col items-start'>
               <p className='text-lg'>
                 {item.isPlus ? '+' : '-'} {item.point}

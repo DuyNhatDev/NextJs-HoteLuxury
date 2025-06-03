@@ -3,16 +3,43 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { useBookingStore } from '@/store/booking-store'
 import { MapPin, Calendar, UserRound, ReceiptText, CircleAlert } from 'lucide-react'
 import { differenceInCalendarDays } from 'date-fns'
-import { formatDayWithDate, getUserIdFromLocalStorage, removePhong } from '@/lib/utils'
+import { formatDayWithDate, getUserIdFromLocalStorage, handleErrorApi, removePhong } from '@/lib/utils'
 import DialogVoucher from '@/app/(customer)/thong-tin-booking/[id]/components/dialog-vouher'
 import DialogPoint from '@/app/(customer)/thong-tin-booking/[id]/components/dialog-point'
 import { useGetAccount } from '@/hooks/queries/useAccount'
+import { useCalculateFinalPriceBookingMutation } from '@/hooks/queries/useBooking'
+import { useEffect, useState } from 'react'
+import { CalculateFinalPriceBookingResType } from '@/schemas/booking-schema'
 
 export default function BookingInfo() {
   const booking = useBookingStore((state) => state.booking)
+  const setBooking = useBookingStore((state) => state.setBooking)
   const userId = getUserIdFromLocalStorage()
+  const { mutateAsync } = useCalculateFinalPriceBookingMutation()
   const { data: userData } = useGetAccount(userId ?? undefined, Boolean(userId))
   const point = userData?.payload?.data?.point ?? 0
+  const [calculatePrice, setCalculatePrice] = useState<CalculateFinalPriceBookingResType['data'] | undefined>(undefined)
+  useEffect(() => {
+    const calculateFinalPrice = async () => {
+      try {
+        const result = await mutateAsync({
+          userId: Number(userId),
+          price: String(booking.price),
+          voucherCode: booking.voucherCode,
+          point: String(booking.point)
+        })
+        const data = result.payload.data
+        setCalculatePrice(data)
+        setBooking({ finalPrice: data.finalPrice })
+      } catch (error) {
+        handleErrorApi({
+          error
+        })
+      }
+    }
+    calculateFinalPrice()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [booking.price, booking.point, booking.voucherCode, userId])
 
   return (
     <Card className='w-full gap-2 rounded-sm p-3'>
@@ -55,11 +82,38 @@ export default function BookingInfo() {
           </>
         )}
       </CardContent>
-      <CardFooter className='border-t px-0 py-2'>
+      <CardFooter className='flex flex-col border-t px-0 py-2'>
+        {calculatePrice && (calculatePrice.voucherDiscount || calculatePrice.pointDiscount) && (
+          <div className='flex w-full items-center justify-between'>
+            <h2 className='text-gray-500'>Tổng tiền:</h2>
+            <span className='text-base text-gray-500'>
+              {calculatePrice.price.toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+            </span>
+          </div>
+        )}
+
+        {calculatePrice && calculatePrice.voucherDiscount > 0 && (
+          <div className='flex w-full items-center justify-between'>
+            <h2 className='text-gray-500'>Giảm giá voucher:</h2>
+            <span className='text-base text-orange-500'>
+              - {calculatePrice?.voucherDiscount.toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+            </span>
+          </div>
+        )}
+
+        {calculatePrice && calculatePrice.pointDiscount > 0 && (
+          <div className='flex w-full items-center justify-between'>
+            <h2 className='text-gray-500'>Giảm giá LuxuryPoint:</h2>
+            <span className='text-base text-orange-500'>
+              - {calculatePrice.pointDiscount.toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+            </span>
+          </div>
+        )}
+
         <div className='flex w-full items-center justify-between'>
           <h2 className='font-bold text-blue-950'>Tổng thanh toán:</h2>
           <span className='font-bold text-sky-500'>
-            {Number(booking.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+            {calculatePrice?.finalPrice.toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
           </span>
         </div>
       </CardFooter>
