@@ -2,11 +2,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useFilterStore } from '@/store/filter-store'
-import { generateSlugUrl } from '@/lib/utils'
+import { generateSlugUrl, removeStoreFromLocalStorage } from '@/lib/utils'
 import { DestinationType } from '@/schemas/destination.schema'
+import { useEffect } from 'react'
 
 export default function DestinationList({ destinations }: { destinations: DestinationType[] }) {
   const setFilter = useFilterStore((state) => state.setFilter)
+
+  useEffect(() => {
+    removeStoreFromLocalStorage()
+  }, [])
 
   const handleClick = (destination: DestinationType) => {
     setFilter({ filter: destination.locationName })

@@ -17,9 +17,11 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+
 export default function BookingForm() {
   const router = useRouter()
   const booking = useBookingStore((state) => state.booking)
+  const setBooking = useBookingStore((state) => state.setBooking)
   const userId = getUserIdFromLocalStorage()
   const { data } = useGetAccount(userId ?? undefined, Boolean(userId))
   const createBookingMutation = useCreateBookingMutation()
@@ -43,6 +45,11 @@ export default function BookingForm() {
   })
 
   const { setValue } = form
+
+  useEffect(() => {
+    setBooking({ voucherCode: '', point: 0, finalPrice: 0 })
+  }, [setBooking])
+
   useEffect(() => {
     if (booking) {
       setValue('userId', Number(userId))
@@ -51,10 +58,9 @@ export default function BookingForm() {
       setValue('dayEnd', booking.dayEnd)
       setValue('roomQuantity', booking.currentRooms)
       setValue('price', Number(booking.price))
-      setValue('note', ''),
-        setValue('point', 0),
-        setValue('voucherCode', ''),
-        setValue('finalPrice', Number(booking.price))
+      setValue('point', 0)
+      setValue('voucherCode', '')
+      setValue('finalPrice', Number(booking.price))
     }
     if (data) {
       const { fullname, email, phoneNumber, gender } = data.payload.data

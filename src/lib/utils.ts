@@ -91,6 +91,14 @@ export const removeItemsFromLocalStorage = () => {
   }
 }
 
+export const removeStoreFromLocalStorage = () => {
+  if (isClient) {
+    localStorage.removeItem('booking-storage')
+    localStorage.removeItem('filter-storage')
+    localStorage.removeItem('order-storage')
+  }
+}
+
 export const decodeToken = (token: string) => {
   return jwtDecode<TokenPayload>(token)
 }

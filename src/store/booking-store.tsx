@@ -13,6 +13,9 @@ type BookingInfoType = {
   roomTypeId: number
   roomTypeName: string
   price: number
+  point: number
+  voucherCode: string
+  finalPrice: number
 }
 
 type BookingInfoStoreType = {
@@ -33,7 +36,10 @@ const defaultBooking: BookingInfoType = {
   currentRooms: 1,
   roomTypeId: -1,
   roomTypeName: '',
-  price: 0
+  price: 0,
+  point: 0,
+  voucherCode: '',
+  finalPrice: 0
 }
 
 export const useBookingStore = create(
