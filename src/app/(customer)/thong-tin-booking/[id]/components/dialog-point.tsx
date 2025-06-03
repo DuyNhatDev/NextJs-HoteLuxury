@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useBookingStore } from '@/store/booking-store'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 type DialogPoint = {
@@ -13,14 +13,10 @@ type DialogPoint = {
 export default function DialogPoint({ point }: DialogPoint) {
   const setBooking = useBookingStore((state) => state.setBooking)
   const [open, setOpen] = useState(false)
-  const [selectedPoint, setSelectedPoint] = useState('0')
-
-  useEffect(() => {
-    setBooking({ point: Number(selectedPoint) })
-  }, [selectedPoint, setBooking])
-
+  const [isApplied, setIsApplied] = useState(false)
+  const [selectedPoint, setSelectedPoint] = useState('')
+  const numPoint = Number(selectedPoint)
   const handleApply = () => {
-    const numPoint = Number(selectedPoint)
     if (selectedPoint) {
       if (numPoint > 200) {
         toast.error('Bạn chỉ được dùng tối đa 200 điểm')
@@ -30,6 +26,7 @@ export default function DialogPoint({ point }: DialogPoint) {
         setBooking({ point: numPoint })
         setOpen(false)
       }
+      setIsApplied(true)
     } else {
       toast.info('Vui lòng nhập số điểm')
     }
@@ -38,6 +35,9 @@ export default function DialogPoint({ point }: DialogPoint) {
     <Dialog
       open={open}
       onOpenChange={(isOpen) => {
+        if (!isOpen) {
+          setIsApplied(false)
+        }
         setOpen(isOpen)
       }}
     >
@@ -45,7 +45,7 @@ export default function DialogPoint({ point }: DialogPoint) {
         <span
           className={`text-blue-400 underline hover:cursor-pointer ${Number(selectedPoint) > 0 ? 'text-lg' : 'text-[15px]'}`}
         >
-          {Number(selectedPoint) > 0 ? selectedPoint : 'Nhập số điểm?'}
+          {isApplied && numPoint > 0 && numPoint < point ? selectedPoint : 'Nhập số điểm?'}
         </span>
       </DialogTrigger>
       <DialogContent className='p-4'>
