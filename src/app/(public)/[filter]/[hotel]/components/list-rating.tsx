@@ -5,8 +5,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { formatDate, getLastTwoInitials } from '@/lib/utils'
 import { useGetRatingList } from '@/hooks/queries/useRating'
-import { Rating } from '@mui/material'
-import { useEffect, useState } from 'react'
+
+import { useState } from 'react'
 
 type ListRatingProps = {
   hotelId: number
@@ -15,9 +15,9 @@ type ListRatingProps = {
   totalRating: number
 }
 export default function ListRating({ hotelId, hotelName, averageRating, totalRating }: ListRatingProps) {
-  const listRatingQuery = useGetRatingList(hotelId)
-  const listRating = listRatingQuery?.data?.payload?.data || []
-  const listImage = listRatingQuery?.data?.payload?.allRatingImagesArray || []
+  const { data: listRatingQuery } = useGetRatingList(hotelId)
+  const listRating = listRatingQuery?.payload?.data || []
+  const listImage = listRatingQuery?.payload?.allRatingImagesArray || []
   const [visibleCount, setVisibleCount] = useState(10)
   const visibleRatingList = listRating.slice(0, visibleCount)
   const ratingRemaining = Math.max(listRating.length - visibleCount, 0)

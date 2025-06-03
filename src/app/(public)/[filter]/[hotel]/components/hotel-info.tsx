@@ -14,19 +14,20 @@ import { Rating } from '@/components/custom/rating'
 import { Button } from '@/components/ui/button'
 import { extractHotelName } from '@/lib/utils'
 import { useGetFilterHotelList } from '@/hooks/queries/useFilter'
-import { useGetHotel } from '@/hooks/queries/useHotel'
+import { useGetHotel, useGetSimilarHotelList } from '@/hooks/queries/useHotel'
 import { HotelType } from '@/schemas/hotel.schema'
 import { useFilterStore } from '@/store/filter-store'
 import { ChevronDown, MapPin } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import SearchForm from '@/app/(public)/[filter]/[hotel]/components/search-form'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePriceStore } from '@/store/price-store'
 import dynamic from 'next/dynamic'
 import { useBookingStore } from '@/store/booking-store'
 import ListRating from '@/app/(public)/[filter]/[hotel]/components/list-rating'
 import { Badge } from '@/components/ui/badge'
 import CustomTooltip from '@/components/custom/tooltip'
+import ListSimilarHotel from '@/app/(public)/[filter]/[hotel]/components/list-similar-hotel'
 const Map = dynamic(() => import('@/components/custom/map'), {
   ssr: false
 })
@@ -44,8 +45,10 @@ export default function HotelInfo() {
   })
   const result: HotelType | undefined = data?.payload?.data[0]
   const hotelId = result?.hotelId
-  const hotelQuery = useGetHotel(String(hotelId), !!hotelId)
-  const hotelData = hotelQuery?.data?.payload?.data
+  const { data: hotelQuery } = useGetHotel(String(hotelId), !!hotelId)
+  const { data: similarHotelQuery } = useGetSimilarHotelList(String(hotelId), !!hotelId)
+  const hotelData = hotelQuery?.payload?.data
+  const similarHotelList = similarHotelQuery?.payload?.data || []
   const imageList = [hotelData?.hotelImage, ...(hotelData?.hotelImages ?? [])].filter(
     (img): img is string => typeof img === 'string' && img.trim() !== ''
   )
@@ -99,9 +102,13 @@ export default function HotelInfo() {
       <div className='mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl'>
         <div className='flex'>
           {/* Map */}
-          <div className='hidden flex-1 px-1 md:block'>
+          <div className='hidden flex-1 flex-col px-1 md:block'>
             <div className='mx-auto w-full sm:max-w-xl md:max-w-6xl'>
               <Map address={hotelData?.hotelAddress ?? ''} />
+            </div>
+            {/* Khách sạn tương tự */}
+            <div className='mx-auto mt-6 w-full sm:max-w-xl md:max-w-6xl'>
+              <ListSimilarHotel data={similarHotelList} />
             </div>
           </div>
           {/* Thông tin khách sạn */}
@@ -211,6 +218,9 @@ export default function HotelInfo() {
                   averageRating={hotelData?.ratingAverage ?? 0}
                   totalRating={hotelData?.ratingQuantity ?? 0}
                 />
+              </div>
+              <div className='p-2 md:hidden'>
+                <ListSimilarHotel data={similarHotelList} />
               </div>
             </div>
           </div>

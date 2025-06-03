@@ -21,12 +21,12 @@ export default function ListFilterHotel({ filterParams, onSetHotelQuantity }: Li
   const params = useParams()
   const rawFilter = extractLocationName(params.filter as string)
   const effectiveFilter = filterParams.filter?.trim() ? filterParams.filter : rawFilter
-  const hotelFilterListQuery = useGetFilterHotelList({
+  const { data: hotelFilterListQuery, isPending } = useGetFilterHotelList({
     ...filterParams,
     filter: effectiveFilter
   })
-  const hotelFilterList = hotelFilterListQuery.data?.payload?.data || []
-  const outOfRoomList = hotelFilterListQuery.data?.payload?.outOfRoom || []
+  const hotelFilterList = hotelFilterListQuery?.payload?.data || []
+  const outOfRoomList = hotelFilterListQuery?.payload?.outOfRoom || []
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fullHotelList = [...hotelFilterList, ...outOfRoomList]
   const [visibleCount, setVisibleCount] = useState(10)
@@ -43,7 +43,7 @@ export default function ListFilterHotel({ filterParams, onSetHotelQuantity }: Li
 
   return (
     <div className='w-full'>
-      {hotelFilterListQuery.isPending ? (
+      {isPending ? (
         <div className='flex items-center justify-center py-8'>
           <Spinner>Đang tải...</Spinner>
         </div>

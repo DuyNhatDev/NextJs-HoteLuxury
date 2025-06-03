@@ -53,3 +53,11 @@ export const useGetFeaturedHotelList = () => {
     queryFn: hotelApiRequest.getFeaturedHotelList
   })
 }
+
+export const useGetSimilarHotelList = (id?: string, enabled: boolean = false) => {
+  return useQuery({
+    queryKey: ['similar-hotels', id],
+    queryFn: () => hotelApiRequest.getSimilarHotelList(id!),
+    enabled: !!id && enabled
+  })
+}

@@ -22,6 +22,7 @@ const hotelApiRequest = {
     return http.put<HotelResType>(`${prefix}/${id}`, formData)
   },
   deleteHotel: (id: number) => http.delete(`${prefix}/${id}`),
-  getFeaturedHotelList: () => http.get<FeaturedHotelListResType>(`${prefix}/most-booking`)
+  getFeaturedHotelList: () => http.get<FeaturedHotelListResType>(`${prefix}/most-booking`),
+  getSimilarHotelList: (id: string) => http.get<HotelListResType>(`${prefix}/similar-hotel/${id}`)
 }
 export default hotelApiRequest
