@@ -1,7 +1,7 @@
 import http from '@/lib/http'
 import { objectToFormData } from '@/lib/utils'
 import {
-  BestHotelListResType,
+  FeaturedHotelListResType,
   CreateHotelBodyType,
   HotelListResType,
   HotelResType,
@@ -22,6 +22,6 @@ const hotelApiRequest = {
     return http.put<HotelResType>(`${prefix}/${id}`, formData)
   },
   deleteHotel: (id: number) => http.delete(`${prefix}/${id}`),
-  getBestHotelList: () => http.get<BestHotelListResType>(`${prefix}/most-booking`)
+  getFeaturedHotelList: () => http.get<FeaturedHotelListResType>(`${prefix}/most-booking`)
 }
 export default hotelApiRequest

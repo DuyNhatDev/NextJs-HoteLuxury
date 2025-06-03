@@ -3,13 +3,25 @@ import SearchForm from '@/app/(public)/components/search-form'
 import { DestinationType } from '@/schemas/destination.schema'
 import Image from 'next/image'
 import DestinationList from '@/app/(public)/components/destination-list'
+import { FeaturedHotelType } from '@/schemas/hotel.schema'
+import hotelApiRequest from '@/api/hotel'
+import FeaturedHotelList from '@/app/(public)/components/featured-hotel-list'
 export default async function Home() {
   let destinationList: DestinationType[] = []
+  let featuredHotelList: FeaturedHotelType[] = []
+
   try {
-    const result = await destinationApiRequest.getDestinationList()
-    destinationList = result.payload.data
+    const featuredHotelResult = await hotelApiRequest.getFeaturedHotelList()
+    featuredHotelList = featuredHotelResult.payload.data
   } catch (error) {
-    return <div>Something went wrong</div>
+    return <div className='text-center'>Lỗi khi tải danh sách khách sạn</div>
+  }
+
+  try {
+    const destinationResult = await destinationApiRequest.getDestinationList()
+    destinationList = destinationResult.payload.data
+  } catch (error) {
+    return <div className='text-center'>Lỗi khi tải danh sách địa điểm</div>
   }
 
   return (
@@ -28,8 +40,12 @@ export default async function Home() {
           <SearchForm />
         </div>
       </section>
-      <section className='container mx-auto max-w-screen-xl space-y-10 px-16 py-8'>
-        <h2 className='mb-3 text-center text-2xl font-bold'>Điểm đến yêu thích</h2>
+      <section className='container mx-auto my-0 max-w-screen-xl space-y-10 px-16 py-8'>
+        <h2 className='mb-5 text-3xl font-bold'>Khách sạn nổi bật</h2>
+        <FeaturedHotelList featuredHotels={featuredHotelList} />
+      </section>
+      <section className='container mx-auto my-0 max-w-screen-xl space-y-10 px-16 py-8'>
+        <h2 className='mb-5 text-3xl font-bold'>Điểm đến yêu thích</h2>
         <DestinationList destinations={destinationList} />
       </section>
     </div>

@@ -73,19 +73,19 @@ export const UpdateHotelBodySchema = z.object({
 
 export type UpdateHotelBodyType = z.infer<typeof UpdateHotelBodySchema>
 
-export const BestHotelResSchema = z.object({
+export const FeaturedHotelSchema = z.object({
   hotelId: z.number(),
   hotelName: z.string(),
   hotelImage: z.string(),
   locationName: z.string()
 })
 
-export type BestHotelResType = z.infer<typeof BestHotelResSchema>
+export type FeaturedHotelType = z.infer<typeof FeaturedHotelSchema>
 
-export const BestHotelListResSchema = z.object({
+export const FeaturedHotelListResSchema = z.object({
   status: z.string(),
   message: z.string(),
-  data: z.array(BestHotelResSchema)
+  data: z.array(FeaturedHotelSchema)
 })
 
-export type BestHotelListResType = z.infer<typeof BestHotelListResSchema>
+export type FeaturedHotelListResType = z.infer<typeof FeaturedHotelListResSchema>
