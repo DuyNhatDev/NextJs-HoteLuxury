@@ -126,10 +126,10 @@ export default function SearchForm() {
                     </FormControl>
 
                     {open && field.value.trim() === '' && (
-                      <div className='max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 w-[700px] overflow-auto rounded-md px-4 pt-2 pb-4 shadow-lg'>
-                        <h1 className='p-2 text-lg font-bold'>Địa điểm đang hot nhất</h1>
+                      <div className='max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 w-full overflow-auto rounded-md px-2 pt-2 pb-4 shadow-lg sm:w-[700px] sm:px-4'>
+                        <h1 className='px-2 pb-2 text-base font-bold sm:px-4 sm:text-lg'>Địa điểm đang hot nhất</h1>
 
-                        <div className='grid grid-cols-3 gap-2'>
+                        <div className='grid grid-cols-2 gap-2 sm:grid-cols-3'>
                           {destinationList.map((destination) => (
                             <Card
                               key={destination.locationId}
@@ -139,8 +139,8 @@ export default function SearchForm() {
                               }}
                               className='hover:bg-muted cursor-pointer border-0 p-2 text-left shadow-none transition-colors'
                             >
-                              <CardContent className='flex items-center gap-3 p-0'>
-                                <div className='relative h-[70px] w-[70px] flex-shrink-0 overflow-hidden rounded-md'>
+                              <CardContent className='flex items-center gap-2 p-0 sm:gap-3'>
+                                <div className='relative h-[50px] w-[50px] flex-shrink-0 overflow-hidden rounded-md sm:h-[70px] sm:w-[70px]'>
                                   <Image
                                     src={destination.locationImage as string}
                                     alt={destination.locationName}
@@ -149,7 +149,7 @@ export default function SearchForm() {
                                     fill
                                   />
                                 </div>
-                                <p className='text-[16px]'>{destination.locationName}</p>
+                                <p className='text-[14px] sm:text-[16px]'>{destination.locationName}</p>
                               </CardContent>
                             </Card>
                           ))}
@@ -166,17 +166,17 @@ export default function SearchForm() {
                             </div>
                           </div>
                         ) : (
-                          <div className='max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 w-[700px] overflow-auto rounded-sm px-4 pb-4 shadow-lg'>
+                          <div className='max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 w-full overflow-auto rounded-sm px-2 pb-4 shadow-lg sm:w-[700px] sm:rounded-md sm:px-4'>
                             {suggestHotelList.length > 0 && (
                               <>
-                                <div className='-mx-4 flex items-center px-4 py-2'>
+                                <div className='-mx-2 flex items-center px-2 py-2 sm:-mx-4 sm:px-4'>
                                   <p className='ml-1 text-sm font-semibold'>Khách sạn</p>
                                 </div>
                                 <div className='space-y-1'>
                                   {suggestHotelList.slice(0, 10).map((hotel, index) => (
                                     <Card
                                       key={`hotel-${index}`}
-                                      className='hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors'
+                                      className='hover:bg-muted bg-background cursor-pointer border-none px-2 py-2 shadow-none transition-colors sm:px-4'
                                       onClick={() => {
                                         setIsHotel(true)
                                         setValue('filter', hotel.hotelName)
@@ -185,7 +185,7 @@ export default function SearchForm() {
                                     >
                                       <CardContent className='p-0'>
                                         <div className='flex items-center gap-2'>
-                                          <Hotel className='h-5 w-5 text-gray-600' />
+                                          <Hotel className='h-4 w-4 text-gray-600 sm:h-5 sm:w-5' />
                                           <p className='text-sm'>{hotel.hotelName}</p>
                                         </div>
                                       </CardContent>
@@ -197,14 +197,14 @@ export default function SearchForm() {
 
                             {suggestLocationList.length > 0 && (
                               <>
-                                <div className='-mx-4 mt-3 flex items-center px-4 py-2'>
+                                <div className='-mx-2 mt-3 flex items-center px-2 py-2 sm:-mx-4 sm:px-4'>
                                   <p className='text-sm font-semibold'>Địa điểm</p>
                                 </div>
                                 <div className='space-y-1'>
                                   {suggestLocationList.slice(0, 10).map((location, index) => (
                                     <Card
                                       key={`location-${index}`}
-                                      className='hover:bg-muted bg-background cursor-pointer border-none px-4 py-2 shadow-none transition-colors'
+                                      className='hover:bg-muted bg-background cursor-pointer border-none px-2 py-2 shadow-none transition-colors sm:px-4'
                                       onClick={() => {
                                         setValue('filter', formatProvince(location))
                                         setOpen(false)
@@ -212,7 +212,7 @@ export default function SearchForm() {
                                     >
                                       <CardContent className='p-0'>
                                         <div className='flex items-center gap-2'>
-                                          <MapPin className='h-5 w-5 text-gray-600' />
+                                          <MapPin className='h-4 w-4 text-gray-600 sm:h-5 sm:w-5' />
                                           <p className='text-sm'>{formatProvince(location)}</p>
                                         </div>
                                       </CardContent>

@@ -97,7 +97,7 @@ export default function SearchForm() {
     }
   }
   return (
-    <div className='absolute inset-0 flex items-center justify-center'>
+    <div className='inset-0 flex items-center justify-center'>
       <div className='relative w-full max-w-[740px] rounded-sm bg-gray-800/20 p-4 shadow-lg'>
         <Form {...form}>
           <form
@@ -131,7 +131,7 @@ export default function SearchForm() {
                       <div className='max-h-lg bg-background absolute top-full right-0 left-0 z-20 mt-1 overflow-auto rounded-md px-4 pt-2 pb-4 shadow-lg'>
                         <h1 className='p-2 text-lg font-bold'>Địa điểm đang hot nhất</h1>
 
-                        <div className='grid grid-cols-3 gap-2'>
+                        <div className='grid grid-cols-2 gap-3 sm:grid-cols-3'>
                           {destinationList.map((destination) => (
                             <Card
                               key={destination.locationId}
@@ -142,7 +142,7 @@ export default function SearchForm() {
                               className='hover:bg-muted cursor-pointer border-0 p-2 text-left shadow-none transition-colors'
                             >
                               <CardContent className='flex items-center gap-3 p-0'>
-                                <div className='relative h-[70px] w-[70px] flex-shrink-0 overflow-hidden rounded-md'>
+                                <div className='relative h-[60px] w-[60px] flex-shrink-0 overflow-hidden rounded-md sm:h-[70px] sm:w-[70px]'>
                                   <Image
                                     src={destination.locationImage as string}
                                     alt={destination.locationName}
@@ -151,7 +151,7 @@ export default function SearchForm() {
                                     fill
                                   />
                                 </div>
-                                <p className='text-[16px]'>{destination.locationName}</p>
+                                <p className='text-[14px] sm:text-[16px]'>{destination.locationName}</p>
                               </CardContent>
                             </Card>
                           ))}
