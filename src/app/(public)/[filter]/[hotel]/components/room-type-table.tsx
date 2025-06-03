@@ -46,7 +46,8 @@ export default function RoomTypeTable({ params }: RoomTypeTableProps) {
     if (!isLoggedIn) {
       setOpen(true)
     } else {
-      const id = `${params.hotelId}${roomTypeId}${generateCode()}`
+      const rawId = `${params.hotelId}${roomTypeId}${generateCode()}`
+      const id = rawId.slice(0, 15)
       const url = `/thong-tin-booking/${id}`
       router.push(url)
     }
