@@ -46,3 +46,10 @@ export const useDeleteHotelMutation = () => {
     }
   })
 }
+
+export const useGetBestHotelList = () => {
+  return useQuery({
+    queryKey: ['best-hotels'],
+    queryFn: hotelApiRequest.getBestHotelList
+  })
+}

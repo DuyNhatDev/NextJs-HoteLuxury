@@ -107,7 +107,7 @@ export default function ChatBot() {
             setMessages={setMessages}
             className={hasAsked ? 'py-3 pr-1 pl-3' : 'px-3'}
             append={append}
-            suggestions={['Làm sao để đặt phòng?', 'Có thể hủy phòng được không?', 'Khách sạn rẻ nhất?']}
+            suggestions={['Làm sao để đặt phòng?', 'Có thể hủy phòng được không?', 'Cách để nhận LuxuryPoint']}
           />
         </div>
       )}
