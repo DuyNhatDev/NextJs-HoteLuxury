@@ -69,12 +69,40 @@ export default function OrderDetail() {
           </div>
 
           <div className='flex justify-end p-3'>
-            <div className='flex flex-col items-end gap-1'>
-              <p className='text-lg font-semibold text-sky-500'>
-                <span className='text-sm font-normal text-gray-500'>Thành tiền: </span>{' '}
-                {Number(data.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
-              </p>
-              <div className='flex gap-2'></div>
+            <div className='flex w-full max-w-sm flex-col gap-1'>
+              <div className='grid grid-cols-2 gap-x-4 text-base text-gray-600'>
+                {((data?.voucherDiscount ?? 0) > 0 || (data?.pointDiscount ?? 0) > 0) && (
+                  <>
+                    <span className='font-normal'>Tổng tiền:</span>
+                    <span className='text-right'>
+                      {Number(data?.price ?? 0).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                    </span>
+                  </>
+                )}
+
+                {data.voucherDiscount && data.voucherDiscount > 0 && (
+                  <>
+                    <span className='font-normal'>Giảm giá voucher:</span>
+                    <span className='text-right'>
+                      - {Number(data.voucherDiscount).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                    </span>
+                  </>
+                )}
+
+                {data?.pointDiscount && data?.pointDiscount > 0 && (
+                  <>
+                    <span className='font-normal'>Giảm giá LuxuryPoint:</span>
+                    <span className='text-right'>
+                      - {Number(data.pointDiscount).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                    </span>
+                  </>
+                )}
+
+                <span className='font-semibold text-sky-500'>Thành tiền:</span>
+                <span className='text-right font-semibold text-sky-500'>
+                  {Number(data?.finalPrice ?? 0).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>

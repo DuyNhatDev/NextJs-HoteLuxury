@@ -14,6 +14,22 @@ export default function DetailBookingDialog({ id, setId }: DetailBookingDialogPr
   const { data } = useGetDetailBooking(id, Boolean(id))
   const booking = data?.payload?.data
 
+  const paymentItems: [string, string][] = []
+
+  if (booking?.voucherDiscount) {
+    paymentItems.push(['Giảm giá voucher', `- ${Number(booking.voucherDiscount).toLocaleString('vi-VN')} VNĐ`])
+  }
+
+  if (booking?.pointDiscount) {
+    paymentItems.push(['Giảm giá LuxuryPoint', `- ${Number(booking.pointDiscount).toLocaleString('vi-VN')} VNĐ`])
+  }
+
+  if (paymentItems.length > 0) {
+    paymentItems.unshift(['Tổng tiền', `${Number(booking?.price).toLocaleString('vi-VN')} VNĐ`])
+  }
+
+  paymentItems.push(['Thành tiền', `${Number(booking?.finalPrice).toLocaleString('vi-VN')} VNĐ`])
+
   const bookingInfo = [
     {
       title: 'Thông tin đơn đặt phòng',
@@ -52,11 +68,21 @@ export default function DetailBookingDialog({ id, setId }: DetailBookingDialogPr
         ],
         ['Ghi chú', booking?.note || 'Không có ghi chú']
       ]
-    }
+    },
+    ...(paymentItems.length > 0
+      ? [
+          {
+            title: 'Thông tin thanh toán',
+            items: paymentItems
+          }
+        ]
+      : [])
   ]
+
   const reset = () => {
     setId(undefined)
   }
+
   return (
     <Dialog
       open={Boolean(id)}

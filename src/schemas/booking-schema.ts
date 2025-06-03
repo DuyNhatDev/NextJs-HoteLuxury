@@ -47,7 +47,9 @@ export const BookingSchema = CreateBookingBodySchema.extend({
   status: z.string(),
   isConfirmed: z.boolean(),
   createdAt: z.date(),
-  isRating: z.boolean()
+  isRating: z.boolean(),
+  voucherDiscount: z.number().optional(),
+  pointDiscount: z.number().optional()
 })
 
 export type BookingType = z.infer<typeof BookingSchema>
