@@ -3,11 +3,16 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { useBookingStore } from '@/store/booking-store'
 import { MapPin, Calendar, UserRound, ReceiptText, CircleAlert } from 'lucide-react'
 import { differenceInCalendarDays } from 'date-fns'
-import { formatDayWithDate, removePhong } from '@/lib/utils'
+import { formatDayWithDate, getUserIdFromLocalStorage, removePhong } from '@/lib/utils'
 import DialogVoucher from '@/app/(customer)/thong-tin-booking/[id]/components/dialog-vouher'
+import DialogPoint from '@/app/(customer)/thong-tin-booking/[id]/components/dialog-point'
+import { useGetAccount } from '@/hooks/queries/useAccount'
 
 export default function BookingInfo() {
   const booking = useBookingStore((state) => state.booking)
+  const userId = getUserIdFromLocalStorage()
+  const { data: userData } = useGetAccount(userId ?? undefined, Boolean(userId))
+  const point = userData?.payload?.data?.point ?? 0
 
   return (
     <Card className='w-full gap-2 rounded-sm p-3'>
@@ -40,6 +45,15 @@ export default function BookingInfo() {
           <p className='font-semibold text-blue-950'>Bạn có mã khuyến mãi?</p>
           <DialogVoucher />
         </div>
+        {point > 0 && (
+          <>
+            <div className='my-3 border-t'></div>
+            <div className='my-2'>
+              <p className='font-semibold text-blue-950'>Sử dụng LuxuryPoint?</p>
+              <DialogPoint point={point} />
+            </div>
+          </>
+        )}
       </CardContent>
       <CardFooter className='border-t px-0 py-2'>
         <div className='flex w-full items-center justify-between'>

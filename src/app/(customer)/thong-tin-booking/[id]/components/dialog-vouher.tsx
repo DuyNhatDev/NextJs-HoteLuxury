@@ -39,7 +39,7 @@ export default function DialogVoucher() {
       </DialogTrigger>
       <DialogContent className='p-4'>
         <DialogHeader className='-mx-4 border-b pb-3 pl-4'>
-          <DialogTitle>Sử dụng mã khuyến mãi?</DialogTitle>
+          <DialogTitle>Sử dụng mã khuyến mãi</DialogTitle>
         </DialogHeader>
         <div className='flex items-center gap-4'>
           <Input
@@ -50,7 +50,7 @@ export default function DialogVoucher() {
           />
           <Button onClick={handleApply}>Áp dụng</Button>
         </div>
-        <p className='mt-4 font-semibold'>Voucher khả dụng</p>
+        {vouchers.length > 0 && <p className='mt-4 font-semibold'>Voucher khả dụng</p>}
         {vouchers.map((voucher) => {
           const { code, discountValue, minOrderValue, quantity, discountType } = voucher
           const isFixed = discountType === 'fixed'
