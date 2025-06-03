@@ -100,3 +100,9 @@ export const usePaymentBookingMutation = () => {
     }
   })
 }
+
+export const useCalculateFinalPriceBookingMutation = () => {
+  return useMutation({
+    mutationFn: bookingApiRequest.calculateFinalPriceBooking
+  })
+}

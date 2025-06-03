@@ -6,7 +6,9 @@ import {
   BookingListResType,
   BookingParamsType,
   UpdateBookingResType,
-  BookingResType
+  BookingResType,
+  CalculateFinalPriceBookingType,
+  CalculateFinalPriceBookingResType
 } from '@/schemas/booking-schema'
 
 const prefix = '/booking'
@@ -26,6 +28,8 @@ const bookingApiRequest = {
   confirmBooking: (id: number) => http.put<UpdateBookingResType>(`${prefix}/${id}`, { isConfirmed: true }),
   rejectBooking: (id: number) =>
     http.put<UpdateBookingResType>(`${prefix}/${id}`, { isConfirmed: true, status: 'Đã hết phòng' }),
-  confirmPaymentBooking: (id: number) => http.put<UpdateBookingResType>(`${prefix}/${id}`, { status: 'Đã thanh toán' })
+  confirmPaymentBooking: (id: number) => http.put<UpdateBookingResType>(`${prefix}/${id}`, { status: 'Đã thanh toán' }),
+  calculateFinalPriceBooking: (body: CalculateFinalPriceBookingType) =>
+    http.post<CalculateFinalPriceBookingResType>(`${prefix}/final-price`, body)
 }
 export default bookingApiRequest
