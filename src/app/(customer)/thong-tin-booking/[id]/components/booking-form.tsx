@@ -52,13 +52,14 @@ export default function BookingForm() {
       setValue('roomQuantity', booking.currentRooms)
       setValue('price', Number(booking.price))
       setValue('note', ''),
-      setValue('point', 0),
-      setValue('voucherCode', ''),
-      setValue('finalPrice', Number(booking.price))
+        setValue('point', 0),
+        setValue('voucherCode', ''),
+        setValue('finalPrice', Number(booking.price))
     }
-
     if (data) {
-      const { fullname, email, phoneNumber } = data.payload.data
+      const { fullname, email, phoneNumber, gender } = data.payload.data
+      const title = gender === 'Nam' ? 'Anh' : 'Chị'
+      setValue('title', title)
       setValue('customerName', fullname || '')
       setValue('customerEmail', email || '')
       setValue('customerPhone', phoneNumber || '')
@@ -112,7 +113,7 @@ export default function BookingForm() {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                         className='col-span-4 flex items-center gap-6'
                       >
                         <FormItem className='flex items-center gap-2 space-y-0'>

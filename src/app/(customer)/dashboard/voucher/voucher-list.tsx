@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useGetListVoucher } from '@/hooks/queries/useVoucher'
 import { format, parseISO } from 'date-fns'
+import { Clock } from 'lucide-react'
 import Image from 'next/image'
 
 export default function VoucherList() {
@@ -41,12 +42,14 @@ export default function VoucherList() {
                     {isFixed ? `Giảm ${discountValue.toLocaleString('vi-VN')}đ` : `Giảm ${discountValue}%`} cho đơn từ{' '}
                     {minOrderValue.toLocaleString('vi-VN')}đ
                   </p>
-                  <p className='text-gray-500'>
-                    Hiệu lực đến: {format(parseISO(String(voucher.expiredAt)), 'dd/MM/yyyy')}
-                  </p>
+                  <div className='flex items-center gap-1'>
+                    <Clock className='h-3 w-3 text-gray-500 md:h-4 md:w-4' />
+                    <p className='text-gray-500'>
+                      Hiệu lực đến: {format(parseISO(String(voucher.expiredAt)), 'dd/MM/yyyy')}
+                    </p>
+                  </div>
                 </div>
               </div>
-
               <p className='text-right text-sm md:mr-3 md:text-lg md:whitespace-nowrap'>x {quantity}</p>
             </div>
           )

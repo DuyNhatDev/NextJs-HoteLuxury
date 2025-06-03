@@ -4,6 +4,7 @@ import { useBookingStore } from '@/store/booking-store'
 import { MapPin, Calendar, UserRound, ReceiptText, CircleAlert } from 'lucide-react'
 import { differenceInCalendarDays } from 'date-fns'
 import { formatDayWithDate, removePhong } from '@/lib/utils'
+import DialogVoucher from '@/app/(customer)/thong-tin-booking/[id]/components/dialog-vouher'
 
 export default function BookingInfo() {
   const booking = useBookingStore((state) => state.booking)
@@ -30,22 +31,19 @@ export default function BookingInfo() {
           <ReceiptText className='mr-2 h-4 w-4' />
           <span>{`${booking.adultQuantity} người lớn · ${booking.childQuantity} trẻ em`}</span>
         </div>
-
-        <div className='border-t my-3'></div>
-
-        <div className='my-2 flex flex-col items-center'>
-          <p className='font-semibold text-blue-900'>Bạn có mã khuyến mãi?</p>
-          <p className='font-semibold text-blue-900'>Bạn có mã khuyến mãi?</p>
-
-        </div>
         <div className='my-2 flex items-center text-gray-500'>
           <CircleAlert className='mr-2 h-4 w-4' />
           <span>Không thể hoàn hoặc thay đổi</span>
         </div>
+        <div className='my-3 border-t'></div>
+        <div className='my-2'>
+          <p className='font-semibold text-blue-950'>Bạn có mã khuyến mãi?</p>
+          <DialogVoucher />
+        </div>
       </CardContent>
       <CardFooter className='border-t px-0 py-2'>
         <div className='flex w-full items-center justify-between'>
-          <h2 className='font-bold text-blue-900'>Tổng thanh toán:</h2>
+          <h2 className='font-bold text-blue-950'>Tổng thanh toán:</h2>
           <span className='font-bold text-sky-500'>
             {Number(booking.price).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
           </span>

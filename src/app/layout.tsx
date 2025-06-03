@@ -38,9 +38,9 @@ export default function RootLayout({
                 richColors
                 expand
                 closeButton
-                duration={3000}
+                duration={5000}
+                visibleToasts={5}
                 swipeDirections={['left', 'right']}
-                visibleToasts={3}
               />
             </ThemeProvider>
           </AppProvider>
