@@ -1,6 +1,6 @@
 'use client'
 import Chart from '@/app/partner/dashboard/components/chart'
-import MostUserBookingTable from '@/app/partner/dashboard/components/most-user-booking-table'
+import TopBookingUserTable from '@/app/partner/dashboard/components/top-booking-user-table'
 import Statistic from '@/app/partner/dashboard/components/statistic'
 import CalendarFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetPartnerDashboard } from '@/hooks/queries/useDashboard'
@@ -19,6 +19,7 @@ export default function PartnerDashboard() {
     filterEnd: createdRange?.endDate
   })
   const dashboardData = data?.payload
+  const topBookingUser = dashboardData?.top10BookingUser
 
   return (
     <div className='w-full rounded'>
@@ -42,7 +43,7 @@ export default function PartnerDashboard() {
       </div>
 
       <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
-        <MostUserBookingTable />
+        <TopBookingUserTable data={topBookingUser ?? []} />
       </div>
     </div>
   )

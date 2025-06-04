@@ -25,7 +25,7 @@ type TotalRevenueOfHotelByTime = {
   totalRevenue: number
 }
 
-type TopBookingUser = {
+export type TopBookingUser = {
   totalBookings: number
   totalPrice: number
   userId: number
