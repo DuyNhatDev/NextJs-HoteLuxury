@@ -20,27 +20,27 @@ import AutoPagination from '@/components/custom/auto-pagination'
 import { getLastTwoInitials } from '@/lib/utils'
 import { PenLine, Trash2 } from 'lucide-react'
 import CustomTooltip from '@/components/custom/tooltip'
-import { DestinationListResType, DestinationType } from '@/schemas/destination.schema'
-import { useGetDestinationList } from '@/hooks/queries/useDestination'
-import AddDestination from '@/app/admin/destination/components/add-destination'
-import EditDestination from '@/app/admin/destination/components/edit-destination'
-import AlertDialogDeleteDestination from '@/app/admin/destination/components/delete-destination'
+import { LocationListResType, LocationType } from '@/schemas/location.schema'
+import { useGetLocationList } from '@/hooks/queries/useLocation'
+import AddLocation from '@/app/admin/location/components/add-location'
+import EditLocation from '@/app/admin/location/components/edit-location'
+import AlertDialogDeleteLocation from '@/app/admin/location/components/delete-location'
 
-export type DestinationItem = DestinationListResType['data'][0]
+export type LocationItem = LocationListResType['data'][0]
 
-const DestinationTableContext = createContext<{
-  destinationIdEdit: number | undefined
-  setDestinationIdEdit: (value: number) => void
-  destinationDelete: DestinationItem | null
-  setDestinationDelete: (value: DestinationItem | null) => void
+const LocationTableContext = createContext<{
+  locationIdEdit: number | undefined
+  setLocationIdEdit: (value: number) => void
+  locationDelete: LocationItem | null
+  setLocationDelete: (value: LocationItem | null) => void
 }>({
-  destinationIdEdit: undefined,
-  setDestinationIdEdit: (value: number | undefined) => {},
-  destinationDelete: null,
-  setDestinationDelete: (value: DestinationItem | null) => {}
+  locationIdEdit: undefined,
+  setLocationIdEdit: (value: number | undefined) => {},
+  locationDelete: null,
+  setLocationDelete: (value: LocationItem | null) => {}
 })
 
-export const columns: ColumnDef<DestinationType>[] = [
+export const columns: ColumnDef<LocationType>[] = [
   {
     accessorKey: 'locationImage',
     header: () => <div className='text-center'>Ảnh</div>,
@@ -63,12 +63,12 @@ export const columns: ColumnDef<DestinationType>[] = [
     header: () => <div className='text-center'>Thao tác</div>,
     enableHiding: false,
     cell: function Actions({ row }) {
-      const { setDestinationIdEdit, setDestinationDelete } = useContext(DestinationTableContext)
+      const { setLocationIdEdit, setLocationDelete } = useContext(LocationTableContext)
       const openEditRoomType = () => {
-        setDestinationIdEdit(row.original.locationId)
+        setLocationIdEdit(row.original.locationId)
       }
       const openDeletePartner = () => {
-        setDestinationDelete(row.original)
+        setLocationDelete(row.original)
       }
       return (
         <div className='flex justify-center gap-3'>
@@ -85,13 +85,13 @@ export const columns: ColumnDef<DestinationType>[] = [
 ]
 
 const PAGE_SIZE = 5
-export default function DestinationTable() {
+export default function LocationTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [destinationIdEdit, setDestinationIdEdit] = useState<number | undefined>()
-  const [destinationDelete, setDestinationDelete] = useState<DestinationItem | null>(null)
-  const { data: destinationListQuery } = useGetDestinationList()
+  const [locationIdEdit, setLocationIdEdit] = useState<number | undefined>()
+  const [locationDelete, setLocationDelete] = useState<LocationItem | null>(null)
+  const { data: destinationListQuery } = useGetLocationList()
   const data = destinationListQuery?.payload.data.reverse() ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -132,15 +132,10 @@ export default function DestinationTable() {
   }, [table, pageIndex])
 
   return (
-    <DestinationTableContext.Provider
-      value={{ destinationIdEdit, setDestinationIdEdit, destinationDelete, setDestinationDelete }}
-    >
+    <LocationTableContext.Provider value={{ locationIdEdit, setLocationIdEdit, locationDelete, setLocationDelete }}>
       <div className='w-full'>
-        <EditDestination id={destinationIdEdit} setId={setDestinationIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeleteDestination
-          destinationDelete={destinationDelete}
-          setDestinationDelete={setDestinationDelete}
-        />
+        <EditLocation id={locationIdEdit} setId={setLocationIdEdit} onSubmitSuccess={() => {}} />
+        <AlertDialogDeleteLocation locationDelete={locationDelete} setLocationDelete={setLocationDelete} />
         <div className='flex items-center gap-2 py-4'>
           <Input
             placeholder='Lọc theo tên'
@@ -149,7 +144,7 @@ export default function DestinationTable() {
             className='max-w-sm flex-1'
           />
           <div className='ml-auto flex items-center gap-2'>
-            <AddDestination />
+            <AddLocation />
           </div>
         </div>
         <div className='rounded-md border'>
@@ -195,11 +190,11 @@ export default function DestinationTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname='/admin/destination'
+              pathname='/admin/location'
             />
           </div>
         </div>
       </div>
-    </DestinationTableContext.Provider>
+    </LocationTableContext.Provider>
   )
 }

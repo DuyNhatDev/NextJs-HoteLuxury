@@ -15,7 +15,7 @@ import { UpdateHotelBodySchema, UpdateHotelBodyType } from '@/schemas/hotel.sche
 import { useGetHotel, useUpdateHotelMutation } from '@/hooks/queries/useHotel'
 import { MultiUploadImage } from '@/components/custom/multi-upload-image'
 import Combobox from '@/components/custom/combobox'
-import { useGetDestinationList } from '@/hooks/queries/useDestination'
+import { useGetLocationList } from '@/hooks/queries/useLocation'
 import RichTextEditor from '@/components/custom/rich-text-editor'
 
 type EditHotelProps = {
@@ -28,8 +28,8 @@ export default function EditHotel({ open, setOpen }: EditHotelProps) {
   const [files, setFiles] = useState<File[]>([])
   const hotelId = getHotelIdFromLocalStorage()
   const { data } = useGetHotel(String(hotelId), Boolean(hotelId))
-  const destinationsQueries = useGetDestinationList(open)
-  const destinations = destinationsQueries.data?.payload?.data || []
+  const { data: locationsQueries } = useGetLocationList(open)
+  const destinations = locationsQueries?.payload?.data || []
   const updateHotelMutation = useUpdateHotelMutation()
 
   const form = useForm<UpdateHotelBodyType>({

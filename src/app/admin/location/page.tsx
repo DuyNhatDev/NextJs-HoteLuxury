@@ -1,8 +1,8 @@
-import DestinationTable from '@/app/admin/destination/components/destination-table'
+import LocationTable from '@/app/admin/location/components/location-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense } from 'react'
 
-export default function PartnerPage() {
+export default function LocationPage() {
   return (
     <main className='grid flex-1 items-start gap-4 !p-0 sm:px-6 sm:py-0 md:gap-8'>
       <div className='space-y-2'>
@@ -12,7 +12,7 @@ export default function PartnerPage() {
           </CardHeader>
           <CardContent>
             <Suspense>
-              <DestinationTable />
+              <LocationTable />
             </Suspense>
           </CardContent>
         </Card>

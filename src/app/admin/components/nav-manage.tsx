@@ -3,8 +3,6 @@
 import { ChevronRight, LayoutDashboard, type LucideIcon } from 'lucide-react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -62,40 +60,51 @@ export function NavManage({
         </SidebarMenuItem>
       </SidebarMenu>
 
-      <SidebarGroup>
-        <SidebarGroupLabel>Quản lý</SidebarGroupLabel>
-        <SidebarMenu>
-          {activeItems.map((item) => (
-            <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                    <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
-                    {item.items?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <Link
-                            href={subItem.url}
-                            className={subItem.isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'}
-                          >
-                            <span>{subItem.title}</span>
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                </CollapsibleContent>
-              </SidebarMenuItem>
-            </Collapsible>
-          ))}
-        </SidebarMenu>
-      </SidebarGroup>
+      {activeItems.map((item) => {
+        const hasOnlyOneSubItem = item.items?.length === 1
+        if (hasOnlyOneSubItem) {
+          const subItem = item.items[0]
+          return (
+            <SidebarMenuItem key={item.title} className='px-2'>
+              <SidebarMenuButton tooltip={item.title} asChild>
+                <Link href={subItem.url} className={subItem.isActive ? 'bg-accent' : ''}>
+                  {item.icon && <item.icon />}
+                  <span>{subItem.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )
+        }
+        return (
+          <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
+            <SidebarMenuItem className='px-2'>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={item.title}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                  <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {item.items?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuSubButton asChild>
+                        <Link
+                          href={subItem.url}
+                          className={subItem.isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'}
+                        >
+                          <span>{subItem.title}</span>
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        )
+      })}
     </>
   )
 }

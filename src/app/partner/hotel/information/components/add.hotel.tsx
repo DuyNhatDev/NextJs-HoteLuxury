@@ -16,7 +16,7 @@ import { SelectLocation } from '@/types/location.types'
 import Combobox from '@/components/custom/combobox'
 import { CreateHotelBodySchema, CreateHotelBodyType } from '@/schemas/hotel.schema'
 import { MultiUploadImage } from '@/components/custom/multi-upload-image'
-import { useGetDestinationList } from '@/hooks/queries/useDestination'
+import { useGetLocationList } from '@/hooks/queries/useLocation'
 import RichTextEditor from '@/components/custom/rich-text-editor'
 import { useAddHotelMutation } from '@/hooks/queries/useHotel'
 import UploadImage from '@/components/custom/upload-image'
@@ -31,11 +31,11 @@ export default function AddHotel() {
   const provincesQueries = useGetProvinces(open)
   const districtsQueries = useGetDistricts(selectedProvince.id)
   const wardsQueries = useGetWards(selectedDistrict.id)
-  const destinationsQueries = useGetDestinationList(open)
+  const { data: locationsQueries } = useGetLocationList(open)
   const provinces = provincesQueries.data?.payload || []
   const districts = districtsQueries.data?.payload || []
   const wards = wardsQueries.data?.payload || []
-  const destinations = destinationsQueries.data?.payload?.data || []
+  const destinations = locationsQueries?.payload?.data || []
   const addHotelMutation = useAddHotelMutation()
   const form = useForm<CreateHotelBodyType>({
     resolver: zodResolver(CreateHotelBodySchema),

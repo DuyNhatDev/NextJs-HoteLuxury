@@ -1,4 +1,4 @@
-import { DestinationItem } from '@/app/admin/destination/components/destination-table'
+import { LocationItem } from '@/app/admin/location/components/location-table'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,22 +10,22 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { handleErrorApi } from '@/lib/utils'
-import { useDeleteDestinationMutation } from '@/hooks/queries/useDestination'
+import { useDeleteDestinationMutation } from '@/hooks/queries/useLocation'
 import { toast } from 'sonner'
 
-export default function AlertDialogDeleteDestination({
-  destinationDelete,
-  setDestinationDelete
+export default function AlertDialogDeleteLocation({
+  locationDelete,
+  setLocationDelete
 }: {
-  destinationDelete: DestinationItem | null
-  setDestinationDelete: (value: DestinationItem | null) => void
+  locationDelete: LocationItem | null
+  setLocationDelete: (value: LocationItem | null) => void
 }) {
   const { mutateAsync } = useDeleteDestinationMutation()
-  const deleteDestination = async () => {
-    if (destinationDelete) {
+  const deleteLocation = async () => {
+    if (locationDelete) {
       try {
-        await mutateAsync(destinationDelete.locationId)
-        setDestinationDelete(null)
+        await mutateAsync(locationDelete.locationId)
+        setLocationDelete(null)
         toast.success('Xóa thành công')
       } catch (error) {
         handleErrorApi({
@@ -36,10 +36,10 @@ export default function AlertDialogDeleteDestination({
   }
   return (
     <AlertDialog
-      open={Boolean(destinationDelete)}
+      open={Boolean(locationDelete)}
       onOpenChange={(value) => {
         if (!value) {
-          setDestinationDelete(null)
+          setLocationDelete(null)
         }
       }}
     >
@@ -48,12 +48,12 @@ export default function AlertDialogDeleteDestination({
           <AlertDialogTitle>Xóa địa điểm?</AlertDialogTitle>
           <AlertDialogDescription>
             Bạn có chắc muốn địa điểm
-            <span className='rounded px-1 font-bold'>{destinationDelete?.locationName}</span>?
+            <span className='rounded px-1 font-bold'>{locationDelete?.locationName}</span>?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deleteDestination}>
+          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deleteLocation}>
             Xóa
           </AlertDialogAction>
         </AlertDialogFooter>

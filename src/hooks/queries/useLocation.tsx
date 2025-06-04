@@ -1,5 +1,53 @@
 import locationApiRequest from '@/api/location'
-import { useQuery } from '@tanstack/react-query'
+import { UpdateLocationBodyType } from '@/schemas/location.schema'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
+export const useGetLocation = (id?: number, enabled: boolean = false) => {
+  return useQuery({
+    queryKey: ['location', id],
+    queryFn: () => locationApiRequest.getLocation(id!),
+    enabled: !!id && enabled
+  })
+}
+
+export const useGetLocationList = (enabled: boolean = true) => {
+  return useQuery({
+    queryKey: ['locations'],
+    queryFn: locationApiRequest.getLocationList,
+    enabled
+  })
+}
+
+export const useAddLocationMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: locationApiRequest.addLocation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['locations'] })
+    }
+  })
+}
+
+export const useUpdateLocationMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, body }: { id: number; body: UpdateLocationBodyType }) =>
+      locationApiRequest.updateLocation(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['locations'] })
+    }
+  })
+}
+
+export const useDeleteDestinationMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: locationApiRequest.deleteLocation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['locations'] })
+    }
+  })
+}
 
 export const useGetProvinces = (enabled: boolean = true) => {
   return useQuery({

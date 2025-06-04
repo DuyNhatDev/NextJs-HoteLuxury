@@ -10,10 +10,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import UploadImage from '@/components/custom/upload-image'
-import { UpdateDestinationBodySchema, UpdateDestinationBodyType } from '@/schemas/destination.schema'
-import { useGetDestination, useUpdateDestinationMutation } from '@/hooks/queries/useDestination'
+import { UpdateLocationBodySchema, UpdateLocationBodyType } from '@/schemas/location.schema'
+import { useGetLocation, useUpdateLocationMutation } from '@/hooks/queries/useLocation'
 
-export default function EditDestination({
+export default function EditLocation({
   id,
   setId,
   onSubmitSuccess
@@ -23,11 +23,11 @@ export default function EditDestination({
   onSubmitSuccess?: () => void
 }) {
   const [file, setFile] = useState<File | null>(null)
-  const { data } = useGetDestination(id, Boolean(id))
-  const updateDestinationMutation = useUpdateDestinationMutation()
+  const { data } = useGetLocation(id, Boolean(id))
+  const updateDestinationMutation = useUpdateLocationMutation()
 
-  const form = useForm<UpdateDestinationBodyType>({
-    resolver: zodResolver(UpdateDestinationBodySchema),
+  const form = useForm<UpdateLocationBodyType>({
+    resolver: zodResolver(UpdateLocationBodySchema),
     defaultValues: {
       locationName: '',
       locationImage: undefined
@@ -42,7 +42,7 @@ export default function EditDestination({
       })
     }
   }, [data, form])
-  const onSubmit = async (data: UpdateDestinationBodyType) => {
+  const onSubmit = async (data: UpdateLocationBodyType) => {
     if (updateDestinationMutation.isPending) return
     try {
       let body = data
@@ -88,7 +88,7 @@ export default function EditDestination({
           <form
             noValidate
             className='grid auto-rows-max items-start gap-4 md:gap-8'
-            id='edit-room-type-form'
+            id='edit-location-form'
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className='grid gap-4 py-4'>
@@ -140,7 +140,7 @@ export default function EditDestination({
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='edit-room-type-form' className=''>
+          <Button type='submit' form='edit-location-form' className=''>
             {updateDestinationMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Lưu
           </Button>

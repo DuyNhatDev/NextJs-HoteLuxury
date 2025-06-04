@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { formatProvince, generateSlugUrl } from '@/lib/utils'
-import { useGetDestinationList } from '@/hooks/queries/useDestination'
+import { useGetLocationList } from '@/hooks/queries/useLocation'
 import { useGetSuggestList } from '@/hooks/queries/useFilter'
 import { FilterSchema, FilterType } from '@/schemas/filter.schema'
 import { HotelType } from '@/schemas/hotel.schema'
@@ -55,7 +55,7 @@ export default function SearchForm() {
   })
   const suggestHotelList = suggestListQuery.data?.payload.data ?? []
   const suggestLocationList = suggestListQuery.data?.payload.provinces ?? []
-  const destinationListQuery = useGetDestinationList()
+  const destinationListQuery = useGetLocationList()
   const destinationList = destinationListQuery.data?.payload.data ?? []
   const handleClickOutside = (event: MouseEvent) => {
     if (inputRef.current && !inputRef.current.contains(event.target as Node)) {

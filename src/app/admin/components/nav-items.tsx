@@ -29,12 +29,12 @@ export const data = {
       ]
     },
     {
-      title: 'Người dùng',
+      title: 'Khách hàng',
       url: '#',
       icon: Users,
       items: [
         {
-          title: 'Danh sách người dùng',
+          title: 'Khách hàng',
           url: '/admin/user/list'
         }
       ]
@@ -45,26 +45,26 @@ export const data = {
       icon: MapPinned,
       items: [
         {
-          title: 'Danh sách địa điểm',
-          url: '/admin/destination'
+          title: 'Địa điểm',
+          url: '/admin/location'
         }
       ]
     },
-    {
-      title: 'Doanh thu',
-      url: '#',
-      icon: BadgeDollarSign,
-      items: [
-        {
-          title: 'Doanh thu theo khách sạn',
-          url: '#'
-        },
-        {
-          title: 'Thống kê hoa hồng',
-          url: '#'
-        }
-      ]
-    },
+    // {
+    //   title: 'Doanh thu',
+    //   url: '#',
+    //   icon: BadgeDollarSign,
+    //   items: [
+    //     {
+    //       title: 'Doanh thu theo khách sạn',
+    //       url: '#'
+    //     },
+    //     {
+    //       title: 'Thống kê hoa hồng',
+    //       url: '#'
+    //     }
+    //   ]
+    // },
     {
       title: 'Cài đặt',
       url: '#',

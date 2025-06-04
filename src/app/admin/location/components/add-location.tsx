@@ -10,15 +10,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { handleErrorApi } from '@/lib/utils'
 import { toast } from 'sonner'
 import UploadImage from '@/components/custom/upload-image'
-import { CreateDestinationBodySchema, CreateDestinationBodyType } from '@/schemas/destination.schema'
-import { useAddDestinationMutation } from '@/hooks/queries/useDestination'
+import { CreateLocationBodySchema, CreateLocationBodyType } from '@/schemas/location.schema'
+import { useAddLocationMutation } from '@/hooks/queries/useLocation'
 
-export default function AddDestination() {
+export default function AddLocation() {
   const [file, setFile] = useState<File | null>(null)
   const [open, setOpen] = useState(false)
-  const addDestinationMutation = useAddDestinationMutation()
-  const form = useForm<CreateDestinationBodyType>({
-    resolver: zodResolver(CreateDestinationBodySchema),
+  const addDestinationMutation = useAddLocationMutation()
+  const form = useForm<CreateLocationBodyType>({
+    resolver: zodResolver(CreateLocationBodySchema),
     defaultValues: {
       locationName: '',
       locationImage: undefined
@@ -30,7 +30,7 @@ export default function AddDestination() {
     setFile(null)
   }
 
-  const onSubmit = async (data: CreateDestinationBodyType) => {
+  const onSubmit = async (data: CreateLocationBodyType) => {
     if (addDestinationMutation.isPending) return
     try {
       let body = data
@@ -68,7 +68,7 @@ export default function AddDestination() {
           <form
             noValidate
             className='w-full max-w-[600px] flex-shrink-0 space-y-2'
-            id='add-destination-form'
+            id='add-location-form'
             onSubmit={form.handleSubmit(onSubmit, (e) => {
               console.log(e)
             })}
@@ -123,7 +123,7 @@ export default function AddDestination() {
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='add-destination-form' className=''>
+          <Button type='submit' form='add-location-form' className=''>
             {addDestinationMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Thêm
           </Button>
