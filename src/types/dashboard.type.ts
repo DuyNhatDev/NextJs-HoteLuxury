@@ -1,54 +1,53 @@
-export type PartnerDashboardType = {
-  ratingQuantity: number
-  ratingAverage: number
-  totalBookingOfHotel: number
-  totalCancelledBookingOfHotel: number
-  totalBookingsByRoomType: TotalBookingsByRoomType[]
-  totalBookingOfHotelByTime: TotalBookingByTime[]
-  totalRevenueOfHotelByTime: TotalRevenueByTime[]
-  theMostBookingUser: MostBookingUser[]
-}
-export type PartnerDashboardResType = {
-  status: string
-  message: string
-} & PartnerDashboardType
-
-export type TotalBookingsByRoomType = {
-  maxBookings: RoomTypeBooking[]
-  minBookings: RoomTypeBooking[]
+type TotalMoneyFilterResult = {
+  totalBooking: number
+  totalPrice: number
+  totalFinalPrice: number
+  totalMoney: number
+  totalCommission: number
 }
 
-export type RoomTypeBooking = {
+type TotalBookingsByRoomType = {
   totalBookings: number
   roomTypeId: number
   roomTypeName: string
 }
 
-export type TotalBookingByTime = {
+type TotalBookingOfHotelByTime = {
   _id: {
-    month: string
+    month: number
   }
   totalBookings: number
 }
 
-export type TotalRevenueByTime = {
+type TotalRevenueOfHotelByTime = {
   _id: {
-    month: string
+    month: number
   }
   totalRevenue: number
 }
 
-export type MostBookingUser = {
-  theMostBookingUser: UserBookingInfo[]
-}
-
-export type UserBookingInfo = {
+type TopBookingUser = {
   totalBookings: number
+  totalPrice: number
   userId: number
   fullname: string
-  phoneNumber: string
-  email: string
-  address: string
-  image: string
-  birthDate: string
+  phoneNumber?: string
+  email?: string
+  address?: string
+  image?: string
+  birthDate?: string
+}
+
+export type HotelReportResponse = {
+  status: string
+  message: string
+  totalMoneyFilterResult: TotalMoneyFilterResult[]
+  ratingQuantity: number
+  ratingAverage: number
+  totalBookingOfHotel: number
+  totalCancelledBookingOfHotel: number
+  totalBookingsByRoomType: TotalBookingsByRoomType[]
+  totalBookingOfHotelByTime: TotalBookingOfHotelByTime[]
+  totalRevenueOfHotelByTime: TotalRevenueOfHotelByTime[]
+  top10BookingUser: TopBookingUser[]
 }

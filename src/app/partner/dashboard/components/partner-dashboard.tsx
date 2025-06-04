@@ -1,5 +1,6 @@
 'use client'
 import Chart from '@/app/partner/dashboard/components/chart'
+import FilterRange from '@/app/partner/dashboard/components/filter-range'
 import Statistic from '@/app/partner/dashboard/components/statistic'
 import { useGetPartnerDashboard } from '@/hooks/queries/useDashboard'
 
@@ -10,6 +11,9 @@ export default function PartnerDashboard() {
   return (
     <div className='flex flex-col items-center justify-center rounded'>
       <div className='flex-1'>
+        <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
+          <FilterRange />
+        </div>
         <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
           <Statistic data={dashboardData} />
         </div>

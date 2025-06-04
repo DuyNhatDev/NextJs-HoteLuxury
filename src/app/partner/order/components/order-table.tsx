@@ -21,7 +21,7 @@ import CustomSelect from '@/components/custom/select'
 import { bookingConfirmItems, bookingStatusItems } from '@/constants/type'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
-import ReactDateRange, { State } from '@/components/custom/react-date-range'
+import ReactDateRange from '@/components/custom/react-date-range'
 import AlertDialogCheckBooking from '@/app/partner/order/components/alert-check-order'
 import AlertDialogConfirmBooking from '@/app/partner/order/components/alert-confirm-order'
 import AlertDialogRejectBooking from '@/app/partner/order/components/alert-reject-order'
@@ -31,6 +31,7 @@ import { useAppStore } from '@/store/app-store'
 import { CreateBookingResType } from '@/schemas/booking-schema'
 import { toast } from 'sonner'
 import DetailBookingDialog from '@/app/partner/order/components/detail-booking'
+import { State } from '@/types/react-date-range'
 
 export const OrderTableContext = createContext<{
   orderIdView: number | undefined

@@ -17,10 +17,11 @@ import AutoPagination from '@/components/custom/auto-pagination'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
-import ReactDateRange, { State } from '@/components/custom/react-date-range'
+import ReactDateRange from '@/components/custom/react-date-range'
 import { useGetScheduleList } from '@/hooks/queries/useSchedule'
 import scheduleTableColumns, { ScheduleItem } from '@/app/partner/schedule/components/schedule-table-column'
 import AlertDialogDeleteSchedule from '@/app/partner/schedule/components/alert-delete-schedule'
+import { State } from '@/types/react-date-range'
 
 export const ScheduleTableContext = createContext<{
   scheduleDelete: ScheduleItem | null

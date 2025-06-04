@@ -1,17 +1,16 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { CalendarIcon } from 'lucide-react'
 import { DateRangePicker } from 'react-date-range'
-import { format } from 'date-fns'
+import { format, isAfter, startOfDay } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
-import { defaultStaticRangesVi } from '@/constants/default-static-range'
 import { State } from '@/types/react-date-range'
+import { defaultStaticRangesDashboardFilterVi } from '@/constants/default-static-range-dashboard-filter'
 
 type ReactDateRangeProps = {
   value?: State
@@ -24,7 +23,7 @@ type ReactDateRangeProps = {
   formatString?: string
 }
 
-export default function ReactDateRange({
+export default function CalendarFilterRange({
   value,
   onChange,
   placeholder = 'Chọn khoảng ngày',
@@ -117,8 +116,9 @@ export default function ReactDateRange({
           locale={vi}
           preventSnapRefocus={true}
           calendarFocus='backwards'
-          staticRanges={defaultStaticRangesVi}
+          staticRanges={defaultStaticRangesDashboardFilterVi}
           inputRanges={[]}
+          disabledDay={(date) => isAfter(startOfDay(date), startOfDay(new Date()))}
         />
       </PopoverContent>
     </Popover>
