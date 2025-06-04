@@ -23,7 +23,7 @@ export const data = {
       icon: Hotel,
       items: [
         {
-          title: 'Danh sách khách sạn',
+          title: 'Khách sạn',
           url: '/admin/hotel/list'
         }
       ]
