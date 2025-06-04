@@ -22,11 +22,12 @@ export default function PartnerRevenueChart({ chartData }: PartnerRevenueChartPr
             }
           ]}
           dataset={chartData}
-          xAxis={[{ dataKey: 'month', scaleType: 'band' }]}
+          xAxis={[{ dataKey: 'month', scaleType: 'band', label: 'Tháng' }]}
           yAxis={[
             {
               dataKey: 'totalRevenue',
               min: 0,
+              label: 'Doanh thu (VND)',
               valueFormatter: (value: number) => `${value / 1_000_000}tr`
             }
           ]}

@@ -1,5 +1,6 @@
 'use client'
 import Chart from '@/app/partner/dashboard/components/chart'
+import MostUserBookingTable from '@/app/partner/dashboard/components/most-user-booking-table'
 import Statistic from '@/app/partner/dashboard/components/statistic'
 import CalendarFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetPartnerDashboard } from '@/hooks/queries/useDashboard'
@@ -36,8 +37,12 @@ export default function PartnerDashboard() {
         <Statistic data={dashboardData} />
       </div>
 
-      <div className='mx-auto h-full w-full pt-0 pb-3 sm:max-w-xl md:max-w-6xl'>
+      <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
         <Chart data={dashboardData} />
+      </div>
+
+      <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
+        <MostUserBookingTable />
       </div>
     </div>
   )

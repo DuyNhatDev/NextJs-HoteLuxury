@@ -33,10 +33,17 @@ export default function PartnerBookingChart({ chartData }: PartnerBookingChartPr
             {
               dataKey: 'month',
               scaleType: 'band',
+              label: 'Tháng',
               valueFormatter: (value: number) => `Tháng ${value}`
             }
           ]}
-          yAxis={[{ dataKey: '', min: 0 }]}
+          yAxis={[
+            {
+              min: 0,
+              label: 'Số lượt đặt phòng',
+              valueFormatter: (value: number) => (Number.isInteger(value) ? value.toString() : '')
+            }
+          ]}
         />
       </CardContent>
     </Card>
