@@ -1,4 +1,5 @@
 'use client'
+import AdminRevenueChart from '@/app/admin/dashboard/components/revenue-chart'
 import Statistic from '@/app/admin/dashboard/components/statistic'
 import CalendarFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetAdminDashboard } from '@/hooks/queries/useDashboard'
@@ -16,6 +17,11 @@ export default function AdminDashboard() {
     filterEnd: createdRange?.endDate
   })
   const dashboardData = data?.payload
+  const revenueData = (dashboardData?.totalCommissionByMonth || []).map((item) => ({
+    month: `Tháng ${item.month}`,
+    totalCommission: item.totalCommission || 0
+  }))
+
   return (
     <div className='w-full rounded'>
       <div>
@@ -33,7 +39,11 @@ export default function AdminDashboard() {
         <Statistic data={dashboardData} />
       </div>
 
-      <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>{/* <Chart data={dashboardData} /> */}</div>
+      <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
+        <div className='space-y-5'>
+          <AdminRevenueChart chartData={revenueData ?? []} />
+        </div>
+      </div>
 
       <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
         {/* <TopBookingUserTable data={topBookingUser ?? []} /> */}

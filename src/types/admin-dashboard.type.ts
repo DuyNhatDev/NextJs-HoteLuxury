@@ -40,5 +40,5 @@ export type AdminDashboardQueryParams = {
 
 export type AdminRevenueChartData = {
   month: string
-  totalRevenue: number
+  totalCommission: number
 }
