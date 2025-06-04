@@ -6,10 +6,9 @@ type TotalMoneyFilterResult = {
   totalCommission: number
 }
 
-type TotalBookingsByRoomType = {
-  totalBookings: number
-  roomTypeId: number
-  roomTypeName: string
+export type TotalBookingsByRoomType = {
+  month: number
+  [roomType: string]: number
 }
 
 type TotalBookingOfHotelByTime = {
@@ -56,4 +55,9 @@ export type PartnerDashboardQueryParams = {
   time?: string
   filterStart?: Date
   filterEnd?: Date
+}
+
+export type PartnerRevenueChartData = {
+  month: string
+  totalRevenue: number
 }

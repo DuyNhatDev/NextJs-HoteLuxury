@@ -1,11 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { PartnerRevenueChartData } from '@/types/partner-dashboard.type'
 import { LineChart } from '@mui/x-charts'
-type RevenueChartData = {
-  month: string
-  totalRevenue: number
-}
+
 type PartnerRevenueChartProps = {
-  chartData: RevenueChartData[]
+  chartData: PartnerRevenueChartData[]
 }
 export default function PartnerRevenueChart({ chartData }: PartnerRevenueChartProps) {
   return (
@@ -15,8 +13,8 @@ export default function PartnerRevenueChart({ chartData }: PartnerRevenueChartPr
       </CardHeader>
       <CardContent>
         <LineChart
-          width={450}
-          height={280}
+          width={1000}
+          height={400}
           series={[
             {
               dataKey: 'totalRevenue',

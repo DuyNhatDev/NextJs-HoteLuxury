@@ -21,7 +21,6 @@ type CustomRange = {
   range: () => { startDate?: Date; endDate?: Date }
 }
 
-// 🟢 Chỉ giữ lại các mốc thời gian thật sự được dùng
 const defineds = {
   startOfMonth: startOfMonth(new Date()),
   endOfMonth: endOfMonth(new Date()),
@@ -38,7 +37,8 @@ const defineds = {
   startOfQuarter3: startOfMonth(new Date(new Date().getFullYear(), 6)),
   endOfQuarter3: endOfMonth(new Date(new Date().getFullYear(), 8)),
   startOfQuarter4: startOfMonth(new Date(new Date().getFullYear(), 9)),
-  endOfQuarter4: endOfMonth(new Date(new Date().getFullYear(), 11))
+  endOfQuarter4: endOfMonth(new Date(new Date().getFullYear(), 11)),
+  endOfDate: endOfDay(new Date())
 }
 
 const definedsByMonth = Array.from({ length: 12 }, (_, i) => {
@@ -86,7 +86,7 @@ export const defaultStaticRangesDashboardFilterVi = createStaticRanges(
       label: 'Tháng này',
       range: () => ({
         startDate: defineds.startOfMonth,
-        endDate: defineds.endOfMonth
+        endDate: defineds.endOfDate
       })
     },
     {

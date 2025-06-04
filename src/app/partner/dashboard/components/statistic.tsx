@@ -1,51 +1,65 @@
 import { PartnerDashboardResType } from '@/types/partner-dashboard.type'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
 type StatisticProps = {
   data?: PartnerDashboardResType
 }
-export default function Statistic({ data }: StatisticProps) {
-  return (
-    <div className='flex items-center justify-evenly gap-5 px-6 py-0'>
-      <Card className='h-[130px] w-[190px] items-center gap-3 bg-blue-500 p-2'>
-        <CardHeader>
-          <CardTitle>Số lượt đặt</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className='text-xl'>{data?.totalBookingOfHotel}</p>
-        </CardContent>
-      </Card>
 
-      <Card className='h-[130px] w-[190px] items-center gap-3 bg-green-500 p-2'>
+type StatItem = {
+  title: string
+  value: number | undefined
+  isCurrency?: boolean
+}
+
+export default function Statistic({ data }: StatisticProps) {
+  const stats1: StatItem[] = [
+    { title: 'Số lượng đánh giá', value: data?.ratingQuantity },
+    { title: 'Điểm trung bình', value: data?.ratingAverage },
+    { title: 'Số lượt đặt', value: data?.totalBookingOfHotel },
+    { title: 'Số lượt hủy', value: data?.totalCancelledBookingOfHotel }
+  ]
+
+  const stats2: StatItem[] = [
+    {
+      title: 'Doanh thu ban đầu',
+      value: data?.totalMoneyFilterResult?.[0]?.totalPrice,
+      isCurrency: true
+    },
+    {
+      title: 'Doanh thu cuối cùng',
+      value: data?.totalMoneyFilterResult?.[0]?.totalFinalPrice,
+      isCurrency: true
+    },
+    {
+      title: 'Hoa hồng chênh lệch',
+      value: data?.totalMoneyFilterResult?.[0]?.totalMoney,
+      isCurrency: true
+    },
+    {
+      title: 'Tổng hoa hồng',
+      value: data?.totalMoneyFilterResult?.[0]?.totalCommission,
+      isCurrency: true
+    }
+  ]
+
+  const renderCards = (items: StatItem[]) =>
+    items.map(({ title, value, isCurrency }, index) => (
+      <Card key={index} className='flex-1 items-center gap-3 bg-muted-50 p-2'>
         <CardHeader>
-          <CardTitle>Điểm số</CardTitle>
+          <CardTitle>{title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className='flex flex-col items-center'>
-            <p className='text-xl'> {data?.ratingAverage}</p>
-            <p> {data?.ratingQuantity} lượt đánh giá</p>
-          </div>
+          <p className='text-xl'>
+            {value != null ? (isCurrency ? `${value.toLocaleString('vi-VN')} VNĐ` : value) : '—'}
+          </p>
         </CardContent>
       </Card>
-      <Card className='h-[130px] w-[190px] items-center gap-3 bg-yellow-500 p-2'>
-        <CardHeader>
-          <CardTitle>Đặt nhiều nhất</CardTitle>
-        </CardHeader>
-        <CardContent></CardContent>
-      </Card>
-      <Card className='h-[130px] w-[190px] items-center gap-3 bg-orange-500 p-2'>
-        <CardHeader>
-          <CardTitle>Đặt ít nhất</CardTitle>
-        </CardHeader>
-        <CardContent></CardContent>
-      </Card>
-      <Card className='h-[130px] w-[190px] items-center gap-3 bg-red-500 p-2'>
-        <CardHeader>
-          <CardTitle>Số lượt hủy</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className='text-xl'>{data?.totalCancelledBookingOfHotel}</p>
-        </CardContent>
-      </Card>
+    ))
+
+  return (
+    <div className='space-y-3'>
+      <div className='flex w-full items-center gap-5 py-0'>{renderCards(stats1)}</div>
+      <div className='flex w-full items-center gap-5 py-0'>{renderCards(stats2)}</div>
     </div>
   )
 }
