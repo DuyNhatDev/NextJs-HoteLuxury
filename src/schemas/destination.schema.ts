@@ -3,7 +3,8 @@ import z from 'zod'
 export const DestinationSchema = z.object({
   locationId: z.number(),
   locationName: z.string().min(1, { message: 'Tên không được để trống' }),
-  locationImage: z.union([z.string(), z.instanceof(File)]).optional()
+  locationImage: z.union([z.string(), z.instanceof(File)]).optional(),
+  totalHotel: z.number()
 })
 
 export type DestinationType = z.infer<typeof DestinationSchema>

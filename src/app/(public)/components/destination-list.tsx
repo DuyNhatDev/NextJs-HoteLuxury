@@ -36,6 +36,7 @@ export default function DestinationList({ destinations }: { destinations: Destin
             />
             <div className='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-2 group-hover:from-black/90'>
               <p className='text-xl font-semibold text-white'>{destination.locationName}</p>
+              <p className='text-base text-white'>{destination.totalHotel} khách sạn</p>
             </div>
           </div>
         </Link>

@@ -92,7 +92,7 @@ export default function DestinationTable() {
   const [destinationIdEdit, setDestinationIdEdit] = useState<number | undefined>()
   const [destinationDelete, setDestinationDelete] = useState<DestinationItem | null>(null)
   const destinationListQuery = useGetDestinationList()
-  const data = destinationListQuery.data?.payload.data ?? []
+  const data = destinationListQuery.data?.payload.data.reverse() ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
