@@ -38,7 +38,7 @@ type TopBookingUser = {
   birthDate?: string
 }
 
-export type HotelReportResponse = {
+export type PartnerDashboardResType = {
   status: string
   message: string
   totalMoneyFilterResult: TotalMoneyFilterResult[]
@@ -50,4 +50,10 @@ export type HotelReportResponse = {
   totalBookingOfHotelByTime: TotalBookingOfHotelByTime[]
   totalRevenueOfHotelByTime: TotalRevenueOfHotelByTime[]
   top10BookingUser: TopBookingUser[]
+}
+
+export type PartnerDashboardQueryParams = {
+  time?: string
+  filterStart?: Date
+  filterEnd?: Date
 }

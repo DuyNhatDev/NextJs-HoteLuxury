@@ -1,7 +1,9 @@
 import http from '@/lib/http'
-import { PartnerDashboardResType } from '@/types/dashboard.type'
+import { buildQueryParams } from '@/lib/utils'
+import { PartnerDashboardQueryParams, PartnerDashboardResType } from '@/types/partner-dashboard.type'
 
 const dashboardApiRequest = {
-  getPartnerDashboard: (param: string) => http.get<PartnerDashboardResType>(`/user/partner/dashboard?time=${param}`)
+  getPartnerDashboard: (queryParams: PartnerDashboardQueryParams) =>
+    http.get<PartnerDashboardResType>(`/user/partner/dashboard?` + buildQueryParams(queryParams))
 }
 export default dashboardApiRequest

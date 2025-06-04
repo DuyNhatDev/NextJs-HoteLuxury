@@ -1,4 +1,4 @@
-import { PartnerDashboardType } from '@/types/dashboard.type'
+import { PartnerDashboardType } from '@/types/partner-dashboard.type'
 import PartnerRevenueChart from '@/app/partner/dashboard/components/revenue-chart'
 import PartnerBookingChart from '@/app/partner/dashboard/components/booking-chart'
 type ChartProps = {

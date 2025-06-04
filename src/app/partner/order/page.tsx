@@ -1,5 +1,5 @@
 import OrderTable from '@/app/partner/order/components/order-table'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader} from '@/components/ui/card'
 import { Suspense } from 'react'
 
 export default function OrderPage() {
