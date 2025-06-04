@@ -139,8 +139,8 @@ export default function RoomTypeTable() {
   const hotelData = useGetHotelList()
   const myHotel: HotelType | undefined = hotelData.data?.payload?.data[0]
   const [hotelId, setHotelId] = useState<number | undefined>()
-  const roomTypeListQuery = useGetRoomTypeList()
-  const data = roomTypeListQuery.data?.payload.data ?? []
+  const { data: roomTypeListQuery } = useGetRoomTypeList()
+  const data = roomTypeListQuery?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

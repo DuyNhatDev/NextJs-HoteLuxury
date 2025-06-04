@@ -112,8 +112,8 @@ export default function PartnerTable() {
   const pageIndex = page - 1
   const [partnerIdEdit, setPartnerIdEdit] = useState<number | undefined>()
   const [partnerDelete, setPartnerDelete] = useState<PartnerItem | null>(null)
-  const partnerListQuery = useGetPartnerList()
-  const data = partnerListQuery.data?.payload.data ?? []
+  const { data: partnerListQuery } = useGetPartnerList()
+  const data = partnerListQuery?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

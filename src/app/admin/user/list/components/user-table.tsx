@@ -112,8 +112,8 @@ export default function UserTable() {
   const pageIndex = page - 1
   const [userIdEdit, setUserIdEdit] = useState<number | undefined>()
   const [userDelete, setUserDelete] = useState<UserItem | null>(null)
-  const partnerListQuery = useGetUserList()
-  const data = partnerListQuery.data?.payload.data ?? []
+  const { data: userListQuery } = useGetUserList()
+  const data = userListQuery?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

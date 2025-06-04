@@ -91,8 +91,8 @@ export default function DestinationTable() {
   const pageIndex = page - 1
   const [destinationIdEdit, setDestinationIdEdit] = useState<number | undefined>()
   const [destinationDelete, setDestinationDelete] = useState<DestinationItem | null>(null)
-  const destinationListQuery = useGetDestinationList()
-  const data = destinationListQuery.data?.payload.data.reverse() ?? []
+  const { data: destinationListQuery } = useGetDestinationList()
+  const data = destinationListQuery?.payload.data.reverse() ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
