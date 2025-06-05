@@ -1,4 +1,4 @@
-import { Users, Hotel, Handshake, MapPinned, Settings, BadgeDollarSign } from 'lucide-react'
+import { Users, Hotel, Handshake, MapPinned, Settings, BadgeDollarSign, Ticket } from 'lucide-react'
 
 export const data = {
   navManage: [
@@ -47,6 +47,17 @@ export const data = {
         {
           title: 'Địa điểm',
           url: '/admin/location'
+        }
+      ]
+    },
+    {
+      title: 'Voucher',
+      url: '#',
+      icon: Ticket,
+      items: [
+        {
+          title: 'Voucher',
+          url: '/admin/voucher'
         }
       ]
     },

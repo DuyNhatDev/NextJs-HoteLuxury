@@ -1,10 +1,14 @@
 import http from '@/lib/http'
-import { VoucherLisResType } from '@/schemas/voucher.schema'
+import { CreateUpdateVoucherBodyType, VoucherLisResType, VoucherResType } from '@/schemas/voucher.schema'
 
 const prefix = '/voucher'
 
 const voucherApiRequest = {
   getListVoucher: () => http.get<VoucherLisResType>(`${prefix}`),
-  getSuitableVoucher: (price: number) => http.get<VoucherLisResType>(`${prefix}/suitable-voucher?price=${price}`)
+  getSuitableVoucher: (price: number) => http.get<VoucherLisResType>(`${prefix}/suitable-voucher?price=${price}`),
+  getListVoucherByVoucher: () => http.get<VoucherLisResType>(`/admin${prefix}`),
+  addVoucher: (body: CreateUpdateVoucherBodyType) => http.post<VoucherResType>(`${prefix}`, body),
+  updateVoucher: (id: number, body: CreateUpdateVoucherBodyType) => http.put<VoucherResType>(`${prefix}/${id}`, body),
+  deleteVoucher: (id: number) => http.delete(`${prefix}/${id}`)
 }
 export default voucherApiRequest

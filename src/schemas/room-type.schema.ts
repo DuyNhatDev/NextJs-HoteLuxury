@@ -47,7 +47,7 @@ export const CreateRoomTypeBodySchema = z.object({
   hotelId: z.number().optional(),
   roomTypeName: z.string().min(1, { message: 'Tên khách sạn không được để trống' }),
   roomTypePrice: z.number({ message: 'Vui lòng chọn nhập giá' }),
-  roomTypeWeekendPrice: z.number({ message: 'Vuiổi chọn nhập giá cuối tuần' }),
+  roomTypeWeekendPrice: z.number({ message: 'Vui lòng nhập giá cuối tuần' }),
   adultQuantity: z.number({ message: 'Vui lòng chọn số người lớn' }),
   childQuantity: z.number({ message: 'Vui lòng chọn số trẻ em' }),
   roomTypeQuantity: z.number({ message: 'Vui lòng nhập số lượng phòng' }),
