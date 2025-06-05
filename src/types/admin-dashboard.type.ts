@@ -1,4 +1,4 @@
-export type HotelInfo = {
+export type TopHotel = {
   hotelId: number
   hotelName: string
   totalBooking: number
@@ -8,7 +8,7 @@ export type HotelInfo = {
   commission: number
 }
 
-export type UserInfo = {
+export type TopBookingUser = {
   userId: number
   userName: string
   totalBooking: number
@@ -27,8 +27,8 @@ export type AdminDashboardResType = {
   totalNewUser: number
   totalCommission: number
   totalMoney: number
-  hotel: HotelInfo[]
-  user: UserInfo[]
+  hotel: TopHotel[]
+  user: TopBookingUser[]
   totalCommissionByMonth: CommissionByMonth[]
   statusCode: number
 }
@@ -42,3 +42,4 @@ export type AdminRevenueChartData = {
   month: string
   totalCommission: number
 }
+

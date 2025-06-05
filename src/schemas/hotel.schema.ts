@@ -89,3 +89,28 @@ export const FeaturedHotelListResSchema = z.object({
 })
 
 export type FeaturedHotelListResType = z.infer<typeof FeaturedHotelListResSchema>
+
+export const AdminHotelSchema = HotelSchema.extend({
+  totalBooking: z.number(),
+  totalPrice: z.number(),
+  totalFinalPrice: z.number(),
+  commission: z.number(),
+  totalMoney: z.number()
+})
+
+export type AdminHotelType = z.infer<typeof AdminHotelSchema>
+
+export const AdminHotelListResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: z.array(AdminHotelSchema)
+})
+
+export type AdminHotelListResType = z.infer<typeof AdminHotelListResSchema>
+
+export const AdminHotelParamsSchema = z.object({
+  filterStart: z.date().optional(),
+  filterEnd: z.date().optional()
+})
+
+export type AdminHotelParamsType = z.infer<typeof AdminHotelParamsSchema>

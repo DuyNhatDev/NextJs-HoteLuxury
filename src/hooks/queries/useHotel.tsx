@@ -1,5 +1,5 @@
 import hotelApiRequest from '@/api/hotel'
-import { UpdateHotelBodyType } from '@/schemas/hotel.schema'
+import { AdminHotelParamsType, UpdateHotelBodyType } from '@/schemas/hotel.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetHotel = (id?: string, enabled: boolean = false) => {
@@ -59,5 +59,12 @@ export const useGetSimilarHotelList = (id?: string, enabled: boolean = false) =>
     queryKey: ['similar-hotels', id],
     queryFn: () => hotelApiRequest.getSimilarHotelList(id!),
     enabled: !!id && enabled
+  })
+}
+
+export const useGetHotelListByAdmin = (queryParams: AdminHotelParamsType) => {
+  return useQuery({
+    queryKey: ['admin-hotels', queryParams],
+    queryFn: () => hotelApiRequest.getHotelListByAdmin(queryParams)
   })
 }

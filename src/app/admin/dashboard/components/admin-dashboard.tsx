@@ -1,6 +1,7 @@
 'use client'
 import AdminRevenueChart from '@/app/admin/dashboard/components/revenue-chart'
 import Statistic from '@/app/admin/dashboard/components/statistic'
+import TopHotelTable from '@/app/admin/dashboard/components/top-hotel-table'
 import CalendarFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetAdminDashboard } from '@/hooks/queries/useDashboard'
 import { State } from '@/types/react-date-range'
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
     month: `Tháng ${item.month}`,
     totalCommission: item.totalCommission || 0
   }))
+  const topHotel = dashboardData?.hotel
 
   return (
     <div className='w-full rounded'>
@@ -46,7 +48,7 @@ export default function AdminDashboard() {
       </div>
 
       <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
-        {/* <TopBookingUserTable data={topBookingUser ?? []} /> */}
+        <TopHotelTable data={topHotel ?? []} />
       </div>
     </div>
   )

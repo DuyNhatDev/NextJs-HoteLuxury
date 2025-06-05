@@ -3,11 +3,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { formatCurrency } from '@/lib/utils'
 import { TopBookingUser } from '@/types/partner-dashboard.type'
 
-type MostUserBookingTableProps = {
+type TopBookingUserTableProps = {
   data: TopBookingUser[]
 }
 
-export default function TopBookingUserTable({ data }: MostUserBookingTableProps) {
+export default function TopBookingUserTable({ data }: TopBookingUserTableProps) {
   return (
     <Card className='items-center gap-3 !py-6 pt-3 pb-0'>
       <CardHeader>

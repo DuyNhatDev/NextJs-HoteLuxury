@@ -24,7 +24,7 @@ export const data = {
       items: [
         {
           title: 'Khách sạn',
-          url: '/admin/hotel/list'
+          url: '/admin/hotel/'
         }
       ]
     },

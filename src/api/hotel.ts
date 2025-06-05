@@ -1,11 +1,13 @@
 import http from '@/lib/http'
-import { objectToFormData } from '@/lib/utils'
+import { buildQueryParams, objectToFormData } from '@/lib/utils'
 import {
   FeaturedHotelListResType,
   CreateHotelBodyType,
   HotelListResType,
   HotelResType,
-  UpdateHotelBodyType
+  UpdateHotelBodyType,
+  AdminHotelListResType,
+  AdminHotelParamsType
 } from '@/schemas/hotel.schema'
 
 const prefix = '/hotel'
@@ -23,6 +25,8 @@ const hotelApiRequest = {
   },
   deleteHotel: (id: number) => http.delete(`${prefix}/${id}`),
   getFeaturedHotelList: () => http.get<FeaturedHotelListResType>(`${prefix}/most-booking`),
-  getSimilarHotelList: (id: string) => http.get<HotelListResType>(`${prefix}/similar-hotel/${id}`)
+  getSimilarHotelList: (id: string) => http.get<HotelListResType>(`${prefix}/similar-hotel/${id}`),
+  getHotelListByAdmin: (queryParams: AdminHotelParamsType) =>
+    http.get<AdminHotelListResType>(`admin/${prefix}` + buildQueryParams(queryParams))
 }
 export default hotelApiRequest
