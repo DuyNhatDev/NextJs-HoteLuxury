@@ -65,3 +65,9 @@ export enum OrderAction {
   REJECT = 'REJECT',
   PAYMENT = 'PAYMENT'
 }
+
+export const voucherTypeItems = [
+  { label: 'Tất cả', value: 'all' },
+  { label: 'Cố định', value: 'fixed' },
+  { label: 'Phần trăm', value: 'percentage' }
+]

@@ -1,4 +1,4 @@
-import { RoomTypeItem } from '@/app/partner/hotel/room-type/components/room-type-table'
+import { RoomTypeItem } from '@/app/partner/hotel/room-type/components/room-type-table-column'
 import {
   AlertDialog,
   AlertDialogAction,

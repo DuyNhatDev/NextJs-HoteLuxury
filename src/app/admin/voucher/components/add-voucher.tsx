@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle, PlusCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { handleErrorApi } from '@/lib/utils'
@@ -34,11 +34,13 @@ export default function AddVoucher() {
 
   const discountType = form.watch('discountType')
 
-  //   useEffect(() => {
-  //     form.reset({
-  //       ...form.getValues()
-  //     })
-  //   }, [form])
+  useEffect(() => {
+    if (discountType !== 'fixed') {
+      form.setValue('maxPercentageDiscount', undefined)
+    }
+    form.setValue('discountValue', 1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discountType])
 
   const reset = () => {
     form.reset()
@@ -167,7 +169,7 @@ export default function AddVoucher() {
                         <FormItem className='flex-1'>
                           <div className='grid gap-2'>
                             <FormLabel htmlFor='discountValue'>
-                              Giá trị giảm (Phần trăm %) <span className='text-red-500'>*</span>
+                              Giá trị giảm (%) <span className='text-red-500'>*</span>
                             </FormLabel>
                             <FormControl>
                               <div className='relative w-full'>
@@ -230,28 +232,52 @@ export default function AddVoucher() {
                       )}
                     />
                   ) : (
-                    <FormField
-                      control={form.control}
-                      name='maxPercentageDiscount'
-                      render={({ field }) => (
-                        <FormItem className='flex-1'>
-                          <div className='grid gap-2'>
-                            <FormLabel htmlFor='maxPercentageDiscount'>
-                              Giảm tối đa (số tiền) <span className='text-red-500'>*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <CurrencyInput
-                                value={field.value}
-                                onChange={field.onChange}
-                                currency='VNĐ'
-                                className='w-full'
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </div>
-                        </FormItem>
-                      )}
-                    />
+                    <>
+                      <FormField
+                        control={form.control}
+                        name='minOrderValue'
+                        render={({ field }) => (
+                          <FormItem className='flex-1'>
+                            <div className='grid gap-2'>
+                              <FormLabel htmlFor='minOrderValue'>
+                                Tối thiểu với đơn từ <span className='text-red-500'>*</span>
+                              </FormLabel>
+                              <FormControl>
+                                <CurrencyInput
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  currency='VNĐ'
+                                  className='w-full'
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name='maxPercentageDiscount'
+                        render={({ field }) => (
+                          <FormItem className='flex-1'>
+                            <div className='grid gap-2'>
+                              <FormLabel htmlFor='maxPercentageDiscount'>
+                                Giảm tối đa <span className='text-red-500'>*</span>
+                              </FormLabel>
+                              <FormControl>
+                                <CurrencyInput
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  currency='VNĐ'
+                                  className='w-full'
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </>
                   )}
                 </div>
                 <div className='flex w-full gap-4'>
@@ -270,8 +296,12 @@ export default function AddVoucher() {
                               type='number'
                               className='w-full'
                               required
-                              value={field.value}
-                              onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                              {...field}
+                              value={field.value ?? ''}
+                              onChange={(e) => {
+                                const value = e.target.valueAsNumber
+                                field.onChange(isNaN(value) ? undefined : value)
+                              }}
                             />
                           </FormControl>
                           <FormMessage />

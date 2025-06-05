@@ -62,9 +62,9 @@ export default function DialogVoucher() {
           />
           <Button onClick={handleApply}>Áp dụng</Button>
         </div>
-        {vouchers.length > 0 && <p className='  4 font-semibold'>Voucher khả dụng</p>}
+        {vouchers.length > 0 && <p className='4 font-semibold'>Voucher khả dụng</p>}
         {vouchers.map((voucher) => {
-          const { code, discountValue, minOrderValue, quantity, discountType } = voucher
+          const { code, quantity, discountType } = voucher
           const isFixed = discountType === 'fixed'
           const isSelected = selectedCode === code
           return (
@@ -93,10 +93,7 @@ export default function DialogVoucher() {
                 </div>
                 <div className='flex flex-col self-center text-sm sm:text-base'>
                   <p className='text-blue-600'>Mã voucher: {code}</p>
-                  <p>
-                    {isFixed ? `Giảm ${discountValue.toLocaleString('vi-VN')}đ` : `Giảm ${discountValue}%`} cho đơn từ{' '}
-                    {minOrderValue.toLocaleString('vi-VN')}đ
-                  </p>
+                  <p>{voucher.content}</p>
                 </div>
               </div>
               <p className='shrink-0 text-right text-sm whitespace-nowrap sm:text-lg'>x {quantity}</p>

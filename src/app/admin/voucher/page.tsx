@@ -12,10 +12,9 @@ export default function VoucherPage() {
             <CardTitle>Danh sách voucher</CardTitle>
           </CardHeader>
           <CardContent>
-            {/* <Suspense>
+            <Suspense>
               <VoucherTable />
-            </Suspense> */}
-              <AddVoucher  />
+            </Suspense>
           </CardContent>
         </Card>
       </div>

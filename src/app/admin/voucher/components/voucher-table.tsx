@@ -15,22 +15,22 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { createContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/custom/auto-pagination'
-import { useGetRoomTypeList } from '@/hooks/queries/useRoomType'
-import { useGetHotelList } from '@/hooks/queries/useHotel'
-import { HotelType } from '@/schemas/hotel.schema'
-import { RoomTypeItem, roomTypeTableColumns } from '@/app/partner/hotel/room-type/components/room-type-table-column'
 import AddVoucher from '@/app/admin/voucher/components/add-voucher'
+import voucherTableColumns, { VoucherItem } from '@/app/admin/voucher/components/voucher-table-column'
+import { useGetListVoucherByAdmin } from '@/hooks/queries/useVoucher'
+import CustomSelect from '@/components/custom/select'
+import { voucherTypeItems } from '@/constants/type'
 
-export const RoomTypeTableContext = createContext<{
-  roomTypeIdEdit: number | undefined
-  setRoomTypeIdEdit: (value: number) => void
-  roomTypeDelete: RoomTypeItem | null
-  setRoomTypeDelete: (value: RoomTypeItem | null) => void
+export const VoucherTableContext = createContext<{
+  voucherIdEdit: number | undefined
+  setVoucherIdEdit: (value: number) => void
+  voucherDelete: VoucherItem | null
+  setVoucherDelete: (value: VoucherItem | null) => void
 }>({
-  roomTypeIdEdit: undefined,
-  setRoomTypeIdEdit: (value: number | undefined) => {},
-  roomTypeDelete: null,
-  setRoomTypeDelete: (value: RoomTypeItem | null) => {}
+  voucherIdEdit: undefined,
+  setVoucherIdEdit: (value: number | undefined) => {},
+  voucherDelete: null,
+  setVoucherDelete: (value: VoucherItem | null) => {}
 })
 
 const PAGE_SIZE = 5
@@ -38,13 +38,10 @@ export default function VoucherTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [roomTypeIdEdit, setRoomTypeIdEdit] = useState<number | undefined>()
-  const [roomTypeDelete, setRoomTypeDelete] = useState<RoomTypeItem | null>(null)
-  const hotelData = useGetHotelList()
-  const myHotel: HotelType | undefined = hotelData.data?.payload?.data[0]
-  const [hotelId, setHotelId] = useState<number | undefined>()
-  const { data: roomTypeListQuery } = useGetRoomTypeList()
-  const data = roomTypeListQuery?.payload.data ?? []
+  const [voucherIdEdit, setVoucherIdEdit] = useState<number | undefined>()
+  const [voucherDelete, setVoucherDelete] = useState<VoucherItem | null>(null)
+  const { data: voucherListQuery } = useGetListVoucherByAdmin()
+  const data = voucherListQuery?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -56,7 +53,7 @@ export default function VoucherTable() {
 
   const table = useReactTable({
     data,
-    columns: roomTypeTableColumns,
+    columns: voucherTableColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -83,37 +80,29 @@ export default function VoucherTable() {
     })
   }, [table, pageIndex])
 
-  useEffect(() => {
-    const hotelId = myHotel?.hotelId
-    setHotelId(hotelId)
-  }, [myHotel])
-
   return (
-    <RoomTypeTableContext.Provider value={{ roomTypeIdEdit, setRoomTypeIdEdit, roomTypeDelete, setRoomTypeDelete }}>
+    <VoucherTableContext.Provider value={{ voucherIdEdit, setVoucherIdEdit, voucherDelete, setVoucherDelete }}>
       <div className='w-full'>
-        {/* <EditRoomType id={roomTypeIdEdit} setId={setRoomTypeIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeleteRoomType roomTypeDelete={roomTypeDelete} setRoomTypeDelete={setRoomTypeDelete} /> */}
+        {/* <EditRoomType id={voucherIdEdit} setId={setVoucherIdEdit} onSubmitSuccess={() => {}} />
+        <AlertDialogDeleteRoomType voucherDelete={voucherDelete} setVoucherDelete={setVoucherDelete} /> */}
         <div className='flex items-center gap-2 py-4'>
           <Input
-            placeholder='Lọc theo tên'
-            value={(table.getColumn('roomTypeName')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('roomTypeName')?.setFilterValue(event.target.value)}
+            placeholder='Lọc theo mã voucher'
+            value={(table.getColumn('code')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('code')?.setFilterValue(event.target.value)}
             className='max-w-sm flex-1'
           />
-          <Input
-            placeholder='Lọc theo giá cơ bản'
-            value={(table.getColumn('roomTypePrice')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('roomTypePrice')?.setFilterValue(event.target.value)}
-            className='max-w-sm flex-1'
-          />
-          <Input
-            placeholder='Lọc theo giá cuối tuần'
-            value={(table.getColumn('roomTypeWeekendPrice')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('roomTypeWeekendPrice')?.setFilterValue(event.target.value)}
+          <CustomSelect
+            placeholder='Loại voucher'
+            options={voucherTypeItems}
+            value={(table.getColumn('discountType')?.getFilterValue() as string) ?? 'all'}
+            onChange={(value) => {
+              table.getColumn('discountType')?.setFilterValue(value === 'all' ? undefined : value)
+            }}
             className='max-w-sm flex-1'
           />
           <div className='ml-auto flex items-center gap-2'>
-            <AddVoucher  />
+            <AddVoucher />
           </div>
         </div>
         <div className='rounded-md border'>
@@ -142,7 +131,7 @@ export default function VoucherTable() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={roomTypeTableColumns.length} className='h-24 text-center'>
+                  <TableCell colSpan={voucherTableColumns.length} className='h-24 text-center'>
                     Không có dữ liệu
                   </TableCell>
                 </TableRow>
@@ -159,11 +148,11 @@ export default function VoucherTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname='/'
+              pathname='/admin/voucher'
             />
           </div>
         </div>
       </div>
-    </RoomTypeTableContext.Provider>
+    </VoucherTableContext.Provider>
   )
 }

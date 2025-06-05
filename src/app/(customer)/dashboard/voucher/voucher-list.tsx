@@ -38,10 +38,7 @@ export default function VoucherList() {
                 </div>
                 <div className='flex flex-col items-start text-sm sm:text-base'>
                   <p className='text-blue-600'>Mã voucher: {code}</p>
-                  <p>
-                    {isFixed ? `Giảm ${discountValue.toLocaleString('vi-VN')}đ` : `Giảm ${discountValue}%`} cho đơn từ{' '}
-                    {minOrderValue.toLocaleString('vi-VN')}đ
-                  </p>
+                  <p>{voucher.content}</p>
                   <div className='flex items-center gap-1'>
                     <Clock className='h-3 w-3 text-gray-500 md:h-4 md:w-4' />
                     <p className='text-gray-500'>
