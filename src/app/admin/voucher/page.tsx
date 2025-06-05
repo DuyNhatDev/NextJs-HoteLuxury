@@ -1,4 +1,3 @@
-import AddVoucher from '@/app/admin/voucher/components/add-voucher'
 import VoucherTable from '@/app/admin/voucher/components/voucher-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense } from 'react'

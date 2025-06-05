@@ -53,3 +53,18 @@ export const useDeleteVoucherMutation = () => {
     }
   })
 }
+
+export const useGetVoucher = (id?: number, enabled: boolean = false) => {
+  return useQuery({
+    queryKey: ['voucher', id],
+    queryFn: () => voucherApiRequest.getVoucher(id!),
+    enabled: !!id && enabled
+  })
+}
+export const useGetVoucher2 = (id?: number, enabled: boolean = false) => {
+  return useQuery({
+    queryKey: ['voucher2', id],
+    queryFn: () => voucherApiRequest.getVoucher2(id!),
+    enabled: !!id && enabled
+  })
+}

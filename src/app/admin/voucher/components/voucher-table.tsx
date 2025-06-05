@@ -15,11 +15,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { createContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/custom/auto-pagination'
-import AddVoucher from '@/app/admin/voucher/components/add-voucher'
 import voucherTableColumns, { VoucherItem } from '@/app/admin/voucher/components/voucher-table-column'
 import { useGetListVoucherByAdmin } from '@/hooks/queries/useVoucher'
 import CustomSelect from '@/components/custom/select'
 import { voucherTypeItems } from '@/constants/type'
+import EditVoucher from '@/app/admin/voucher/components/edit-voucher'
+import AlertDialogDeleteVoucher from '@/app/admin/voucher/components/delete-voucher-type'
+import AddVoucher from '@/app/admin/voucher/components/add-voucher'
 
 export const VoucherTableContext = createContext<{
   voucherIdEdit: number | undefined
@@ -83,8 +85,8 @@ export default function VoucherTable() {
   return (
     <VoucherTableContext.Provider value={{ voucherIdEdit, setVoucherIdEdit, voucherDelete, setVoucherDelete }}>
       <div className='w-full'>
-        {/* <EditRoomType id={voucherIdEdit} setId={setVoucherIdEdit} onSubmitSuccess={() => {}} />
-        <AlertDialogDeleteRoomType voucherDelete={voucherDelete} setVoucherDelete={setVoucherDelete} /> */}
+        <EditVoucher id={voucherIdEdit} setId={setVoucherIdEdit} />
+        <AlertDialogDeleteVoucher voucherDelete={voucherDelete} setVoucherDelete={setVoucherDelete} /> 
         <div className='flex items-center gap-2 py-4'>
           <Input
             placeholder='Lọc theo mã voucher'

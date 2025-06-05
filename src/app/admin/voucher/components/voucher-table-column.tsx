@@ -17,11 +17,14 @@ const voucherTableColumns: ColumnDef<VoucherItem>[] = [
   {
     accessorKey: 'discountType',
     header: 'Loại voucher',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('discountType')}</div>,
+    cell: ({ row }) => {
+      const type = row.getValue('discountType')
+      return <div className='capitalize'>{type === 'fixed' ? 'Cố định' : 'Phần trăm'}</div>
+    },
     filterFn: (row, columnId, filterValue) => {
-        if (!filterValue) return true 
-        return row.getValue(columnId) === filterValue
-      }
+      if (!filterValue || filterValue === 'all') return true
+      return row.getValue(columnId) === filterValue
+    }
   },
   {
     accessorKey: 'discountValue',

@@ -13,6 +13,19 @@ export const VoucherSchema = z.object({
   expiredAt: z.date(),
   createdAt: z.date()
 })
+export const Voucher2Schema = z.object({
+  voucherId: z.number(),
+  code: z.string(),
+  description: z.string(),
+  discountType: z.enum(['percentage', 'fixed']),
+  discountValue: z.number(),
+  minOrderValue: z.number(),
+  maxPercentageDiscount: z.number(),
+  content: z.string(),
+  quantity: z.number(),
+  expiredAt: z.string(),
+  createdAt: z.date()
+})
 
 export type VoucherType = z.infer<typeof VoucherSchema>
 
@@ -23,6 +36,14 @@ export const VoucherResSchema = z.object({
 })
 
 export type VoucherResType = z.infer<typeof VoucherResSchema>
+
+export const Voucher2ResSchema = z.object({
+  status: z.string(),
+  message: z.string(),
+  data: Voucher2Schema
+})
+
+export type Voucher2ResType = z.infer<typeof Voucher2ResSchema>
 
 export const VoucherListResSchema = z.object({
   status: z.string(),
