@@ -1,3 +1,5 @@
+import AddVoucher from '@/app/admin/voucher/components/add-voucher'
+import VoucherTable from '@/app/admin/voucher/components/voucher-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense } from 'react'
 
@@ -10,7 +12,10 @@ export default function VoucherPage() {
             <CardTitle>Danh sách voucher</CardTitle>
           </CardHeader>
           <CardContent>
-            <Suspense>{/* <LocationTable /> */}</Suspense>
+            {/* <Suspense>
+              <VoucherTable />
+            </Suspense> */}
+              <AddVoucher  />
           </CardContent>
         </Card>
       </div>
