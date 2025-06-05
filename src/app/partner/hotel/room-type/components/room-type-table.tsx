@@ -1,7 +1,5 @@
 'use client'
-import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -12,27 +10,20 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/custom/auto-pagination'
-import { formatCurrency, getLastTwoInitials } from '@/lib/utils'
-import { PenLine, Trash2 } from 'lucide-react'
-import CustomTooltip from '@/components/custom/tooltip'
-import { RoomTypeListResType, RoomTypeType } from '@/schemas/room-type.schema'
 import { useGetRoomTypeList } from '@/hooks/queries/useRoomType'
 import AddRoomType from '@/app/partner/hotel/room-type/components/add-room-type'
 import EditRoomType from '@/app/partner/hotel/room-type/components/edit-room-type'
 import AlertDialogDeleteRoomType from '@/app/partner/hotel/room-type/components/delete-room-type'
 import { useGetHotelList } from '@/hooks/queries/useHotel'
 import { HotelType } from '@/schemas/hotel.schema'
+import { RoomTypeItem, roomTypeTableColumns } from '@/app/partner/hotel/room-type/components/room-type-table-column'
 
-export type RoomTypeItem = RoomTypeListResType['data'][0]
-
-const RoomTypeTableContext = createContext<{
+export const RoomTypeTableContext = createContext<{
   roomTypeIdEdit: number | undefined
   setRoomTypeIdEdit: (value: number) => void
   roomTypeDelete: RoomTypeItem | null
@@ -43,91 +34,6 @@ const RoomTypeTableContext = createContext<{
   roomTypeDelete: null,
   setRoomTypeDelete: (value: RoomTypeItem | null) => {}
 })
-
-export const columns: ColumnDef<RoomTypeType>[] = [
-  {
-    accessorKey: 'roomTypeImage',
-    header: 'Ảnh',
-    cell: ({ row }) => (
-      <div>
-        <Avatar className='aspect-square h-[50px] w-[50px] rounded-md object-cover'>
-          <AvatarImage src={row.getValue('roomTypeImage')} />
-          <AvatarFallback className='rounded-none'>{getLastTwoInitials(row.original.roomTypeName)}</AvatarFallback>
-        </Avatar>
-      </div>
-    )
-  },
-  {
-    accessorKey: 'roomTypeName',
-    header: 'Tên',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('roomTypeName')}</div>
-  },
-  {
-    accessorKey: 'roomTypePrice',
-    header: ({ column }) => {
-      return (
-        <Button variant='ghost' className='!px-0' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Giá cơ bản
-          <CaretSortIcon className='h-4 w-4' />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('roomTypePrice'))}</div>,
-    sortingFn: (rowA, rowB, columnId) => {
-      const a = rowA.getValue<number>(columnId) ?? 0
-      const b = rowB.getValue<number>(columnId) ?? 0
-      return a - b
-    }
-  },
-  {
-    accessorKey: 'roomTypeWeekendPrice',
-    header: ({ column }) => {
-      return (
-        <Button variant='ghost' className='!px-0' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Giá cuối tuần
-          <CaretSortIcon className='h-4 w-4' />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div>{formatCurrency(row.getValue('roomTypeWeekendPrice'))}</div>,
-    sortingFn: (rowA, rowB, columnId) => {
-      const a = rowA.getValue<number>(columnId) ?? 0
-      const b = rowB.getValue<number>(columnId) ?? 0
-      return a - b
-    }
-  },
-  {
-    accessorKey: 'roomTypeQuantity',
-    header: 'Số lượng',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('roomTypeQuantity') || '-'}</div>,
-    accessorFn: (row) => row.roomTypeQuantity || ''
-  },
-  {
-    id: 'actions',
-    header: 'Thao tác',
-    enableHiding: false,
-    cell: function Actions({ row }) {
-      const { setRoomTypeIdEdit, setRoomTypeDelete } = useContext(RoomTypeTableContext)
-      const openEditRoomType = () => {
-        setRoomTypeIdEdit(row.original.roomTypeId)
-      }
-
-      const openDeletePartner = () => {
-        setRoomTypeDelete(row.original)
-      }
-      return (
-        <div className='flex gap-3'>
-          <CustomTooltip content='Sửa'>
-            <PenLine className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openEditRoomType} />
-          </CustomTooltip>
-          <CustomTooltip content='Xóa'>
-            <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openDeletePartner} />
-          </CustomTooltip>
-        </div>
-      )
-    }
-  }
-]
 
 const PAGE_SIZE = 5
 export default function RoomTypeTable() {
@@ -152,7 +58,7 @@ export default function RoomTypeTable() {
 
   const table = useReactTable({
     data,
-    columns,
+    columns: roomTypeTableColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -238,7 +144,7 @@ export default function RoomTypeTable() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className='h-24 text-center'>
+                  <TableCell colSpan={roomTypeTableColumns.length} className='h-24 text-center'>
                     Không có dữ liệu
                   </TableCell>
                 </TableRow>

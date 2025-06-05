@@ -27,6 +27,6 @@ const hotelApiRequest = {
   getFeaturedHotelList: () => http.get<FeaturedHotelListResType>(`${prefix}/most-booking`),
   getSimilarHotelList: (id: string) => http.get<HotelListResType>(`${prefix}/similar-hotel/${id}`),
   getHotelListByAdmin: (queryParams: AdminHotelParamsType) =>
-    http.get<AdminHotelListResType>(`admin/${prefix}` + buildQueryParams(queryParams))
+    http.get<AdminHotelListResType>(`admin${prefix}?` + buildQueryParams(queryParams))
 }
 export default hotelApiRequest

@@ -2,7 +2,7 @@
 import AdminRevenueChart from '@/app/admin/dashboard/components/revenue-chart'
 import Statistic from '@/app/admin/dashboard/components/statistic'
 import TopHotelTable from '@/app/admin/dashboard/components/top-hotel-table'
-import CalendarFilterRange from '@/components/custom/dashboard-filter-range'
+import DashboardFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetAdminDashboard } from '@/hooks/queries/useDashboard'
 import { State } from '@/types/react-date-range'
 import { startOfMonth, endOfDay } from 'date-fns'
@@ -28,7 +28,7 @@ export default function AdminDashboard() {
     <div className='w-full rounded'>
       <div>
         <div className='mx-auto h-full w-full pt-2 sm:max-w-xl md:max-w-6xl'>
-          <CalendarFilterRange
+          <DashboardFilterRange
             value={createdRange}
             onChange={(newRange) => setCreatedRange(newRange!)}
             className='bg-transparent'

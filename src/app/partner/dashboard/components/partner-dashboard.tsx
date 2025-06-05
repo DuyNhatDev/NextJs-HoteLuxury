@@ -2,7 +2,7 @@
 import Chart from '@/app/partner/dashboard/components/chart'
 import TopBookingUserTable from '@/app/partner/dashboard/components/top-booking-user-table'
 import Statistic from '@/app/partner/dashboard/components/statistic'
-import CalendarFilterRange from '@/components/custom/dashboard-filter-range'
+import DashboardFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetPartnerDashboard } from '@/hooks/queries/useDashboard'
 import { State } from '@/types/react-date-range'
 import { startOfMonth, endOfDay } from 'date-fns'
@@ -25,7 +25,7 @@ export default function PartnerDashboard() {
     <div className='w-full rounded'>
       <div>
         <div className='mx-auto h-full w-full pt-2 sm:max-w-xl md:max-w-6xl'>
-          <CalendarFilterRange
+          <DashboardFilterRange
             value={createdRange}
             onChange={(newRange) => setCreatedRange(newRange!)}
             className='bg-transparent'

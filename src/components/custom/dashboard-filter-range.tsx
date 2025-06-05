@@ -23,7 +23,7 @@ type ReactDateRangeProps = {
   formatString?: string
 }
 
-export default function CalendarFilterRange({
+export default function DashboardFilterRange({
   value,
   onChange,
   placeholder = 'Chọn khoảng ngày',
