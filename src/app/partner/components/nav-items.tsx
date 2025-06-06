@@ -39,17 +39,17 @@ export const data = {
         }
       ]
     },
-    {
-      title: 'Đánh giá phản hồi',
-      url: '#',
-      icon: MessageCircleMore,
-      items: [
-        {
-          title: 'Danh sách phản hồi',
-          url: '/partner/feedback'
-        }
-      ]
-    },
+    // {
+    //   title: 'Đánh giá phản hồi',
+    //   url: '#',
+    //   icon: MessageCircleMore,
+    //   items: [
+    //     {
+    //       title: 'Danh sách phản hồi',
+    //       url: '/partner/feedback'
+    //     }
+    //   ]
+    // },
     {
       title: 'Cài đặt',
       url: '#',

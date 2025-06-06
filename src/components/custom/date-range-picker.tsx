@@ -124,8 +124,10 @@ export default function CustomDateRangePicker({
       </PopoverTrigger>
 
       <PopoverContent
-        className={`w-auto rounded-lg p-4 shadow-md ${isMobile ? 'max-h-[500px] overflow-y-auto' : ''}`}
+        avoidCollisions={false}
+        side='bottom'
         align='center'
+        className={`w-auto rounded-lg p-4 shadow-md ${isMobile ? 'max-h-[500px] overflow-y-auto' : ''}`}
       >
         <DayPicker
           mode='range'
