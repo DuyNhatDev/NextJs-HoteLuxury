@@ -9,10 +9,11 @@ export const useGetListVoucher = () => {
   })
 }
 
-export const useGetSuitableVoucher = (price: number) => {
+export const useGetSuitableVoucher = (price: number, enabled: boolean = false) => {
   return useQuery({
     queryFn: () => voucherApiRequest.getSuitableVoucher(price),
-    queryKey: ['suitable-voucher', price]
+    queryKey: ['suitable-voucher', price],
+    enabled: !!price && enabled
   })
 }
 

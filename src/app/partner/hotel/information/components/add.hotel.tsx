@@ -248,7 +248,7 @@ export default function AddHotel() {
                               ]}
                               value={field.value}
                               onChange={field.onChange}
-                              placeholder='Chọn giới tính'
+                              placeholder='Chọn số sao'
                               className='w-full'
                             />
                           </FormControl>
@@ -263,7 +263,9 @@ export default function AddHotel() {
                     render={({ field }) => (
                       <FormItem className='flex-1'>
                         <div className='grid gap-2'>
-                          <FormLabel htmlFor='locationId'>Địa điểm</FormLabel>
+                          <FormLabel htmlFor='locationId'>
+                            Địa điểm <span className='text-red-500'>*</span>
+                          </FormLabel>
                           <Combobox
                             items={destinations.map((d) => ({
                               value: d.locationId,
@@ -283,7 +285,9 @@ export default function AddHotel() {
                 <div className='flex w-full gap-4'>
                   <div className='flex-1'>
                     <div className='grid gap-2'>
-                      <Label>Tỉnh/Thành phố</Label>
+                      <Label>
+                        Tỉnh/Thành phố <span className='text-red-500'>*</span>
+                      </Label>
                       <Combobox
                         items={provinces.map((p) => ({ value: p.idProvince, label: p.name }))}
                         placeholder='Chọn tỉnh/thành phố'
@@ -300,7 +304,9 @@ export default function AddHotel() {
                   </div>
                   <div className='flex-1'>
                     <div className='grid gap-2'>
-                      <Label>Quận/Huyện</Label>
+                      <Label>
+                        Quận/Huyện <span className='text-red-500'>*</span>
+                      </Label>
                       <Combobox
                         items={districts.map((d) => ({ value: d.idDistrict, label: d.name }))}
                         placeholder='Chọn quận/huyện'
@@ -319,7 +325,9 @@ export default function AddHotel() {
                 <div className='flex w-full gap-4'>
                   <div className='flex-1'>
                     <div className='grid gap-2'>
-                      <Label>Phường/Xã</Label>
+                      <Label>
+                        Phường/Xã <span className='text-red-500'>*</span>
+                      </Label>
                       <Combobox
                         items={wards.map((w) => ({ value: w.idWard, label: w.name }))}
                         placeholder='Chọn phường/xã'
@@ -338,7 +346,9 @@ export default function AddHotel() {
                     name='hotelAddress'
                     render={({ field }) => (
                       <FormItem className='flex-1'>
-                        <FormLabel htmlFor='hotelAddress'>Số nhà, tên đường</FormLabel>
+                        <FormLabel htmlFor='hotelAddress'>
+                          Số nhà, tên đường <span className='text-red-500'>*</span>
+                        </FormLabel>
                         <FormControl>
                           <Input id='address' type='text' required {...field} />
                         </FormControl>
@@ -373,7 +383,7 @@ export default function AddHotel() {
         <DialogFooter>
           <Button type='submit' form='add-hotel-form' className=''>
             {addHotelMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
-            Thêm
+            Lưu
           </Button>
         </DialogFooter>
       </DialogContent>

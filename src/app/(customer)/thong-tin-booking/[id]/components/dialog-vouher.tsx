@@ -13,11 +13,11 @@ import { toast } from 'sonner'
 export default function DialogVoucher() {
   const userId = getUserIdFromLocalStorage()
   const booking = useBookingStore((state) => state.booking)
+  const [open, setOpen] = useState(false)
   const setBooking = useBookingStore((state) => state.setBooking)
-  const { data } = useGetSuitableVoucher(booking.price)
+  const { data } = useGetSuitableVoucher(booking.price, open)
   const { mutateAsync } = useCalculateFinalPriceBookingMutation()
   const vouchers = data?.payload?.data || []
-  const [open, setOpen] = useState(false)
   const [selectedCode, setSelectedCode] = useState('')
 
   const handleApply = async () => {

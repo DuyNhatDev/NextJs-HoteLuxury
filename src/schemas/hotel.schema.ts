@@ -49,7 +49,7 @@ export const CreateHotelBodySchema = z.object({
   hotelAddress: z.string().min(1, { message: 'Địa chỉ không được để trống' }),
   hotelImage: z.union([z.string(), z.instanceof(File)]),
   hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
-  locationId: z.number().optional(),
+  locationId: z.number({message: 'Vui lòng chọn địa điểm'}),
   userId: z.number().optional()
 })
 

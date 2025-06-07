@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useContext } from 'react'
 import CustomTooltip from '@/components/custom/tooltip'
-import { Eye } from 'lucide-react'
+import { Eye, Trash2 } from 'lucide-react'
 import { AdminHotelListResType } from '@/schemas/hotel.schema'
 import { formatCurrency } from '@/lib/utils'
 import { AdminHotelTableContext } from '@/app/admin/hotel/components/hotel-table'
@@ -64,6 +64,9 @@ const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
         <div className='flex justify-center'>
           <CustomTooltip content='Xem chi tiết'>
             <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openOrderView} />
+          </CustomTooltip>
+          <CustomTooltip content='Xóa'>
+            <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' />
           </CustomTooltip>
         </div>
       )
