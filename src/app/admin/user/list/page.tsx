@@ -8,7 +8,7 @@ export default function PartnerPage() {
       <div className='space-y-2'>
         <Card x-chunk='dashboard-06-chunk-0' className='bg-muted-50 gap-3 py-5'>
           <CardHeader>
-            <CardTitle>Tài khoản người dùng</CardTitle>
+            <CardTitle>Tài khoản khách hàng</CardTitle>
           </CardHeader>
           <CardContent>
             <Suspense>

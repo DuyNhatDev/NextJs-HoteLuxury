@@ -50,7 +50,7 @@ export default function AdminHotelTable() {
     filterEnd: createdRange?.endDate
   })
 
-  const listHotel = data?.payload?.data || []
+  const listHotel = data?.payload?.data.slice(0, 7) || []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

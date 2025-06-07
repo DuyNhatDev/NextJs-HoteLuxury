@@ -61,7 +61,7 @@ export const CreateUpdateVoucherBodySchema = z.object({
   minOrderValue: z.number().optional(),
   maxPercentageDiscount: z.number().optional(),
   quantity: z.number({ message: 'Vui lòng nhập số lượng' }).min(1, { message: 'Số lượng phải lớn hơn hoặc bằng 1' }),
-  expiredAt: z.string({ message: 'Vui lòng chọn ngày hết hạn' })
+  expiredAt: z.string().min(1, { message: 'Vui lòng chọn ngày hết hạn' })
 })
 
 export type CreateUpdateVoucherBodyType = z.infer<typeof CreateUpdateVoucherBodySchema>

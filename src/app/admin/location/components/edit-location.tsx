@@ -97,7 +97,7 @@ export default function EditLocation({
                 name='locationImage'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ảnh thumbnail</FormLabel>
+                    <FormLabel>Ảnh</FormLabel>
                     <UploadImage
                       value={
                         typeof field.value === 'string'

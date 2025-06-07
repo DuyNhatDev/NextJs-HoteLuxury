@@ -97,7 +97,7 @@ export default function EditUser({
     >
       <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa tài khoản người dùng</DialogTitle>
+          <DialogTitle>Chỉnh sửa tài khoản khách hàng</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

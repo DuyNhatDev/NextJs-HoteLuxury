@@ -80,7 +80,7 @@ export default function AddLocation() {
                 name='locationImage'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ảnh thumbnail</FormLabel>
+                    <FormLabel>Ảnh</FormLabel>
                     <UploadImage
                       value={
                         typeof field.value === 'string'
@@ -125,7 +125,7 @@ export default function AddLocation() {
         <DialogFooter>
           <Button type='submit' form='add-location-form' className=''>
             {addDestinationMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
-            Thêm
+            Lưu
           </Button>
         </DialogFooter>
       </DialogContent>

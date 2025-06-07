@@ -351,7 +351,7 @@ export default function AddVoucher() {
         <DialogFooter>
           <Button type='submit' form='add-voucher-form' className=''>
             {addVoucherMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
-            Thêm
+            Lưu
           </Button>
         </DialogFooter>
       </DialogContent>

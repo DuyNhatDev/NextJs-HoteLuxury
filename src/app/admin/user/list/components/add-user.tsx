@@ -89,7 +89,7 @@ export default function AddUser() {
       </DialogTrigger>
       <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Tạo tài khoản người dùng</DialogTitle>
+          <DialogTitle>Tạo tài khoản khách hàng</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
