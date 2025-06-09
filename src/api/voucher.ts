@@ -1,5 +1,10 @@
 import http from '@/lib/http'
-import { CreateUpdateVoucherBodyType, Voucher2ResType, VoucherLisResType, VoucherResType } from '@/schemas/voucher.schema'
+import {
+  CreateUpdateVoucherBodyType,
+  Voucher2ResType,
+  VoucherLisResType,
+  VoucherResType
+} from '@/schemas/voucher.schema'
 
 const prefix = '/voucher'
 

@@ -1,5 +1,5 @@
 import AdminDashboard from '@/app/admin/dashboard/components/admin-dashboard'
-import { Card, CardContent, } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function AdminDashboardPage() {
   return (

@@ -1,5 +1,5 @@
-import { Metadata } from "next";
-import Link from "next/link";
+import { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Về chúng tôi',
@@ -12,8 +12,8 @@ export default function AboutPage() {
       <section className='mb-16 text-center'>
         <h1 className='mb-6 text-4xl font-bold text-blue-800 md:text-5xl'>Về Chúng Tôi</h1>
         <p className='mx-auto max-w-3xl text-lg text-gray-700'>
-          HoteLuxury là nền tảng đặt phòng khách sạn hàng đầu giúp bạn tìm kiếm, so sánh và đặt phòng nhanh chóng, tiện lợi và đáng tin cậy
-          cho mọi chuyến đi của bạn với mức giá tốt nhất.
+          HoteLuxury là nền tảng đặt phòng khách sạn hàng đầu giúp bạn tìm kiếm, so sánh và đặt phòng nhanh chóng, tiện
+          lợi và đáng tin cậy cho mọi chuyến đi của bạn với mức giá tốt nhất.
         </p>
       </section>
 
@@ -56,10 +56,10 @@ export default function AboutPage() {
       <section className='mx-auto mb-20 max-w-5xl rounded-3xl bg-white p-10 shadow-xl transition duration-300 hover:shadow-2xl'>
         <h2 className='mb-6 text-3xl font-semibold text-gray-800'>Câu chuyện của chúng tôi</h2>
         <p className='leading-relaxed text-gray-600'>
-          Trang web được thành lập vào năm 2024 với mong muốn xây dựng nền
-          tảng kết nối khách du lịch với những khách sạn chất lượng nhất trên khắp Việt Nam. Chúng tôi hiểu rằng việc
-          tìm kiếm một chỗ ở phù hợp có thể mất rất nhiều thời gian và công sức. Vì vậy chúng tôi tạo ra giải pháp giúp
-          mọi người tiết kiệm thời gian, chi phí và nhận được giá trị xứng đáng cho mỗi kỳ nghỉ.
+          Trang web được thành lập vào năm 2024 với mong muốn xây dựng nền tảng kết nối khách du lịch với những khách
+          sạn chất lượng nhất trên khắp Việt Nam. Chúng tôi hiểu rằng việc tìm kiếm một chỗ ở phù hợp có thể mất rất
+          nhiều thời gian và công sức. Vì vậy chúng tôi tạo ra giải pháp giúp mọi người tiết kiệm thời gian, chi phí và
+          nhận được giá trị xứng đáng cho mỗi kỳ nghỉ.
         </p>
         <p className='mt-4 leading-relaxed text-gray-600'>
           Không chỉ dừng lại ở Việt Nam, chúng tôi đang từng bước mở rộng dịch vụ ra thị trường quốc tế, nhằm phục vụ

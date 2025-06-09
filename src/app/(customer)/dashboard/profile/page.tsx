@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   description: 'Hồ sơ của tôi'
 }
 
-
 export default function ProfilePage() {
   return <ProfileForm />
 }

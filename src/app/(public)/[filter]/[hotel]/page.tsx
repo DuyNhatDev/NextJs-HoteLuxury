@@ -1,5 +1,5 @@
 import HotelInfo from '@/app/(public)/[filter]/[hotel]/components/hotel-info'
-import { extractHotelName} from '@/lib/utils'
+import { extractHotelName } from '@/lib/utils'
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -14,7 +14,6 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     description: `Chi tiết ${extractHotelName(slug)}`
   }
 }
-
 
 export default async function HotelDetailPage({ params }: Props) {
   const { hotel } = await params
