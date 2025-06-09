@@ -42,4 +42,3 @@ export type AdminRevenueChartData = {
   month: string
   totalCommission: number
 }
-

@@ -86,7 +86,7 @@ export default function VoucherTable() {
     <VoucherTableContext.Provider value={{ voucherIdEdit, setVoucherIdEdit, voucherDelete, setVoucherDelete }}>
       <div className='w-full'>
         <EditVoucher id={voucherIdEdit} setId={setVoucherIdEdit} />
-        <AlertDialogDeleteVoucher voucherDelete={voucherDelete} setVoucherDelete={setVoucherDelete} /> 
+        <AlertDialogDeleteVoucher voucherDelete={voucherDelete} setVoucherDelete={setVoucherDelete} />
         <div className='flex items-center gap-2 py-4'>
           <Input
             placeholder='Lọc theo mã voucher'

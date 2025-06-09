@@ -44,7 +44,7 @@ export default function Statistic({ data }: StatisticProps) {
 
   const renderCards = (items: StatItem[]) =>
     items.map(({ title, value, isCurrency }, index) => (
-      <Card key={index} className='flex-1 items-center gap-3 bg-muted-50 p-2'>
+      <Card key={index} className='bg-muted-50 flex-1 items-center gap-3 p-2'>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
         </CardHeader>
