@@ -261,6 +261,10 @@ export const extractHotelName = (slug?: string): string => {
   if (!slug) return ''
   return slug.replace('chi-tiet', '').replace(/-/g, ' ').trim()
 }
+export const extractParams = (slug?: string): string => {
+  if (!slug) return ''
+  return slug.replace(/-/g, ' ').trim()
+}
 
 export const isDate = (value: any): value is Date => {
   return value instanceof Date && !isNaN(value.getTime())

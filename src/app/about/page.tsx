@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: 'Về chúng tôi',
+  description: 'Về HoteLuxury'
+}
 
 export default function AboutPage() {
   return (
@@ -6,7 +12,7 @@ export default function AboutPage() {
       <section className='mb-16 text-center'>
         <h1 className='mb-6 text-4xl font-bold text-blue-800 md:text-5xl'>Về Chúng Tôi</h1>
         <p className='mx-auto max-w-3xl text-lg text-gray-700'>
-          Nền tảng đặt phòng khách sạn hàng đầu giúp bạn tìm kiếm, so sánh và đặt phòng nhanh chóng, tiện lợi và đáng tin cậy
+          HoteLuxury là nền tảng đặt phòng khách sạn hàng đầu giúp bạn tìm kiếm, so sánh và đặt phòng nhanh chóng, tiện lợi và đáng tin cậy
           cho mọi chuyến đi của bạn với mức giá tốt nhất.
         </p>
       </section>

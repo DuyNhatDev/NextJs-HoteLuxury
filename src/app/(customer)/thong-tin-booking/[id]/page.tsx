@@ -1,5 +1,11 @@
 import BookingForm from '@/app/(customer)/thong-tin-booking/[id]/components/booking-form'
 import BookingInfo from '@/app/(customer)/thong-tin-booking/[id]/components/booking-info'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Thông tin đặt phòng',
+  description: 'Thông tin đặt phòng'
+}
 
 export default function BookingPage() {
   return (
