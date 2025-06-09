@@ -6,11 +6,11 @@ import { useBookingStore } from '@/store/booking-store'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-type DialogPoint = {
+type DialogPointProps = {
   point: number
 }
 
-export default function DialogPoint({ point }: DialogPoint) {
+export default function DialogPoint({ point }: DialogPointProps) {
   const setBooking = useBookingStore((state) => state.setBooking)
   const [open, setOpen] = useState(false)
   const [isApplied, setIsApplied] = useState(false)
@@ -42,11 +42,16 @@ export default function DialogPoint({ point }: DialogPoint) {
       }}
     >
       <DialogTrigger asChild>
-        <span
-          className={`text-blue-400 underline hover:cursor-pointer ${Number(selectedPoint) > 0 ? 'text-lg' : 'text-[15px]'}`}
-        >
-          {isApplied && numPoint > 0 && numPoint < point ? selectedPoint : 'Nhập số điểm?'}
-        </span>
+        <div className='flex items-center justify-between'>
+          <span
+            className={`text-blue-400 hover:cursor-pointer ${Number(selectedPoint) > 0 ? 'text-lg' : 'text-[15px] underline'}`}
+          >
+            {isApplied && numPoint > 0 && numPoint < point ? selectedPoint : 'Nhập số điểm?'}
+          </span>
+          {isApplied && numPoint > 0 && numPoint < point && (
+            <span className={`text-[15px] text-blue-400 underline hover:cursor-pointer`}>Thay đổi</span>
+          )}
+        </div>
       </DialogTrigger>
       <DialogContent className='p-4'>
         <DialogHeader className='-mx-4 border-b pb-3 pl-4'>

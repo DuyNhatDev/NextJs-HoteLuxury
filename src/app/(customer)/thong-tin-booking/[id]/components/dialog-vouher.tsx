@@ -45,9 +45,12 @@ export default function DialogVoucher() {
       }}
     >
       <DialogTrigger asChild>
-        <span className={`text-blue-400 underline hover:cursor-pointer ${selectedCode ? 'text-lg' : 'text-[15px]'}`}>
-          {selectedCode || 'Chọn hoặc nhập mã khuyến mãi?'}
-        </span>
+        <div className='flex items-center justify-between'>
+          <span className={`text-blue-400 hover:cursor-pointer ${selectedCode ? 'text-lg' : 'text-[15px] underline'}`}>
+            {selectedCode || 'Chọn hoặc nhập mã khuyến mãi?'}
+          </span>
+          {selectedCode && <span className={`text-[15px] text-blue-400 underline hover:cursor-pointer`}>Thay đổi</span>}
+        </div>
       </DialogTrigger>
       <DialogContent className='p-4'>
         <DialogHeader className='-mx-4 border-b pb-3 pl-4'>
