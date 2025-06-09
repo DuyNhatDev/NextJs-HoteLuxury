@@ -1,6 +1,6 @@
 import ChatBot from '@/app/(public)/components/chatbot'
-import Footer from '@/app/(public)/components/footer'
-import Header from '@/app/(public)/components/header'
+import Footer from '@/app/(public)/components/layout/footer'
+import Header from '@/app/(public)/components/layout/header'
 
 export default function MainLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

@@ -8,7 +8,7 @@ const footerSections = [
     links: [
       {
         title: 'Về chúng tôi',
-        href: '#'
+        href: '/about'
       },
       {
         title: 'Tuyển dụng',
@@ -85,7 +85,7 @@ export default function Footer() {
           <div className='col-span-full xl:col-span-2'>
             <img src='/logo/logo.png' alt='logo' width={50} height={50}></img>
             <p className='text-muted-foreground mt-4'>
-              Hoteluxury mang đến trải nghiệm đặt phòng khách sạn cao cấp với dịch vụ hoàn hảo và tiện nghi sang trọng.
+              Hoteluxury mang đến trải nghiệm đặt phòng nhanh chóng, tiện lợi và đáng tin cậy cho mọi chuyến đi của bạn.
               Hãy để Hoteluxury đồng hành cùng bạn!
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function Footer() {
               <ul className='mt-6 space-y-4'>
                 {links.map(({ title, href }) => (
                   <li key={title}>
-                    <Link href={href} className='text-muted-foreground hover:text-foreground'>
+                    <Link href={href} target='_blank' className='text-muted-foreground hover:text-foreground'>
                       {title}
                     </Link>
                   </li>

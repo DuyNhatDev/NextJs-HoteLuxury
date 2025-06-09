@@ -1,4 +1,4 @@
-import Header from '@/app/(public)/components/header'
+import Header from '@/app/(public)/components/layout/header'
 
 export default function CustomerLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
