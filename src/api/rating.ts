@@ -1,6 +1,6 @@
 import http from '@/lib/http'
-import { objectToFormData } from '@/lib/utils'
-import { CreateRatingBodyType, RatingListResType, RatingResType } from '@/schemas/rating.schema'
+import { buildQueryParams, objectToFormData } from '@/lib/utils'
+import { CreateRatingBodyType, RatingListResType, RatingParamsType, RatingResType } from '@/schemas/rating.schema'
 
 const prefix = '/rating'
 
@@ -10,6 +10,6 @@ const ratingApiRequest = {
     return http.post<RatingResType>(`${prefix}?bookingId=${bookingId}`, formData)
   },
 
-  getRatingList: (hotelId: number) => http.get<RatingListResType>(`${prefix}?hotelId=${hotelId}`)
+  getRatingList: (queryParams: RatingParamsType) => http.get<RatingListResType>(`${prefix}?` + buildQueryParams(queryParams))
 }
 export default ratingApiRequest

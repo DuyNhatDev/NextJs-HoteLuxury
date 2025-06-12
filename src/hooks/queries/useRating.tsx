@@ -1,5 +1,5 @@
 import ratingApiRequest from '@/api/rating'
-import { CreateRatingBodyType } from '@/schemas/rating.schema'
+import { CreateRatingBodyType, RatingParamsType } from '@/schemas/rating.schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useCreateRatingMutation = () => {
@@ -12,9 +12,9 @@ export const useCreateRatingMutation = () => {
   })
 }
 
-export const useGetRatingList = (id: number) => {
+export const useGetRatingList = (queryParams: RatingParamsType) => {
   return useQuery({
-    queryKey: ['hotel', id],
-    queryFn: () => ratingApiRequest.getRatingList(id)
+    queryKey: ['hotel', queryParams],
+    queryFn: () => ratingApiRequest.getRatingList(queryParams)
   })
 }

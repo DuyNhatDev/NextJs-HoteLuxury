@@ -15,7 +15,7 @@ type ListRatingProps = {
   totalRating: number
 }
 export default function ListRating({ hotelId, hotelName, averageRating, totalRating }: ListRatingProps) {
-  const { data: listRatingQuery } = useGetRatingList(hotelId)
+  const { data: listRatingQuery } = useGetRatingList({ hotelId })
   const listRating = listRatingQuery?.payload?.data || []
   const listImage = listRatingQuery?.payload?.allRatingImagesArray || []
   const [visibleCount, setVisibleCount] = useState(10)

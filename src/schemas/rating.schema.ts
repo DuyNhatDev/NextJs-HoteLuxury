@@ -37,3 +37,12 @@ export const RatingListResSchema = z.object({
 })
 
 export type RatingListResType = z.infer<typeof RatingListResSchema>
+
+export const RatingParamsSchema = z.object({
+  hotelId: z.number(),
+  fullname: z.string().optional(),
+  filterStart:z.date().optional(),
+  filterEnd:z.date().optional()
+})
+
+export type RatingParamsType = z.infer<typeof RatingParamsSchema>

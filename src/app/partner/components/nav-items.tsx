@@ -45,7 +45,7 @@ export const data = {
       icon: MessageCircleMore,
       items: [
         {
-          title: 'Nhận xét',
+          title: 'Đánh giá phản hồi',
           url: '/partner/feedback'
         }
       ]
