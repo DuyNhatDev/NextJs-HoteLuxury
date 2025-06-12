@@ -43,8 +43,17 @@ export default function HotelInformation() {
     return <AddHotel />
   }
 
-  const { hotelName, hotelPhoneNumber, hotelStar, hotelDescription, hotelAddress, hotelImage, hotelImages, active } =
-    data
+  const {
+    hotelName,
+    hotelPhoneNumber,
+    hotelStar,
+    hotelDescription,
+    hotelAddress,
+    hotelImage,
+    hotelImages,
+    active,
+    isDeleted
+  } = data
   const imageList = [hotelImage, ...hotelImages]
 
   return (
@@ -53,10 +62,12 @@ export default function HotelInformation() {
         <div className='flex items-center justify-between'>
           {openEdit && <EditHotel open={openEdit} setOpen={setOpenEdit} />}
           <h2 className='text-3xl font-bold'>{hotelName}</h2>
+          {isDeleted && <h2 className='text-lg text-gray-500'>Khách sạn của bạn đang bị ẩn</h2>}
+
           <div>
             <CustomTooltip content='Sửa'>
               <PenLine
-                className='h-5 w-5 ml-3 text-blue-600 hover:cursor-pointer'
+                className='ml-3 h-5 w-5 text-blue-600 hover:cursor-pointer'
                 onClick={() => {
                   setOpenEdit(true)
                 }}

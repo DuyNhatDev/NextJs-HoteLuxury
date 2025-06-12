@@ -16,6 +16,7 @@ export const HotelSchema = z.object({
   locationId: z.number(),
   locationName: z.string(),
   minPrice: z.number(),
+  isDeleted: z.boolean(),
   active: z.boolean()
 })
 
