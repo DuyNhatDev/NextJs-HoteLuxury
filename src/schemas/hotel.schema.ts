@@ -15,7 +15,8 @@ export const HotelSchema = z.object({
   ratingQuantity: z.number(),
   locationId: z.number(),
   locationName: z.string(),
-  minPrice: z.number()
+  minPrice: z.number(),
+  active: z.boolean()
 })
 
 export type HotelType = z.infer<typeof HotelSchema>
@@ -69,7 +70,8 @@ export const UpdateHotelBodySchema = z.object({
   locationId: z.number().optional(),
   hotelImage: z.union([z.string(), z.instanceof(File)]),
   hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
-  isDeleted: z.boolean().optional()
+  isDeleted: z.boolean().optional(),
+  active: z.boolean().optional()
 })
 
 export type UpdateHotelBodyType = z.infer<typeof UpdateHotelBodySchema>

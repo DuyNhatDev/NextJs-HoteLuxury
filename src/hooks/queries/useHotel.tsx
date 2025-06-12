@@ -40,7 +40,8 @@ export const useUpdateHotelMutation = () => {
   return useMutation({
     mutationFn: ({ id, body }: { id: number; body: UpdateHotelBodyType }) => hotelApiRequest.updateHotel(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['hotels'] })
+      queryClient.invalidateQueries({ queryKey: ['hotels'] }),
+        queryClient.invalidateQueries({ queryKey: ['hotel-by-manager'] })
     }
   })
 }
@@ -83,6 +84,16 @@ export const useDisableHotelMutation = () => {
     mutationFn: ({ id, body }: { id: number; body: { isDeleted: boolean } }) => hotelApiRequest.disableHotel(id, body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-hotels'] })
+    }
+  })
+}
+
+export const useActiveHotelMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, body }: { id: number; body: { active: boolean } }) => hotelApiRequest.activeHotel(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['hotel-by-manager'] })
     }
   })
 }

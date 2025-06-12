@@ -78,7 +78,7 @@ const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
           <CustomTooltip content='Xem chi tiết'>
             <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openHotelView} />
           </CustomTooltip>
-          <CustomTooltip content='Active'>
+          <CustomTooltip content='Ẩn'>
             <Switch
               checked={!row.original.isDeleted}
               onChange={(e) => handleToggleActive(e.target.checked)}

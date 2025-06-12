@@ -93,6 +93,9 @@ export default function HotelInfo() {
       })
     }
   }
+
+  if (!hotelData?.active) return <div className='text-center mt-10 text-2xl'>Khách sạn đang tạm ngưng hoạt động</div>
+
   return (
     <div className='flex flex-col'>
       <div className='mx-auto h-full w-full py-4 sm:max-w-xl md:max-w-6xl'>

@@ -55,61 +55,80 @@ export default function ListFilterHotel({ filterParams, onSetHotelQuantity }: Li
             {visibleHotelList.map((hotel) => {
               const slug = generateSlugUrl(hotel.hotelName)
               const href = `${params.filter as string}/${slug}-chi-tiet`
-              return (
-                <Link key={hotel.hotelId} href={href} className='w-full'>
-                  <Card className='grid w-full transform grid-cols-1 gap-3 rounded border p-0 transition-transform duration-200 ease-in-out hover:scale-101 hover:border-blue-500 hover:shadow-md sm:grid-cols-2 md:grid-cols-10'>
-                    <div className='relative col-span-1 aspect-[3/2] h-full w-full overflow-hidden sm:col-span-2 md:col-span-3'>
-                      <Image src={hotel.hotelImage} alt={hotel.hotelName} fill className='object-cover' />
-                    </div>
 
-                    <CardContent className='col-span-1 flex flex-col justify-between gap-1 px-0 py-0 sm:col-span-2 md:col-span-5'>
-                      <div className='flex flex-1 flex-col gap-2 px-1 py-3'>
-                        <div>
-                          <p className='mb-1 line-clamp-2 text-lg font-semibold'>{hotel.hotelName}</p>
-                          <div className='flex items-center gap-2'>
-                            <Rating
-                              rating={hotel.hotelStar || 0}
-                              size={22}
-                              variant='yellow'
-                              showText={false}
-                              disabled={true}
-                            />
-                            {hotel.ratingQuantity !== 0 && (
-                              <>
-                                <Badge className='rounded bg-green-600 text-xs font-semibold'>
-                                  {hotel.ratingAverage}
-                                </Badge>
-                                <p className='text-sm text-gray-500'>| {hotel.ratingQuantity} đánh giá</p>
-                              </>
-                            )}
-                          </div>
-                        </div>
+              const CardContentRender = (
+                <Card
+                  className={`grid w-full transform grid-cols-1 gap-3 rounded border p-0 transition-transform duration-200 ease-in-out ${
+                    hotel.active
+                      ? 'hover:scale-101 hover:border-blue-500 hover:shadow-md'
+                      : 'cursor-not-allowed opacity-60'
+                  } sm:grid-cols-2 md:grid-cols-10`}
+                >
+                  <div className='relative col-span-1 aspect-[3/2] h-full w-full overflow-hidden sm:col-span-2 md:col-span-3'>
+                    <Image src={hotel.hotelImage} alt={hotel.hotelName} fill className='object-cover' />
+                  </div>
 
-                        <div className='space-y-2'>
-                          <div className='flex items-center text-sm text-gray-500'>
-                            <MapPin className='mr-2 h-6 w-6 text-red-500' />
-                            <span className='font-medium'>{hotel.hotelAddress}</span>
-                          </div>
-                          <div className='inline-block rounded px-2 py-1 text-sm'>
-                            <Badge variant='secondary' className='py-1'>
-                              {hotel.hotelType}
-                            </Badge>
-                          </div>
+                  <CardContent className='col-span-1 flex flex-col justify-between gap-1 px-0 py-0 sm:col-span-2 md:col-span-5'>
+                    <div className='flex flex-1 flex-col gap-2 px-1 py-3'>
+                      <div>
+                        <p className='mb-1 line-clamp-2 text-lg font-semibold'>{hotel.hotelName}</p>
+                        <div className='flex items-center gap-2'>
+                          <Rating
+                            rating={hotel.hotelStar || 0}
+                            size={22}
+                            variant='yellow'
+                            showText={false}
+                            disabled={true}
+                          />
+                          {hotel.ratingQuantity !== 0 && (
+                            <>
+                              <Badge className='rounded bg-green-600 text-xs font-semibold'>
+                                {hotel.ratingAverage}
+                              </Badge>
+                              <p className='text-sm text-gray-500'>| {hotel.ratingQuantity} đánh giá</p>
+                            </>
+                          )}
                         </div>
                       </div>
-                    </CardContent>
 
-                    <div className='col-span-1 flex items-center justify-end px-3 sm:col-span-2 md:col-span-2'>
-                      {hotel.minPrice ? (
+                      <div className='space-y-2'>
+                        <div className='flex items-center text-sm text-gray-500'>
+                          <MapPin className='mr-2 h-6 w-6 text-red-500' />
+                          <span className='font-medium'>{hotel.hotelAddress}</span>
+                        </div>
+                        <div className='inline-block rounded px-2 py-1 text-sm'>
+                          <Badge variant='secondary' className='py-1'>
+                            {hotel.hotelType}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+
+                  <div className='col-span-1 flex items-center justify-end px-3 sm:col-span-2 md:col-span-2'>
+                    {hotel.active ? (
+                      hotel.minPrice ? (
                         <p className='text-lg font-semibold text-sky-500'>
                           {Number(hotel.minPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                         </p>
                       ) : (
                         <p className='text-lg font-semibold text-orange-500'>Hết phòng</p>
-                      )}
-                    </div>
-                  </Card>
+                      )
+                    ) : (
+                      <p className='text-lg font-semibold text-red-500'>Tạm ngưng hoạt động</p>
+                    )}
+                  </div>
+                </Card>
+              )
+
+              return hotel.active ? (
+                <Link key={hotel.hotelId} href={href} className='w-full'>
+                  {CardContentRender}
                 </Link>
+              ) : (
+                <div key={hotel.hotelId} className='w-full'>
+                  {CardContentRender}
+                </div>
               )
             })}
           </div>
