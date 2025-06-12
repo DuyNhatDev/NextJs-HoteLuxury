@@ -5,6 +5,7 @@ import { Eye, Trash2 } from 'lucide-react'
 import { AdminHotelListResType } from '@/schemas/hotel.schema'
 import { formatCurrency } from '@/lib/utils'
 import { AdminHotelTableContext } from '@/app/admin/hotel/components/hotel-table'
+import { useRouter } from 'next/navigation'
 
 export type AdminHotelItem = AdminHotelListResType['data'][0]
 const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
@@ -57,13 +58,16 @@ const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
     size: 80,
     cell: function Actions({ row }) {
       const { setHotelIdView } = useContext(AdminHotelTableContext)
-
-      const openOrderView = () => setHotelIdView(row.original.hotelId)
+      const router = useRouter()
+      const openHotelView = () =>{
+        setHotelIdView(row.original.hotelId)
+        router.push(`/admin/hotel/${row.original.hotelId}`)
+      } 
 
       return (
         <div className='flex justify-center'>
           <CustomTooltip content='Xem chi tiết'>
-            <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openOrderView} />
+            <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openHotelView} />
           </CustomTooltip>
           <CustomTooltip content='Xóa'>
             <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' />
