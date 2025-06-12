@@ -6,6 +6,7 @@ import DestinationList from '@/app/(public)/components/destination-list'
 import { FeaturedHotelType } from '@/schemas/hotel.schema'
 import hotelApiRequest from '@/api/hotel'
 import FeaturedHotelList from '@/app/(public)/components/featured-hotel-list'
+import voucherApiRequest from '@/api/voucher'
 export default async function Home() {
   let destinationList: LocationType[] = []
   let featuredHotelList: FeaturedHotelType[] = []
@@ -20,6 +21,13 @@ export default async function Home() {
   try {
     const destinationResult = await locationApiRequest.getLocationList()
     destinationList = destinationResult.payload.data
+  } catch (error) {
+    return <div className='text-center'>Lỗi khi tải danh sách địa điểm</div>
+  }
+
+  try {
+    const voucherResult = await voucherApiRequest.getFestivalVoucher()
+    const voucher = voucherResult.payload.data
   } catch (error) {
     return <div className='text-center'>Lỗi khi tải danh sách địa điểm</div>
   }

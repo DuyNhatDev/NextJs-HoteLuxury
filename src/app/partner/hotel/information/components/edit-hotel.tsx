@@ -12,7 +12,7 @@ import { toast } from 'sonner'
 import CustomSelect from '@/components/custom/select'
 import UploadImage from '@/components/custom/upload-image'
 import { UpdateHotelBodySchema, UpdateHotelBodyType } from '@/schemas/hotel.schema'
-import { useGetHotel, useUpdateHotelMutation } from '@/hooks/queries/useHotel'
+import { useGetHotelByManager, useUpdateHotelMutation } from '@/hooks/queries/useHotel'
 import { MultiUploadImage } from '@/components/custom/multi-upload-image'
 import Combobox from '@/components/custom/combobox'
 import { useGetLocationList } from '@/hooks/queries/useLocation'
@@ -27,7 +27,7 @@ export default function EditHotel({ open, setOpen }: EditHotelProps) {
   const [file, setFile] = useState<File | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const hotelId = getHotelIdFromLocalStorage()
-  const { data } = useGetHotel(String(hotelId), Boolean(hotelId))
+  const { data } = useGetHotelByManager(String(hotelId), Boolean(hotelId))
   const { data: locationsQueries } = useGetLocationList(open)
   const destinations = locationsQueries?.payload?.data || []
   const updateHotelMutation = useUpdateHotelMutation()

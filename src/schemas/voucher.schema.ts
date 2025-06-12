@@ -13,6 +13,7 @@ export const VoucherSchema = z.object({
   expiredAt: z.date(),
   createdAt: z.date()
 })
+
 export const Voucher2Schema = z.object({
   voucherId: z.number(),
   code: z.string(),

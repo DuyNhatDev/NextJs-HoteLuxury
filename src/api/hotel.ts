@@ -15,6 +15,7 @@ const prefix = '/hotel'
 const hotelApiRequest = {
   getHotelList: () => http.get<HotelListResType>(`${prefix}`),
   getHotel: (id: string) => http.get<HotelResType>(`${prefix}/${id}`),
+  getHotelByManager: (id: string) => http.get<HotelResType>(`${prefix}/manage-hotel/${id}`),
   addHotel: (body: CreateHotelBodyType) => {
     const formData = objectToFormData(body)
     return http.post<HotelResType>(`${prefix}`, formData)
@@ -28,6 +29,6 @@ const hotelApiRequest = {
   getSimilarHotelList: (id: string) => http.get<HotelListResType>(`${prefix}/similar-hotel/${id}`),
   getHotelListByAdmin: (queryParams: AdminHotelParamsType) =>
     http.get<AdminHotelListResType>(`admin${prefix}?` + buildQueryParams(queryParams)),
-  disableHotel: (id: number, body: {isDeleted: boolean}) => http.put<HotelResType>(`${prefix}/${id}`, body)
+  disableHotel: (id: number, body: { isDeleted: boolean }) => http.put<HotelResType>(`${prefix}/${id}`, body)
 }
 export default hotelApiRequest

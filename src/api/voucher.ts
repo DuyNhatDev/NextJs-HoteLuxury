@@ -16,6 +16,7 @@ const voucherApiRequest = {
   getVoucher2: (id: number) => http.get<Voucher2ResType>(`${prefix}/${id}`),
   addVoucher: (body: CreateUpdateVoucherBodyType) => http.post<VoucherResType>(`${prefix}`, body),
   updateVoucher: (id: number, body: CreateUpdateVoucherBodyType) => http.put<VoucherResType>(`${prefix}/${id}`, body),
-  deleteVoucher: (id: number) => http.delete(`${prefix}/${id}`)
+  deleteVoucher: (id: number) => http.delete(`${prefix}/${id}`),
+  getFestivalVoucher: () => http.get<VoucherResType>(`${prefix}/festival-voucher`),
 }
 export default voucherApiRequest

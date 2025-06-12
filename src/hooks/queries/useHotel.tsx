@@ -10,6 +10,14 @@ export const useGetHotel = (id?: string, enabled: boolean = false) => {
   })
 }
 
+export const useGetHotelByManager = (id?: string, enabled: boolean = false) => {
+  return useQuery({
+    queryKey: ['hotel-by-manager', id],
+    queryFn: () => hotelApiRequest.getHotelByManager(id!),
+    enabled: !!id && enabled
+  })
+}
+
 export const useGetHotelList = () => {
   return useQuery({
     queryKey: ['hotels'],

@@ -69,3 +69,10 @@ export const useGetVoucher2 = (id?: number, enabled: boolean = false) => {
     enabled: !!id && enabled
   })
 }
+
+export const useGetFestivalVoucher = () => {
+  return useQuery({
+    queryFn: () => voucherApiRequest.getFestivalVoucher(),
+    queryKey: ['festival-voucher']
+  })
+}

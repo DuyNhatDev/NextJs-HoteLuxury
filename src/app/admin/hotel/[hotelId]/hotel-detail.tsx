@@ -10,7 +10,7 @@ import {
   SliderThumbItem
 } from '@/components/custom/carousel'
 import { Rating } from '@/components/custom/rating'
-import { useGetHotel } from '@/hooks/queries/useHotel'
+import { useGetHotelByManager } from '@/hooks/queries/useHotel'
 import { ChevronLeft, MapPin, Phone } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
@@ -23,7 +23,7 @@ export default function HotelDetail() {
   const router = useRouter()
   const params = useParams()
   const hotelId = params.hotelId
-  const { data: hotelQuery } = useGetHotel(String(hotelId), !!hotelId)
+  const { data: hotelQuery } = useGetHotelByManager(String(hotelId), !!hotelId)
   const data = hotelQuery?.payload?.data
 
   if (!data) {

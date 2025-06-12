@@ -2,7 +2,7 @@
 
 import AddHotel from '@/app/partner/hotel/information/components/add.hotel'
 import { Rating } from '@/components/custom/rating'
-import { useGetHotel } from '@/hooks/queries/useHotel'
+import { useGetHotelByManager } from '@/hooks/queries/useHotel'
 import Image from 'next/image'
 import {
   Carousel,
@@ -26,7 +26,7 @@ const Map = dynamic(() => import('@/components/custom/map'), {
 export default function HotelInformation() {
   const [openEdit, setOpenEdit] = useState(false)
   const hotelId = getHotelIdFromLocalStorage()
-  const { data: hotelQuery } = useGetHotel(String(hotelId), !!hotelId)
+  const { data: hotelQuery } = useGetHotelByManager(String(hotelId), !!hotelId)
   const data = hotelQuery?.payload?.data
 
   if (!data) {
