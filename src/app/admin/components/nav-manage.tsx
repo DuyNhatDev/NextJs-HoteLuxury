@@ -28,12 +28,19 @@ export function NavManage({
 }) {
   const pathname = usePathname()
 
+  const normalizePath = (path: string) => path.replace(/\/$/, '')
+
   const activeItems = items.map((item) => {
     const subItemsWithActive =
-      item.items?.map((subItem) => ({
-        ...subItem,
-        isActive: pathname === subItem.url
-      })) ?? []
+      item.items?.map((subItem) => {
+        const normalizedSubUrl = normalizePath(subItem.url)
+        const normalizedPathname = normalizePath(pathname)
+
+        return {
+          ...subItem,
+          isActive: normalizedPathname === normalizedSubUrl || normalizedPathname.startsWith(normalizedSubUrl + '/')
+        }
+      }) ?? []
 
     const isActive = subItemsWithActive.some((subItem) => subItem.isActive)
 

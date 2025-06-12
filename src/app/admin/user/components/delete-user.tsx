@@ -1,4 +1,4 @@
-import { UserItem } from '@/app/admin/user/list/components/user-table'
+import { UserItem } from '@/app/admin/user/components/user-table'
 import {
   AlertDialog,
   AlertDialogAction,

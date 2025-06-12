@@ -1,6 +1,5 @@
-import ListRating from "@/app/partner/feedback/list-rating";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Suspense } from "react";
+import ListRating from '@/app/partner/feedback/list-rating'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
 export default function FeedbackPage() {
   return (
@@ -9,9 +8,7 @@ export default function FeedbackPage() {
         <Card x-chunk='dashboard-06-chunk-0' className='bg-muted-50 gap-3 py-1'>
           <CardHeader>{/* <CardTitle>Danh sách đơn</CardTitle> */}</CardHeader>
           <CardContent>
-            <Suspense>
-              <ListRating />
-            </Suspense>
+            <ListRating />
           </CardContent>
         </Card>
       </div>

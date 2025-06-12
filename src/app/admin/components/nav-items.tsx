@@ -24,7 +24,7 @@ export const data = {
       items: [
         {
           title: 'Khách sạn',
-          url: '/admin/hotel/'
+          url: '/admin/hotel'
         }
       ]
     },
@@ -35,7 +35,7 @@ export const data = {
       items: [
         {
           title: 'Khách hàng',
-          url: '/admin/user/list'
+          url: '/admin/user'
         }
       ]
     },
@@ -61,21 +61,7 @@ export const data = {
         }
       ]
     },
-    // {
-    //   title: 'Doanh thu',
-    //   url: '#',
-    //   icon: BadgeDollarSign,
-    //   items: [
-    //     {
-    //       title: 'Doanh thu theo khách sạn',
-    //       url: '#'
-    //     },
-    //     {
-    //       title: 'Thống kê hoa hồng',
-    //       url: '#'
-    //     }
-    //   ]
-    // },
+    
     {
       title: 'Cài đặt',
       url: '#',
@@ -92,16 +78,5 @@ export const data = {
       ]
     }
   ]
-  // projects: [
-  //   {
-  //     name: 'Design Engineering',
-  //     url: '#',
-  //     icon: Frame,
-  //   },
-  //   {
-  //     name: 'Sales & Marketing',
-  //     url: '#',
-  //     icon: PieChart,
-  //   },
-  // ],
+  
 }

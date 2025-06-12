@@ -24,9 +24,9 @@ import { getLastTwoInitials } from '@/lib/utils'
 import { useGetUserList } from '@/hooks/queries/useAccount'
 import { PenLine, Trash2 } from 'lucide-react'
 import CustomTooltip from '@/components/custom/tooltip'
-import AlertDialogDeleteUser from '@/app/admin/user/list/components/delete-user'
-import EditUser from '@/app/admin/user/list/components/edit-user'
-import AddUser from '@/app/admin/user/list/components/add-user'
+import AlertDialogDeleteUser from '@/app/admin/user/components/delete-user'
+import EditUser from '@/app/admin/user/components/edit-user'
+import AddUser from '@/app/admin/user/components/add-user'
 
 export type UserItem = AccountListResType['data'][0]
 
@@ -223,7 +223,7 @@ export default function UserTable() {
             <AutoPagination
               page={table.getState().pagination.pageIndex + 1}
               pageSize={table.getPageCount()}
-              pathname='/admin/user/list'
+              pathname='/admin/user'
             />
           </div>
         </div>
