@@ -11,6 +11,8 @@ export type TopHotel = {
 export type TopBookingUser = {
   userId: number
   userName: string
+  phoneNumber: string
+  email: string,
   totalBooking: number
   totalPrice: number
 }

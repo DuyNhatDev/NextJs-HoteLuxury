@@ -25,7 +25,7 @@ export default function DetailBookingDialog({ id, setId }: DetailBookingDialogPr
   }
 
   if (paymentItems.length > 0) {
-    paymentItems.unshift(['Tổng tiền', `${Number(booking?.price).toLocaleString('vi-VN')} VNĐ`])
+    paymentItems.unshift(['Giá', `${Number(booking?.price).toLocaleString('vi-VN')} VNĐ`])
   }
 
   paymentItems.push(['Thành tiền', `${Number(booking?.finalPrice).toLocaleString('vi-VN')} VNĐ`])

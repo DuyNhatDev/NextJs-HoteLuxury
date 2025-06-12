@@ -1,6 +1,7 @@
 'use client'
 import AdminRevenueChart from '@/app/admin/dashboard/components/revenue-chart'
 import Statistic from '@/app/admin/dashboard/components/statistic'
+import TopUserTable from '@/app/admin/dashboard/components/top-booking-user-table'
 import TopHotelTable from '@/app/admin/dashboard/components/top-hotel-table'
 import DashboardFilterRange from '@/components/custom/dashboard-filter-range'
 import { useGetAdminDashboard } from '@/hooks/queries/useDashboard'
@@ -23,6 +24,7 @@ export default function AdminDashboard() {
     totalCommission: item.totalCommission || 0
   }))
   const topHotel = dashboardData?.hotel
+  const topUser = dashboardData?.user
 
   return (
     <div className='w-full rounded'>
@@ -49,6 +51,9 @@ export default function AdminDashboard() {
 
       <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
         <TopHotelTable data={topHotel ?? []} />
+      </div>
+      <div className='mx-auto h-full w-full py-3 sm:max-w-xl md:max-w-6xl'>
+        <TopUserTable data={topUser ?? []} />
       </div>
     </div>
   )

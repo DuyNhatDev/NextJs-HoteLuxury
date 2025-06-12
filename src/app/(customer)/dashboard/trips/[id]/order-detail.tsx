@@ -73,7 +73,7 @@ export default function OrderDetail() {
               <div className='grid grid-cols-2 gap-x-4 text-base text-gray-600'>
                 {((data?.voucherDiscount ?? 0) > 0 || (data?.pointDiscount ?? 0) > 0) && (
                   <>
-                    <span className='font-normal'>Tổng tiền:</span>
+                    <span className='font-normal'>Giá:</span>
                     <span className='text-right'>
                       {Number(data?.price ?? 0).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                     </span>

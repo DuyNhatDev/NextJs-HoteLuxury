@@ -22,7 +22,7 @@ export default function TopBookingUserTable({ data }: TopBookingUserTableProps) 
               <TableHead className='w-[30%] text-left'>Email</TableHead>
               <TableHead className='w-[15%] text-center'>Số điện thoại</TableHead>
               <TableHead className='w-[5%] text-center'>Số lần đặt</TableHead>
-              <TableHead className='w-[20%] text-right'>Tổng tiền đã chi</TableHead>
+              <TableHead className='w-[20%] text-right'>Giá đã chi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

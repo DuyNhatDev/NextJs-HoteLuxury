@@ -85,7 +85,7 @@ export default function BookingInfo() {
       <CardFooter className='flex flex-col border-t px-0 py-2'>
         {calculatePrice && (calculatePrice.voucherDiscount || calculatePrice.pointDiscount) && (
           <div className='flex w-full items-center justify-between'>
-            <h2 className='text-gray-500'>Tổng tiền:</h2>
+            <h2 className='text-gray-500'>Giá:</h2>
             <span className='text-base text-gray-500'>
               {calculatePrice.price.toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
             </span>

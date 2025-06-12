@@ -39,6 +39,17 @@ export const data = {
         }
       ]
     },
+    {
+      title: 'Nhận xét',
+      url: '#',
+      icon: MessageCircleMore,
+      items: [
+        {
+          title: 'Nhận xét',
+          url: '/partner/feedback'
+        }
+      ]
+    },
     // {
     //   title: 'Đánh giá phản hồi',
     //   url: '#',
