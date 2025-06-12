@@ -68,3 +68,13 @@ export const useGetHotelListByAdmin = (queryParams: AdminHotelParamsType) => {
     queryFn: () => hotelApiRequest.getHotelListByAdmin(queryParams)
   })
 }
+
+export const useDisableHotelMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, body }: { id: number; body: { isDeleted: boolean } }) => hotelApiRequest.disableHotel(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-hotels'] })
+    }
+  })
+}

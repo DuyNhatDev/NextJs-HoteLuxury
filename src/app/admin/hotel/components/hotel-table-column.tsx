@@ -1,11 +1,13 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useContext } from 'react'
 import CustomTooltip from '@/components/custom/tooltip'
-import { Eye, Trash2 } from 'lucide-react'
+import { Eye } from 'lucide-react'
 import { AdminHotelListResType } from '@/schemas/hotel.schema'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, handleErrorApi } from '@/lib/utils'
 import { AdminHotelTableContext } from '@/app/admin/hotel/components/hotel-table'
 import { useRouter } from 'next/navigation'
+import { useDisableHotelMutation } from '@/hooks/queries/useHotel'
+import { Switch } from '@mui/material'
 
 export type AdminHotelItem = AdminHotelListResType['data'][0]
 const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
@@ -41,13 +43,13 @@ const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
   },
   {
     accessorKey: 'commission',
-    header: 'Hoa hồng chênh lệch',
+    header: 'Hoa hồng',
     size: 140,
     cell: ({ row }) => <div className='text-right'>{formatCurrency(row.getValue('commission'))}</div>
   },
   {
     accessorKey: 'totalMoney',
-    header: 'Tổng hoa hồng',
+    header: 'Tổng chênh lệch',
     size: 140,
     cell: ({ row }) => <div className='text-right'>{formatCurrency(row.getValue('totalMoney'))}</div>
   },
@@ -57,20 +59,31 @@ const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
     enableHiding: false,
     size: 80,
     cell: function Actions({ row }) {
+      const { mutateAsync } = useDisableHotelMutation()
       const { setHotelIdView } = useContext(AdminHotelTableContext)
       const router = useRouter()
-      const openHotelView = () =>{
+      const openHotelView = () => {
         setHotelIdView(row.original.hotelId)
         router.push(`/admin/hotel/${row.original.hotelId}`)
-      } 
-
+      }
+      const handleToggleActive = async (newValue: boolean) => {
+        try {
+          await mutateAsync({ id: row.original.hotelId, body: { isDeleted: !newValue } })
+        } catch (error) {
+          handleErrorApi({ error })
+        }
+      }
       return (
         <div className='flex justify-center'>
           <CustomTooltip content='Xem chi tiết'>
             <Eye className='h-5 w-5 text-blue-600 hover:cursor-pointer' onClick={openHotelView} />
           </CustomTooltip>
-          <CustomTooltip content='Xóa'>
-            <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' />
+          <CustomTooltip content='Active'>
+            <Switch
+              checked={!row.original.isDeleted}
+              onChange={(e) => handleToggleActive(e.target.checked)}
+              size='small'
+            />
           </CustomTooltip>
         </div>
       )

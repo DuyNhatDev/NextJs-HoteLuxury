@@ -68,7 +68,8 @@ export const UpdateHotelBodySchema = z.object({
   hotelDescription: z.string(),
   locationId: z.number().optional(),
   hotelImage: z.union([z.string(), z.instanceof(File)]),
-  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional())
+  hotelImages: z.array(z.union([z.string(), z.instanceof(File)]).optional()),
+  isDeleted: z.boolean().optional()
 })
 
 export type UpdateHotelBodyType = z.infer<typeof UpdateHotelBodySchema>
@@ -95,7 +96,8 @@ export const AdminHotelSchema = HotelSchema.extend({
   totalPrice: z.number(),
   totalFinalPrice: z.number(),
   commission: z.number(),
-  totalMoney: z.number()
+  totalMoney: z.number(),
+  isDeleted: z.boolean()
 })
 
 export type AdminHotelType = z.infer<typeof AdminHotelSchema>

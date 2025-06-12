@@ -3,6 +3,7 @@ import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
   ColumnDef,
   ColumnFiltersState,
+  Row,
   SortingState,
   VisibilityState,
   flexRender,
@@ -20,13 +21,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/custom/auto-pagination'
-import { getLastTwoInitials } from '@/lib/utils'
-import { useGetUserList } from '@/hooks/queries/useAccount'
+import { getLastTwoInitials, handleErrorApi } from '@/lib/utils'
+import { useGetUserList, useUpdateCustomerMutation } from '@/hooks/queries/useAccount'
 import { PenLine, Trash2 } from 'lucide-react'
 import CustomTooltip from '@/components/custom/tooltip'
 import AlertDialogDeleteUser from '@/app/admin/user/components/delete-user'
 import EditUser from '@/app/admin/user/components/edit-user'
 import AddUser from '@/app/admin/user/components/add-user'
+import { Switch } from '@mui/material'
 
 export type UserItem = AccountListResType['data'][0]
 
@@ -83,7 +85,9 @@ export const columns: ColumnDef<AccountType>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
+      const { mutateAsync } = useUpdateCustomerMutation()
       const { setUserIdEdit, setUserDelete } = useContext(UserTableContext)
+
       const openEditPartner = () => {
         setUserIdEdit(row.original.userId)
       }
@@ -91,6 +95,15 @@ export const columns: ColumnDef<AccountType>[] = [
       const openDeletePartner = () => {
         setUserDelete(row.original)
       }
+
+      const handleToggleActive = async (newValue: boolean) => {
+        try {
+          await mutateAsync({ id: row.original.userId, body: { active: newValue } })
+        } catch (error) {
+          handleErrorApi({ error })
+        }
+      }
+
       return (
         <div className='flex gap-3'>
           <CustomTooltip content='Sửa'>
@@ -98,6 +111,9 @@ export const columns: ColumnDef<AccountType>[] = [
           </CustomTooltip>
           <CustomTooltip content='Xóa'>
             <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openDeletePartner} />
+          </CustomTooltip>
+          <CustomTooltip content='Active'>
+            <Switch checked={row.original.active} onChange={(e) => handleToggleActive(e.target.checked)} size='small' />
           </CustomTooltip>
         </div>
       )

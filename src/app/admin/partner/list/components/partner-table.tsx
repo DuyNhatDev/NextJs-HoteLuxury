@@ -20,13 +20,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/custom/auto-pagination'
-import { getLastTwoInitials } from '@/lib/utils'
-import { useGetPartnerList } from '@/hooks/queries/useAccount'
+import { getLastTwoInitials, handleErrorApi } from '@/lib/utils'
+import { useGetPartnerList, useUpdatePartnerMutation } from '@/hooks/queries/useAccount'
 import { PenLine, Trash2 } from 'lucide-react'
 import AddPartner from '@/app/admin/partner/list/components/add-partner'
 import CustomTooltip from '@/components/custom/tooltip'
 import EditPartner from '@/app/admin/partner/list/components/edit-partner'
 import AlertDialogDeletePartner from '@/app/admin/partner/list/components/delete-partner'
+import { Switch } from '@mui/material'
 
 export type PartnerItem = AccountListResType['data'][0]
 
@@ -83,6 +84,7 @@ export const columns: ColumnDef<AccountType>[] = [
     header: 'Thao tác',
     enableHiding: false,
     cell: function Actions({ row }) {
+      const { mutateAsync } = useUpdatePartnerMutation()
       const { setPartnerIdEdit, setPartnerDelete } = useContext(PartnerTableContext)
       const openEditPartner = () => {
         setPartnerIdEdit(row.original.userId)
@@ -91,6 +93,14 @@ export const columns: ColumnDef<AccountType>[] = [
       const openDeletePartner = () => {
         setPartnerDelete(row.original)
       }
+
+      const handleToggleActive = async (newValue: boolean) => {
+        try {
+          await mutateAsync({ id: row.original.userId, body: { active: newValue } })
+        } catch (error) {
+          handleErrorApi({ error })
+        }
+      }
       return (
         <div className='flex gap-3'>
           <CustomTooltip content='Sửa'>
@@ -98,6 +108,9 @@ export const columns: ColumnDef<AccountType>[] = [
           </CustomTooltip>
           <CustomTooltip content='Xóa'>
             <Trash2 className='h-5 w-5 text-red-600 hover:cursor-pointer' onClick={openDeletePartner} />
+          </CustomTooltip>
+          <CustomTooltip content='Active'>
+            <Switch checked={row.original.active} onChange={(e) => handleToggleActive(e.target.checked)} size='small' />
           </CustomTooltip>
         </div>
       )
