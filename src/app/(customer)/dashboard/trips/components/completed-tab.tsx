@@ -14,9 +14,12 @@ import { useOrderStore } from '@/store/order-store'
 type CompletedTabProps = {
   data: BookingType[]
 }
+
 export default function CompletedTab({ data }: CompletedTabProps) {
   const [openRating, setOpenRating] = useState(false)
+  const [selectedOrder, setSelectedOrder] = useState<BookingType | null>(null)
   const setOrder = useOrderStore((state) => state.setOrder)
+
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-4'>
@@ -64,18 +67,17 @@ export default function CompletedTab({ data }: CompletedTabProps) {
                     {Number(order.finalPrice).toLocaleString('vi-VN')} <span className='text-sm'>VND</span>
                   </p>
                   <div className='flex gap-2'>
-                    {/* <Button variant='outline'>Đặt lại</Button> */}
                     {!order.isRating && (
                       <Button
                         className='bg-orange-600 hover:bg-orange-600'
                         onClick={() => {
+                          setSelectedOrder(order) 
                           setOpenRating(true)
                         }}
                       >
                         Đánh giá
                       </Button>
                     )}
-                    <CreateRatingDialog open={openRating} setOpen={setOpenRating} booking={order} />
                   </div>
                 </div>
               </CardFooter>
@@ -83,6 +85,17 @@ export default function CompletedTab({ data }: CompletedTabProps) {
           )
         })}
       </div>
+
+      {selectedOrder && (
+        <CreateRatingDialog
+          open={openRating}
+          setOpen={(value) => {
+            if (!value) setSelectedOrder(null)
+            setOpenRating(value)
+          }}
+          booking={selectedOrder}
+        />
+      )}
     </div>
   )
 }

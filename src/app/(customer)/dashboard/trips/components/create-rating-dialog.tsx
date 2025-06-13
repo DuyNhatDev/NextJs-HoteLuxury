@@ -20,6 +20,7 @@ type RatingDialogProps = {
 }
 
 export default function CreateRatingDialog({ open, setOpen, booking }: RatingDialogProps) {
+  console.log(booking.bookingId)
   const createRatingMutation = useCreateRatingMutation()
   const [ratingStar, setRatingStar] = useState(5)
   const [ratingDescription, setRatingDescription] = useState('')
