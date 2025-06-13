@@ -19,8 +19,8 @@ export default function TopUserTable({ data }: TopUserTableProps) {
             <TableRow>
               <TableHead className='w-[10%] text-left'>Top</TableHead>
               <TableHead className='w-[20%] text-left'>Tên khách hàng</TableHead>
-              <TableHead className='w-[25%] text-center'>Email</TableHead>
-              <TableHead className='w-[15%] text-center'>Số điện thoại</TableHead>
+              <TableHead className='w-[25%] text-left'>Email</TableHead>
+              <TableHead className='w-[15%] text-left'>Số điện thoại</TableHead>
               <TableHead className='w-[15%] text-right'>Tổng số đơn</TableHead>
               <TableHead className='w-[15%] text-right'>Tổng chi</TableHead>
             </TableRow>

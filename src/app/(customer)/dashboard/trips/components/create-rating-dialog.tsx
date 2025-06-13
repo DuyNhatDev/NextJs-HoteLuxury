@@ -37,6 +37,15 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
     }
   })
 
+  const { watch } = form
+
+  // useEffect(() => {
+  //   const subscription = watch((value, { name, type }) => {
+  //     console.log('📝 Form thay đổi:', { name, type, value })
+  //   })
+  //   return () => subscription.unsubscribe()
+  // }, [watch])
+
   useEffect(() => {
     if (open) {
       const timer = setTimeout(() => {
@@ -54,25 +63,26 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
     setFiles([])
   }
   const onSubmit = async (data: CreateRatingBodyType) => {
-    if (createRatingMutation.isPending) return
-    try {
-      let body = { ...data, ratingStar: data.ratingStar * 2 }
-      if (files) {
-        body = {
-          ...body,
-          ratingImages: files
-        }
-      }
-      await createRatingMutation.mutateAsync({ id: Number(booking.bookingId), body })
-      toast.success('Đánh giá thành công')
-      reset()
-      setOpen(false)
-    } catch (error) {
-      handleErrorApi({
-        error,
-        setError: form.setError
-      })
-    }
+    console.log(data)
+    // if (createRatingMutation.isPending) return
+    // try {
+    //   let body = { ...data, ratingStar: data.ratingStar * 2 }
+    //   if (files) {
+    //     body = {
+    //       ...body,
+    //       ratingImages: files
+    //     }
+    //   }
+    //   await createRatingMutation.mutateAsync({ id: Number(booking.bookingId), body })
+    //   toast.success('Đánh giá thành công')
+    //   reset()
+    //   setOpen(false)
+    // } catch (error) {
+    //   handleErrorApi({
+    //     error,
+    //     setError: form.setError
+    //   })
+    // }
   }
 
   return (
@@ -92,8 +102,11 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
           <form
             noValidate
             className='grid auto-rows-max items-start gap-4 md:gap-8'
-            id='edit-hotel-form'
-            onSubmit={form.handleSubmit(onSubmit)}
+            id='create-rating-form'
+            onSubmit={form.handleSubmit(onSubmit, (e) => {
+              console.log(e)
+            })}
+            onReset={reset}
           >
             <div className='grid gap-4 py-0'>
               <div className='text-lg'>{booking.hotelName}</div>
@@ -114,17 +127,17 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
                       <FormItem className='flex-1'>
                         <div className='flex gap-2'>
                           <FormLabel htmlFor='ratingStar'>Chọn số điểm</FormLabel>
-                          <FormControl>
-                            {shouldRenderRating && (
-                              <Rating
-                                value={field.value ?? 5}
-                                onChange={(event, newValue) => field.onChange(newValue)}
-                                max={5}
-                                precision={0.5}
-                                size='large'
-                              />
-                            )}
-                          </FormControl>
+
+                          {shouldRenderRating && (
+                            <Rating
+                              value={field.value ?? 5}
+                              onChange={(event, newValue) => field.onChange(newValue)}
+                              max={5}
+                              precision={0.5}
+                              size='large'
+                            />
+                          )}
+
                           <span className='mt-1'>{(field.value || 0) * 2}/10</span>
                           <FormMessage />
                         </div>
@@ -141,7 +154,7 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
                     render={({ field }) => (
                       <FormItem className='flex-1'>
                         <div className='grid gap-2'>
-                          <FormLabel htmlFor='hotelName'>Mô tả</FormLabel>
+                          <FormLabel htmlFor='ratingDescription'>Mô tả</FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder='Hãy chia sẻ nhận xét cho khách sạn này bạn nhé!'
@@ -162,18 +175,18 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Thêm hình ảnh</FormLabel>
-                    <FormControl>
-                      <MultiUploadImage
-                        value={(field.value || []).map((item) =>
-                          typeof item === 'string' ? item : item instanceof File ? URL.createObjectURL(item) : ''
-                        )}
-                        maxImages={20}
-                        onChange={(urls, files) => {
-                          field.onChange(urls)
-                          setFiles(files)
-                        }}
-                      />
-                    </FormControl>
+
+                    <MultiUploadImage
+                      value={(field.value || []).map((item) =>
+                        typeof item === 'string' ? item : item instanceof File ? URL.createObjectURL(item) : ''
+                      )}
+                      maxImages={20}
+                      onChange={(urls, files) => {
+                        field.onChange(urls)
+                        setFiles(files)
+                      }}
+                    />
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -182,7 +195,7 @@ export default function CreateRatingDialog({ open, setOpen, booking }: RatingDia
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='edit-hotel-form' className=''>
+          <Button type='submit' form='create-rating-form' className=''>
             {createRatingMutation.isPending && <LoaderCircle className='mr-2 h-5 w-5 animate-spin' />}
             Gửi đánh giá
           </Button>
