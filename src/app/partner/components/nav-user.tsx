@@ -90,7 +90,7 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem
                 onClick={() => {
-                  router.push('/admin/setting/account')
+                  router.push('/partner/setting/account')
                 }}
               >
                 <CircleUserRound />

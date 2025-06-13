@@ -30,7 +30,6 @@ export default function Statistic({ data }: StatisticProps) {
       value: data?.totalMoneyFilterResult?.[0]?.totalFinalPrice,
       isCurrency: true
     },
-
     {
       title: 'Hoa hồng',
       value: data?.totalMoneyFilterResult?.[0]?.totalCommission,
