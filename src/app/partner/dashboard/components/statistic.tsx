@@ -30,14 +30,15 @@ export default function Statistic({ data }: StatisticProps) {
       value: data?.totalMoneyFilterResult?.[0]?.totalFinalPrice,
       isCurrency: true
     },
+
     {
-      title: 'Hoa hồng chênh lệch',
-      value: data?.totalMoneyFilterResult?.[0]?.totalMoney,
+      title: 'Hoa hồng',
+      value: data?.totalMoneyFilterResult?.[0]?.totalCommission,
       isCurrency: true
     },
     {
-      title: 'Tổng hoa hồng',
-      value: data?.totalMoneyFilterResult?.[0]?.totalCommission,
+      title: 'Tiền chênh lệch',
+      value: data?.totalMoneyFilterResult?.[0]?.totalMoney,
       isCurrency: true
     }
   ]

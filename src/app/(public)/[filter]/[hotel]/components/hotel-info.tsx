@@ -28,6 +28,7 @@ import ListRating from '@/app/(public)/[filter]/[hotel]/components/list-rating'
 import { Badge } from '@/components/ui/badge'
 import CustomTooltip from '@/components/custom/tooltip'
 import ListSimilarHotel from '@/app/(public)/[filter]/[hotel]/components/list-similar-hotel'
+import { Spinner } from '@/components/ui/spinner'
 const Map = dynamic(() => import('@/components/custom/map'), {
   ssr: false
 })
@@ -45,7 +46,7 @@ export default function HotelInfo() {
   })
   const result: HotelType | undefined = data?.payload?.data[0]
   const hotelId = result?.hotelId
-  const { data: hotelQuery } = useGetHotel(String(hotelId), !!hotelId)
+  const { data: hotelQuery, isPending } = useGetHotel(String(hotelId), !!hotelId)
   const { data: similarHotelQuery } = useGetSimilarHotelList(String(hotelId), !!hotelId)
   const hotelData = hotelQuery?.payload?.data
   const similarHotelList = similarHotelQuery?.payload?.data || []
@@ -94,7 +95,14 @@ export default function HotelInfo() {
     }
   }
 
-  if (!hotelData?.active) return <div className='text-center mt-10 text-2xl'>Khách sạn đang tạm ngưng hoạt động</div>
+  if (isPending)
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <Spinner>Đang tải...</Spinner>
+      </div>
+    )
+
+  if (!hotelData?.active) return <div className='mt-10 text-center text-2xl'>Khách sạn đang tạm ngưng hoạt động</div>
 
   return (
     <div className='flex flex-col'>
