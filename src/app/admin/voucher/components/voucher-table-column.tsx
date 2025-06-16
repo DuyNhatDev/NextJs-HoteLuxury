@@ -46,9 +46,21 @@ const voucherTableColumns: ColumnDef<VoucherItem>[] = [
     cell: ({ row }) => <div className='capitalize'>{row.getValue('quantity')}</div>
   },
   {
+    accessorKey: 'startedAt',
+    header: 'Ngày bắt đầu',
+    cell: ({ row }) => {
+      const startedAt = row.getValue<string>('startedAt')
+      if (!startedAt) return '-'
+
+      const date = parseISO(startedAt)
+      if (isNaN(date.getTime())) return '-'
+
+      return <div className='capitalize'>{format(date, 'dd/MM/yyyy')}</div>
+    }
+  },
+  {
     accessorKey: 'expiredAt',
     header: 'Ngày hết hạn',
-    // format(parseISO(String(checkIn)), 'dd/MM/yyyy')
     cell: ({ row }) => (
       <div className='capitalize'>{format(parseISO(String(row.getValue('expiredAt'))), 'dd/MM/yyyy')}</div>
     )

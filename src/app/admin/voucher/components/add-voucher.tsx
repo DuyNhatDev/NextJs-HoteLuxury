@@ -14,6 +14,7 @@ import { CreateUpdateVoucherBodySchema, CreateUpdateVoucherBodyType } from '@/sc
 import { useAddVoucherMutation } from '@/hooks/queries/useVoucher'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
+import { format } from 'date-fns'
 
 export default function AddVoucher() {
   const [open, setOpen] = useState(false)
@@ -28,6 +29,7 @@ export default function AddVoucher() {
       quantity: 1,
       minOrderValue: 1,
       maxPercentageDiscount: 200000,
+      startedAt: format(new Date(), 'yyyy-MM-dd'),
       expiredAt: ''
     }
   })
@@ -303,6 +305,21 @@ export default function AddVoucher() {
                                 field.onChange(isNaN(value) ? undefined : value)
                               }}
                             />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='startedAt'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='expiredAt'>Ngày bắt đầu</FormLabel>
+                          <FormControl>
+                            <Input id='startedAt' type='date' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>

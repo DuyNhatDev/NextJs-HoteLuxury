@@ -14,6 +14,7 @@ import { CreateUpdateVoucherBodySchema, CreateUpdateVoucherBodyType } from '@/sc
 import { useGetVoucher2, useUpdateVoucherMutation } from '@/hooks/queries/useVoucher'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
+import { format } from 'date-fns'
 
 export default function EditVoucher({
   id,
@@ -35,6 +36,7 @@ export default function EditVoucher({
       quantity: 1,
       minOrderValue: 1,
       maxPercentageDiscount: 200000,
+      startedAt: '',
       expiredAt: ''
     }
   })
@@ -49,6 +51,7 @@ export default function EditVoucher({
         quantity,
         minOrderValue,
         maxPercentageDiscount,
+        startedAt,
         expiredAt
       } = data.payload.data
       form.reset({
@@ -57,7 +60,8 @@ export default function EditVoucher({
         discountValue: discountValue ?? 1,
         minOrderValue: minOrderValue ?? 1,
         maxPercentageDiscount: maxPercentageDiscount ?? 200000,
-        expiredAt: expiredAt ?? '',
+        startedAt: startedAt ? format(new Date(startedAt), 'yyyy-MM-dd') : '',
+        expiredAt: expiredAt ? format(new Date(expiredAt), 'yyyy-MM-dd') : '',
         quantity: quantity ?? 0,
         description: description ?? ''
       })
@@ -338,6 +342,21 @@ export default function EditVoucher({
                                 field.onChange(isNaN(value) ? undefined : value)
                               }}
                             />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='startedAt'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <div className='grid gap-2'>
+                          <FormLabel htmlFor='expiredAt'>Ngày bắt đầu</FormLabel>
+                          <FormControl>
+                            <Input id='startedAt' type='date' className='w-full' required {...field} />
                           </FormControl>
                           <FormMessage />
                         </div>

@@ -10,6 +10,7 @@ export const VoucherSchema = z.object({
   maxPercentageDiscount: z.number(),
   content: z.string(),
   quantity: z.number(),
+  startedAt: z.date(),
   expiredAt: z.date(),
   createdAt: z.date()
 })
@@ -24,6 +25,7 @@ export const Voucher2Schema = z.object({
   maxPercentageDiscount: z.number(),
   content: z.string(),
   quantity: z.number(),
+  startedAt: z.string(),
   expiredAt: z.string(),
   createdAt: z.date()
 })
@@ -62,6 +64,7 @@ export const CreateUpdateVoucherBodySchema = z.object({
   minOrderValue: z.number().optional(),
   maxPercentageDiscount: z.number().optional(),
   quantity: z.number({ message: 'Vui lòng nhập số lượng' }).min(1, { message: 'Số lượng phải lớn hơn hoặc bằng 1' }),
+  startedAt: z.string().optional(),
   expiredAt: z.string().min(1, { message: 'Vui lòng chọn ngày hết hạn' })
 })
 
