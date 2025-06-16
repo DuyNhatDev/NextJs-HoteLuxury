@@ -40,13 +40,13 @@ export const data = {
       ]
     },
     {
-      title: 'Nhận xét',
+      title: 'Đánh giá nhận xét',
       url: '#',
       icon: MessageCircleMore,
       items: [
         {
-          title: 'Đánh giá phản hồi',
-          url: '/partner/feedback'
+          title: 'Đánh giá nhận xét',
+          url: '/partner/rating'
         }
       ]
     },

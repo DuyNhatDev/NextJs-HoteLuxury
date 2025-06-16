@@ -1,4 +1,4 @@
-import ListRating from '@/app/partner/feedback/list-rating'
+import ListRating from '@/app/partner/rating/list-rating'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function FeedbackPage() {

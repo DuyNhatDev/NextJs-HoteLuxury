@@ -1,4 +1,4 @@
-import { Users, Hotel, Handshake, MapPinned, Settings, BadgeDollarSign, Ticket } from 'lucide-react'
+import { Users, Hotel, Handshake, MapPinned, Settings, BadgeDollarSign, Ticket, MessageCircleMore } from 'lucide-react'
 
 export const data = {
   navManage: [
@@ -61,7 +61,18 @@ export const data = {
         }
       ]
     },
-    
+    {
+      title: 'Đánh giá nhận xét',
+      url: '#',
+      icon: MessageCircleMore,
+      items: [
+        {
+          title: 'Đánh giá nhận xét',
+          url: '/admin/rating'
+        }
+      ]
+    },
+
     {
       title: 'Cài đặt',
       url: '#',
@@ -78,5 +89,4 @@ export const data = {
       ]
     }
   ]
-  
 }
