@@ -8,6 +8,8 @@ import hotelApiRequest from '@/api/hotel'
 import FeaturedHotelList from '@/app/(public)/components/featured-hotel-list'
 import voucherApiRequest from '@/api/voucher'
 import { VoucherType } from '@/schemas/voucher.schema'
+import { formatDate } from '@/lib/utils'
+import { format, parseISO } from 'date-fns'
 export default async function Home() {
   let destinationList: LocationType[] = []
   let featuredHotelList: FeaturedHotelType[] = []
@@ -63,6 +65,10 @@ export default async function Home() {
                 🎁 Nhập mã <span className='font-semibold text-red-600'>{voucher.code}</span>
               </p>
               <p className='text-center text-sm text-gray-700 md:text-base'>{voucher.content}</p>
+              <p className='text-center text-sm text-gray-700 md:text-base'>
+                Từ {format(parseISO(String(voucher.startedAt)), 'dd/MM/yyyy')} đến{' '}
+                {format(parseISO(String(voucher.expiredAt)), 'dd/MM/yyyy')}
+              </p>
             </div>
           )}
         </div>
