@@ -6,8 +6,7 @@ export default function MainLayout({ children }: Readonly<{ children: React.Reac
   return (
     <div className='relative flex min-h-screen w-full flex-col'>
       <Header />
-      <main className='flex flex-1 flex-col gap-4 md:gap-8'>{children}
-      </main>
+      <main className='flex flex-1 flex-col gap-4 md:gap-8'>{children}</main>
       <Footer />
       <div className='fixed right-5 bottom-5 z-50'>
         <ChatBot />

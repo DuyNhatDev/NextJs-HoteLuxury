@@ -8,7 +8,6 @@ import hotelApiRequest from '@/api/hotel'
 import FeaturedHotelList from '@/app/(public)/components/featured-hotel-list'
 import voucherApiRequest from '@/api/voucher'
 import { VoucherType } from '@/schemas/voucher.schema'
-import { formatDate } from '@/lib/utils'
 import { format, parseISO } from 'date-fns'
 export default async function Home() {
   let destinationList: LocationType[] = []

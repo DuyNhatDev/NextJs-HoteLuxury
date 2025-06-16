@@ -71,7 +71,7 @@ export default function CompletedTab({ data }: CompletedTabProps) {
                       <Button
                         className='bg-orange-600 hover:bg-orange-600'
                         onClick={() => {
-                          setSelectedOrder(order) 
+                          setSelectedOrder(order)
                           setOpenRating(true)
                         }}
                       >

@@ -6,7 +6,7 @@ import { AdminRatingListResType } from '@/schemas/rating.schema'
 import { Switch } from '@mui/material'
 import { ColumnDef } from '@tanstack/react-table'
 import { format, parseISO } from 'date-fns'
-import { Eye, PenLine, Trash2 } from 'lucide-react'
+import { Eye, Trash2 } from 'lucide-react'
 import { useContext } from 'react'
 
 export type RatingItem = AdminRatingListResType['data'][0]
@@ -40,12 +40,9 @@ export const adminRatingTableColumns: ColumnDef<RatingItem>[] = [
     accessorKey: 'ratingDescription',
     header: 'Nội dung',
     cell: ({ row }) => {
-      const description = row.getValue<string>('ratingDescription');
+      const description = row.getValue<string>('ratingDescription')
       return (
-        <div
-          className="truncate max-w-[300px] capitalize"
-          title={description}
-        >
+        <div className='max-w-[300px] truncate capitalize' title={description}>
           {description}
         </div>
       )
