@@ -7,9 +7,9 @@ import { formatDate, getHotelIdFromLocalStorage, getLastTwoInitials } from '@/li
 import { useGetRatingList } from '@/hooks/queries/useRating'
 import { useState } from 'react'
 import { State } from '@/types/react-date-range'
-import ReactDateRange from '@/components/custom/react-date-range'
 import { Input } from '@/components/ui/input'
 import { RotateCcw } from 'lucide-react'
+import DashboardFilterRange from '@/components/custom/dashboard-filter-range'
 
 export default function ListRating() {
   const hotelId = getHotelIdFromLocalStorage()
@@ -47,7 +47,7 @@ export default function ListRating() {
     <div className='w-full'>
       <div className='flex items-center justify-between gap-3'>
         <div className='flex items-center gap-3'>
-          <ReactDateRange
+          <DashboardFilterRange
             value={createdRange}
             onChange={(newRange) => setCreatedRange(newRange!)}
             className='bg-transparent'
