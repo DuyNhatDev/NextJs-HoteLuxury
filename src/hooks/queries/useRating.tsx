@@ -19,7 +19,7 @@ export const useGetRatingList = (queryParams: RatingParamsType) => {
   })
 }
 
-export const useAdminGetRatingList = (queryParams: AdminRatingParamsType) => {
+export const useGetAdminRatingList = (queryParams: AdminRatingParamsType) => {
   return useQuery({
     queryKey: ['admin-rating-list', queryParams],
     queryFn: () => ratingApiRequest.getAdminRatingList(queryParams)

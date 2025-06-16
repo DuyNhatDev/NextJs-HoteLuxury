@@ -1,4 +1,3 @@
-import { RoomTypeItem } from '@/app/partner/hotel/room-type/components/room-type-table-column'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +21,7 @@ export default function AlertDialogDeleteVoucher({
   setVoucherDelete: (value: VoucherItem | null) => void
 }) {
   const { mutateAsync } = useDeleteVoucherMutation()
-  const deleteRoomType = async () => {
+  const deleteVoucher = async () => {
     if (voucherDelete) {
       try {
         await mutateAsync(voucherDelete.voucherId)
@@ -54,7 +53,7 @@ export default function AlertDialogDeleteVoucher({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deleteRoomType}>
+          <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={deleteVoucher}>
             Xóa
           </AlertDialogAction>
         </AlertDialogFooter>

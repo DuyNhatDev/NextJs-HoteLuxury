@@ -15,35 +15,49 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { createContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/custom/auto-pagination'
-import voucherTableColumns, { VoucherItem } from '@/app/admin/voucher/components/voucher-table-column'
-import { useGetListVoucherByAdmin } from '@/hooks/queries/useVoucher'
-import CustomSelect from '@/components/custom/select'
-import { voucherTypeItems } from '@/constants/type'
-import EditVoucher from '@/app/admin/voucher/components/edit-voucher'
-import AlertDialogDeleteVoucher from '@/app/admin/voucher/components/delete-voucher'
-import AddVoucher from '@/app/admin/voucher/components/add-voucher'
+import { useGetAdminRatingList } from '@/hooks/queries/useRating'
+import { State } from '@/types/react-date-range'
+import { adminRatingTableColumns, RatingItem } from '@/app/admin/rating/components/rating-table-column'
+import AlertDialogDeleteRating from '@/app/admin/rating/components/delete-rating'
+import DashboardFilterRange from '@/components/custom/dashboard-filter-range'
+import { Button } from '@/components/ui/button'
+import { RotateCcw } from 'lucide-react'
 
-export const VoucherTableContext = createContext<{
-  voucherIdEdit: number | undefined
-  setVoucherIdEdit: (value: number) => void
-  voucherDelete: VoucherItem | null
-  setVoucherDelete: (value: VoucherItem | null) => void
+export const RatingTableContext = createContext<{
+  ratingView: RatingItem | null
+  setRatingView: (value: RatingItem | null) => void
+  ratingDelete: RatingItem | null
+  setRatingDelete: (value: RatingItem | null) => void
 }>({
-  voucherIdEdit: undefined,
-  setVoucherIdEdit: (value: number | undefined) => {},
-  voucherDelete: null,
-  setVoucherDelete: (value: VoucherItem | null) => {}
+  ratingView: null,
+  setRatingView: (value: RatingItem | null) => {},
+  ratingDelete: null,
+  setRatingDelete: (value: RatingItem | null) => {}
 })
 
 const PAGE_SIZE = 5
-export default function VoucherTable() {
+export default function AdminRatingTable() {
   const searchParam = useSearchParams()
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
-  const [voucherIdEdit, setVoucherIdEdit] = useState<number | undefined>()
-  const [voucherDelete, setVoucherDelete] = useState<VoucherItem | null>(null)
-  const { data: voucherListQuery } = useGetListVoucherByAdmin()
-  const data = voucherListQuery?.payload.data ?? []
+  const [ratingView, setRatingView] = useState<RatingItem | null>(null)
+  const [ratingDelete, setRatingDelete] = useState<RatingItem | null>(null)
+  const [createdRange, setCreatedRange] = useState<State | undefined>({
+    startDate: undefined,
+    endDate: undefined,
+    key: 'selection' as const
+  })
+  const [fullname, setFullname] = useState('')
+  const [hotelName, setHotelName] = useState('')
+  const [ratingDescription, setRatingDescription] = useState('')
+  const { data: ratingListQuery } = useGetAdminRatingList({
+    filterStart: createdRange?.startDate,
+    filterEnd: createdRange?.endDate,
+    fullname,
+    hotelName,
+    ratingDescription
+  })
+  const data = ratingListQuery?.payload.data ?? []
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -55,7 +69,7 @@ export default function VoucherTable() {
 
   const table = useReactTable({
     data,
-    columns: voucherTableColumns,
+    columns: adminRatingTableColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -82,30 +96,54 @@ export default function VoucherTable() {
     })
   }, [table, pageIndex])
 
+  const handleReset = () => {
+    setCreatedRange({
+      startDate: undefined,
+      endDate: undefined,
+      key: 'selection'
+    })
+    setFullname('')
+    setHotelName('')
+    setRatingDescription('')
+  }
+
   return (
-    <VoucherTableContext.Provider value={{ voucherIdEdit, setVoucherIdEdit, voucherDelete, setVoucherDelete }}>
+    <RatingTableContext.Provider value={{ ratingView, setRatingView, ratingDelete, setRatingDelete }}>
       <div className='w-full'>
-        <EditVoucher id={voucherIdEdit} setId={setVoucherIdEdit} />
-        <AlertDialogDeleteVoucher voucherDelete={voucherDelete} setVoucherDelete={setVoucherDelete} />
+        <AlertDialogDeleteRating ratingDelete={ratingDelete} setRatingDelete={setRatingDelete} />
+        <div className='flex items-center justify-between'>
+          <DashboardFilterRange
+            value={createdRange}
+            onChange={(newRange) => setCreatedRange(newRange!)}
+            className='bg-transparent'
+            placeholder='Chọn khoảng thời gian'
+          />
+          <Button variant='outline' onClick={handleReset}>
+            <RotateCcw />
+            Đặt lại
+          </Button>
+        </div>
+
         <div className='flex items-center gap-2 py-4'>
           <Input
-            placeholder='Lọc theo mã voucher'
-            value={(table.getColumn('code')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('code')?.setFilterValue(event.target.value)}
+            placeholder='Lọc theo tên khách hàng'
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
             className='max-w-sm flex-1'
           />
-          <CustomSelect
-            placeholder='Loại voucher'
-            options={voucherTypeItems}
-            value={(table.getColumn('discountType')?.getFilterValue() as string) ?? 'all'}
-            onChange={(value) => {
-              table.getColumn('discountType')?.setFilterValue(value === 'all' ? undefined : value)
-            }}
+          <Input
+            placeholder='Lọc theo tên khách sạn'
+            value={hotelName}
+            onChange={(e) => setHotelName(e.target.value)}
             className='max-w-sm flex-1'
           />
-          <div className='ml-auto flex items-center gap-2'>
-            <AddVoucher />
-          </div>
+          <Input
+            placeholder='Lọc theo nội dung đánh giá'
+            value={ratingDescription}
+            onChange={(e) => setRatingDescription(e.target.value)}
+            className='max-w-sm flex-1'
+          />
+          <div className='ml-auto flex items-center gap-2'></div>
         </div>
         <div className='rounded-md border'>
           <Table>
@@ -133,7 +171,7 @@ export default function VoucherTable() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={voucherTableColumns.length} className='h-24 text-center'>
+                  <TableCell colSpan={adminRatingTableColumns.length} className='h-24 text-center'>
                     Không có dữ liệu
                   </TableCell>
                 </TableRow>
@@ -155,6 +193,6 @@ export default function VoucherTable() {
           </div>
         </div>
       </div>
-    </VoucherTableContext.Provider>
+    </RatingTableContext.Provider>
   )
 }

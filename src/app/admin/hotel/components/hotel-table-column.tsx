@@ -15,43 +15,53 @@ const adminHotelTableColumns: ColumnDef<AdminHotelItem>[] = [
     accessorKey: 'hotelName',
     header: 'Tên khách sạn',
     size: 240,
-    cell: ({ row }) => <div className='break-words whitespace-normal'>{row.getValue('hotelName')}</div>
+    cell: ({ row }) => (
+      <div className='flex min-h-[50px] items-center break-words whitespace-normal'>{row.getValue('hotelName')}</div>
+    )
   },
   {
     accessorKey: 'locationName',
     header: 'Địa điểm',
     size: 150,
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('locationName')}</div>
+    cell: ({ row }) => <div className='flex min-h-[50px] items-center capitalize'>{row.getValue('locationName')}</div>
   },
   {
     accessorKey: 'totalBooking',
     header: 'Tổng số đơn',
     size: 100,
-    cell: ({ row }) => <div className='text-center'>{row.getValue('totalBooking')}</div>
+    cell: ({ row }) => <div className='flex min-h-[50px] items-center text-center'>{row.getValue('totalBooking')}</div>
   },
   {
     accessorKey: 'totalPrice',
     header: 'Doanh thu ban đầu',
     size: 140,
-    cell: ({ row }) => <div className='text-right'>{formatCurrency(row.getValue('totalPrice'))}</div>
+    cell: ({ row }) => (
+      <div className='flex min-h-[50px] items-center text-right'>{formatCurrency(row.getValue('totalPrice'))}</div>
+    )
   },
   {
     accessorKey: 'totalFinalPrice',
     header: 'Doanh thu cuối cùng',
     size: 140,
-    cell: ({ row }) => <div className='text-right'>{formatCurrency(row.getValue('totalFinalPrice'))}</div>
+    cell: ({ row }) => (
+      <div className='flex min-h-[50px] items-center text-right'>{formatCurrency(row.getValue('totalFinalPrice'))}</div>
+    )
   },
   {
     accessorKey: 'commission',
     header: 'Hoa hồng',
     size: 140,
-    cell: ({ row }) => <div className='text-right'>{formatCurrency(row.getValue('commission'))}</div>
+    cell: ({ row }) => (
+      <div className='flex min-h-[50px] items-center text-right'>{formatCurrency(row.getValue('commission'))}</div>
+    )
   },
   {
     accessorKey: 'totalMoney',
     header: 'Tổng chênh lệch',
     size: 140,
-    cell: ({ row }) => <div className='text-right'>{formatCurrency(row.getValue('totalMoney'))}</div>
+    cell: ({ row }) => (
+      <div className='flex min-h-[50px] items-center text-right'>{formatCurrency(row.getValue('totalMoney'))}</div>
+    )
   },
   {
     id: 'actions',
