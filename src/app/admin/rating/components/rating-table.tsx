@@ -22,6 +22,7 @@ import AlertDialogDeleteRating from '@/app/admin/rating/components/delete-rating
 import DashboardFilterRange from '@/components/custom/dashboard-filter-range'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
+import DialogDetailRating from '@/app/admin/rating/components/detail-rating'
 
 export const RatingTableContext = createContext<{
   ratingView: RatingItem | null
@@ -110,6 +111,7 @@ export default function AdminRatingTable() {
   return (
     <RatingTableContext.Provider value={{ ratingView, setRatingView, ratingDelete, setRatingDelete }}>
       <div className='w-full'>
+        <DialogDetailRating ratingView={ratingView} setRatingView={setRatingView} />
         <AlertDialogDeleteRating ratingDelete={ratingDelete} setRatingDelete={setRatingDelete} />
         <div className='flex items-center justify-between'>
           <DashboardFilterRange
