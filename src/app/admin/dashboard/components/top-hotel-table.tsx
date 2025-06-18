@@ -31,7 +31,7 @@ export default function TopHotelTable({ data }: TopHotelTableProps) {
                 <TableCell className='truncate text-left'>{hotel.hotelName}</TableCell>
                 <TableCell className='text-center'>{hotel.totalBooking}</TableCell>
                 <TableCell className='text-right'>{formatCurrency(hotel.totalPrice)}</TableCell>
-                <TableCell className='text-right'>{formatCurrency(hotel.totalMoney)}</TableCell>
+                <TableCell className='text-right'>{formatCurrency(hotel.commission)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
