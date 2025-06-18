@@ -139,17 +139,19 @@ export default function HotelInfo() {
                       showEmpty={true}
                       disabled={true}
                     />
-                    <CustomTooltip content='Click để xem đánh giá'>
-                      <div className='hover:cursor-pointer' onClick={handleRatingScroll}>
-                        <div className='flex items-center gap-2'>
-                          <Badge className='rounded bg-green-600 text-[14px] font-semibold'>
-                            {hotelData?.ratingAverage}
-                          </Badge>
-                          <p className='text-gray-500'>| {hotelData?.ratingQuantity} đánh giá</p>
-                          <ChevronDown className='h-4 w-4 text-gray-500' />
+                    {hotelData.ratingQuantity > 0 && (
+                      <CustomTooltip content='Click để xem đánh giá'>
+                        <div className='hover:cursor-pointer' onClick={handleRatingScroll}>
+                          <div className='flex items-center gap-2'>
+                            <Badge className='rounded bg-green-600 text-[14px] font-semibold'>
+                              {hotelData?.ratingAverage}
+                            </Badge>
+                            <p className='text-gray-500'>| {hotelData?.ratingQuantity} đánh giá</p>
+                            <ChevronDown className='h-4 w-4 text-gray-500' />
+                          </div>
                         </div>
-                      </div>
-                    </CustomTooltip>
+                      </CustomTooltip>
+                    )}
                   </div>
                   <div className='hidden items-center text-gray-500 md:flex'>
                     <MapPin className='mr-1 h-4 w-4 text-red-500' />

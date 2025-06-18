@@ -26,6 +26,8 @@ export default function ListRating({ hotelId, hotelName, averageRating, totalRat
     setVisibleCount((prev) => prev + 10)
   }
 
+  if (listRating.length === 0) return null
+
   return (
     <div className='w-full'>
       <h2 className='py-2 font-semibold text-blue-900'>Đánh giá của khách hàng về {hotelName}</h2>

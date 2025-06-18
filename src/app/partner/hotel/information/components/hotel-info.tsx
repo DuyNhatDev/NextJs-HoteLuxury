@@ -40,7 +40,12 @@ export default function HotelInformation() {
   }
 
   if (!data) {
-    return <AddHotel />
+    return (
+      <div>
+        <p className='mb-3 text-lg font-normal'>Chưa có dữ liệu! Hãy thêm thông tin khách sạn của bạn</p>
+        <AddHotel />
+      </div>
+    )
   }
 
   const {
