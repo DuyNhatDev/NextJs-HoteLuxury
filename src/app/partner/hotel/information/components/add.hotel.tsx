@@ -8,7 +8,7 @@ import { LoaderCircle, PlusCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { getUserIdFromLocalStorage, handleErrorApi } from '@/lib/utils'
+import { getUserIdFromLocalStorage, handleErrorApi, setHotelIdToLocalStorage } from '@/lib/utils'
 import { toast } from 'sonner'
 import CustomSelect from '@/components/custom/select'
 import { useGetDistricts, useGetProvinces, useGetWards } from '@/hooks/queries/useLocation'
@@ -20,8 +20,10 @@ import { useGetLocationList } from '@/hooks/queries/useLocation'
 import RichTextEditor from '@/components/custom/rich-text-editor'
 import { useAddHotelMutation } from '@/hooks/queries/useHotel'
 import UploadImage from '@/components/custom/upload-image'
+import { useRouter } from 'next/navigation'
 
 export default function AddHotel() {
+  const router = useRouter()
   const [file, setFile] = useState<File | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const [open, setOpen] = useState(false)
@@ -80,10 +82,15 @@ export default function AddHotel() {
           hotelImages: files
         }
       }
-      await addHotelMutation.mutateAsync(body)
+      const result = await addHotelMutation.mutateAsync(body)
+      const hotelId = result.payload.data.hotelId
+      if (hotelId) {
+        setHotelIdToLocalStorage(String(hotelId))
+      }
       toast.success('Thêm thành công')
       reset()
       setOpen(false)
+      router.refresh()
     } catch (error) {
       handleErrorApi({
         error,

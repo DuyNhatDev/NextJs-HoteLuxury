@@ -36,8 +36,8 @@ export default function EditRoomType({
       roomTypeName: '',
       roomTypePrice: 0,
       roomTypeWeekendPrice: 0,
-      roomTypeQuantity: 0,
-      adultQuantity: 0,
+      roomTypeQuantity: 1,
+      adultQuantity: 1,
       childQuantity: 0,
       roomTypeDescription: '',
       roomTypeImage: undefined,
@@ -255,6 +255,7 @@ export default function EditRoomType({
                               id='roomTypeQuantity'
                               type='number'
                               className='w-full'
+                              min={1}
                               required
                               {...field}
                               value={field.value ?? ''}
@@ -283,6 +284,7 @@ export default function EditRoomType({
                               id='adultQuantity'
                               type='number'
                               className='w-full'
+                              min={1}
                               required
                               {...field}
                               value={field.value ?? ''}
@@ -311,6 +313,7 @@ export default function EditRoomType({
                               id='childQuantity'
                               type='number'
                               className='w-full'
+                              min={0}
                               required
                               {...field}
                               value={field.value ?? ''}

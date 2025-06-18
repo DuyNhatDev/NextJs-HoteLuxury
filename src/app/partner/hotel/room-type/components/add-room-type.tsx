@@ -28,8 +28,8 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
       roomTypeName: '',
       roomTypePrice: 0,
       roomTypeWeekendPrice: 0,
-      roomTypeQuantity: 0,
-      adultQuantity: 0,
+      roomTypeQuantity: 1,
+      adultQuantity: 1,
       childQuantity: 0,
       roomTypeDescription: '',
       roomTypeImage: undefined,
@@ -226,6 +226,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                               id='roomTypeQuantity'
                               type='number'
                               className='w-full'
+                              min={1}
                               required
                               {...field}
                               value={field.value ?? ''}
@@ -255,6 +256,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                               id='adultQuantity'
                               type='number'
                               className='w-full'
+                              min={1}
                               required
                               {...field}
                               value={field.value ?? ''}
@@ -284,6 +286,7 @@ export default function AddRoomType({ hotelId }: { hotelId: number }) {
                               type='number'
                               className='w-full'
                               required
+                              min={0}
                               {...field}
                               value={field.value ?? ''}
                               onChange={(e) => {

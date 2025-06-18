@@ -30,7 +30,7 @@ export const useAddHotelMutation = () => {
   return useMutation({
     mutationFn: hotelApiRequest.addHotel,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['hotels'] })
+      queryClient.invalidateQueries({ queryKey: ['hotel-by-manager'] })
     }
   })
 }
