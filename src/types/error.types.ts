@@ -1,5 +1,10 @@
 import { HttpStatus } from 'http-status-ts'
 
+export type HttpErrorPayload = {
+  message: string
+  [key: string]: any
+}
+
 export type EntityErrorPayload = {
   message: string
   errors: {
@@ -9,24 +14,17 @@ export type EntityErrorPayload = {
 }
 
 export class HttpError extends Error {
-  status: number
-  payload: {
-    message: string
-    [key: string]: any
-  }
-  constructor({ status, payload, message = 'Lỗi HTTP' }: { status: number; payload: any; message?: string }) {
+  constructor(
+    public status: number,
+    public payload: HttpErrorPayload,
+    message = 'Lỗi HTTP'
+  ) {
     super(message)
-    this.status = status
-    this.payload = payload
   }
 }
 
 export class EntityError extends HttpError {
-  status: HttpStatus.UNPROCESSABLE_ENTITY
-  payload: EntityErrorPayload
-  constructor({ status, payload }: { status: HttpStatus.UNPROCESSABLE_ENTITY; payload: EntityErrorPayload }) {
-    super({ status, payload, message: 'Lỗi thực thể' })
-    this.status = status
-    this.payload = payload
+  constructor(payload: EntityErrorPayload) {
+    super(HttpStatus.UNPROCESSABLE_ENTITY, payload, 'Lỗi thực thể')
   }
 }
