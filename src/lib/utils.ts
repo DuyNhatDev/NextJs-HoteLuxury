@@ -9,7 +9,7 @@ import { differenceInCalendarDays, format, isThisYear, isToday, parseISO } from 
 import { vi } from 'date-fns/locale'
 import { slugify } from '@whthduck/slugify-vi'
 import queryString from 'query-string'
-import { EntityError, HttpError } from '@/types/error.types'
+import { EntityError, EntityErrorPayload, HttpError } from '@/types/error.types'
 
 export const isClient = typeof window !== 'undefined'
 
@@ -23,7 +23,7 @@ export const handleErrorApi = ({
   duration?: number
 }) => {
   if (error instanceof EntityError && setError) {
-    error.payload.errors.forEach((item) => {
+    ;(error.payload as EntityErrorPayload).errors.forEach((item) => {
       setError(item.field, {
         type: 'server',
         message: item.message
