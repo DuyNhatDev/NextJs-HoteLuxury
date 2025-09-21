@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { Location } from '@/types/location.types'
-import { HttpError } from '@/lib/http'
+import { HttpError } from '@/types/error.types'
 
 const filePath = path.join(process.cwd(), 'src', 'data', 'location.json')
 

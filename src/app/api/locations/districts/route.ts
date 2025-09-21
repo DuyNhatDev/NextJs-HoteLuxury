@@ -1,4 +1,4 @@
-import { HttpError } from '@/lib/http'
+import { HttpError } from '@/types/error.types'
 import { Location } from '@/types/location.types'
 import fs from 'fs'
 import path from 'path'

@@ -1,6 +1,6 @@
 import { GoogleAccountBodyType } from '@/schemas/auth.schema'
 import { cookies } from 'next/headers'
-import { HttpError } from '@/lib/http'
+import { HttpError } from '@/types/error.types'
 import authApiRequest from '@/api/auth'
 import { decodeToken } from '@/lib/utils'
 

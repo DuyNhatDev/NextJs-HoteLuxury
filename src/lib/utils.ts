@@ -1,5 +1,4 @@
 import { toast } from 'sonner'
-import { EntityError, HttpError } from '@/lib/http'
 import { clsx, type ClassValue } from 'clsx'
 import { UseFormSetError } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
@@ -10,6 +9,7 @@ import { differenceInCalendarDays, format, isThisYear, isToday, parseISO } from 
 import { vi } from 'date-fns/locale'
 import { slugify } from '@whthduck/slugify-vi'
 import queryString from 'query-string'
+import { EntityError, HttpError } from '@/types/error.types'
 
 export const isClient = typeof window !== 'undefined'
 

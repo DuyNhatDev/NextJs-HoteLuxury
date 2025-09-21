@@ -12,43 +12,11 @@ import {
 } from '@/lib/utils'
 import { LoginResType } from '@/schemas/auth.schema'
 import { redirect } from 'next/navigation'
+import { HttpStatus } from 'http-status-ts'
+import { EntityError, EntityErrorPayload, HttpError } from '@/types/error.types'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
   baseUrl?: string | undefined
-}
-
-const ENTITY_ERROR_STATUS = 422
-const AUTHENTICATION_ERROR_STATUS = 401
-
-type EntityErrorPayload = {
-  message: string
-  errors: {
-    field: string
-    message: string
-  }[]
-}
-
-export class HttpError extends Error {
-  status: number
-  payload: {
-    message: string
-    [key: string]: any
-  }
-  constructor({ status, payload, message = 'Lỗi HTTP' }: { status: number; payload: any; message?: string }) {
-    super(message)
-    this.status = status
-    this.payload = payload
-  }
-}
-
-export class EntityError extends HttpError {
-  status: typeof ENTITY_ERROR_STATUS
-  payload: EntityErrorPayload
-  constructor({ status, payload }: { status: typeof ENTITY_ERROR_STATUS; payload: EntityErrorPayload }) {
-    super({ status, payload, message: 'Lỗi thực thể' })
-    this.status = status
-    this.payload = payload
-  }
 }
 
 let clientLogoutRequest: null | Promise<any> = null
@@ -91,14 +59,14 @@ const request = async <Response>(
   }
 
   if (!res.ok) {
-    if (res.status === ENTITY_ERROR_STATUS) {
+    if (res.status === HttpStatus.UNPROCESSABLE_ENTITY) {
       throw new EntityError(
         data as {
           status: 422
           payload: EntityErrorPayload
         }
       )
-    } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
+    } else if (res.status === HttpStatus.UNAUTHORIZED) {
       if (isClient) {
         if (!clientLogoutRequest) {
           clientLogoutRequest = fetch('/api/auth/logout', {
