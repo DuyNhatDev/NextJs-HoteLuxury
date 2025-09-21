@@ -60,12 +60,7 @@ const request = async <Response>(
 
   if (!res.ok) {
     if (res.status === HttpStatus.UNPROCESSABLE_ENTITY) {
-      throw new EntityError(
-        data as {
-          status: 422
-          payload: EntityErrorPayload
-        }
-      )
+      throw new EntityError(data.payload as EntityErrorPayload)
     } else if (res.status === HttpStatus.UNAUTHORIZED) {
       if (isClient) {
         if (!clientLogoutRequest) {
@@ -90,7 +85,7 @@ const request = async <Response>(
         redirect(`/login?accessToken=${accessToken}`)
       }
     } else {
-      throw new HttpError(data)
+      throw new HttpError(data.status, data.payload as any)
     }
   }
 
